@@ -94,7 +94,6 @@
 			children = (
 				3C6193002B3A771E00220CEB /* Application */,
 				3C6193012B3A772B00220CEB /* Global */,
-				3C6192FA2B3A719C00220CEB /* Info.plist */,
 				3C6193022B3A773100220CEB /* Network */,
 				3C6193032B3A773800220CEB /* Presentation */,
 			);
@@ -158,6 +157,7 @@
 		3C6193062B3A777B00220CEB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3C6192FA2B3A719C00220CEB /* Info.plist */,
 				3C61930D2B3A782D00220CEB /* Font */,
 				3C6192F52B3A719C00220CEB /* Assets.xcassets */,
 			);
@@ -450,7 +450,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MAZQ6JDBT4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DontBe-iOS/Info.plist";
+				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -482,7 +482,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MAZQ6JDBT4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DontBe-iOS/Info.plist";
+				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
