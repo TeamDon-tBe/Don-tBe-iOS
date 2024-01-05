@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		3C2854F72B3A9E8300369C99 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F62B3A9E8300369C99 /* View.swift */; };
 		3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F82B3A9E8A00369C99 /* ViewModel.swift */; };
 		3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FA2B3A9E9000369C99 /* Cell.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		3C2854F82B3A9E8A00369C99 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3C2854FA2B3A9E9000369C99 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -94,7 +96,6 @@
 			children = (
 				3C6193002B3A771E00220CEB /* Application */,
 				3C6193012B3A772B00220CEB /* Global */,
-				3C6192FA2B3A719C00220CEB /* Info.plist */,
 				3C6193022B3A773100220CEB /* Network */,
 				3C6193032B3A773800220CEB /* Presentation */,
 			);
@@ -142,6 +143,7 @@
 			children = (
 				3C6193142B3A7A6400220CEB /* UIView+.swift */,
 				3C6193162B3A7A7B00220CEB /* UIStackView+.swift */,
+				2A6D54C02B479B4300F9891E /* adjusted+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -158,6 +160,7 @@
 		3C6193062B3A777B00220CEB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				3C6192FA2B3A719C00220CEB /* Info.plist */,
 				3C61930D2B3A782D00220CEB /* Font */,
 				3C6192F52B3A719C00220CEB /* Assets.xcassets */,
 			);
@@ -307,6 +310,7 @@
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
+				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
@@ -450,7 +454,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MAZQ6JDBT4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DontBe-iOS/Info.plist";
+				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -482,7 +486,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = MAZQ6JDBT4;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "DontBe-iOS/Info.plist";
+				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
