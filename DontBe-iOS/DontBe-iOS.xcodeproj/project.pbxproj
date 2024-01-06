@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
+		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
+		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
 		3C2854F72B3A9E8300369C99 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F62B3A9E8300369C99 /* View.swift */; };
 		3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F82B3A9E8A00369C99 /* ViewModel.swift */; };
 		3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FA2B3A9E9000369C99 /* Cell.swift */; };
@@ -27,12 +29,13 @@
 		3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61931A2B3A7AD000220CEB /* NetworkError.swift */; };
 		3C61931E2B3A7BBA00220CEB /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3C61931D2B3A7BBA00220CEB /* SnapKit */; };
 		3C6193202B3A7BBA00220CEB /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 3C61931F2B3A7BBA00220CEB /* SnapKit-Dynamic */; };
-		3C6193222B3A9AB200220CEB /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193212B3A9AB200220CEB /* Font.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
+		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		3C2854F82B3A9E8A00369C99 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3C2854FA2B3A9E9000369C99 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -51,7 +54,6 @@
 		3C6193162B3A7A7B00220CEB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3C6193182B3A7AC700220CEB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3C61931A2B3A7AD000220CEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		3C6193212B3A9AB200220CEB /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +175,8 @@
 		3C61930D2B3A782D00220CEB /* Font */ = {
 			isa = PBXGroup;
 			children = (
-				3C6193212B3A9AB200220CEB /* Font.swift */,
+				2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */,
+				2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */,
 			);
 			path = Font;
 			sourceTree = "<group>";
@@ -296,6 +299,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */,
+				2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */,
+				2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +313,6 @@
 			files = (
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
-				3C6193222B3A9AB200220CEB /* Font.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */,

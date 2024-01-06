@@ -9,7 +9,7 @@ import UIKit
 
 enum FontName: String {
     case head1, head2, head3
-    case body1, body2, body3,body4
+    case body1, body2, body3, body4
     case caption1, caption2, caption3, caption4
 
     var rawValue: String {
