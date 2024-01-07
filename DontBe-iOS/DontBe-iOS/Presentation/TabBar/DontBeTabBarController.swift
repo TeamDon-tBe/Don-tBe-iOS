@@ -60,7 +60,7 @@ final class DontBeTabBarController: UITabBarController {
             tabNavigationControllers.append(tabNavController)
         }
         
-        setViewControllers(tabNavigationControllers, animated: true)
+        setViewControllers(tabNavigationControllers, animated: false)
     }
     
     private func createTabNavigationController(title: String, image: UIImage, selectedImage: UIImage, viewController: UIViewController?) -> UINavigationController {
