@@ -66,17 +66,17 @@ final class DontBeTabBarController: UITabBarController {
     private func createTabNavigationController(title: String, image: UIImage, selectedImage: UIImage, viewController: UIViewController?) -> UINavigationController {
         let tabNavigationController = UINavigationController()
         
-        let taBbarItem = UITabBarItem(
+        let tabBarItem = UITabBarItem(
             title: title,
             image: image.withRenderingMode(.alwaysOriginal),
             selectedImage: selectedImage.withRenderingMode(.alwaysOriginal)
         )
         
         // image를 위로 올리기 위한 UIEdgeInsets 설정
-        taBbarItem.imageInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
+        tabBarItem.imageInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
         
         // title을 이미지 위로 올리기 위한 UIEdgeInsets 설정
-        taBbarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
+        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
         
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.font(.caption4),
@@ -84,7 +84,7 @@ final class DontBeTabBarController: UITabBarController {
         ]
         UITabBarItem.appearance().setTitleTextAttributes(normalAttributes, for: .normal)
         
-        tabNavigationController.tabBarItem = taBbarItem
+        tabNavigationController.tabBarItem = tabBarItem
         
         if let viewController = viewController {
             tabNavigationController.viewControllers = [viewController]
