@@ -33,7 +33,7 @@ final class DontBeTabBarController: UITabBarController {
         super.viewDidLayoutSubviews()
         
         let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 60.0
+        let tabBarHeight: CGFloat = 70.0
         tabBar.frame.size.height = tabBarHeight + safeAreaHeight
         tabBar.frame.origin.y = view.frame.height - tabBarHeight - safeAreaHeight
     }
@@ -73,11 +73,11 @@ final class DontBeTabBarController: UITabBarController {
         )
         
         // image를 위로 올리기 위한 UIEdgeInsets 설정
-        tabBarItem.imageInsets = UIEdgeInsets(top: -3, left: 0, bottom: 0, right: 0)
+        tabBarItem.imageInsets = UIEdgeInsets(top: -7, left: 0, bottom: 0, right: 0)
         
-        // title을 이미지 위로 올리기 위한 UIEdgeInsets 설정
-        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -5)
-        
+        // title을 위로 올리기 위한 UIEdgeInsets 설정
+        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -13)
+    
         let normalAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.font(.caption4),
             .foregroundColor: UIColor.donGray7
