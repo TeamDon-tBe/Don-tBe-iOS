@@ -12,8 +12,8 @@
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
-		2AAEFC972B4A9C3700C2D323 /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* TabBarItem.swift */; };
-		2AAEFC992B4A9E3B00C2D323 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* TabBarController.swift */; };
+		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
+		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
 		3C2854F72B3A9E8300369C99 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F62B3A9E8300369C99 /* View.swift */; };
 		3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F82B3A9E8A00369C99 /* ViewModel.swift */; };
 		3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FA2B3A9E9000369C99 /* Cell.swift */; };
@@ -38,8 +38,8 @@
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		2AAEFC962B4A9C3700C2D323 /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
-		2AAEFC982B4A9E3B00C2D323 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
+		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		3C2854F82B3A9E8A00369C99 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		3C2854FA2B3A9E9000369C99 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
@@ -76,8 +76,8 @@
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				2AAEFC962B4A9C3700C2D323 /* TabBarItem.swift */,
-				2AAEFC982B4A9E3B00C2D323 /* TabBarController.swift */,
+				2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */,
+				2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -338,8 +338,8 @@
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				3C2854F72B3A9E8300369C99 /* View.swift in Sources */,
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,
-				2AAEFC992B4A9E3B00C2D323 /* TabBarController.swift in Sources */,
-				2AAEFC972B4A9C3700C2D323 /* TabBarItem.swift in Sources */,
+				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
+				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,

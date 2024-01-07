@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum TabbarItem: CaseIterable {
+enum DontBeTabBarItem: CaseIterable {
     case home
     case writing
     case notification
@@ -31,7 +31,7 @@ enum TabbarItem: CaseIterable {
         }
     }
     
-    var description: String {
+    var title: String {
         switch self {
         case .home: return StringLiterals.Tabbar.home
         case .writing: return StringLiterals.Tabbar.writing
