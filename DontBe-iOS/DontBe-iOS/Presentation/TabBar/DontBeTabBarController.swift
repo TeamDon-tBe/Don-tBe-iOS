@@ -78,11 +78,7 @@ final class DontBeTabBarController: UITabBarController {
         // title을 위로 올리기 위한 UIEdgeInsets 설정
         tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -13)
     
-        let normalAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.font(.caption4),
-            .foregroundColor: UIColor.donGray7
-        ]
-        UITabBarItem.appearance().setTitleTextAttributes(normalAttributes, for: .normal)
+        applyFontColorAttributes(to: UITabBarItem.appearance(), isSelected: false)
         
         tabNavigationController.tabBarItem = tabBarItem
         
@@ -96,11 +92,11 @@ final class DontBeTabBarController: UITabBarController {
     private func setInitialFont() {
         // 디폴트로 선택된 탭의 폰트 설정
         if let selectedItem = self.tabBar.items?[self.selectedIndex] {
-            self.applyFontAttributes(to: selectedItem, isSelected: true)
+            self.applyFontColorAttributes(to: selectedItem, isSelected: true)
         }
     }
     
-    private func applyFontAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
+    private func applyFontColorAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
         let attributes: [NSAttributedString.Key: Any]
         
         if isSelected {
@@ -123,7 +119,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
         if let selectedViewController = tabBarController.selectedViewController {
-            applyFontAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+            applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
         
         let viewController = tabBarController.viewControllers ?? [UIViewController()]
@@ -131,7 +127,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
         for (index, controller) in viewController.enumerated() {
             if let tabBarItem = controller.tabBarItem {
                 if index != tabBarController.selectedIndex {
-                    applyFontAttributes(to: tabBarItem, isSelected: false)
+                    applyFontColorAttributes(to: tabBarItem, isSelected: false)
                 }
             }
         }
