@@ -13,6 +13,10 @@ extension UIColor {
     }
     
     static var donSecondary: UIColor {
+        return UIColor(hex: "#60D5A4")
+    }
+    
+    static var donPale: UIColor {
         return UIColor(hex: "#ECF6F3")
     }
     

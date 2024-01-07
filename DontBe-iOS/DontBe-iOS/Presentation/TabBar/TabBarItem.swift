@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum TabbarItem {
+enum TabbarItem: CaseIterable {
     case home
     case writing
     case notification
