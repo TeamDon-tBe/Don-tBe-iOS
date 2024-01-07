@@ -11,7 +11,7 @@
 | <img src="https://github.com/TeamDon-tBe/Don-tBe-iOS/assets/97782228/bbed44fe-eed0-4b8c-a249-fad0970515b6" width="230px"/> | <img src="https://github.com/TeamDon-tBe/Don-tBe-iOS/assets/97782228/142e1c53-3f15-4497-be7e-3af3ae702cf5" width="230px"/> | <img src="https://github.com/TeamDon-tBe/Don-tBe-iOS/assets/97782228/06d74614-17de-4517-b185-5c26b6fb7edf" width="230px"/> |
 |[Heyjoo](https://github.com/Heyjooo)|[boogios](https://github.com/boogios)|[yeonsu0-0](https://github.com/yeonsu0-0)|
 | 온보딩, 알림 | 글쓰기, 마이페이지 |   홈   |
-| 따뜻한 익명의 공간을 <br>만들어나가요 ❤️‍🔥 | | 오늘은 어떤 코드를 짜볼까 ~ |
+| 따뜻한 익명의 공간을 <br>만들어나가요 ❤️‍🔥 | 온화한 커뮤니티?<br>긍정의 힘으로 만들어주지 😎 | 오늘은 어떤 코드를 짜볼까 ~ |
 
 <br>
 
