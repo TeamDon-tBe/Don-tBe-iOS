@@ -13,11 +13,15 @@ enum ImageLiterals {
         static var logoSymbol: UIImage { .load(name: "logo_symbol") }
     }
     
-    enum TabMenu {
+    enum TabBar {
         static var icnHome: UIImage { .load(name: "icn_home") }
-        static var icnMy: UIImage { .load(name: "icn_my") }
-        static var icnNotification: UIImage { .load(name: "icn_notification") }
-        static var icnWrite: UIImage { .load(name: "icn_write") }
+        static var icnHomeSelected: UIImage { .load(name: "icn_home_selected") }
+        static var icnWriting: UIImage { .load(name: "icn_writing") }
+        static var icnWritingSelected: UIImage { .load(name: "icn_writing_selected") }
+        static var icnAlarm: UIImage { .load(name: "icn_notification") }
+        static var icnAlarmSelected: UIImage { .load(name: "icn_notification_selected") }
+        static var icnMyPage: UIImage { .load(name: "icn_mypage") }
+        static var icnMyPageSelected: UIImage { .load(name: "icn_mypage_selected") }
     }
     
     enum Onboarding {
