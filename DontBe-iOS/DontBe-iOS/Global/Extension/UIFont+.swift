@@ -21,13 +21,13 @@ enum FontName: String {
 
     var size: CGFloat {
         switch self {
-        case .head1: return 24
-        case .head2: return 20
-        case .head3: return 18
-        case .body1, .body2: return 16
-        case .body3, .body4: return 14
-        case .caption1, .caption2: return 13
-        case .caption3, .caption4: return 12
+        case .head1: return 24.adjusted
+        case .head2: return 20.adjusted
+        case .head3: return 18.adjusted
+        case .body1, .body2: return 16.adjusted
+        case .body3, .body4: return 14.adjusted
+        case .caption1, .caption2: return 13.adjusted
+        case .caption3, .caption4: return 12.adjusted
         }
     }
 }
