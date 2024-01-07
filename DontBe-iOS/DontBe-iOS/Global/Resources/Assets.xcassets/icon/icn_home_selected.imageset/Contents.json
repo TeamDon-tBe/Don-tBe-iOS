@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "icn_write.png",
+      "filename" : "Property 1=press.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "icn_write@2x.png",
+      "filename" : "Property 1=press@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "icn_write@3x.png",
+      "filename" : "Property 1=press@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
