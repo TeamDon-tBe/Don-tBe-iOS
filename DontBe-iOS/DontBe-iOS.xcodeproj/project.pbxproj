@@ -76,17 +76,24 @@
 
 /* Begin PBXGroup section */
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
-		2A51AE832B4B05AA00FF770A /* Splash */ = {
 			isa = PBXGroup;
 			children = (
 				2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */,
 				2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */,
-				2A51AE842B4B05AA00FF770A /* SplashViewController.swift */,
 			);
 			path = TabBar;
-			path = Splash;
 			sourceTree = "<group>";
 		};
+        
+        2A51AE832B4B05AA00FF770A /* Splash */ = {
+            isa = PBXGroup;
+            children = (
+                2A51AE842B4B05AA00FF770A /* SplashViewController.swift */,
+            );
+            path = Splash;
+            sourceTree = "<group>";
+        };
+
 		3C2855022B3AAEE400369C99 /* Example */ = {
 			isa = PBXGroup;
 			children = (
