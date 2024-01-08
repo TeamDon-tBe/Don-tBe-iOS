@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F62B4BEA34009D214F /* LoginViewController.swift */; };
+		2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F82B4C0819009D214F /* UILabel+.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		2A2671F62B4BEA34009D214F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2A2671F82B4C0819009D214F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				2A6D54C02B479B4300F9891E /* adjusted+.swift */,
 				2A6D54C22B493A8400F9891E /* UIFont+.swift */,
 				3C35565A2B494F0A0016BA49 /* UIColor+.swift */,
+				2A2671F82B4C0819009D214F /* UILabel+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
+				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				3C2854F72B3A9E8300369C99 /* View.swift in Sources */,
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,

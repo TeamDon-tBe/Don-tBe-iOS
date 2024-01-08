@@ -27,6 +27,7 @@ final class LoginViewController: UIViewController {
         title.textColor = .black
         title.numberOfLines = 2
         title.font = .font(.head1)
+        title.setTextWithLineHeight(text: title.text, lineHeight: 35)
         return title
     }()
     
@@ -69,14 +70,14 @@ extension LoginViewController {
             .statusBarFrame.height ?? 20
         
         loginLogo.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(statusBarHeight + 65.adjustedH)
-            $0.leading.equalToSuperview().inset(20.adjusted)
-            $0.width.equalTo(88.adjusted)
-            $0.height.equalTo(88.adjustedH)
+            $0.top.equalToSuperview().inset(statusBarHeight + 55.adjustedH)
+            $0.leading.equalToSuperview().inset(16.adjusted)
+            $0.width.equalTo(104.adjusted)
+            $0.height.equalTo(98.adjustedH)
         }
         
         loginTitle.snp.makeConstraints {
-            $0.top.equalTo(loginLogo.snp.bottom).offset(20.adjustedH)
+            $0.top.equalToSuperview().inset(statusBarHeight + 163.adjustedH)
             $0.leading.equalToSuperview().inset(26.adjusted)
         }
     }
