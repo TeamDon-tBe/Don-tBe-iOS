@@ -37,6 +37,7 @@ enum ImageLiterals {
         static var btnApple: UIImage { .load(name: "login_btn_apple") }
         static var btnKakao: UIImage { .load(name: "login_btn_kakao") }
         static var btnNaver: UIImage { .load(name: "login_btn_naver") }
+        static var icnLogo: UIImage { .load(name: "icn_login_logo") }
     }
     
     enum Home {
