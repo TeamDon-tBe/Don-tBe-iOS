@@ -50,6 +50,7 @@
 		2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+UIControl.swift"; sourceTree = "<group>"; };
 		2A2672012B4C3B44009D214F /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		2A2672042B4C3C00009D214F /* CancelBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelBag.swift; sourceTree = "<group>"; };
+		2A26720D2B4C40CE009D214F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -165,6 +166,7 @@
 		3C6192E02B3A719A00220CEB = {
 			isa = PBXGroup;
 			children = (
+				2A26720D2B4C40CE009D214F /* Config.xcconfig */,
 				3C6192EB2B3A719A00220CEB /* DontBe-iOS */,
 				3C6192EA2B3A719A00220CEB /* Products */,
 			);
@@ -439,6 +441,7 @@
 /* Begin XCBuildConfiguration section */
 		3C6192FB2B3A719C00220CEB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A26720D2B4C40CE009D214F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -502,6 +505,7 @@
 		};
 		3C6192FC2B3A719C00220CEB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A26720D2B4C40CE009D214F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
