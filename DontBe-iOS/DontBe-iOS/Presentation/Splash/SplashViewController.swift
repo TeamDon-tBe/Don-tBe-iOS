@@ -33,7 +33,7 @@ final class SplashViewController: UIViewController {
         dontBeLogo.snp.makeConstraints {
             $0.center.equalToSuperview()
             $0.width.equalTo(230.adjusted)
-            $0.height.equalTo(35.adjustedH)
+            $0.height.equalTo(35.adjusted)
         }
     }
 

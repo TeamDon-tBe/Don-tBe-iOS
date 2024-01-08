@@ -8,8 +8,6 @@
 import Combine
 import Foundation
 
-import KakaoSDKAuth
-import KakaoSDKCommon
 import KakaoSDKUser
 
 final class LoginViewModel: ViewModelType {
