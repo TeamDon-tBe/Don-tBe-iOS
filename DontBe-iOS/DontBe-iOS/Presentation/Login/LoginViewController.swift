@@ -16,8 +16,6 @@ final class LoginViewController: UIViewController {
     private let loginLogo: UIImageView = {
         let logo = UIImageView()
         logo.image = ImageLiterals.Login.icnLogo
-        logo.contentMode = .scaleAspectFill
-        logo.clipsToBounds = true
         return logo
     }()
     
@@ -27,7 +25,7 @@ final class LoginViewController: UIViewController {
         title.textColor = .black
         title.numberOfLines = 2
         title.font = .font(.head1)
-        title.setTextWithLineHeight(text: title.text, lineHeight: 35)
+        title.setTextWithLineHeight(text: title.text, lineHeight: 37)
         return title
     }()
     
@@ -70,15 +68,25 @@ extension LoginViewController {
             .statusBarFrame.height ?? 20
         
         loginLogo.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(statusBarHeight + 55.adjustedH)
+            $0.top.equalToSuperview().inset(statusBarHeight + 55.adjusted)
             $0.leading.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(104.adjusted)
-            $0.height.equalTo(98.adjustedH)
+            $0.height.equalTo(98.adjusted)
         }
         
         loginTitle.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(statusBarHeight + 163.adjustedH)
+            $0.top.equalTo(loginLogo.snp.bottom).offset(10.adjusted)
             $0.leading.equalToSuperview().inset(26.adjusted)
+        }
+        
+        loginButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(51.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(18.adjusted)
+            $0.height.equalTo(50.adjusted)
+        }
+        
+        loginButton.imageView?.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
 }
