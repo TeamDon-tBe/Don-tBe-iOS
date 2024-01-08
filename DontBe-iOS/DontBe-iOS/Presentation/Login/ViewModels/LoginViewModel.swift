@@ -9,6 +9,7 @@ import Combine
 import Foundation
 
 import KakaoSDKUser
+import KakaoSDKCommon
 
 final class LoginViewModel: ViewModelType {
     private let cancelBag = CancelBag()
@@ -31,6 +32,7 @@ final class LoginViewModel: ViewModelType {
                         if let error {
                             print(error)
                         } else {
+                            print("카카오 로그인 성공 👻👻👻👻👻")
                             if let accessToken = oauthToken?.accessToken {
                                 userInfoPublisher.send(accessToken)
                             }
@@ -41,6 +43,7 @@ final class LoginViewModel: ViewModelType {
                         if let error {
                             print(error)
                         } else {
+                            print("카카오 로그인 성공 👻👻👻👻👻")
                             if let accessToken = oauthToken?.accessToken {
                                 userInfoPublisher.send(accessToken)
                             }
