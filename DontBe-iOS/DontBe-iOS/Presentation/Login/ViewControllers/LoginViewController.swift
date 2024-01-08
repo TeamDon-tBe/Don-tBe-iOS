@@ -11,6 +11,12 @@ import SnapKit
 
 final class LoginViewController: UIViewController {
     
+    // MARK: - Properties
+
+    private var cancelBag = CancelBag()
+    private let viewModel: LoginViewModel
+    private lazy var loginButtonTapped = self.loginButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    
     // MARK: - UI Components
     
     private let loginLogo: UIImageView = {
@@ -37,12 +43,22 @@ final class LoginViewController: UIViewController {
     
     // MARK: - Life Cycles
     
+    init(viewModel: LoginViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
         setHierarchy()
         setLayout()
+        bindViewModel()
     }
 }
 
@@ -89,4 +105,19 @@ extension LoginViewController {
             $0.edges.equalToSuperview()
         }
     }
+    
+    private func bindViewModel() {
+        let input = LoginViewModel.Input(kakaoButtonTapped: loginButtonTapped)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.userInfoPublisher
+//            .receive(on: RunLoop.main)
+            .sink { userInfo in
+                print(userInfo)
+
+            }
+            .store(in: self.cancelBag)
+    }
+    
 }
