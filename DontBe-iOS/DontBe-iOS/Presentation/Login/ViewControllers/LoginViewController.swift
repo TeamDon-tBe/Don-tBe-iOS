@@ -12,7 +12,7 @@ import SnapKit
 final class LoginViewController: UIViewController {
     
     // MARK: - Properties
-
+    
     private var cancelBag = CancelBag()
     private let viewModel: LoginViewModel
     private lazy var loginButtonTapped = self.loginButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
@@ -73,7 +73,7 @@ extension LoginViewController {
         self.view.addSubviews(loginLogo,
                               loginTitle,
                               loginButton)
-
+        
     }
     
     private func setLayout() {
@@ -112,10 +112,11 @@ extension LoginViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.userInfoPublisher
-//            .receive(on: RunLoop.main)
+        //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-
+                let viewController = OnboardingViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
     }

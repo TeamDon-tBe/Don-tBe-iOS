@@ -19,6 +19,8 @@
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
 		2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */; };
+		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
+		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -54,6 +56,8 @@
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -140,6 +144,31 @@
 			path = Splash;
 			sourceTree = "<group>";
 		};
+		2A8D70B22B4C990A009F4C6C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70B62B4C9A36009F4C6C /* ViewControllers */,
+				2A8D70B52B4C9A2A009F4C6C /* Helpers */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		2A8D70B52B4C9A2A009F4C6C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2A8D70B62B4C9A36009F4C6C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -221,6 +250,7 @@
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
 				2A51AE832B4B05AA00FF770A /* Splash */,
 				2A2671F52B4BEA0E009D214F /* Login */,
+				2A8D70B22B4C990A009F4C6C /* Onboarding */,
 				3C61930F2B3A7A0700220CEB /* Home */,
 				3C2855022B3AAEE400369C99 /* Example */,
 			);
@@ -404,6 +434,7 @@
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
+				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
 				3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
@@ -412,6 +443,7 @@
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
 				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
+				2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */,
 				2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				3C2854F72B3A9E8300369C99 /* View.swift in Sources */,
