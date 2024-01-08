@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -82,6 +84,16 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+        
+        2A51AE832B4B05AA00FF770A /* Splash */ = {
+            isa = PBXGroup;
+            children = (
+                2A51AE842B4B05AA00FF770A /* SplashViewController.swift */,
+            );
+            path = Splash;
+            sourceTree = "<group>";
+        };
+
 		3C2855022B3AAEE400369C99 /* Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
+				2A51AE832B4B05AA00FF770A /* Splash */,
 				3C61930F2B3A7A0700220CEB /* Home */,
 				3C2855022B3AAEE400369C99 /* Example */,
 			);
@@ -341,6 +354,7 @@
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */,
+				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
