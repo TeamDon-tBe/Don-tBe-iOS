@@ -26,8 +26,10 @@
 		2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */; };
 		2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */; };
 		2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */; };
-		2A8D70CA2B4D9787009F4C6C /* OnboardingEndingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */; };
+		2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */; };
 		2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */; };
+		2A8D70D12B4DD356009F4C6C /* JoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70D02B4DD356009F4C6C /* JoinViewController.swift */; };
+		2A8D70D32B4DD360009F4C6C /* JoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -78,8 +80,10 @@
 		2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingViewModel.swift; sourceTree = "<group>"; };
-		2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingView.swift; sourceTree = "<group>"; };
+		2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		2A8D70D02B4DD356009F4C6C /* JoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewController.swift; sourceTree = "<group>"; };
+		2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewModel.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
@@ -129,7 +133,6 @@
 			children = (
 				2A2671FA2B4C3A7B009D214F /* ViewControllers */,
 				2A2671FB2B4C3A8E009D214F /* ViewModels */,
-				2A2672032B4C3BF7009D214F /* Helpers */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -158,14 +161,6 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		2A2672032B4C3BF7009D214F /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				2A2672042B4C3C00009D214F /* CancelBag.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,9 +183,7 @@
 		2A8D70B52B4C9A2A009F4C6C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
 				2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */,
-				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -215,9 +208,34 @@
 		2A8D70C82B4D8EF1009F4C6C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */,
+				2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2A8D70CD2B4DD2EA009F4C6C /* Join */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70CE2B4DD301009F4C6C /* ViewControllers */,
+				2A8D70CF2B4DD338009F4C6C /* ViewModels */,
+			);
+			path = Join;
+			sourceTree = "<group>";
+		};
+		2A8D70CE2B4DD301009F4C6C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70D02B4DD356009F4C6C /* JoinViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2A8D70CF2B4DD338009F4C6C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
@@ -302,6 +320,7 @@
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
 				2A51AE832B4B05AA00FF770A /* Splash */,
 				2A2671F52B4BEA0E009D214F /* Login */,
+				2A8D70CD2B4DD2EA009F4C6C /* Join */,
 				2A8D70B22B4C990A009F4C6C /* Onboarding */,
 				3C61930F2B3A7A0700220CEB /* Home */,
 				3CE9C1252B4BE5970086E4A3 /* Write */,
@@ -448,6 +467,9 @@
 			isa = PBXGroup;
 			children = (
 				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
+				2A2672042B4C3C00009D214F /* CancelBag.swift */,
+				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
+				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -531,7 +553,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2A8D70CA2B4D9787009F4C6C /* OnboardingEndingView.swift in Sources */,
+				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
 				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
@@ -543,6 +565,7 @@
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
 				2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
+				2A8D70D12B4DD356009F4C6C /* JoinViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
@@ -568,6 +591,7 @@
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
+				2A8D70D32B4DD360009F4C6C /* JoinViewModel.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,

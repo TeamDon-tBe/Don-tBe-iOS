@@ -40,7 +40,7 @@ final class OnboardingEndingViewController: UIViewController {
         return profile
     }()
 
-    private let introductionView = OnboardingEndingView()
+    private let introductionView = IntroductionView()
     
     private let backButton = BackButton()
     private let startButton = CustomButton(title: StringLiterals.Button.start, backColor: .donPrimary, titleColor: .donBlack)
