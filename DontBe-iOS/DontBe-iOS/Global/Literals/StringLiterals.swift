@@ -23,6 +23,7 @@ enum StringLiterals {
         static let writePopupContentLabel = "작성 중인 글을 삭제하시겠어요?"
         static let writePopupCancleButtonTitle = "취소"
         static let writePopupConfirmButtonTitle = "삭제"
+    }
 
     enum Login {
         static let title = "온화한 커뮤니티\nDON’T BE에서 만나요."

@@ -79,6 +79,11 @@ final class DontBePopupView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
+        
+        popupTitleLabel.text = popupTitle // 팝업 타이틀
+        popupContentLabel.text = popupContent // 팝업 내용
+        cancleButton.setTitle(leftButtonTitle, for: .normal) // 팝업 왼쪽 버튼 타이틀
+        confirmButton.setTitle(rightButtonTitle, for: .normal) // 팝업 오른쪽 버튼 타이틀
     }
     
     @available(*, unavailable)
@@ -92,11 +97,6 @@ final class DontBePopupView: UIView {
 extension DontBePopupView {
     func setUI() {
         self.backgroundColor = .donBlack.withAlphaComponent(0.6)
-        
-        popupTitleLabel.text = popupTitle // 팝업 타이틀
-        popupContentLabel.text = popupContent // 팝업 내용
-        cancleButton.setTitle(leftButtonTitle, for: .normal) // 팝업 왼쪽 버튼 타이틀
-        confirmButton.setTitle(rightButtonTitle, for: .normal) // 팝업 오른쪽 버튼 타이틀
     }
     
     func setHierarchy() {
