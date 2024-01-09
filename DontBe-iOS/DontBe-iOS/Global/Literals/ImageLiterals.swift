@@ -60,6 +60,10 @@ enum ImageLiterals {
         static var icnDelete: UIImage { .load(name: "icn_delete") }
         static var btnTransparent: UIImage { .load(name: "status=btn_ghost_default") }
     }
+    
+    enum Toast {
+        static var icnCheck: UIImage { .load(name: "icn_check") }
+    }
 }
 
 extension UIImage {

@@ -75,6 +75,10 @@ extension UIColor {
     static var donGray12: UIColor {
         return UIColor(hex: "#49494C")
     }
+    
+    static var donError: UIColor {
+        return UIColor(hex: "#FF5E5E")
+    }
 }
 
 extension UIColor {
