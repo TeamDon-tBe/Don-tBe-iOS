@@ -13,20 +13,28 @@ final class OnboardingEndingViewModel: ViewModelType {
     
     struct Input {
         let startButtonTapped: AnyPublisher<Void, Never>
+        let backButtonTapped: AnyPublisher<Void, Never>
     }
     
     struct Output {
-        let voidPublisher: PassthroughSubject<Void, Never>
+        let voidPublisher: PassthroughSubject<String, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
-        let publisher = PassthroughSubject<Void, Never>()
+        let publisher = PassthroughSubject<String, Never>()
         
         input.startButtonTapped
             .sink { _ in
                 // 온보딩 완료 서버통신
                 // 서버통신 완료되면 신호
-                publisher.send()
+                publisher.send("start")
+            }
+            .store(in: self.cancelBag)
+        
+        input.backButtonTapped
+            .sink { _ in 
+                // back 버튼 누르면 바로 신호보냄
+                publisher.send("back")
             }
             .store(in: self.cancelBag)
         

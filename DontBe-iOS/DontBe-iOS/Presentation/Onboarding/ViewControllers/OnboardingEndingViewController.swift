@@ -17,7 +17,8 @@ final class OnboardingEndingViewController: UIViewController {
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
     private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    
+    private lazy var backButtonTapped = self.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+
     // MARK: - UI Components
     
     private let progressImage: UIImageView = {
@@ -113,9 +114,9 @@ extension OnboardingEndingViewController {
         }
         
         profileImage.snp.makeConstraints {
-            $0.size.equalTo(96.adjusted)
+            $0.size.equalTo(100.adjusted)
             $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(334.adjustedH)
+            $0.top.equalToSuperview().inset(statusBarHeight + 201.adjustedH)
         }
         
         introductionView.snp.makeConstraints {
@@ -137,16 +138,21 @@ extension OnboardingEndingViewController {
     }
     
     private func bindViewModel() {
-        let input = OnboardingEndingViewModel.Input(startButtonTapped: startButtonTapped)
+        let input = OnboardingEndingViewModel.Input(startButtonTapped: startButtonTapped, backButtonTapped: backButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.voidPublisher
 //            .receive(on: RunLoop.main)
-            .sink { _ in
-                let viewController = OnboardingViewController()
-                print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
-                self.navigationController?.pushViewController(viewController, animated: true)
+            .sink { value in
+                if value == "start" {
+                    let viewController = OnboardingViewController()
+                    print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    self.navigationController?.popViewController(animated: true)
+                }
+                
             }
             .store(in: self.cancelBag)
     }

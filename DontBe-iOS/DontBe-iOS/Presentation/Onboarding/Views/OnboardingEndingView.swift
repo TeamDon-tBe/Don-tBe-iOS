@@ -85,13 +85,13 @@ extension OnboardingEndingView {
         }
         
         introduction.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(60.adjusted)
+            $0.bottom.equalToSuperview().inset(51.adjusted)
             $0.leading.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(55.adjusted)
         }
         
         information.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(22.adjusted)
+            $0.bottom.equalToSuperview().inset(20.adjusted)
             $0.centerX.equalToSuperview()
         }
     }
