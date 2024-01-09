@@ -51,13 +51,14 @@ Don't be Coding Convention  ➡️
 │   ├── SceneDelegate
 ├── Global
 │   ├── Extension
+│   ├── Protocol
 │   ├── Literals
 │   │   ├── ImageLiterals
 │   │   ├── StringLiterals
 │   ├── Resources
+│   │   ├── Info.plist
 │   │   ├── Font
 │   │   ├── Assets
-│   │   ├── Info.plist
 ├── Network
 │   ├── Foundation
 │   |   ├── Config
@@ -66,6 +67,7 @@ Don't be Coding Convention  ➡️
 │   |   ├── DTO
 |   |   ├── Service
 ├── Presentation
+│   ├── Helpers
 │   ├── Scene1(이름)
 │   │   ├── Views
 │   │   ├── ViewControllers
