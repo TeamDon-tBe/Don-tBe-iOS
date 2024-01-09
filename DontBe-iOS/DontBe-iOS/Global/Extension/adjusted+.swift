@@ -9,36 +9,50 @@ import UIKit
 
 extension CGFloat {
     var adjusted: CGFloat {
-        let ratio: CGFloat = UIScreen.main.bounds.width / 375
-        return self * ratio
+        return adjustedW
     }
-    
+
+    var adjustedW: CGFloat {
+        return self * adjustedRatio
+    }
+
     var adjustedH: CGFloat {
-        let ratio: CGFloat = UIScreen.main.bounds.height / 667
-        return self * ratio
+        return self * adjustedHRatio
+    }
+
+    private var adjustedRatio: CGFloat {
+        return UIScreen.main.bounds.width / 375
+    }
+
+    private var adjustedHRatio: CGFloat {
+        return UIScreen.main.bounds.height / 667
     }
 }
 
 extension Int {
-    var adjusted: Int {
-        let ratio: Int = Int(UIScreen.main.bounds.width / 375)
-        return self * ratio
+    var adjusted: CGFloat {
+        return CGFloat(self).adjusted
     }
-    
-    var adjustedH: Int {
-        let ratio: Int = Int(UIScreen.main.bounds.height / 667)
-        return self * ratio
+
+    var adjustedW: CGFloat {
+        return CGFloat(self).adjustedW
+    }
+
+    var adjustedH: CGFloat {
+        return CGFloat(self).adjustedH
     }
 }
 
 extension Double {
-    var adjusted: Double {
-        let ratio: Double = Double(UIScreen.main.bounds.width / 375)
-        return self * ratio
+    var adjusted: CGFloat {
+        return CGFloat(self).adjusted
     }
-    
-    var adjustedH: Double {
-        let ratio: Double = Double(UIScreen.main.bounds.height / 667)
-        return self * ratio
+
+    var adjustedW: CGFloat {
+        return CGFloat(self).adjustedW
+    }
+
+    var adjustedH: CGFloat {
+        return CGFloat(self).adjustedH
     }
 }

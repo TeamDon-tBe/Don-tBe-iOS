@@ -7,10 +7,10 @@
 
 import UIKit
 
+import KakaoSDKCommon
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSAttributedString.Key.foregroundColor: UIColor.donBlack
         ]
         
+        KakaoSDK.initSDK(appKey: Bundle.main.object(forInfoDictionaryKey: Config.Keys.Plist.nativeAppKey) as? String ?? "")
         return true
     }
 
