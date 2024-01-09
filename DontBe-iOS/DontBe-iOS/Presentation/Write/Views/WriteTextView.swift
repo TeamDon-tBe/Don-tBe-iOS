@@ -13,6 +13,9 @@ final class WriteTextView: UIView {
 
     // MARK: - Properties
     
+    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
+    let maxLength = 500 // 최대 글자 수
+    
     // MARK: - UI Components
     
     private let userProfileImage: UIImageView = {
@@ -100,6 +103,7 @@ final class WriteTextView: UIView {
 
 extension WriteTextView {
     func setDelegate() {
+        self.contentTextView.delegate = self
     }
     
     func setUI() {
@@ -164,3 +168,32 @@ extension WriteTextView {
             $0.height.equalTo(36.adjusted)
         }
     }
+}
+
+extension WriteTextView: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let textLength = contentTextView.text.count
+        textView.text = String(textView.text.prefix(maxLength))
+        
+        if textLength == 0 {
+            postButton.setTitleColor(.donGray9, for: .normal)
+            postButton.backgroundColor = .donGray3
+        } else {
+            postButton.setTitleColor(.donBlack, for: .normal)
+            postButton.backgroundColor = .donPrimary
+        }
+        
+        if textLength < 500 {
+            limitedCircleProgressBar.alpha = 0
+            circleProgressBar.alpha = 1
+            
+            let value = Double(textLength) / 500
+            circleProgressBar.value = value
+        } else {
+            limitedCircleProgressBar.alpha = 1
+            circleProgressBar.alpha = 0
+            
+            impactFeedbackGenerator.impactOccurred()
+        }
+    }
+}
