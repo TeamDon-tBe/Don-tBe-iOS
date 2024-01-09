@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CircleProgressbar: UIView {
+final class CircleProgressbar: UIView {
     
     var lineWidth: CGFloat = 2
     var circleBackgroundColor: UIColor = .gray
