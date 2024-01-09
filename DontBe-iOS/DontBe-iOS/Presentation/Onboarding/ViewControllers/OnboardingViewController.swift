@@ -46,12 +46,12 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     }()
     
     private let nextButton: UIButton = {
-        let nextButton = CustomButton(title: "다음으로", backColor: .donBlack, titleColor: .donWhite)
+        let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donBlack, titleColor: .donWhite)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return nextButton
     }()
     
-    private let skipButton = CustomButton(title: "건너뛰기", backColor: .clear, titleColor: .donGray7)
+    private let skipButton = CustomButton(title: StringLiterals.Button.skip, backColor: .clear, titleColor: .donGray7)
     
     // MARK: - Life Cycles
     

@@ -43,9 +43,9 @@ final class OnboardingEndingViewController: UIViewController {
     private let introductionView = OnboardingEndingView()
     
     private let backButton = BackButton()
-    private let startButton = CustomButton(title: "시작하기", backColor: .donPrimary, titleColor: .donBlack)
+    private let startButton = CustomButton(title: StringLiterals.Button.start, backColor: .donPrimary, titleColor: .donBlack)
     
-    private let skipButton = CustomButton(title: "건너뛰기", backColor: .clear, titleColor: .donGray7)
+    private let skipButton = CustomButton(title: StringLiterals.Button.skip, backColor: .clear, titleColor: .donGray7)
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -77,7 +77,6 @@ final class OnboardingEndingViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
     }
-    
 }
 
 // MARK: - Extensions
