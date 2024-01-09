@@ -15,6 +15,7 @@ final class WriteView: UIView {
     
     // MARK: - UI Components
     
+    let writeTextView = WriteTextView()
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -24,7 +25,6 @@ final class WriteView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -37,15 +37,22 @@ final class WriteView: UIView {
 
 extension WriteView {
     func setUI() {
-        
+        self.backgroundColor = .donWhite
+        writeTextView.layer.borderColor = UIColor.donGray2.cgColor
+        writeTextView.layer.borderWidth = 1
+        writeCanclePopupView.alpha = 0
     }
     
     func setHierarchy() {
-
+        self.addSubviews(writeTextView, writeCanclePopupView)
     }
     
     func setLayout() {
-
+        writeTextView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
+        }
     }
     
     func setAddTarget() {
@@ -55,13 +62,15 @@ extension WriteView {
     @objc
     func buttonTapped() {
         
+        writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
     func setRegisterCell() {
         
     }
     
-    func setDataBind() {
+    @objc
+    private func postButtonTapped() {
         
     }
 }
