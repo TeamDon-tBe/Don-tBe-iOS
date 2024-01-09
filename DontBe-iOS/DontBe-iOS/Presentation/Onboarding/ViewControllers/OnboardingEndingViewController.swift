@@ -38,11 +38,8 @@ final class OnboardingEndingViewController: UIViewController {
         profile.image = ImageLiterals.Onboarding.imgProfile
         return profile
     }()
-    
-    private let startView: UIView = {
-        let view = UIView()
-        return view
-    }()
+
+    private let introductionView = OnboardingEndingView()
     
     private let backButton = BackButton()
     private let startButton = CustomButton(title: "시작하기", backColor: .donPrimary, titleColor: .donBlack)
@@ -90,9 +87,10 @@ extension OnboardingEndingViewController {
                               progressImage,
                               titleImage,
                               profileImage,
-                              startView,
+                              introductionView,
                               startButton,
                               skipButton)
+        self.view.bringSubviewToFront(profileImage)
     }
     
     private func setLayout() {
@@ -110,7 +108,7 @@ extension OnboardingEndingViewController {
         
         titleImage.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(91.adjusted)
-            $0.top.equalToSuperview().inset(statusBarHeight + 90.adjusted)
+            $0.top.equalToSuperview().inset(statusBarHeight + 90.adjustedH)
             $0.height.equalTo(72.adjusted)
         }
         
@@ -118,6 +116,13 @@ extension OnboardingEndingViewController {
             $0.size.equalTo(100.adjusted)
             $0.centerX.equalToSuperview()
             $0.top.equalToSuperview().inset(statusBarHeight + 201.adjusted)
+        }
+        
+        introductionView.snp.makeConstraints {
+            $0.width.equalTo(320.adjusted)
+            $0.height.equalTo(211.adjusted)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(185.adjusted)
         }
         
         startButton.snp.makeConstraints {
@@ -140,6 +145,7 @@ extension OnboardingEndingViewController {
 //            .receive(on: RunLoop.main)
             .sink { _ in
                 let viewController = OnboardingViewController()
+                print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

@@ -27,6 +27,7 @@
 		2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */; };
 		2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */; };
 		2A8D70CA2B4D9787009F4C6C /* OnboardingEndingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */; };
+		2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -70,6 +71,7 @@
 		2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingViewModel.swift; sourceTree = "<group>"; };
 		2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingView.swift; sourceTree = "<group>"; };
+		2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -301,6 +303,7 @@
 				2A2671F82B4C0819009D214F /* UILabel+.swift */,
 				2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */,
 				2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */,
+				2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -479,6 +482,7 @@
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
+				2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */,
 				2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */,
 				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
 				2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */,
