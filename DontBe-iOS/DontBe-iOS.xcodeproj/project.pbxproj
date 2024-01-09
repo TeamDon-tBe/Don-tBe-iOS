@@ -34,6 +34,10 @@
 		3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61931A2B3A7AD000220CEB /* NetworkError.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
 		3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */; };
+		3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */; };
+		3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12F2B4C2F740086E4A3 /* UIImageView+.swift */; };
+		3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1312B4C3C2D0086E4A3 /* UITextView+.swift */; };
+		3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +69,10 @@
 		3C61931A2B3A7AD000220CEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteTextView.swift; sourceTree = "<group>"; };
+		3CE9C12F2B4C2F740086E4A3 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
+		3CE9C1312B4C3C2D0086E4A3 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
+		3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressbar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +171,7 @@
 		3C6193032B3A773800220CEB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				3CE9C1332B4C4BA90086E4A3 /* Helpers */,
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
 				2A51AE832B4B05AA00FF770A /* Splash */,
 				3C61930F2B3A7A0700220CEB /* Home */,
@@ -180,6 +189,8 @@
 				2A6D54C02B479B4300F9891E /* adjusted+.swift */,
 				2A6D54C22B493A8400F9891E /* UIFont+.swift */,
 				3C35565A2B494F0A0016BA49 /* UIColor+.swift */,
+				3CE9C12F2B4C2F740086E4A3 /* UIImageView+.swift */,
+				3CE9C1312B4C3C2D0086E4A3 /* UITextView+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -278,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */,
+				3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +307,14 @@
 				3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3CE9C1332B4C4BA90086E4A3 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -375,12 +395,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
+				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
+				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
@@ -392,7 +414,9 @@
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */,
+				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
+				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
