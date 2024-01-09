@@ -47,6 +47,10 @@ final class OnboardingEndingViewController: UIViewController {
     
     private let skipButton = CustomButton(title: "건너뛰기", backColor: .clear, titleColor: .donGray7)
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     // MARK: - Life Cycles
     
     init(viewModel: OnboardingEndingViewModel) {
