@@ -77,12 +77,6 @@ extension LoginViewController {
     }
     
     private func setLayout() {
-        let statusBarHeight = UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .first?
-            .statusBarManager?
-            .statusBarFrame.height ?? 20
-        
         loginLogo.snp.makeConstraints {
             $0.top.equalToSuperview().inset(statusBarHeight + 55.adjusted)
             $0.leading.equalToSuperview().inset(16.adjusted)

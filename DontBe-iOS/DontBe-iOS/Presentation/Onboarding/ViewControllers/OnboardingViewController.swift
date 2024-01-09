@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class OnboardingViewController: UIViewController {
+final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
 
@@ -104,7 +104,7 @@ extension OnboardingViewController {
         if OnboardingViewController.pushCount == 0 {
             titleImage.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(91.adjusted)
-                $0.top.equalToSuperview().inset(statusBarHeight + 90.adjusted)
+                $0.top.equalToSuperview().inset(statusBarHeight + 90.adjustedH)
                 $0.height.equalTo(72.adjusted)
             }
             
@@ -116,25 +116,25 @@ extension OnboardingViewController {
         } else if OnboardingViewController.pushCount == 1 {
             titleImage.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(80.adjusted)
-                $0.top.equalToSuperview().inset(statusBarHeight + 83.adjusted)
+                $0.top.equalToSuperview().inset(statusBarHeight + 83.adjustedH)
                 $0.height.equalTo(102.adjusted)
             }
             
             mainImage.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(statusBarHeight + 231.adjusted)
+                $0.centerY.equalToSuperview().offset(38.adjusted)
                 $0.width.equalToSuperview()
                 $0.height.equalTo(230.adjusted)
             }
         } else {
             titleImage.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(49.adjusted)
-                $0.top.equalToSuperview().inset(statusBarHeight + 90.adjusted)
+                $0.top.equalToSuperview().inset(statusBarHeight + 90.adjustedH)
                 $0.height.equalTo(72.adjusted)
             }
             
             mainImage.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(statusBarHeight + 224.adjusted)
                 $0.centerX.equalToSuperview()
+                $0.centerY.equalToSuperview().offset(31.adjusted)
                 $0.width.equalTo(336.adjusted)
                 $0.height.equalTo(238.adjusted)
             }
@@ -160,19 +160,20 @@ extension OnboardingViewController {
     
     @objc 
     private func nextButtonTapped() {
-        OnboardingViewController.pushCount = OnboardingViewController.pushCount + 1
+        OnboardingViewController.pushCount += 1
         if OnboardingViewController.pushCount < 3 {
             let viewController = OnboardingViewController()
             self.setOnboardingView(viewController: viewController)
             self.navigationController?.pushViewController(viewController, animated: true)
         } else {
-            let viewController = OnboardingEndingViewController()
+            let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel())
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     
     @objc
     private func backButtonTapped() {
+        OnboardingViewController.pushCount -= 1
         self.navigationController?.popViewController(animated: true)
     }
 }

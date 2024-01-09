@@ -36,6 +36,7 @@ enum ImageLiterals {
         static var imgTwoTitle: UIImage { .load(name: "title_second") }
         static var imgThirdTitle: UIImage { .load(name: "title_third") }
         static var imgFourthTitle: UIImage { .load(name: "title_fourth") }
+        static var imgProfile: UIImage { .load(name: "img_profile") }
     }
     
     enum Login {

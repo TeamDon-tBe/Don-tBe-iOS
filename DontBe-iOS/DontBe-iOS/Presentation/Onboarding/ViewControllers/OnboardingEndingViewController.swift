@@ -5,6 +5,7 @@
 //  Created by 변희주 on 1/9/24.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -12,6 +13,10 @@ import SnapKit
 final class OnboardingEndingViewController: UIViewController {
     
     // MARK: - Properties
+    
+    private var cancelBag = CancelBag()
+    private let viewModel: OnboardingEndingViewModel
+    private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -28,18 +33,32 @@ final class OnboardingEndingViewController: UIViewController {
         return title
     }()
     
-    private let backButton: UIButton = {
-        let backButton = BackButton()
-        backButton.isHidden = true
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return backButton
+    private let profileImage: UIImageView = {
+        let profile = UIImageView()
+        profile.image = ImageLiterals.Onboarding.imgProfile
+        return profile
     }()
     
+    private let startView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let backButton = BackButton()
     private let startButton = CustomButton(title: "시작하기", backColor: .donPrimary, titleColor: .donBlack)
     
     private let skipButton = CustomButton(title: "건너뛰기", backColor: .clear, titleColor: .donGray7)
     
     // MARK: - Life Cycles
+    
+    init(viewModel: OnboardingEndingViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,6 +66,7 @@ final class OnboardingEndingViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +89,8 @@ extension OnboardingEndingViewController {
         self.view.addSubviews(backButton,
                               progressImage,
                               titleImage,
+                              profileImage,
+                              startView,
                               startButton,
                               skipButton)
     }
@@ -92,6 +114,12 @@ extension OnboardingEndingViewController {
             $0.height.equalTo(72.adjusted)
         }
         
+        profileImage.snp.makeConstraints {
+            $0.size.equalTo(100.adjusted)
+            $0.centerX.equalToSuperview()
+            $0.top.equalToSuperview().inset(statusBarHeight + 201.adjusted)
+        }
+        
         startButton.snp.makeConstraints {
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
             $0.centerX.equalToSuperview()
@@ -103,8 +131,17 @@ extension OnboardingEndingViewController {
         }
     }
     
-    @objc 
-    private func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+    private func bindViewModel() {
+        let input = OnboardingEndingViewModel.Input(startButtonTapped: startButtonTapped)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.voidPublisher
+//            .receive(on: RunLoop.main)
+            .sink { _ in
+                let viewController = OnboardingViewController()
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+            .store(in: self.cancelBag)
     }
 }
