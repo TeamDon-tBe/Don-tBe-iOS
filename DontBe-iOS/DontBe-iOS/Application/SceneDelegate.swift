@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-            let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
+//            let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
+            let navigationController = UINavigationController(rootViewController: DontBeTabBarController())
             self.window?.rootViewController = navigationController
             self.window?.makeKeyAndVisible()
         }

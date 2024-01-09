@@ -49,7 +49,7 @@ extension WriteViewController {
             title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
             style: .plain,
             target: self,
-            action: #selector(cancleButtonTapped)
+            action: #selector(cancleNavigationBarButtonTapped)
         )
         
         // 커스텀 백 버튼의 속성 설정 - 색상, 폰트
@@ -61,13 +61,35 @@ extension WriteViewController {
         navigationItem.leftBarButtonItem = backButton
     }
     
+    func setDelegate() {
+        self.rootView.writeCanclePopupView.delegate = self
     }
     
     func setAddTarget() {
         self.rootView.writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
+    @objc
+    func cancleNavigationBarButtonTapped() {
+        // 텍스트가 비어있는 경우 POP
+        if self.rootView.writeTextView.contentTextView.text == "" {
+            popupNavigation()
+        } else {
+            self.rootView.writeCanclePopupView.alpha = 1
+        }
     }
+    
+    @objc
+    func postButtonTapped() {
+        popupNavigation()
+    }
+    
+    @objc
+    private func popupNavigation() {
+        self.navigationController?.popViewController(animated: true)
+        self.tabBarController?.selectedIndex = 0
+    }
+    
 }
 
 // MARK: - Network
@@ -76,4 +98,17 @@ extension WriteViewController {
     func getAPI() {
         
     }
+}
+
+extension WriteViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.rootView.writeCanclePopupView.alpha = 0
+    }
+    
+    func confirmButtonTapped() {
+        self.rootView.writeCanclePopupView.alpha = 0
+        popupNavigation()
+    }
+    
+    
 }
