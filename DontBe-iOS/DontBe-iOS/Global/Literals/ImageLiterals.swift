@@ -29,8 +29,12 @@ enum ImageLiterals {
         static var progressbar2: UIImage { .load(name: "onboarding_progressbar_2") }
         static var progressbar3: UIImage { .load(name: "onboarding_progressbar_3") }
         static var progressbar4: UIImage { .load(name: "onboarding_progressbar_4") }
-        static var btnNext: UIImage { .load(name: "btn_next") }
-        static var btnStart: UIImage { .load(name: "btn_start") }
+        static var imgOne: UIImage { .load(name: "img_onboarding1") }
+        static var imgTwo: UIImage { .load(name: "img_onboarding2") }
+        static var imgThird: UIImage { .load(name: "img_onboarding3") }
+        static var imgOneTitle: UIImage { .load(name: "title_first") }
+        static var imgTwoTitle: UIImage { .load(name: "title_second") }
+        static var imgThirdTitle: UIImage { .load(name: "title_third") }
     }
     
     enum Login {

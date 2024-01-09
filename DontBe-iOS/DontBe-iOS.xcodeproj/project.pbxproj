@@ -22,6 +22,8 @@
 		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
 		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
 		2A8D70BB2B4D49A9009F4C6C /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BA2B4D49A9009F4C6C /* OnboardingViewModel.swift */; };
+		2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */; };
+		2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -60,6 +62,8 @@
 		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		2A8D70BA2B4D49A9009F4C6C /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDummy.swift; sourceTree = "<group>"; };
+		2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingViewController.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -149,8 +153,8 @@
 		2A8D70B22B4C990A009F4C6C /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				2A8D70B92B4D499C009F4C6C /* ViewModels */,
 				2A8D70B62B4C9A36009F4C6C /* ViewControllers */,
+				2A8D70B92B4D499C009F4C6C /* ViewModels */,
 				2A8D70B52B4C9A2A009F4C6C /* Helpers */,
 			);
 			path = Onboarding;
@@ -160,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
+				2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */,
+				2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -442,6 +448,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
+				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
@@ -462,6 +469,7 @@
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */,
+				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
