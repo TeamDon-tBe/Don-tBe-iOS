@@ -22,7 +22,7 @@ final class DontBeTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        print("viewWillAppear")
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
     }
@@ -122,14 +122,29 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
             applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
         
-        let viewController = tabBarController.viewControllers ?? [UIViewController()]
+        let myViewController = tabBarController.viewControllers ?? [UIViewController()]
         
-        for (index, controller) in viewController.enumerated() {
+        for (index, controller) in myViewController.enumerated() {
             if let tabBarItem = controller.tabBarItem {
                 if index != tabBarController.selectedIndex {
                     applyFontColorAttributes(to: tabBarItem, isSelected: false)
                 }
             }
         }
+        
+        if selectedIndex == 1 {
+            self.selectedIndex = 0
+        }
+    }
+    
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        let index = viewControllers?.firstIndex(of: viewController)
+        
+        if index == 1 {
+            let destinationViewController = WriteViewController()
+            self.navigationController?.pushViewController(destinationViewController, animated: true)
+        }
+        
+        return true
     }
 }
