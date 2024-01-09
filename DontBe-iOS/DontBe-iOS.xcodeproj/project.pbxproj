@@ -7,11 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F62B4BEA34009D214F /* LoginViewController.swift */; };
+		2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F82B4C0819009D214F /* UILabel+.swift */; };
+		2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */; };
+		2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */; };
+		2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2672012B4C3B44009D214F /* ViewModelType.swift */; };
+		2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2672042B4C3C00009D214F /* CancelBag.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
+		2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */; };
+		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
+		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
+		2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */; };
+		2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */; };
+		2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */; };
+		2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */; };
+		2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */; };
+		2A8D70CA2B4D9787009F4C6C /* OnboardingEndingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */; };
+		2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -35,11 +51,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A2671F62B4BEA34009D214F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		2A2671F82B4C0819009D214F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+UIControl.swift"; sourceTree = "<group>"; };
+		2A2672012B4C3B44009D214F /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		2A2672042B4C3C00009D214F /* CancelBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelBag.swift; sourceTree = "<group>"; };
+		2A26720D2B4C40CE009D214F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDummy.swift; sourceTree = "<group>"; };
+		2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingViewController.swift; sourceTree = "<group>"; };
+		2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
+		2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingViewModel.swift; sourceTree = "<group>"; };
+		2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingEndingView.swift; sourceTree = "<group>"; };
+		2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -69,12 +101,109 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */,
+				2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A2671F52B4BEA0E009D214F /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				2A2671FA2B4C3A7B009D214F /* ViewControllers */,
+				2A2671FB2B4C3A8E009D214F /* ViewModels */,
+				2A2672032B4C3BF7009D214F /* Helpers */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		2A2671FA2B4C3A7B009D214F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2A2671F62B4BEA34009D214F /* LoginViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2A2671FB2B4C3A8E009D214F /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2A2672002B4C3B37009D214F /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				2A2672012B4C3B44009D214F /* ViewModelType.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		2A2672032B4C3BF7009D214F /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2A2672042B4C3C00009D214F /* CancelBag.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2A51AE832B4B05AA00FF770A /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				2A51AE842B4B05AA00FF770A /* SplashViewController.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
+		2A8D70B22B4C990A009F4C6C /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70C82B4D8EF1009F4C6C /* Views */,
+				2A8D70B62B4C9A36009F4C6C /* ViewControllers */,
+				2A8D70C02B4D7F34009F4C6C /* ViewModels */,
+				2A8D70B52B4C9A2A009F4C6C /* Helpers */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		2A8D70B52B4C9A2A009F4C6C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
+				2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */,
+				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		2A8D70B62B4C9A36009F4C6C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */,
+				2A8D70BE2B4D68E3009F4C6C /* OnboardingEndingViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2A8D70C02B4D7F34009F4C6C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70C62B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		2A8D70C82B4D8EF1009F4C6C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70C92B4D9787009F4C6C /* OnboardingEndingView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,16 +213,6 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-        
-        2A51AE832B4B05AA00FF770A /* Splash */ = {
-            isa = PBXGroup;
-            children = (
-                2A51AE842B4B05AA00FF770A /* SplashViewController.swift */,
-            );
-            path = Splash;
-            sourceTree = "<group>";
-        };
-
 		3C2855022B3AAEE400369C99 /* Example */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +226,7 @@
 		3C6192E02B3A719A00220CEB = {
 			isa = PBXGroup;
 			children = (
+				2A26720D2B4C40CE009D214F /* Config.xcconfig */,
 				3C6192EB2B3A719A00220CEB /* DontBe-iOS */,
 				3C6192EA2B3A719A00220CEB /* Products */,
 			);
@@ -144,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				3C6193042B3A776C00220CEB /* Extension */,
+				2A2672002B4C3B37009D214F /* Protocol */,
 				3C6193052B3A777300220CEB /* Literals */,
 				3C6193062B3A777B00220CEB /* Resources */,
 			);
@@ -163,6 +284,8 @@
 			children = (
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
 				2A51AE832B4B05AA00FF770A /* Splash */,
+				2A2671F52B4BEA0E009D214F /* Login */,
+				2A8D70B22B4C990A009F4C6C /* Onboarding */,
 				3C61930F2B3A7A0700220CEB /* Home */,
 				3C2855022B3AAEE400369C99 /* Example */,
 			);
@@ -177,6 +300,10 @@
 				2A6D54C02B479B4300F9891E /* adjusted+.swift */,
 				2A6D54C22B493A8400F9891E /* UIFont+.swift */,
 				3C35565A2B494F0A0016BA49 /* UIColor+.swift */,
+				2A2671F82B4C0819009D214F /* UILabel+.swift */,
+				2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */,
+				2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */,
+				2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -279,6 +406,7 @@
 			name = "DontBe-iOS";
 			packageProductDependencies = (
 				2AAA845E2B494AC50098A824 /* SnapKit */,
+				2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */,
 			);
 			productName = DontBe;
 			productReference = 3C6192E92B3A719A00220CEB /* DontBe-iOS.app */;
@@ -310,6 +438,7 @@
 			mainGroup = 3C6192E02B3A719A00220CEB;
 			packageReferences = (
 				2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = 3C6192EA2B3A719A00220CEB /* Products */;
 			projectDirPath = "";
@@ -338,27 +467,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A8D70CA2B4D9787009F4C6C /* OnboardingEndingView.swift in Sources */,
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
+				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
+				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
 				3C2854FB2B3A9E9000369C99 /* Cell.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
+				2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
+				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
+				2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */,
+				2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */,
+				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
+				2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */,
+				2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				3C2854F72B3A9E8300369C99 /* View.swift in Sources */,
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				3C2854F92B3A9E8A00369C99 /* ViewModel.swift in Sources */,
+				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
+				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
+				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
+				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
+				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,6 +511,7 @@
 /* Begin XCBuildConfiguration section */
 		3C6192FB2B3A719C00220CEB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A26720D2B4C40CE009D214F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -430,6 +575,7 @@
 		};
 		3C6192FC2B3A719C00220CEB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2A26720D2B4C40CE009D214F /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -582,6 +728,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -593,6 +747,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDK;
+		};
 		2AAA845E2B494AC50098A824 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */;
