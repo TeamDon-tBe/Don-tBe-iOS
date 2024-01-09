@@ -110,6 +110,10 @@ extension WriteTextView {
         contentTextView.becomeFirstResponder()
         limitedCircleProgressBar.alpha = 0
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        // 햅틱 피드백 생성
+        impactFeedbackGenerator.prepare()
     }
     
     func setHierarchy() {
@@ -166,6 +170,16 @@ extension WriteTextView {
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(60.adjusted)
             $0.height.equalTo(36.adjusted)
+        }
+    }
+    
+    @objc
+    func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardHeight = keyboardFrame.cgRectValue.height
+            
+            contentTextView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor, constant: -keyboardHeight - self.keyboardToolbarView.frame.height).isActive = true
+            keyboardToolbarView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor, constant: -keyboardHeight).isActive = true
         }
     }
 }
