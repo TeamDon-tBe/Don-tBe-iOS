@@ -10,20 +10,24 @@ import UIKit
 import SnapKit
 
 final class BackButton: UIButton {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-    
+
     init() {
         super.init(frame: .zero)
-        setImage(ImageLiterals.Common.btnBack, for: .normal)
+        setupButton()
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupButton() {
+        setImage(ImageLiterals.Common.btnBack, for: .normal)
         self.snp.makeConstraints {
             $0.size.equalTo(24.adjusted)
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }

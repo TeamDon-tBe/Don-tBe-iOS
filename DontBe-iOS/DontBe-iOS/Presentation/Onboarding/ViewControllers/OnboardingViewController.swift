@@ -41,6 +41,7 @@ final class OnboardingViewController: UIViewController {
     private let backButton: UIButton = {
         let backButton = BackButton()
         backButton.isHidden = true
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return backButton
     }()
     
@@ -157,7 +158,8 @@ extension OnboardingViewController {
         viewController.mainImage.image = self.dummy[OnboardingViewController.pushCount].mainImage
     }
     
-    @objc private func nextButtonTapped() {
+    @objc 
+    private func nextButtonTapped() {
         OnboardingViewController.pushCount = OnboardingViewController.pushCount + 1
         if OnboardingViewController.pushCount < 3 {
             let viewController = OnboardingViewController()
@@ -167,5 +169,10 @@ extension OnboardingViewController {
             let viewController = OnboardingEndingViewController()
             self.navigationController?.pushViewController(viewController, animated: true)
         }
+    }
+    
+    @objc
+    private func backButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
 }

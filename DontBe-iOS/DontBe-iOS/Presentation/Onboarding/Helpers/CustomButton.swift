@@ -16,6 +16,14 @@ final class CustomButton: UIButton {
     
     init(title: String, backColor: UIColor, titleColor: UIColor) {
         super.init(frame: .zero)
+        setupButton(title: title, backColor: backColor, titleColor: titleColor)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupButton(title: String, backColor: UIColor, titleColor: UIColor) {
         setTitle(title, for: .normal) // 버튼 타이틀 설정
         titleLabel?.font = .font(.body3) // 버튼 폰트 설정
         backgroundColor = backColor // 버튼 배경색 설정
@@ -25,9 +33,5 @@ final class CustomButton: UIButton {
             $0.width.equalTo(342.adjusted)
             $0.height.equalTo(50.adjusted)
         }
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
