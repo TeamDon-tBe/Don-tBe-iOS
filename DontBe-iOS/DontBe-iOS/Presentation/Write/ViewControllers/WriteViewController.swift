@@ -49,7 +49,7 @@ extension WriteViewController {
             title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
             style: .plain,
             target: self,
-            action: #selector(cancleButtonTapped)
+            action: #selector(cancleNavigationBarButtonTapped)
         )
         
         // 커스텀 백 버튼의 속성 설정 - 색상, 폰트
@@ -70,7 +70,7 @@ extension WriteViewController {
     }
     
     @objc
-    internal func cancleButtonTapped() {
+    func cancleNavigationBarButtonTapped() {
         // 텍스트가 비어있는 경우 POP
         if self.rootView.writeTextView.contentTextView.text == "" {
             popupNavigation()
@@ -101,6 +101,10 @@ extension WriteViewController {
 }
 
 extension WriteViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.rootView.writeCanclePopupView.alpha = 0
+    }
+    
     func confirmButtonTapped() {
         self.rootView.writeCanclePopupView.alpha = 0
         popupNavigation()

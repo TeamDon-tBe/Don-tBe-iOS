@@ -29,7 +29,7 @@ final class DontBePopupView: UIView {
         return view
     }()
     
-    let popupTitleLabel: UILabel = {
+    private let popupTitleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.textAlignment = .center
@@ -37,7 +37,7 @@ final class DontBePopupView: UIView {
         return label
     }()
     
-    let popupContentLabel: UILabel = {
+    private let popupContentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.textAlignment = .center
@@ -52,7 +52,7 @@ final class DontBePopupView: UIView {
         return stackView
     }()
     
-    let cancleButton: UIButton = {
+    private let cancleButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.donBlack, for: .normal)
         button.titleLabel?.font = UIFont.font(.body3)
@@ -61,7 +61,7 @@ final class DontBePopupView: UIView {
         return button
     }()
     
-    let confirmButton: UIButton = {
+    private let confirmButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.donWhite, for: .normal)
         button.titleLabel?.font = UIFont.font(.body3)

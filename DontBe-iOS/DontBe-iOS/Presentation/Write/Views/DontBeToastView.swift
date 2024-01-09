@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class DontBeToastView: UIView {
+final class DontBeToastView: UIView {
 
     // MARK: - Properties
     

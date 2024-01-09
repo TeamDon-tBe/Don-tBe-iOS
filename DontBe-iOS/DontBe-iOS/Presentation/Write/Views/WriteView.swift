@@ -65,8 +65,6 @@ extension WriteView {
     }
     
     func setAddTarget() {
-        writeCanclePopupView.cancleButton.addTarget(self, action: #selector(cancleButtonTapped), for: .touchUpInside)
-        
         writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
