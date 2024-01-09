@@ -13,7 +13,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // 네비게이션 바 타이틀 텍스트 속성 설정
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.font(.body1),
+            NSAttributedString.Key.foregroundColor: UIColor.donBlack
+        ]
+        
         return true
     }
 
