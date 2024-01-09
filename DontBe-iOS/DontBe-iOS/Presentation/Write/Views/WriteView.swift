@@ -16,6 +16,11 @@ final class WriteView: UIView {
     // MARK: - UI Components
     
     let writeTextView = WriteTextView()
+    let writeCanclePopupView = DontBePopupView(popupTitle: "",
+                                               popupContent: StringLiterals.Write.writePopupContentLabel,
+                                               leftButtonTitle: StringLiterals.Write.writePopupCancleButtonTitle,
+                                               rightButtonTitle: StringLiterals.Write.writePopupConfirmButtonTitle)
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -53,20 +58,21 @@ extension WriteView {
             $0.leading.trailing.equalTo(self.safeAreaLayoutGuide)
             $0.bottom.equalToSuperview()
         }
+        
+        writeCanclePopupView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     func setAddTarget() {
-
-    }
-    
-    @objc
-    func buttonTapped() {
+        writeCanclePopupView.cancleButton.addTarget(self, action: #selector(cancleButtonTapped), for: .touchUpInside)
         
         writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
-    func setRegisterCell() {
-        
+    @objc
+    private func cancleButtonTapped() {
+        writeCanclePopupView.alpha = 0
     }
     
     @objc

@@ -61,13 +61,35 @@ extension WriteViewController {
         navigationItem.leftBarButtonItem = backButton
     }
     
+    func setDelegate() {
+        self.rootView.writeCanclePopupView.delegate = self
     }
     
     func setAddTarget() {
         self.rootView.writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
+    @objc
+    internal func cancleButtonTapped() {
+        // 텍스트가 비어있는 경우 POP
+        if self.rootView.writeTextView.contentTextView.text == "" {
+            popupNavigation()
+        } else {
+            self.rootView.writeCanclePopupView.alpha = 1
+        }
     }
+    
+    @objc
+    func postButtonTapped() {
+        popupNavigation()
+    }
+    
+    @objc
+    private func popupNavigation() {
+        self.navigationController?.popViewController(animated: true)
+        self.tabBarController?.selectedIndex = 0
+    }
+    
 }
 
 // MARK: - Network
@@ -76,4 +98,13 @@ extension WriteViewController {
     func getAPI() {
         
     }
+}
+
+extension WriteViewController: DontBePopupDelegate {
+    func confirmButtonTapped() {
+        self.rootView.writeCanclePopupView.alpha = 0
+        popupNavigation()
+    }
+    
+    
 }
