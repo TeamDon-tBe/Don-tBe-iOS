@@ -21,6 +21,7 @@
 		2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */; };
 		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
 		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
+		2A8D70BB2B4D49A9009F4C6C /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70BA2B4D49A9009F4C6C /* OnboardingViewModel.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -58,6 +59,7 @@
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		2A8D70BA2B4D49A9009F4C6C /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 		2A8D70B22B4C990A009F4C6C /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				2A8D70B92B4D499C009F4C6C /* ViewModels */,
 				2A8D70B62B4C9A36009F4C6C /* ViewControllers */,
 				2A8D70B52B4C9A2A009F4C6C /* Helpers */,
 			);
@@ -167,6 +170,14 @@
 				2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		2A8D70B92B4D499C009F4C6C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				2A8D70BA2B4D49A9009F4C6C /* OnboardingViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		2AAEFC952B4A9BF100C2D323 /* TabBar */ = {
@@ -455,6 +466,7 @@
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
+				2A8D70BB2B4D49A9009F4C6C /* OnboardingViewModel.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,

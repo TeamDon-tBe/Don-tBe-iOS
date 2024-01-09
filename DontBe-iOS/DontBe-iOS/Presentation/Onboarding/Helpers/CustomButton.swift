@@ -12,12 +12,12 @@ final class CustomButton: UIButton {
         super.init(frame: frame)
     }
     
-    init(title: String) {
+    init(title: String, backColor: UIColor, titleColor: UIColor) {
         super.init(frame: .zero)
         setTitle(title, for: .normal) // 버튼 타이틀 설정
         titleLabel?.font = .font(.body3) // 버튼 폰트 설정
-        backgroundColor = .donBlack // 버튼 배경색 설정
-        setTitleColor(.white, for: .normal) // 버튼 타이틀 컬러 설정
+        backgroundColor = backColor // 버튼 배경색 설정
+        setTitleColor(titleColor, for: .normal) // 버튼 타이틀 컬러 설정
         layer.cornerRadius = 6.adjusted // 버튼 테두리 corner radius 설정
     }
     

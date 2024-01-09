@@ -115,7 +115,7 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = OnboardingViewController()
+                let viewController = OnboardingViewController(viewModel: OnboardingViewModel())
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
