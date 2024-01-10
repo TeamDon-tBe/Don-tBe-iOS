@@ -7,6 +7,17 @@
 
 import Foundation
 
-struct Config {
-    static var baseURL = Bundle.main.infoDictionary?["BASE_URL"] as! String
+enum Config {
+    enum Keys {
+        enum Plist {
+            static let nativeAppKey = "NATIVE_APP_KEY"
+        }
+    }
+    
+    private static let infoDictionary: [String: Any] = {
+        guard let dictionary = Bundle.main.infoDictionary else {
+            fatalError("plist cannot found.")
+        }
+        return dictionary
+    }()
 }
