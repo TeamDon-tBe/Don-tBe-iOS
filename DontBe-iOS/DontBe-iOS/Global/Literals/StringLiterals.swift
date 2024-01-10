@@ -27,6 +27,10 @@ enum StringLiterals {
 
     enum Login {
         static let title = "온화한 커뮤니티\nDON’T BE에서 만나요."
+    }
+    
+    enum Join {
+        static let joinNavigationTitle = "회원가입"
         static let agreement = "약관동의"
         static let checkTerms = "DON’T BE와 함께하기 전\n필요한 약관들을 확인해주세요!"
         static let allCheck = "전체선택"
@@ -40,10 +44,6 @@ enum StringLiterals {
         static let duplicationCheckDescription = "*중복된 닉네임인지 확인해주세요"
         static let duplicationNotPass = "*사용 불가능한 닉네임입니다."
         static let duplicationPass = "*사용 가능한 닉네임입니다."
-    }
-    
-    enum Join {
-        static let joinNavigationTitle = "회원가입"
     }
     
     enum Onboarding {

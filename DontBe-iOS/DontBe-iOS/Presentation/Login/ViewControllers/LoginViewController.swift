@@ -31,7 +31,7 @@ final class LoginViewController: UIViewController {
         title.textColor = .black
         title.numberOfLines = 2
         title.font = .font(.head1)
-        title.setTextWithLineHeight(text: title.text, lineHeight: 37)
+        title.setTextWithLineHeight(text: title.text, lineHeight: 37.adjusted)
         return title
     }()
     
@@ -109,7 +109,7 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = OnboardingViewController()
+                let viewController = JoinAgreementViewController()
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

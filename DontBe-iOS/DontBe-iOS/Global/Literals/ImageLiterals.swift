@@ -46,6 +46,14 @@ enum ImageLiterals {
         static var icnLogo: UIImage { .load(name: "icn_login_logo") }
     }
     
+    enum Join {
+        static var btnCheckBox: UIImage { .load(name: "btn_checkbox") }
+        static var btnNotCheckBox: UIImage { .load(name: "btn_not_checkbox") }
+        static var btnNecessary: UIImage { .load(name: "btn_necessary") }
+        static var btnSelect: UIImage { .load(name: "btn_select") }
+        static var btnView: UIImage { .load(name: "btn_view") }
+    }
+    
     enum Home {
         static var textLogo: UIImage { .load(name: "Logo") }
     }
