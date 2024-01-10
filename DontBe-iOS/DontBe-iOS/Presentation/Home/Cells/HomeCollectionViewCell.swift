@@ -222,14 +222,14 @@ extension HomeCollectionViewCell {
         
         commentStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
-            $0.height.equalTo(42.adjusted)
-            $0.trailing.equalTo(likeStackView.snp.leading).offset(-10.adjusted)
+            $0.height.equalTo(commentStackView)
+            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
         }
         
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
-            $0.height.equalTo(commentStackView)
-            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
+            $0.height.equalTo(42.adjusted)
+            $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
         }
         
         ghostButton.snp.makeConstraints {
