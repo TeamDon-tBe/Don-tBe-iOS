@@ -13,4 +13,9 @@ extension UIView {
             self.addSubview($0)
         }
     }
+    func makeDivisionLine() -> UIView {
+        let divisionLine = UIView()
+        divisionLine.backgroundColor = .donGray2
+        return divisionLine
+    }
 }

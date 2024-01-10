@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class OnboardingEndingView: UIView {
+final class IntroductionView: UIView {
 
     // MARK: - Properties
     
@@ -63,7 +63,7 @@ final class OnboardingEndingView: UIView {
 
 // MARK: - Extensions
 
-extension OnboardingEndingView {
+extension IntroductionView {
     func setUI() {
         self.backgroundColor = .white
         self.layer.cornerRadius = 6.adjusted

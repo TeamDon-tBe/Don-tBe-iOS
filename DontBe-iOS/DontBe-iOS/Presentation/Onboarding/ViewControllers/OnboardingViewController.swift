@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
+final class OnboardingViewController: UIViewController {
     
     // MARK: - Properties
 
@@ -41,13 +41,11 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
     private let backButton: UIButton = {
         let backButton = BackButton()
         backButton.isHidden = true
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return backButton
     }()
     
     private let nextButton: UIButton = {
         let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donBlack, titleColor: .donWhite)
-        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return nextButton
     }()
     
@@ -61,6 +59,7 @@ final class OnboardingViewController: UIViewController, UIGestureRecognizerDeleg
         setUI()
         setHierarchy()
         setLayout()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -149,6 +148,11 @@ extension OnboardingViewController {
             $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
             $0.centerX.equalToSuperview()
         }
+    }
+    
+    private func setAddTarget() {
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
     private func setOnboardingView(viewController: OnboardingViewController) {

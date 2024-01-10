@@ -31,7 +31,7 @@ final class LoginViewController: UIViewController {
         title.textColor = .black
         title.numberOfLines = 2
         title.font = .font(.head1)
-        title.setTextWithLineHeight(text: title.text, lineHeight: 37)
+        title.setTextWithLineHeight(text: title.text, lineHeight: 37.adjusted)
         return title
     }()
     
@@ -59,6 +59,13 @@ final class LoginViewController: UIViewController {
         setHierarchy()
         setLayout()
         bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationItem.hidesBackButton = true
     }
 }
 
@@ -109,7 +116,7 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = OnboardingViewController()
+                let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

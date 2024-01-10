@@ -40,7 +40,7 @@ final class OnboardingEndingViewController: UIViewController {
         return profile
     }()
 
-    private let introductionView = OnboardingEndingView()
+    private let introductionView = IntroductionView()
     
     private let backButton = BackButton()
     private let startButton = CustomButton(title: StringLiterals.Button.start, backColor: .donPrimary, titleColor: .donBlack)
@@ -146,7 +146,6 @@ extension OnboardingEndingViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.voidPublisher
-//            .receive(on: RunLoop.main)
             .sink { value in
                 if value == "start" {
                     let viewController = OnboardingViewController()
