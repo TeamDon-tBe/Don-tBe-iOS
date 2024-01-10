@@ -44,7 +44,14 @@ final class JoinAgreeView: UIView {
     
     private let nextButton: UIButton = {
         let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donGray4, titleColor: .donGray9)
+        nextButton.isEnabled = false
         return nextButton
+    }()
+    
+    let nextActiveButton: UIButton = {
+        let nextActiveButton = CustomButton(title: StringLiterals.Button.next, backColor: .donBlack, titleColor: .donWhite)
+        nextActiveButton.isHidden = true
+        return nextActiveButton
     }()
     
     // MARK: - Life Cycles
@@ -80,7 +87,8 @@ extension JoinAgreeView {
                          secondCheckView,
                          thirdCheckView,
                          fourthCheckView,
-                         nextButton)
+                         nextButton,
+                         nextActiveButton)
     }
     
     func setLayout() {
@@ -133,6 +141,11 @@ extension JoinAgreeView {
         }
         
         nextButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
+            $0.centerX.equalToSuperview()
+        }
+        
+        nextActiveButton.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
             $0.centerX.equalToSuperview()
         }

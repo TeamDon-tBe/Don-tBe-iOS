@@ -98,6 +98,14 @@ extension JoinAgreementViewController {
                 checkButtons.forEach { button in
                     button.setImage(checkImage, for: .normal)
                 }
+                
+                if isChecked {
+                    self.originView.nextActiveButton.isHidden = false
+                } else {
+                    self.originView.nextActiveButton.isHidden = true
+
+                }
+
             }
             .store(in: self.cancelBag)
     }
