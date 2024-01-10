@@ -75,15 +75,15 @@ final class DontBePopupView: UIView {
     init(popupTitle: String, popupContent: String, leftButtonTitle: String, rightButtonTitle: String) {
         super.init(frame: .zero)
         
-        setUI()
-        setHierarchy()
-        setLayout()
-        setAddTarget()
-        
         popupTitleLabel.text = popupTitle // 팝업 타이틀
         popupContentLabel.text = popupContent // 팝업 내용
         cancleButton.setTitle(leftButtonTitle, for: .normal) // 팝업 왼쪽 버튼 타이틀
         confirmButton.setTitle(rightButtonTitle, for: .normal) // 팝업 오른쪽 버튼 타이틀
+        
+        setUI()
+        setHierarchy()
+        setLayout()
+        setAddTarget()
     }
     
     @available(*, unavailable)
@@ -116,25 +116,40 @@ extension DontBePopupView {
         // 팝업뷰 타이틀이 없는 경우
         if popupTitleLabel.text == nil {
             container.snp.makeConstraints {
-                $0.leading.trailing.equalToSuperview().inset(24)
+                $0.leading.trailing.equalToSuperview().inset(24.adjusted)
                 $0.centerY.equalToSuperview()
-                $0.height.equalTo(140)
             }
             
             popupContentLabel.snp.makeConstraints {
-                $0.top.equalToSuperview().inset(24)
-                $0.leading.trailing.equalToSuperview().inset(18)
-                $0.bottom.equalTo(cancleButton.snp.top).offset(-26)
+                $0.top.equalToSuperview().inset(24.adjusted)
+                $0.leading.trailing.equalToSuperview().inset(18.adjusted)
+                $0.bottom.equalTo(cancleButton.snp.top).offset(-26.adjusted)
             }
             
             buttonStackView.snp.makeConstraints {
-                $0.leading.trailing.bottom.equalToSuperview().inset(20)
-                $0.height.equalTo(44)
+                $0.leading.trailing.bottom.equalToSuperview().inset(20.adjusted)
+                $0.height.equalTo(44.adjusted)
             }
         } else {
             container.snp.makeConstraints {
-                $0.leading.trailing.equalToSuperview().inset(24)
+                $0.leading.trailing.equalToSuperview().inset(24.adjusted)
                 $0.centerY.equalToSuperview()
+            }
+            
+            popupTitleLabel.snp.makeConstraints {
+                $0.top.equalToSuperview().inset(24.adjusted)
+                $0.leading.trailing.equalToSuperview().inset(18.adjusted)
+            }
+            
+            popupContentLabel.snp.makeConstraints {
+                $0.top.equalTo(popupTitleLabel.snp.bottom).offset(12.adjusted)
+                $0.leading.trailing.equalToSuperview().inset(18.adjusted)
+                $0.bottom.equalTo(cancleButton.snp.top).offset(-26.adjusted)
+            }
+            
+            buttonStackView.snp.makeConstraints {
+                $0.leading.trailing.bottom.equalToSuperview().inset(20.adjusted)
+                $0.height.equalTo(44.adjusted)
             }
         }
     }

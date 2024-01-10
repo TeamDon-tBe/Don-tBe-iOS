@@ -79,6 +79,7 @@ final class WriteTextView: UIView {
         button.titleLabel?.font = UIFont.font(.body3)
         button.backgroundColor = .donGray3
         button.layer.cornerRadius = 4.adjusted
+        button.isEnabled = false
         return button
     }()
     
@@ -192,9 +193,11 @@ extension WriteTextView: UITextViewDelegate {
         if textLength == 0 {
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
+            postButton.isEnabled = false
         } else {
             postButton.setTitleColor(.donBlack, for: .normal)
             postButton.backgroundColor = .donPrimary
+            postButton.isEnabled = true
         }
         
         if textLength < 500 {

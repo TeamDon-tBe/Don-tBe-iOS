@@ -65,7 +65,7 @@ extension WriteView {
     }
     
     func setAddTarget() {
-        writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
+        
     }
     
     @objc

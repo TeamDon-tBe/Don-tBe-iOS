@@ -431,8 +431,6 @@
 			children = (
 				3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */,
 				3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */,
-				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
-				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -448,6 +446,8 @@
 		3CE9C1332B4C4BA90086E4A3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
+				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
 			);
 			path = Helpers;
