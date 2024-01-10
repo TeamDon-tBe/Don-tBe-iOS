@@ -42,7 +42,7 @@ final class HomeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0
+        let tabBarHeight: CGFloat = 70.0.adjusted
         collectionViewBottomHeight = Int(tabBarHeight + safeAreaHeight)
     }
 }
@@ -61,7 +61,7 @@ extension HomeViewController {
     
     func setLayout() {
         homeCollectionView.snp.makeConstraints {
-            $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52)
+            $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
             $0.bottom.equalTo(collectionViewBottomHeight)
             $0.width.equalToSuperview()
         }
@@ -85,7 +85,7 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -105,7 +105,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
 
-        return CGSize(width: UIScreen.main.bounds.width, height: 24)
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
         
     }
 }

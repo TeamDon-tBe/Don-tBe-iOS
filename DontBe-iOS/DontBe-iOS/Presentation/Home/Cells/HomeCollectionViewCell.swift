@@ -15,7 +15,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     private let backgroundUIView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.donWhite
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 8.adjusted
         return view
     }()
     
@@ -23,7 +23,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1
+        image.layer.borderWidth = 1.adjusted
         image.layer.borderColor = UIColor.clear.cgColor
         image.image = UIImage.checkmark
         return image
@@ -173,55 +173,55 @@ extension HomeCollectionViewCell {
             $0.edges.equalToSuperview()
         }
         profileImageView.snp.makeConstraints {
-            $0.leading.equalTo(10)
-            $0.top.equalTo(18)
-            $0.size.equalTo(44)
+            $0.leading.equalTo(10.adjusted)
+            $0.top.equalTo(18.adjusted)
+            $0.size.equalTo(44.adjusted)
         }
         nicknameLabel.snp.makeConstraints {
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(8)
-            $0.top.equalTo(profileImageView.snp.top).offset(4)
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
+            $0.top.equalTo(profileImageView.snp.top).offset(4.adjusted)
         }
         transparentLabel.snp.makeConstraints {
             $0.leading.equalTo(nicknameLabel)
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(4)
+            $0.top.equalTo(nicknameLabel.snp.bottom).offset(4.adjusted)
         }
         dotLabel.snp.makeConstraints {
-            $0.leading.equalTo(transparentLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(transparentLabel.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(transparentLabel)
         }
         timeLabel.snp.makeConstraints {
-            $0.leading.equalTo(dotLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(dotLabel.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(transparentLabel)
         }
         kebabButton.snp.makeConstraints {
-            $0.top.equalTo(24)
-            $0.trailing.equalToSuperview().inset(12)
-            $0.size.equalTo(34)
+            $0.top.equalTo(24.adjusted)
+            $0.trailing.equalToSuperview().inset(12.adjusted)
+            $0.size.equalTo(34.adjusted)
         }
         contentTextLabel.snp.makeConstraints {
-            $0.top.equalTo(transparentLabel.snp.bottom).offset(8)
+            $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
             $0.leading.equalTo(nicknameLabel)
-            $0.trailing.equalTo(kebabButton.snp.trailing).inset(12)
+            $0.trailing.equalTo(kebabButton.snp.trailing).inset(12.adjusted)
         }
         commentStackView.snp.makeConstraints {
-            $0.top.equalTo(contentTextLabel.snp.bottom).offset(4)
-            $0.height.equalTo(42)
-            $0.trailing.equalTo(likeStackView.snp.leading).offset(-10)
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
+            $0.height.equalTo(42.adjusted)
+            $0.trailing.equalTo(likeStackView.snp.leading).offset(-10.adjusted)
         }
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
             $0.height.equalTo(commentStackView)
-            $0.trailing.equalTo(kebabButton).inset(8)
+            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
         }
         ghostButton.snp.makeConstraints {
-            $0.bottom.equalTo(commentStackView.snp.bottom).offset(-4)
+            $0.bottom.equalTo(commentStackView.snp.bottom).offset(-4.adjusted)
             $0.leading.equalTo(profileImageView)
-            $0.size.equalTo(44)
+            $0.size.equalTo(44.adjusted)
         }
         verticalTextBarView.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom)
             $0.bottom.equalTo(ghostButton.snp.top)
-            $0.width.equalTo(1)
+            $0.width.equalTo(1.adjusted)
             $0.centerX.equalTo(profileImageView)
         }
     }
