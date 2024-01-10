@@ -15,14 +15,14 @@ final class DontBeToastView: UIView {
     
     // MARK: - UI Components
     
-    private let container: UIView = {
+    let container: UIView = {
         let view = UIView()
-        view.backgroundColor = .donGray7
-        view.layer.cornerRadius = 4
+        view.backgroundColor = .donGray3
+        view.layer.cornerRadius = 4.adjusted
         return view
     }()
     
-    private let circleProgressBar: CircleProgressbar = {
+    let circleProgressBar: CircleProgressbar = {
         let circle = CircleProgressbar()
         circle.backgroundColor = .clear
         circle.circleTintColor = .donPrimary
@@ -30,16 +30,16 @@ final class DontBeToastView: UIView {
         return circle
     }()
     
-    private let checkImageView: UIImageView = {
+    let checkImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = ImageLiterals.Toast.icnCheck
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
-    private let toastLabel: UILabel = {
+    let toastLabel: UILabel = {
         let label = UILabel()
-        label.text = "게시 중..."
+        label.text = StringLiterals.Toast.uploading
         label.textColor = .donBlack
         label.textAlignment = .center
         label.font = UIFont.font(.body3)
@@ -65,16 +65,17 @@ final class DontBeToastView: UIView {
 // MARK: - Extensions
 
 extension DontBeToastView {
-    func setUI() {
+    private func setUI() {
         checkImageView.alpha = 0
+        circleProgressBar.value = 0
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         self.addSubview(container)
         container.addSubviews(circleProgressBar, checkImageView, toastLabel)
     }
     
-    func setLayout() {
+    private func setLayout() {
         container.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }

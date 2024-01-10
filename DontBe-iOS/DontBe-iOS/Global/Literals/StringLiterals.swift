@@ -57,4 +57,9 @@ enum StringLiterals {
         static let start = "시작하기"
         static let finish = "완료하기"
     }
+    
+    enum Toast {
+        static let uploading = "게시 중..."
+        static let uploaded = "게시 완료!"
+    }
 }
