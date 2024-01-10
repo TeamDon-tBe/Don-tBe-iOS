@@ -34,6 +34,7 @@
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
 		2AC9FB1B2B4DE77400D31071 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* CustomView.swift */; };
+		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C2854F72B3A9E8300369C99 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854F62B3A9E8300369C99 /* View.swift */; };
@@ -88,6 +89,7 @@
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		2AC9FB1A2B4DE77400D31071 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
 		3C2854F62B3A9E8300369C99 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				2AC9FB1A2B4DE77400D31071 /* CustomView.swift */,
+				2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
+				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
 				3C6192F12B3A719A00220CEB /* ViewController.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
