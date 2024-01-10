@@ -11,7 +11,7 @@ import SnapKit
 final class HomeViewController: UIViewController {
     
     // MARK: - Properties
-    var collectionViewBottomHeight: Int = 0
+    var tabBarHeight: CGFloat = 0
     
     // MARK: - UI Components
     
@@ -41,9 +41,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0.adjusted
-        collectionViewBottomHeight = Int(tabBarHeight + safeAreaHeight)
+        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
     }
 }
 
@@ -62,7 +60,7 @@ extension HomeViewController {
     func setLayout() {
         homeCollectionView.snp.makeConstraints {
             $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
-            $0.bottom.equalTo(collectionViewBottomHeight)
+            $0.bottom.equalTo(tabBarHeight)
             $0.width.equalToSuperview()
         }
     }
