@@ -117,6 +117,10 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         
+        if selectedIndex == 1 {
+            self.selectedIndex = 0
+        }
+        
         if let selectedViewController = tabBarController.selectedViewController {
             applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
@@ -129,10 +133,6 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
                     applyFontColorAttributes(to: tabBarItem, isSelected: false)
                 }
             }
-        }
-        
-        if selectedIndex == 1 {
-            self.selectedIndex = 0
         }
     }
     

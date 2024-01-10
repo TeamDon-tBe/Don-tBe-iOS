@@ -44,6 +44,7 @@ extension WriteViewController {
     func setUI() {
         self.view.backgroundColor = .donWhite
         self.title = StringLiterals.Write.writeNavigationTitle
+        self.navigationController?.navigationBar.tintColor = .donPrimary
         
         let backButton = UIBarButtonItem(
             title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
