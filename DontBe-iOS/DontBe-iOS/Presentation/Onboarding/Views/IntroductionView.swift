@@ -17,7 +17,7 @@ final class IntroductionView: UIView {
     
     private let nickName: UILabel = {
         let nickName = UILabel()
-        nickName.text = "닉네임"
+        nickName.text = UserDefaults.standard.string(forKey: "nickname")
         nickName.textColor = .donBlack
         nickName.font = .font(.head3)
         return nickName

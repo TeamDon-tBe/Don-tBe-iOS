@@ -99,6 +99,11 @@ extension JoinProfileViewController {
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
                 } else {
+                    // UserInfo 인스턴스 생성
+                    let userNickname = UserInfo(userNickname: self.originView.nickNameTextField.text ?? "")
+                    // Local DB에 저장
+                    UserDefaults.standard.set(userNickname.userNickname, forKey: "nickname")
+                    
                     let viewContoller = OnboardingViewController()
                     self.navigationController?.pushViewController(viewContoller, animated: true)
                 }
