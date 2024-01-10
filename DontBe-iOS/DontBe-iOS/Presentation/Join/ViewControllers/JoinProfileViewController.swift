@@ -17,6 +17,10 @@ final class JoinProfileViewController: UIViewController {
     private let viewModel: JoinProfileViewModel
     
     private lazy var backButtonTapped = navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var duplicationCheckButtonTapped = self.originView.duplicationCheckButton.publisher(for: .touchUpInside).map { _ in
+        return self.originView.nickNameTextField.text ?? ""
+    }.eraseToAnyPublisher()
+    private lazy var finishButtonTapped = self.originView.finishActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -87,12 +91,30 @@ extension JoinProfileViewController {
     }
     
     private func bindViewModel() {
-        let input = JoinProfileViewModel.Input(backButtonTapped: backButtonTapped)
+        let input = JoinProfileViewModel.Input(backButtonTapped: backButtonTapped, duplicationCheckButtonTapped: duplicationCheckButtonTapped, finishButtonTapped: finishButtonTapped)
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
-        output.popViewController
-            .sink { _ in
-                self.navigationController?.popViewController(animated: true)
+        output.pushOrPopViewController
+            .sink { value in
+                if value == 0 {
+                    self.navigationController?.popViewController(animated: true)
+                } else {
+                    let viewContoller = OnboardingViewController()
+                    self.navigationController?.pushViewController(viewContoller, animated: true)
+                }
+            }
+            .store(in: self.cancelBag)
+        
+        output.isEnable
+            .sink { isTrue in
+                self.originView.finishActiveButton.isHidden = !isTrue
+                if isTrue {
+                    self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
+                    self.originView.duplicationCheckDescription.textColor = .donSecondary
+                } else {
+                    self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
+                    self.originView.duplicationCheckDescription.textColor = .donError
+                }
             }
             .store(in: self.cancelBag)
     }
@@ -128,7 +150,7 @@ extension JoinProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        var text = textField.text ?? "" // textField에 수정이 반영된 후의 text
+        let text = textField.text ?? "" // textField에 수정이 반영된 후의 text
         let maxLength = 12 // 글자 수 제한
         if text.count >= maxLength {
             let startIndex = text.startIndex

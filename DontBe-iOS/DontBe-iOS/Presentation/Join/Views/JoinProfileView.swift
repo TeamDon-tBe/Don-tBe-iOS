@@ -29,7 +29,7 @@ final class JoinProfileView: UIView {
         return plusButton
     }()
     
-    let nickNameLabel: UILabel = {
+    private let nickNameLabel: UILabel = {
         let nickNameLabel = UILabel()
         nickNameLabel.text = StringLiterals.Join.nickName
         nickNameLabel.textColor = .donBlack
@@ -84,6 +84,12 @@ final class JoinProfileView: UIView {
         return finishButton
     }()
     
+    let finishActiveButton: UIButton = {
+        let finishActiveButton = CustomButton(title: StringLiterals.Button.finish, backColor: .donBlack, titleColor: .donWhite)
+        finishActiveButton.isHidden = true
+        return finishActiveButton
+    }()
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -115,7 +121,8 @@ extension JoinProfileView {
                          nickNameTextField,
                          duplicationCheckButton,
                          duplicationCheckDescription,
-                         finishButton)
+                         finishButton,
+                         finishActiveButton)
         
         nickNameTextField.addSubview(numOfLetters)
     }
@@ -168,6 +175,11 @@ extension JoinProfileView {
         }
         
         finishButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
+            $0.centerX.equalToSuperview()
+        }
+        
+        finishActiveButton.snp.makeConstraints {
             $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
             $0.centerX.equalToSuperview()
         }
