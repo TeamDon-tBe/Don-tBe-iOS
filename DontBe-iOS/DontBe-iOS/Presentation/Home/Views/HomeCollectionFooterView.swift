@@ -13,22 +13,11 @@ final class HomeCollectionFooterView: UICollectionReusableView {
     static let identifier = "HomeCollectionFooterView"
     
     // MARK: - UI Components
-    private let storeNameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .green
-        label.text = "ㅎㅇㅎㅇㅎㅇㅎㅇ"
-        return label
-    }()
     
-    private let logoImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.clipsToBounds = true
-        image.layer.borderWidth = 1
-        image.layer.borderColor = UIColor.clear.cgColor
-        image.image = ImageLiterals.Common.logoSymbol
-        return image
+    private let footerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .orange
+        return view
     }()
     
     // MARK: - Life Cycles
@@ -54,14 +43,13 @@ extension HomeCollectionFooterView {
     }
     
     func setHierarchy() {
-        self.addSubviews(storeNameLabel)
+        self.addSubviews(footerView)
     }
     
     func setLayout() {
-        print("얍")
-        storeNameLabel.snp.makeConstraints {
-            $0.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
-            $0.leading.equalTo(15)
+        footerView.snp.makeConstraints {
+            $0.height.equalTo(2)
+            
         }
     }
 }
