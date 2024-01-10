@@ -14,6 +14,8 @@ final class JoinProfileView: UIView {
     // MARK: - Properties
     
     // MARK: - UI Components
+    
+    private let topDivisionLine = UIView().makeDivisionLine()
 
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
@@ -38,7 +40,7 @@ final class JoinProfileView: UIView {
     let nickNameTextField: UITextField = {
         let nickNameTextField = UITextField()
         nickNameTextField.placeholder = StringLiterals.Join.nickNamePlaceHolder
-        nickNameTextField.textAlignment = .center
+        nickNameTextField.textAlignment = .left
         nickNameTextField.textColor = .donGray7
         nickNameTextField.font = .font(.body4)
         nickNameTextField.backgroundColor = .donGray2
@@ -49,6 +51,14 @@ final class JoinProfileView: UIView {
         return nickNameTextField
     }()
     
+    let numOfLetters: UILabel = {
+        let label = UILabel()
+        label.text = "(0/12)"
+        label.textColor = .donGray7
+        label.font = .font(.caption4)
+        return label
+    }()
+    
     let duplicationCheckButton: UIButton = {
         let duplicationCheckButton = UIButton()
         duplicationCheckButton.setTitle(StringLiterals.Join.duplicationCheck, for: .normal)
@@ -56,6 +66,7 @@ final class JoinProfileView: UIView {
         duplicationCheckButton.titleLabel?.font = .font(.body3)
         duplicationCheckButton.layer.cornerRadius = 4.adjusted
         duplicationCheckButton.layer.masksToBounds = true
+        duplicationCheckButton.backgroundColor = .donPrimary
         return duplicationCheckButton
     }()
     
@@ -72,7 +83,6 @@ final class JoinProfileView: UIView {
         finishButton.isEnabled = false
         return finishButton
     }()
-    
     
     // MARK: - Life Cycles
     
@@ -98,16 +108,25 @@ extension JoinProfileView {
     }
     
     func setHierarchy() {
-        self.addSubviews(profileImage,
+        self.addSubviews(topDivisionLine,
+                         profileImage,
                          plusButton,
                          nickNameLabel,
                          nickNameTextField,
                          duplicationCheckButton,
                          duplicationCheckDescription,
                          finishButton)
+        
+        nickNameTextField.addSubview(numOfLetters)
     }
     
     func setLayout() {
+        topDivisionLine.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.height.equalTo(1.adjusted)
+        }
+        
         profileImage.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(52.adjusted)
             $0.centerX.equalToSuperview()
@@ -118,6 +137,34 @@ extension JoinProfileView {
             $0.top.equalTo(profileImage).offset(72.adjusted)
             $0.leading.equalTo(profileImage).offset(78.adjusted)
             $0.size.equalTo(34.adjusted)
+        }
+        
+        nickNameLabel.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide).inset(171.adjusted)
+            $0.leading.equalToSuperview().inset(16.adjusted)
+        }
+        
+        nickNameTextField.snp.makeConstraints {
+            $0.top.equalTo(nickNameLabel.snp.bottom).offset(10.adjusted)
+            $0.leading.equalToSuperview().inset(16.adjusted)
+            $0.trailing.equalToSuperview().inset(107.adjusted)
+            $0.height.equalTo(44.adjusted)
+        }
+        
+        numOfLetters.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(14.adjusted)
+            $0.centerY.equalToSuperview()
+        }
+        
+        duplicationCheckButton.snp.makeConstraints {
+            $0.centerY.height.equalTo(nickNameTextField)
+            $0.leading.equalTo(nickNameTextField.snp.trailing).offset(6.adjusted)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+        }
+        
+        duplicationCheckDescription.snp.makeConstraints {
+            $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjusted)
+            $0.leading.equalToSuperview().inset(16.adjusted)
         }
         
         finishButton.snp.makeConstraints {

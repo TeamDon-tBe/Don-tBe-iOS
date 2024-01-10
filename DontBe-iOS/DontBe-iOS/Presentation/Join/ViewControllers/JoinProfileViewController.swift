@@ -23,6 +23,10 @@ final class JoinProfileViewController: UIViewController {
     private let navigationBackButton = BackButton()
     private let originView = JoinProfileView()
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     // MARK: - Life Cycles
     
     init(viewModel: JoinProfileViewModel) {
