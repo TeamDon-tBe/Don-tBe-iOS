@@ -44,7 +44,7 @@ final class WriteViewController: UIViewController {
 // MARK: - Extensions
 
 extension WriteViewController {
-    func setUI() {
+    private func setUI() {
         self.view.backgroundColor = .donWhite
         self.title = StringLiterals.Write.writeNavigationTitle
         self.navigationController?.navigationBar.tintColor = .donPrimary
@@ -65,20 +65,20 @@ extension WriteViewController {
         navigationItem.leftBarButtonItem = backButton
     }
     
-    func setDelegate() {
+    private func setDelegate() {
         self.rootView.writeCanclePopupView.delegate = self
     }
     
-    func setAddTarget() {
+    private func setAddTarget() {
         self.rootView.writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
-    func sendData() {
+    private func sendData() {
         NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
     }
     
     @objc
-    func cancleNavigationBarButtonTapped() {
+    private func cancleNavigationBarButtonTapped() {
         // 텍스트가 비어있는 경우 POP
         if self.rootView.writeTextView.contentTextView.text == "" {
             popupNavigation()
@@ -88,7 +88,7 @@ extension WriteViewController {
     }
     
     @objc
-    func postButtonTapped() {
+    private func postButtonTapped() {
         popupNavigation()
         sendData()
     }
@@ -103,7 +103,7 @@ extension WriteViewController {
 // MARK: - Network
 
 extension WriteViewController {
-    func getAPI() {
+    private func getAPI() {
         
     }
 }

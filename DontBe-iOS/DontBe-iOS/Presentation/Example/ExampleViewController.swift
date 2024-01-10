@@ -37,19 +37,19 @@ final class ExampleViewController: UIViewController {
 // MARK: - Extensions
 
 extension ExampleViewController {
-    func setUI() {
+    private func setUI() {
         
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         
     }
     
-    func setLayout() {
+    private func setLayout() {
         
     }
     
-    func setDelegate() {
+    private func setDelegate() {
         
     }
 }
@@ -57,7 +57,7 @@ extension ExampleViewController {
 // MARK: - Network
 
 extension ExampleViewController {
-    func getAPI() {
+    private func getAPI() {
         
     }
 }
