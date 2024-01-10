@@ -53,18 +53,18 @@ final class HomeViewController: UIViewController {
 // MARK: - Extensions
 
 extension HomeViewController {
-    func setUI() {
+    private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
         self.navigationController?.navigationBar.isHidden = true
         uploadToastView.alpha = 0
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         view.addSubviews(homeCollectionView,
                          uploadToastView)
     }
     
-    func setLayout() {
+    private func setLayout() {
         homeCollectionView.snp.makeConstraints {
             $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
             $0.bottom.equalTo(tabBarHeight)
@@ -78,12 +78,12 @@ extension HomeViewController {
         }
     }
     
-    func setDelegate() {
+    private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
     }
     
-    func setNotification() {
+    private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
     }
     
@@ -131,7 +131,7 @@ extension HomeViewController {
 // MARK: - Network
 
 extension HomeViewController {
-    func getAPI() {
+    private func getAPI() {
         
     }
 }

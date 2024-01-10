@@ -65,17 +65,17 @@ final class DontBeToastView: UIView {
 // MARK: - Extensions
 
 extension DontBeToastView {
-    func setUI() {
+    private func setUI() {
         checkImageView.alpha = 0
         circleProgressBar.value = 0
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         self.addSubview(container)
         container.addSubviews(circleProgressBar, checkImageView, toastLabel)
     }
     
-    func setLayout() {
+    private func setLayout() {
         container.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
