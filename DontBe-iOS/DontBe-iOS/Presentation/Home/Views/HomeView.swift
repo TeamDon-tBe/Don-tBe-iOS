@@ -23,8 +23,6 @@ final class HomeView: UIView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1.adjusted
-        image.layer.borderColor = UIColor.clear.cgColor
         image.image = ImageLiterals.Common.logoSymbol
         return image
     }()
@@ -64,6 +62,7 @@ extension HomeView {
             $0.height.equalTo(44.adjusted)
             $0.leading.trailing.equalToSuperview()
         }
+        
         logoImageView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(12.adjusted)
             $0.width.equalTo(22.adjusted)

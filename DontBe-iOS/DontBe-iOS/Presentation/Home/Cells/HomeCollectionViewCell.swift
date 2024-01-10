@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegisterable {
     
     // MARK: - Properties
@@ -32,7 +34,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let nicknameLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donBlack
         label.text = "Don't be야 사랑해~"
         label.font = .font(.body3)
@@ -41,7 +42,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let transparentLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donGray9
         label.text = "투명도 0%"
         label.font = .font(.caption4)
@@ -50,7 +50,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let dotLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donGray9
         label.text = "·"
         label.font = .font(.caption4)
@@ -59,7 +58,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let timeLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donGray9
         label.text = "3분 전"
         label.font = .font(.caption4)
@@ -74,7 +72,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let contentTextLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donBlack
         label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 그나저나 돈비 정말 흥미로운 서비스인 것 같아요 어떻게 이런 기획을 ? 대박 ㄷ ㄷ ㄷ 돈비를 사용하면 진짜 돈비를 맞을 수 있나요?"
         label.font = .font(.body4)
@@ -84,7 +81,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.addArrangedSubviews(likeButton, likeNumLabel)
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
         stackView.spacing = 0
@@ -99,7 +95,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let likeNumLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donGray11
         label.text = "54"
         label.font = .font(.caption4)
@@ -123,7 +118,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let commentNumLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .donGray11
         label.text = "54"
         label.font = .font(.caption4)
@@ -166,59 +160,84 @@ extension HomeCollectionViewCell {
     
     func setHierarchy() {
         contentView.addSubviews(backgroundUIView)
-        backgroundUIView.addSubviews(profileImageView, nicknameLabel, transparentLabel, dotLabel, timeLabel, kebabButton, contentTextLabel, commentStackView, likeStackView, ghostButton, verticalTextBarView)
+        
+        backgroundUIView.addSubviews(profileImageView,
+                                     nicknameLabel,
+                                     transparentLabel,
+                                     dotLabel, 
+                                     timeLabel,
+                                     kebabButton,
+                                     contentTextLabel, 
+                                     commentStackView,
+                                     likeStackView,
+                                     ghostButton,
+                                     verticalTextBarView)
+        
+        likeStackView.addArrangedSubviews(likeButton, 
+                                          likeNumLabel)
     }
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
+        
         profileImageView.snp.makeConstraints {
             $0.leading.equalTo(10.adjusted)
             $0.top.equalTo(18.adjusted)
             $0.size.equalTo(44.adjusted)
         }
+        
         nicknameLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(profileImageView.snp.top).offset(4.adjusted)
         }
+        
         transparentLabel.snp.makeConstraints {
             $0.leading.equalTo(nicknameLabel)
             $0.top.equalTo(nicknameLabel.snp.bottom).offset(4.adjusted)
         }
+        
         dotLabel.snp.makeConstraints {
             $0.leading.equalTo(transparentLabel.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(transparentLabel)
         }
+        
         timeLabel.snp.makeConstraints {
             $0.leading.equalTo(dotLabel.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(transparentLabel)
         }
+        
         kebabButton.snp.makeConstraints {
             $0.top.equalTo(24.adjusted)
             $0.trailing.equalToSuperview().inset(12.adjusted)
             $0.size.equalTo(34.adjusted)
         }
+        
         contentTextLabel.snp.makeConstraints {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
             $0.leading.equalTo(nicknameLabel)
             $0.trailing.equalTo(kebabButton.snp.trailing).inset(12.adjusted)
         }
+        
         commentStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(42.adjusted)
             $0.trailing.equalTo(likeStackView.snp.leading).offset(-10.adjusted)
         }
+        
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
             $0.height.equalTo(commentStackView)
             $0.trailing.equalTo(kebabButton).inset(8.adjusted)
         }
+        
         ghostButton.snp.makeConstraints {
             $0.bottom.equalTo(commentStackView.snp.bottom).offset(-4.adjusted)
             $0.leading.equalTo(profileImageView)
             $0.size.equalTo(44.adjusted)
         }
+        
         verticalTextBarView.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom)
             $0.bottom.equalTo(ghostButton.snp.top)
