@@ -41,7 +41,7 @@ final class JoinProfileView: UIView {
         let nickNameTextField = UITextField()
         nickNameTextField.placeholder = StringLiterals.Join.nickNamePlaceHolder
         nickNameTextField.textAlignment = .left
-        nickNameTextField.textColor = .donGray7
+        nickNameTextField.textColor = .donBlack
         nickNameTextField.font = .font(.body4)
         nickNameTextField.backgroundColor = .donGray2
         nickNameTextField.layer.cornerRadius = 4.adjusted
