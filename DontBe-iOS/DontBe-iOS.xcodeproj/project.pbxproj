@@ -422,7 +422,6 @@
 			children = (
 				3CE9C1262B4BE5E60086E4A3 /* Views */,
 				3CE9C1282B4BE6580086E4A3 /* ViewControllers */,
-				3CE9C1272B4BE6400086E4A3 /* ViewModel */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -436,13 +435,6 @@
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		3CE9C1272B4BE6400086E4A3 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		3CE9C1282B4BE6580086E4A3 /* ViewControllers */ = {
