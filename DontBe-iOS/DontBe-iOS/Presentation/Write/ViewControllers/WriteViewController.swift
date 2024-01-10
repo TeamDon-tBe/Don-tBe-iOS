@@ -98,7 +98,6 @@ extension WriteViewController {
         self.navigationController?.popViewController(animated: true)
         self.tabBarController?.selectedIndex = 0
     }
-    
 }
 
 // MARK: - Network
@@ -118,6 +117,4 @@ extension WriteViewController: DontBePopupDelegate {
         self.rootView.writeCanclePopupView.alpha = 0
         popupNavigation()
     }
-    
-    
 }
