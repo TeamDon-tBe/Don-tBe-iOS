@@ -36,11 +36,11 @@ final class JoinAgreeView: UIView {
         return descriptionLabel
     }()
     
-    let allCheck = CustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
-    let firstCheckView = CustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    let secondCheckView = CustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    let thirdCheckView = CustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
-    let fourthCheckView = CustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
+    let allCheck = AgreementListCustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
+    let firstCheckView = AgreementListCustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
+    let secondCheckView = AgreementListCustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
+    let thirdCheckView = AgreementListCustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
+    let fourthCheckView = AgreementListCustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
     
     private let nextButton: UIButton = {
         let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donGray4, titleColor: .donGray9)

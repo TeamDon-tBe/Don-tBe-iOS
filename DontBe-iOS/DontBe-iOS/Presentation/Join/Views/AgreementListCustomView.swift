@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class CustomView: UIView {
+final class AgreementListCustomView: UIView {
     
     let checkButton: UIButton = {
         let checkButton = UIButton()
@@ -73,7 +73,6 @@ final class CustomView: UIView {
             $0.width.equalTo(23.adjusted)
             $0.height.equalTo(24.adjusted)
         }
-
     }
 
     required init?(coder: NSCoder) {

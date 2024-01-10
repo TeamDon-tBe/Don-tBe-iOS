@@ -18,6 +18,7 @@
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
+		2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */; };
 		2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */; };
 		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
 		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
@@ -33,7 +34,7 @@
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
-		2AC9FB1B2B4DE77400D31071 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* CustomView.swift */; };
+		2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */; };
 		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
@@ -75,6 +76,7 @@
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileViewController.swift; sourceTree = "<group>"; };
 		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDummy.swift; sourceTree = "<group>"; };
@@ -88,7 +90,7 @@
 		2A8D70D22B4DD360009F4C6C /* JoinAgreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeViewModel.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
-		2AC9FB1A2B4DE77400D31071 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementListCustomView.swift; sourceTree = "<group>"; };
 		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8D70D02B4DD356009F4C6C /* JoinAgreementViewController.swift */,
+				2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -255,7 +258,7 @@
 		2AC9FB192B4DE75700D31071 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2AC9FB1A2B4DE77400D31071 /* CustomView.swift */,
+				2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */,
 				2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */,
 			);
 			path = Views;
@@ -603,9 +606,10 @@
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
+				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
-				2AC9FB1B2B4DE77400D31071 /* CustomView.swift in Sources */,
+				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,
 			);
