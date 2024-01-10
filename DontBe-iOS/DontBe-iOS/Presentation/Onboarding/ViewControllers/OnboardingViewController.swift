@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class OnboardingViewController: UIViewController, UIGestureRecognizerDelegate {
+final class OnboardingViewController: UIViewController {
     
     // MARK: - Properties
 

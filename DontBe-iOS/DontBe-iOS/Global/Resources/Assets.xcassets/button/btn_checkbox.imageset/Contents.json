@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Rectangle 3467782.png",
+      "filename" : "btn_checkbox.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Rectangle 3467782@2x.png",
+      "filename" : "btn_checkbox@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Rectangle 3467782@3x.png",
+      "filename" : "btn_checkbox@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

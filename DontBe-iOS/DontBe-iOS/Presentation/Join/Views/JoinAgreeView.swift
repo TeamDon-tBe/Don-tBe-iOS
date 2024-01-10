@@ -36,12 +36,11 @@ final class JoinAgreeView: UIView {
         return descriptionLabel
     }()
     
-    private let allCheck = CustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
-    
-    private let firstCheckView = CustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    private let secondCheckView = CustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    private let thirdCheckView = CustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
-    private let fourthCheckView = CustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
+    let allCheck = CustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
+    let firstCheckView = CustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
+    let secondCheckView = CustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
+    let thirdCheckView = CustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
+    let fourthCheckView = CustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
     
     private let nextButton: UIButton = {
         let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donGray4, titleColor: .donGray9)
@@ -68,20 +67,20 @@ final class JoinAgreeView: UIView {
 
 extension JoinAgreeView {
     func setUI() {
-        
+        allCheck.infoLabel.font = .font(.body1)
     }
     
     func setHierarchy() {
         self.addSubviews(topDivisionLine,
-                              titleLabel,
-                              descriptionLabel,
-                              allCheck,
-                              middleDivisionLine,
-                              firstCheckView,
-                              secondCheckView,
-                              thirdCheckView,
-                              fourthCheckView,
-                              nextButton)
+                         titleLabel,
+                         descriptionLabel,
+                         allCheck,
+                         middleDivisionLine,
+                         firstCheckView,
+                         secondCheckView,
+                         thirdCheckView,
+                         fourthCheckView,
+                         nextButton)
     }
     
     func setLayout() {
@@ -103,33 +102,33 @@ extension JoinAgreeView {
         
         allCheck.snp.makeConstraints {
             $0.top.equalTo(descriptionLabel.snp.bottom).offset(55.adjusted)
-            $0.leading.trailing.equalToSuperview().inset(32.adjusted)
-            $0.height.equalTo(24.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(28.adjusted)
+            $0.height.equalTo(32.adjusted)
         }
         
         middleDivisionLine.snp.makeConstraints {
-            $0.top.equalTo(allCheck.snp.bottom).offset(9.adjusted)
+            $0.top.equalTo(allCheck.snp.bottom).offset(5.adjusted)
             $0.leading.trailing.equalToSuperview().inset(28.adjusted)
             $0.height.equalTo(1.adjusted)
         }
         
         firstCheckView.snp.makeConstraints {
-            $0.top.equalTo(allCheck.snp.bottom).offset(24.adjusted)
+            $0.top.equalTo(allCheck.snp.bottom).offset(16.adjusted)
             $0.leading.trailing.height.equalTo(allCheck)
         }
         
         secondCheckView.snp.makeConstraints {
-            $0.top.equalTo(firstCheckView.snp.bottom).offset(24.adjusted)
+            $0.top.equalTo(firstCheckView.snp.bottom).offset(16.adjusted)
             $0.leading.trailing.height.equalTo(allCheck)
         }
         
         thirdCheckView.snp.makeConstraints {
-            $0.top.equalTo(secondCheckView.snp.bottom).offset(24.adjusted)
+            $0.top.equalTo(secondCheckView.snp.bottom).offset(16.adjusted)
             $0.leading.trailing.height.equalTo(allCheck)
         }
         
         fourthCheckView.snp.makeConstraints {
-            $0.top.equalTo(thirdCheckView.snp.bottom).offset(24.adjusted)
+            $0.top.equalTo(thirdCheckView.snp.bottom).offset(16.adjusted)
             $0.leading.trailing.height.equalTo(allCheck)
         }
         

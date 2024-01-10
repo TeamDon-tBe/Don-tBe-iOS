@@ -29,7 +29,7 @@
 		2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */; };
 		2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */; };
 		2A8D70D12B4DD356009F4C6C /* JoinAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70D02B4DD356009F4C6C /* JoinAgreementViewController.swift */; };
-		2A8D70D32B4DD360009F4C6C /* JoinViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */; };
+		2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70D22B4DD360009F4C6C /* JoinAgreeViewModel.swift */; };
 		2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2AAA845E2B494AC50098A824 /* SnapKit */; };
 		2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */; };
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
@@ -85,7 +85,7 @@
 		2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionView.swift; sourceTree = "<group>"; };
 		2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
 		2A8D70D02B4DD356009F4C6C /* JoinAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreementViewController.swift; sourceTree = "<group>"; };
-		2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinViewModel.swift; sourceTree = "<group>"; };
+		2A8D70D22B4DD360009F4C6C /* JoinAgreeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeViewModel.swift; sourceTree = "<group>"; };
 		2AAEFC962B4A9C3700C2D323 /* DontBeTabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarItem.swift; sourceTree = "<group>"; };
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		2AC9FB1A2B4DE77400D31071 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 		2A8D70CF2B4DD338009F4C6C /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				2A8D70D22B4DD360009F4C6C /* JoinViewModel.swift */,
+				2A8D70D22B4DD360009F4C6C /* JoinAgreeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -598,7 +598,7 @@
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
-				2A8D70D32B4DD360009F4C6C /* JoinViewModel.swift in Sources */,
+				2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,

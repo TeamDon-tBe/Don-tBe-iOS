@@ -11,10 +11,10 @@ import SnapKit
 
 final class CustomView: UIView {
     
-    let checkImage: UIButton = {
-        let checkImage = UIButton()
-        checkImage.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
-        return checkImage
+    let checkButton: UIButton = {
+        let checkButton = UIButton()
+        checkButton.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
+        return checkButton
     }()
     
     let infoLabel: UILabel = {
@@ -45,19 +45,19 @@ final class CustomView: UIView {
         necessaryOrSelectButton.setImage(subImage, for: .normal)
         moreButton.setImage(moreImage, for: .normal)
         
-        self.addSubviews(checkImage,
+        self.addSubviews(checkButton,
                          infoLabel,
                          necessaryOrSelectButton,
                          moreButton)
         
-        checkImage.snp.makeConstraints {
+        checkButton.snp.makeConstraints {
             $0.top.leading.equalToSuperview()
-            $0.size.equalTo(24.adjusted)
+            $0.size.equalTo(32.adjusted)
         }
         
         infoLabel.snp.makeConstraints {
-            $0.leading.equalTo(checkImage.snp.trailing).offset(11.adjusted)
-            $0.centerY.equalTo(checkImage)
+            $0.leading.equalTo(checkButton.snp.trailing).offset(7.adjusted)
+            $0.centerY.equalToSuperview().offset(-1.adjusted)
         }
         
         necessaryOrSelectButton.snp.makeConstraints {

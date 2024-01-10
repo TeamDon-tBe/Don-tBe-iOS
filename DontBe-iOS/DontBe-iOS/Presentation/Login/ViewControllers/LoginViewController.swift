@@ -109,7 +109,7 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = JoinAgreementViewController()
+                let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
