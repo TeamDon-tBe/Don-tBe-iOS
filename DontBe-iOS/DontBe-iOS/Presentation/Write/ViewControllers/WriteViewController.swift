@@ -11,6 +11,8 @@ final class WriteViewController: UIViewController {
     
     // MARK: - Properties
     
+    static let showUploadToastNotification = Notification.Name("ShowUploadToastNotification")
+    
     // MARK: - UI Components
     
     private let rootView = WriteView()
@@ -28,6 +30,7 @@ final class WriteViewController: UIViewController {
         getAPI()
         setUI()
         setDelegate()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +73,10 @@ extension WriteViewController {
         self.rootView.writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
+    func sendData() {
+        NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
+    }
+    
     @objc
     func cancleNavigationBarButtonTapped() {
         // 텍스트가 비어있는 경우 POP
@@ -83,6 +90,7 @@ extension WriteViewController {
     @objc
     func postButtonTapped() {
         popupNavigation()
+        sendData()
     }
     
     @objc
