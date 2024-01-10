@@ -12,6 +12,7 @@ final class HomeView: UIView {
     // MARK: - Properties
     
     // MARK: - UI Components
+    
     private let backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .donGray1

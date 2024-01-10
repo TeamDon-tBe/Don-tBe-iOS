@@ -12,6 +12,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     // MARK: - Properties
     
     // MARK: - UI Components
+    
     private let backgroundUIView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.donWhite

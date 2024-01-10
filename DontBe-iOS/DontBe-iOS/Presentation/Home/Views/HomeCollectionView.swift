@@ -10,6 +10,7 @@ import UIKit
 final class HomeCollectionView: UIView {
     
     // MARK: - UI Components
+    
     lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 10
@@ -27,6 +28,7 @@ final class HomeCollectionView: UIView {
     }()
     
     // MARK: - Life Cycles
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -42,6 +44,7 @@ final class HomeCollectionView: UIView {
 }
 
 // MARK: - Extensions
+
 private extension HomeCollectionView {
     func setHierarchy() {
         addSubviews(collectionView)

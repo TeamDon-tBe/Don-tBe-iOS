@@ -11,6 +11,7 @@ import SnapKit
 final class HomeViewController: UIViewController {
     
     // MARK: - Properties
+    
     var tabBarHeight: CGFloat = 0
     
     // MARK: - UI Components

@@ -10,6 +10,7 @@ import UIKit
 final class HomeCollectionFooterView: UICollectionReusableView {
     
     // MARK: - Properties
+    
     static let identifier = "HomeCollectionFooterView"
     
     // MARK: - UI Components
@@ -37,6 +38,7 @@ final class HomeCollectionFooterView: UICollectionReusableView {
 }
 
 // MARK: - Extensions
+
 extension HomeCollectionFooterView {
     func setUI() {
         self.backgroundColor = .donGray1
