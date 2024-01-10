@@ -57,7 +57,7 @@ final class CustomView: UIView {
         
         infoLabel.snp.makeConstraints {
             $0.leading.equalTo(checkButton.snp.trailing).offset(7.adjusted)
-            $0.centerY.equalToSuperview().offset(-1.adjusted)
+            $0.centerY.equalTo(checkButton)
         }
         
         necessaryOrSelectButton.snp.makeConstraints {

@@ -15,8 +15,15 @@ final class JoinAgreementViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
+    
+    private lazy var backButtonTapped = navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var allCheckButtonTapped = self.originView.allCheck.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-
+    private lazy var firstCheck = self.originView.firstCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var secondCheck = self.originView.secondCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var thirdCheck = self.originView.thirdCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var fourtchCheck = self.originView.fourthCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    
+    
     // MARK: - UI Components
     
     private let navigationBackButton = BackButton()
@@ -78,7 +85,13 @@ extension JoinAgreementViewController {
     }
     
     private func bindViewModel() {
-        let input = JoinAgreeViewModel.Input(allCheckButtonTapped: allCheckButtonTapped)
+        let input = JoinAgreeViewModel.Input(
+            backButtonTapped: backButtonTapped,
+            allCheckButtonTapped: allCheckButtonTapped,
+            firstCheckButtonTapped: firstCheck,
+            secondCheckButtonTapped: secondCheck,
+            thirdCheckButtonTapped: thirdCheck,
+            fourthCheckButtonTapped: fourtchCheck)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -90,22 +103,59 @@ extension JoinAgreementViewController {
             self.originView.fourthCheckView.checkButton
         ]
         
-        output.isAllChecked
-            .sink { isChecked in
-                let checkImage = isChecked ? ImageLiterals.Join.btnCheckBox : ImageLiterals.Join.btnNotCheckBox
+        output.popViewController
+            .sink { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+            .store(in: self.cancelBag)
+        
+        output.clickedButtonState
+            .sink { [weak self] index, isClicked in
+                guard let self = self else { return }
+                let checkImage = isClicked ? ImageLiterals.Join.btnCheckBox : ImageLiterals.Join.btnNotCheckBox
+                
+                switch index {
+                case 1:
+                    // 첫 번째 버튼 UI 업데이트
+                    self.originView.firstCheckView.checkButton.setImage(checkImage, for: .normal)
+                case 2:
+                    // 두 번째 버튼 UI 업데이트
+                    self.originView.secondCheckView.checkButton.setImage(checkImage, for: .normal)
+                case 3:
+                    // 세 번째 버튼 UI 업데이트
+                    self.originView.thirdCheckView.checkButton.setImage(checkImage, for: .normal)
+                case 4:
+                    // 네 번째 버튼 UI 업데이트
+                    self.originView.fourthCheckView.checkButton.setImage(checkImage, for: .normal)
+                default:
+                    break
+                }
+            }
+            .store(in: self.cancelBag)
+        
+        output.isAllcheck
+            .sink { isNextButtonEnabled in
+                let checkImage = isNextButtonEnabled ? ImageLiterals.Join.btnCheckBox : ImageLiterals.Join.btnNotCheckBox
                 allCheckButton.setImage(checkImage, for: .normal)
                 
                 checkButtons.forEach { button in
                     button.setImage(checkImage, for: .normal)
                 }
-                
-                if isChecked {
+            }
+            .store(in: self.cancelBag)
+        
+        output.isEnable
+            .sink { value in
+                if value == 0 {
                     self.originView.nextActiveButton.isHidden = false
+                    self.originView.allCheck.checkButton.setImage(ImageLiterals.Join.btnCheckBox, for: .normal)
+                } else if value == 1 {
+                    self.originView.nextActiveButton.isHidden = false
+                    self.originView.allCheck.checkButton.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
                 } else {
                     self.originView.nextActiveButton.isHidden = true
-
+                    self.originView.allCheck.checkButton.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
                 }
-
             }
             .store(in: self.cancelBag)
     }
