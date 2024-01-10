@@ -48,8 +48,6 @@ final class JoinProfileViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
-        setHierarchy()
-        setLayout()
         bindViewModel()
     }
     
@@ -58,6 +56,8 @@ final class JoinProfileViewController: UIViewController {
         
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = true
+        setHierarchy()
+        setLayout()
     }
 }
 

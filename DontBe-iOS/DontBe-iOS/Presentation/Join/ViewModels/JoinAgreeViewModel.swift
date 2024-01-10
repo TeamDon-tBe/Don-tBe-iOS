@@ -42,6 +42,12 @@ final class JoinAgreeViewModel: ViewModelType {
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
+        input.backButtonTapped
+            .sink { _ in
+                self.popViewController.send()
+            }
+            .store(in: cancelBag)
+        
         input.allCheckButtonTapped
             .sink { [weak self] _ in
                 // 모든 버튼 상태를 업데이트하고 신호를 보냄
@@ -90,14 +96,7 @@ final class JoinAgreeViewModel: ViewModelType {
                 self?.isEnabled.send(self?.isNextButtonEnabled() ?? 0)
             }
             .store(in: cancelBag)
-        
-        
-        input.backButtonTapped
-            .sink { _ in
-                self.popViewController.send()
-            }
-            .store(in: cancelBag)
-        
+    
         input.nextButtonTapped
             .sink { _ in
                 self.pushViewController.send()

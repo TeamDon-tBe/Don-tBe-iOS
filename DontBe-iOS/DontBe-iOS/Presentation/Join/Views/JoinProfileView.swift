@@ -128,7 +128,7 @@ extension JoinProfileView {
         }
         
         profileImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).inset(52.adjusted)
+            $0.top.equalTo(self.safeAreaLayoutGuide).inset(52.adjustedH)
             $0.centerX.equalToSuperview()
             $0.size.equalTo(100.adjusted)
         }
@@ -140,12 +140,12 @@ extension JoinProfileView {
         }
         
         nickNameLabel.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).inset(171.adjusted)
+            $0.top.equalTo(self.safeAreaLayoutGuide).inset(171.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
         }
         
         nickNameTextField.snp.makeConstraints {
-            $0.top.equalTo(nickNameLabel.snp.bottom).offset(10.adjusted)
+            $0.top.equalTo(nickNameLabel.snp.bottom).offset(10.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
             $0.trailing.equalToSuperview().inset(107.adjusted)
             $0.height.equalTo(44.adjusted)
@@ -163,7 +163,7 @@ extension JoinProfileView {
         }
         
         duplicationCheckDescription.snp.makeConstraints {
-            $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjusted)
+            $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
         }
         

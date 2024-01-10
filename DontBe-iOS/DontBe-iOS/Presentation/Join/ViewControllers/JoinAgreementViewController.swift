@@ -4,7 +4,7 @@
 //
 //  Created by 변희주 on 1/10/24.
 //
-
+import Combine
 import UIKit
 
 import SnapKit
@@ -16,7 +16,7 @@ final class JoinAgreementViewController: UIViewController {
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
     
-    private lazy var backButtonTapped = navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var backButtonTapped = self.navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var allCheckButtonTapped = self.originView.allCheck.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var firstCheck = self.originView.firstCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var secondCheck = self.originView.secondCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
@@ -27,7 +27,7 @@ final class JoinAgreementViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let navigationBackButton = BackButton()
+    private var navigationBackButton = BackButton()
     private let originView = JoinAgreeView()
     
     // MARK: - Life Cycles
@@ -52,16 +52,16 @@ final class JoinAgreementViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
-        setHierarchy()
-        setLayout()
         bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = true
+        setHierarchy()
+        setLayout()
     }
 }
 
@@ -75,7 +75,6 @@ extension JoinAgreementViewController {
     
     private func setHierarchy() {
         self.navigationController?.navigationBar.addSubviews(navigationBackButton)
-        
     }
     
     private func setLayout() {
