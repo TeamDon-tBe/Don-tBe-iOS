@@ -22,7 +22,6 @@ final class DontBeTabBarController: UITabBarController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("viewWillAppear")
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
     }
