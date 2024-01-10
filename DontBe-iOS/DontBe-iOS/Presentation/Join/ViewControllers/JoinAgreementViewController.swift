@@ -45,6 +45,10 @@ final class JoinAgreementViewController: UIViewController {
     private let thirdCheckView = CustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
     private let fourthCheckView = CustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
     
+    private let nextButton: UIButton = {
+        let nextButton = CustomButton(title: StringLiterals.Button.next, backColor: .donGray4, titleColor: .donGray9)
+        return nextButton
+    }()
     
     // MARK: - Life Cycles
     
@@ -83,7 +87,8 @@ extension JoinAgreementViewController {
                               firstCheckView,
                               secondCheckView,
                               thirdCheckView,
-                              fourthCheckView)
+                              fourthCheckView,
+                              nextButton)
     }
     
     func setLayout() {
@@ -99,7 +104,7 @@ extension JoinAgreementViewController {
         }
         
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(30.adjusted)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(54.adjusted)
             $0.leading.equalToSuperview().inset(23.adjusted)
         }
         
@@ -138,6 +143,11 @@ extension JoinAgreementViewController {
         fourthCheckView.snp.makeConstraints {
             $0.top.equalTo(thirdCheckView.snp.bottom).offset(24.adjusted)
             $0.leading.trailing.height.equalTo(allCheck)
+        }
+        
+        nextButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(29.adjusted)
+            $0.centerX.equalToSuperview()
         }
     }
 }

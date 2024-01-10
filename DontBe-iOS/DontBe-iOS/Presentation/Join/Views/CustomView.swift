@@ -11,6 +11,29 @@ import SnapKit
 
 final class CustomView: UIView {
     
+    let checkImage: UIButton = {
+        let checkImage = UIButton()
+        checkImage.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
+        return checkImage
+    }()
+    
+    let infoLabel: UILabel = {
+        let infoLabel = UILabel()
+        infoLabel.textColor = .donBlack
+        infoLabel.font = .font(.body2)
+        return infoLabel
+    }()
+    
+    let necessaryOrSelectButton: UIButton = {
+        let necessaryOrSelectButton = UIButton()
+        return necessaryOrSelectButton
+    }()
+    
+    let moreButton: UIButton = {
+        let moreButton = UIButton()
+        return moreButton
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -18,31 +41,9 @@ final class CustomView: UIView {
     init(title: String, subImage: UIImage? = nil, moreImage: UIImage? = ImageLiterals.Join.btnView) {
         super.init(frame: .zero)
         
-        let checkImage: UIImageView = {
-            let checkImage = UIImageView()
-            checkImage.image = ImageLiterals.Join.btnNotCheckBox
-            return checkImage
-        }()
-        
-        let infoLabel: UILabel = {
-            let infoLabel = UILabel()
-            infoLabel.text = title
-            infoLabel.textColor = .donBlack
-            infoLabel.font = .font(.body2)
-            return infoLabel
-        }()
-        
-        let necessaryOrSelectButton: UIButton = {
-            let necessaryOrSelectButton = UIButton()
-            necessaryOrSelectButton.setImage(subImage, for: .normal)
-            return necessaryOrSelectButton
-        }()
-        
-        let moreButton: UIButton = {
-            let moreButton = UIButton()
-            moreButton.setImage(moreImage, for: .normal)
-            return moreButton
-        }()
+        infoLabel.text = title
+        necessaryOrSelectButton.setImage(subImage, for: .normal)
+        moreButton.setImage(moreImage, for: .normal)
         
         self.addSubviews(checkImage,
                          infoLabel,
