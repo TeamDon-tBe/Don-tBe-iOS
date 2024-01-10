@@ -106,12 +106,11 @@ final class JoinAgreeViewModel: ViewModelType {
         let allCheckCount = 4
         
         let necessaryCheckedCount = [isFirstChecked, isSecondChecked, isThirdChecked].filter { $0 }.count
-        let isEnabled = isAllChecked || necessaryCheckedCount >= necessaryCheckCount
         let allCheckedCount = [isFirstChecked, isSecondChecked, isThirdChecked, isFourthChecked].filter { $0 }.count
                 
         if allCheckedCount == allCheckCount {
             return 0
-        } else if isEnabled {
+        } else if necessaryCheckedCount >= necessaryCheckCount {
             return 1
         } else {
             return 2
