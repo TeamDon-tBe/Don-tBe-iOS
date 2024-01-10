@@ -11,6 +11,7 @@ enum ImageLiterals {
     enum Common {
         static var btnBack: UIImage { .load(name: "btn_back") }
         static var logoSymbol: UIImage { .load(name: "logo_symbol") }
+        static var imgProfile: UIImage { .load(name: "img_profile") }
     }
     
     enum TabBar {
@@ -36,7 +37,6 @@ enum ImageLiterals {
         static var imgTwoTitle: UIImage { .load(name: "title_second") }
         static var imgThirdTitle: UIImage { .load(name: "title_third") }
         static var imgFourthTitle: UIImage { .load(name: "title_fourth") }
-        static var imgProfile: UIImage { .load(name: "img_profile") }
     }
     
     enum Login {
@@ -52,6 +52,7 @@ enum ImageLiterals {
         static var btnNecessary: UIImage { .load(name: "btn_necessary") }
         static var btnSelect: UIImage { .load(name: "btn_select") }
         static var btnView: UIImage { .load(name: "btn_view") }
+        static var btnPlus: UIImage { .load(name: "btn_plus") }
     }
     
     enum Home {

@@ -21,6 +21,7 @@ final class JoinProfileViewController: UIViewController {
     // MARK: - UI Components
     
     private let navigationBackButton = BackButton()
+    private let originView = JoinProfileView()
     
     // MARK: - Life Cycles
     
@@ -31,6 +32,12 @@ final class JoinProfileViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        super.loadView()
+        
+        view = originView
     }
     
     override func viewDidLoad() {

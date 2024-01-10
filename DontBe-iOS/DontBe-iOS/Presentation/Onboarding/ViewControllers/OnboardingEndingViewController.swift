@@ -36,7 +36,7 @@ final class OnboardingEndingViewController: UIViewController {
     
     private let profileImage: UIImageView = {
         let profile = UIImageView()
-        profile.image = ImageLiterals.Onboarding.imgProfile
+        profile.image = ImageLiterals.Common.imgProfile
         return profile
     }()
 

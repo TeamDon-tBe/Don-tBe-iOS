@@ -20,6 +20,7 @@
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
 		2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */; };
 		2A84465C2B4EEC6C00F98F2A /* JoinProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A84465B2B4EEC6C00F98F2A /* JoinProfileViewModel.swift */; };
+		2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A84465D2B4EF41900F98F2A /* JoinProfileView.swift */; };
 		2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */; };
 		2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B32B4C999F009F4C6C /* CustomButton.swift */; };
 		2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */; };
@@ -82,6 +83,7 @@
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileViewController.swift; sourceTree = "<group>"; };
 		2A84465B2B4EEC6C00F98F2A /* JoinProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileViewModel.swift; sourceTree = "<group>"; };
+		2A84465D2B4EF41900F98F2A /* JoinProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileView.swift; sourceTree = "<group>"; };
 		2A8D70B32B4C999F009F4C6C /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		2A8D70B72B4C9A59009F4C6C /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		2A8D70BC2B4D61A1009F4C6C /* OnboardingDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingDummy.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 			children = (
 				2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */,
 				2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */,
+				2A84465D2B4EF41900F98F2A /* JoinProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -614,6 +617,7 @@
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
+				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
 				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
