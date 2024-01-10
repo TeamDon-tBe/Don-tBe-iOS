@@ -15,7 +15,8 @@ final class JoinAgreeViewModel: ViewModelType {
     private let allButtonChecked = PassthroughSubject<Bool, Never>()
     private let isEnabled = PassthroughSubject<Int, Never>()
     private let clickedButtonState = PassthroughSubject<(Int, Bool), Never>()
-    
+    private let pushViewController = PassthroughSubject<Void, Never>()
+
     private var isAllChecked = false
     private var isFirstChecked = false
     private var isSecondChecked = false
@@ -29,6 +30,7 @@ final class JoinAgreeViewModel: ViewModelType {
         let secondCheckButtonTapped: AnyPublisher<Void, Never>
         let thirdCheckButtonTapped: AnyPublisher<Void, Never>
         let fourthCheckButtonTapped: AnyPublisher<Void, Never>
+        let nextButtonTapped: AnyPublisher<Void, Never>
     }
     
     struct Output {
@@ -36,6 +38,7 @@ final class JoinAgreeViewModel: ViewModelType {
         let isAllcheck: PassthroughSubject<Bool, Never>
         let isEnable: PassthroughSubject<Int, Never>
         let clickedButtonState: PassthroughSubject<(Int, Bool), Never>
+        let pushViewController: PassthroughSubject<Void, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
@@ -95,10 +98,17 @@ final class JoinAgreeViewModel: ViewModelType {
             }
             .store(in: cancelBag)
         
+        input.nextButtonTapped
+            .sink { _ in
+                self.pushViewController.send()
+            }
+            .store(in: cancelBag)
+        
         return Output(popViewController: popViewController,
                       isAllcheck: allButtonChecked,
                       isEnable: isEnabled,
-                      clickedButtonState: clickedButtonState)
+                      clickedButtonState: clickedButtonState, 
+                      pushViewController: pushViewController)
     }
     
     private func isNextButtonEnabled() -> Int {

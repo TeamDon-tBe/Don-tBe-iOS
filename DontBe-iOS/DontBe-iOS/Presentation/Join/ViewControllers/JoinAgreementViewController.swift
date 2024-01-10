@@ -22,6 +22,7 @@ final class JoinAgreementViewController: UIViewController {
     private lazy var secondCheck = self.originView.secondCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var thirdCheck = self.originView.thirdCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var fourtchCheck = self.originView.fourthCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var nextButtonTapped = self.originView.nextActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     
     // MARK: - UI Components
@@ -91,7 +92,8 @@ extension JoinAgreementViewController {
             firstCheckButtonTapped: firstCheck,
             secondCheckButtonTapped: secondCheck,
             thirdCheckButtonTapped: thirdCheck,
-            fourthCheckButtonTapped: fourtchCheck)
+            fourthCheckButtonTapped: fourtchCheck,
+            nextButtonTapped: nextButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -156,6 +158,13 @@ extension JoinAgreementViewController {
                     self.originView.nextActiveButton.isHidden = true
                     self.originView.allCheck.checkButton.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
                 }
+            }
+            .store(in: self.cancelBag)
+        
+        output.pushViewController
+            .sink { _ in
+                let viewController = JoinProfileViewController(viewModel: JoinProfileViewModel())
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
     }
