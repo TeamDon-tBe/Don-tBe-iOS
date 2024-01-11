@@ -45,7 +45,7 @@ enum DontBeTabBarItem: CaseIterable {
         case .home: return HomeViewController()
         case .writing: return nil
         case .notification: return nil
-        case .myPage: return nil
+        case .myPage: return MyPageViewController()
         }
     }
 }
