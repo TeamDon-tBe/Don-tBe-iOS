@@ -82,6 +82,20 @@ enum ImageLiterals {
         static var icnTransparencyInfo: UIImage { .load(name: "icn_transparency_info") }
         static var icnPercentageBox: UIImage { .load(name: "icn_percentage-box") }
     }
+    
+    enum TransparencyInfo {
+        static var progressbar1: UIImage { .load(name: "my_progressbar1") }
+        static var progressbar2: UIImage { .load(name: "my_progressbar2") }
+        static var progressbar3: UIImage { .load(name: "my_progressbar3") }
+        static var progressbar4: UIImage { .load(name: "my_progressbar4") }
+        static var progressbar5: UIImage { .load(name: "my_progressbar5") }
+        static var imgTransparencyInfo1: UIImage { .load(name: "img_transparenc_info1") }
+        static var imgTransparencyInfo2: UIImage { .load(name: "img_transparenc_info2") }
+        static var imgTransparencyInfo3: UIImage { .load(name: "img_transparenc_info3") }
+        static var imgTransparencyInfo4: UIImage { .load(name: "img_transparenc_info4") }
+        static var imgTransparencyInfo5: UIImage { .load(name: "img_transparenc_info5") }
+        static var btnClose: UIImage { .load(name: "btn_close") }
+    }
 }
 
 extension UIImage {
