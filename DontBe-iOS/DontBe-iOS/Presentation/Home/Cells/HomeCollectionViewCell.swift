@@ -13,6 +13,8 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     // MARK: - Properties
     
+    var KebabButtonAction: (() -> Void) = {}
+    
     // MARK: - UI Components
     
     private let backgroundUIView: UIView = {
@@ -144,6 +146,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         setUI()
         setHierarchy()
         setLayout()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -245,4 +248,13 @@ extension HomeCollectionViewCell {
             $0.centerX.equalTo(profileImageView)
         }
     }
+    
+    func setAddTarget() {
+            kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
+        }
+
+    @objc
+        func showButtons() {
+            KebabButtonAction()
+        }
 }

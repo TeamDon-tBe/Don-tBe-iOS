@@ -95,7 +95,7 @@ extension HomeViewController {
                 var value: Double = 0.0
                 let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
                 let increment: Double = 0.01 // 증가량
-
+                
                 // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
                 UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
                     for i in 1...100 {
@@ -146,6 +146,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+        cell.KebabButtonAction = {
+            // print("케밥 버튼 액션")
+        }
         return cell
     }
     
@@ -159,7 +162,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-
+        
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
         
     }
