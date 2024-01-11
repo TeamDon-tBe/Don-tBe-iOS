@@ -10,8 +10,13 @@ import UIKit
 import SnapKit
 
 final class MyPageView: UIView {
-
+    
     // MARK: - Properties
+    
+    static var pushCount: Int = 0
+    private let dummy = TransparencyInfoDummy.dummy()
+    
+    var transparencyInfoView: DontBeTransparencyInfoView?
     
     // MARK: - UI Components
     
@@ -39,7 +44,6 @@ final class MyPageView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -85,14 +89,65 @@ extension MyPageView {
     }
     
     private func setAddTarget() {
+        self.myPageProfileView.transparencyInfoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func infoButtonTapped() {
+        self.myPageScrollView.isScrollEnabled = false
+        
+        transparencyInfoView = DontBeTransparencyInfoView()
+        myPageContentView.addSubview(transparencyInfoView!)
+        
+        transparencyInfoView?.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        transparencyInfoView?.bringSubviewToFront(myPageContentView)
+        transparencyInfoView?.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        transparencyInfoView?.infoScrollView.delegate = self
+    }
+    
+    @objc
+    private func closeButtonTapped() {        
+        self.transparencyInfoView?.removeFromSuperview()
+    }
+    
+    private func setTransparencyInfoView(view: DontBeCustomInfoView) {
+        view.InfoImage.image = self.dummy[MyPageView.pushCount].infoImage
+        view.title.text = self.dummy[MyPageView.pushCount].title
+        view.content.text = self.dummy[MyPageView.pushCount].content
+    }
+}
 
-    }
-    
-    private func setRegisterCell() {
+extension MyPageView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.frame.size.width
+        var currentPage = Int((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1
         
-    }
-    
-    private func setDataBind() {
+        if ((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) < 0 {
+            currentPage = 0
+        }
         
+        switch currentPage {
+        case 0:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar1
+        case 1:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar2
+        case 2:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar3
+        case 3:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar4
+        case 4:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar5
+        default:
+            break
+        }
+        
+        let allowedRange = 0..<5
+        if !allowedRange.contains(currentPage) {
+            let targetOffsetX = CGFloat(min(max(allowedRange.lowerBound, currentPage), allowedRange.upperBound - 1)) * scrollView.frame.size.width
+            scrollView.setContentOffset(CGPoint(x: targetOffsetX, y: 0), animated: true)
+        }
     }
 }
