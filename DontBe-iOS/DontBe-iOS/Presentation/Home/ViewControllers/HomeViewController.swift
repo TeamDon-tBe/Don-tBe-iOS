@@ -15,6 +15,7 @@ final class HomeViewController: UIViewController {
     
     var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
+    private var bottomsheet = HomeBottomsheetView()
     
     // MARK: - UI Components
     
@@ -147,7 +148,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         cell.KebabButtonAction = {
-            // print("케밥 버튼 액션")
+            self.bottomsheet.showSettings()
         }
         return cell
     }
