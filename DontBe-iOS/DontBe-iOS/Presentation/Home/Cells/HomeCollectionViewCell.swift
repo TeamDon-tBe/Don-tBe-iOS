@@ -14,6 +14,8 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     // MARK: - Properties
     
     var KebabButtonAction: (() -> Void) = {}
+    var LikeButtonAction: (() -> Void) = {}
+    var isLiked: Bool = false
     
     // MARK: - UI Components
     
@@ -89,7 +91,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return stackView
     }()
     
-    private let likeButton: UIButton = {
+    let likeButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         return button
@@ -251,10 +253,16 @@ extension HomeCollectionViewCell {
     
     func setAddTarget() {
             kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
+            likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         }
 
     @objc
         func showButtons() {
             KebabButtonAction()
+        }
+    
+    @objc
+        func likeToggleButton() {
+            LikeButtonAction()
         }
 }

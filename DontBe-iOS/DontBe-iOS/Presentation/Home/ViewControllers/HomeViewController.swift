@@ -150,6 +150,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.KebabButtonAction = {
             self.bottomsheet.showSettings()
         }
+        cell.LikeButtonAction = {
+            cell.isLiked.toggle()
+            cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        }
         return cell
     }
     
