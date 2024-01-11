@@ -82,6 +82,10 @@ enum ImageLiterals {
         static var icnTransparencyInfo: UIImage { .load(name: "icn_transparency_info") }
         static var icnPercentageBox: UIImage { .load(name: "icn_percentage-box") }
     }
+    
+    enum Popup {
+        static var transparentButtonImage: UIImage { .load(name: "transparentPopUp") }
+    }
 }
 
 extension UIImage {
