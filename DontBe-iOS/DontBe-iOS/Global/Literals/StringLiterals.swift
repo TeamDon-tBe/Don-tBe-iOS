@@ -63,6 +63,18 @@ enum StringLiterals {
         static let uploaded = "게시 완료!"
     }
     
+    enum Notification {
+        static let alarm = "알림"
+        static let likeContent = "님이 회원님의 글을 좋아합니다."
+        static let writeComment = "님이 답글을 작성했습니다."
+        static let likeComment = "님이 회원님의 답글을 좋아합니다."
+        static let welcome = "님, 이제 다시 글을 작성할 수 있어요! 오랜만에 인사를 남겨주세요!"
+        static let transparency = "님, 투명해져서 당분간 글을 작성할 수 없어요."
+        static let violation = "님 커뮤니티 활동 정책 위반으로 더이상 돈비를 이용할 수 없어요. 자세한 내용은 문의사항으로 남겨주세요."
+        static let contentTransparency = "님, 작성하신 게시글로 인해 점점 투명해지고 있어요."
+        static let commentTransparency = "님, 작성하신 답글로 인해 점점 투명해지고 있어요."
+    }
+    
     enum MyPage {
         static let MyPageNavigationTitle = "마이"
     }

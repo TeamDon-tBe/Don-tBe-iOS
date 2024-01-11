@@ -74,6 +74,10 @@ enum ImageLiterals {
         static var icnCheck: UIImage { .load(name: "icn_check") }
     }
     
+    enum Notification {
+        static var imgDog: UIImage { .load(name: "img_dog") }
+    }
+    
     enum MyPage {
         static var icnMenu: UIImage { .load(name: "icn_menu") }
         static var icnEditProfile: UIImage { .load(name: "icn_editprofile") }
