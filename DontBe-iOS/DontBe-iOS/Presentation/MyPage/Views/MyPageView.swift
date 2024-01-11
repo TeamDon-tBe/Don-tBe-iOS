@@ -36,10 +36,13 @@ final class MyPageView: UIView {
     let segmentedControl: UISegmentedControl = {
         let segmentedControl = MyPageSegmentedControl(items: ["게시글", "답글"])
         segmentedControl.backgroundColor = .donWhite
-        segmentedControl.layer.cornerRadius = 0
-        segmentedControl.layer.masksToBounds = true
         segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.donGray12], for: .normal)
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.donGray12,
+                .font: UIFont.font(.body1)
+            ], for: .normal
+        )
         segmentedControl.setTitleTextAttributes(
             [
                 NSAttributedString.Key.foregroundColor: UIColor.donPrimary,
