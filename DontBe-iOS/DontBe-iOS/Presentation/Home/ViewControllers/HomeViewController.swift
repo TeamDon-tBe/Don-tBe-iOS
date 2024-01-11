@@ -23,7 +23,11 @@ final class HomeViewController: UIViewController {
     private lazy var homeCollectionView = HomeCollectionView().collectionView
     private let uploadToastView = DontBeToastView()
     
-    private let transparentButtonPopupView = DontBePopupView(popupImage: UIImage(named: "transparentPopUp"), popupTitle: StringLiterals.Home.transparentPopupTitleLabel, popupContent: StringLiterals.Home.transparentPopupContentLabel, leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle, rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
+    private let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
+                                                             popupTitle: StringLiterals.Home.transparentPopupTitleLabel,
+                                                             popupContent: StringLiterals.Home.transparentPopupContentLabel,
+                                                             leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle,
+                                                             rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
     
     // MARK: - Life Cycles
     
@@ -85,7 +89,6 @@ extension HomeViewController {
         transparentButtonPopupView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-        
     }
     
     private func setDelegate() {
