@@ -44,15 +44,15 @@ final class ExampleCollectionViewCell: UICollectionViewCell {
 // MARK: - Extensions
 
 extension ExampleCollectionViewCell {
-    func setUI() {
+    private func setUI() {
         
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         
     }
     
-    func setLayout() {
+    private func setLayout() {
         
     }
 }

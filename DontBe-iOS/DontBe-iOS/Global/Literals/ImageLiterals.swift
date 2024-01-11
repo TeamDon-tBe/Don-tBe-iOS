@@ -73,6 +73,15 @@ enum ImageLiterals {
     enum Toast {
         static var icnCheck: UIImage { .load(name: "icn_check") }
     }
+    
+    enum MyPage {
+        static var icnMenu: UIImage { .load(name: "icn_menu") }
+        static var icnEditProfile: UIImage { .load(name: "icn_editprofile") }
+        static var emptyPercentage: UIImage { .load(name: "empty-transparency-percentage") }
+        static var fullPercentage: UIImage { .load(name: "transparency percentage") }
+        static var icnTransparencyInfo: UIImage { .load(name: "icn_transparency_info") }
+        static var icnPercentageBox: UIImage { .load(name: "icn_percentage-box") }
+    }
 }
 
 extension UIImage {
