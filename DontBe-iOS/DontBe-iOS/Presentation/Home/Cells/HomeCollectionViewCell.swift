@@ -13,6 +13,11 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     // MARK: - Properties
     
+    var KebabButtonAction: (() -> Void) = {}
+    var LikeButtonAction: (() -> Void) = {}
+    var TransparentButtonAction: (() -> Void) = {}
+    var isLiked: Bool = false
+    
     // MARK: - UI Components
     
     private let backgroundUIView: UIView = {
@@ -87,7 +92,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return stackView
     }()
     
-    private let likeButton: UIButton = {
+    let likeButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         return button
@@ -144,6 +149,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         setUI()
         setHierarchy()
         setLayout()
+        setAddTarget()
     }
     
     required init?(coder: NSCoder) {
@@ -164,16 +170,16 @@ extension HomeCollectionViewCell {
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
                                      transparentLabel,
-                                     dotLabel, 
+                                     dotLabel,
                                      timeLabel,
                                      kebabButton,
-                                     contentTextLabel, 
+                                     contentTextLabel,
                                      commentStackView,
                                      likeStackView,
                                      ghostButton,
                                      verticalTextBarView)
         
-        likeStackView.addArrangedSubviews(likeButton, 
+        likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }
     
@@ -222,14 +228,14 @@ extension HomeCollectionViewCell {
         
         commentStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
-            $0.height.equalTo(42.adjusted)
-            $0.trailing.equalTo(likeStackView.snp.leading).offset(-10.adjusted)
+            $0.height.equalTo(commentStackView)
+            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
         }
         
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
-            $0.height.equalTo(commentStackView)
-            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
+            $0.height.equalTo(42.adjusted)
+            $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
         }
         
         ghostButton.snp.makeConstraints {
@@ -244,5 +250,25 @@ extension HomeCollectionViewCell {
             $0.width.equalTo(1.adjusted)
             $0.centerX.equalTo(profileImageView)
         }
+    }
+    
+    func setAddTarget() {
+        kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
+        likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
+        ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+    }
+    
+    @objc
+    func showButtons() {
+        KebabButtonAction()
+    }
+    
+    @objc
+    func likeToggleButton() {
+        LikeButtonAction()
+    }
+    @objc
+    func transparentShowPopupButton() {
+        TransparentButtonAction()
     }
 }
