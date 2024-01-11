@@ -11,6 +11,7 @@ enum ImageLiterals {
     enum Common {
         static var btnBack: UIImage { .load(name: "btn_back") }
         static var logoSymbol: UIImage { .load(name: "logo_symbol") }
+        static var imgProfile: UIImage { .load(name: "img_profile") }
     }
     
     enum TabBar {
@@ -36,7 +37,6 @@ enum ImageLiterals {
         static var imgTwoTitle: UIImage { .load(name: "title_second") }
         static var imgThirdTitle: UIImage { .load(name: "title_third") }
         static var imgFourthTitle: UIImage { .load(name: "title_fourth") }
-        static var imgProfile: UIImage { .load(name: "img_profile") }
     }
     
     enum Login {
@@ -71,6 +71,15 @@ enum ImageLiterals {
     
     enum Toast {
         static var icnCheck: UIImage { .load(name: "icn_check") }
+    }
+    
+    enum MyPage {
+        static var icnMenu: UIImage { .load(name: "icn_menu") }
+        static var icnEditProfile: UIImage { .load(name: "icn_editprofile") }
+        static var emptyPercentage: UIImage { .load(name: "empty-transparency-percentage") }
+        static var fullPercentage: UIImage { .load(name: "transparency percentage") }
+        static var icnTransparencyInfo: UIImage { .load(name: "icn_transparency_info") }
+        static var icnPercentageBox: UIImage { .load(name: "icn_percentage-box") }
     }
 }
 

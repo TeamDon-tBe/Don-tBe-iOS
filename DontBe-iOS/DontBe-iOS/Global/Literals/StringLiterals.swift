@@ -62,4 +62,8 @@ enum StringLiterals {
         static let uploading = "게시 중..."
         static let uploaded = "게시 완료!"
     }
+    
+    enum MyPage {
+        static let MyPageNavigationTitle = "마이"
+    }
 }
