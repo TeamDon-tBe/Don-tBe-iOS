@@ -13,10 +13,6 @@ final class MyPageView: UIView {
 
     // MARK: - Properties
     
-    var dataViewControllers: [UIViewController] {
-        [self.myPageContentViewController, self.myPageCommentViewController]
-      }
-    
     // MARK: - UI Components
     
     private var myPageScrollView: UIScrollView = {
@@ -32,35 +28,7 @@ final class MyPageView: UIView {
     }()
     
     private var myPageProfileView = MyPageProfileView()
-    
-    let segmentedControl: UISegmentedControl = {
-        let segmentedControl = MyPageSegmentedControl(items: ["게시글", "답글"])
-        segmentedControl.backgroundColor = .donWhite
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.setTitleTextAttributes(
-            [
-                NSAttributedString.Key.foregroundColor: UIColor.donGray12,
-                .font: UIFont.font(.body1)
-            ], for: .normal
-        )
-        segmentedControl.setTitleTextAttributes(
-            [
-                NSAttributedString.Key.foregroundColor: UIColor.donPrimary,
-                .font: UIFont.font(.body1)
-            ],
-            for: .selected
-        )
-        return segmentedControl
-    }()
-    
-    lazy var pageViewController: UIPageViewController = {
-        let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
-        return vc
-    }()
-    
-    let myPageContentViewController = MyPageContentViewController()
-    let myPageCommentViewController = MyPageCommentViewController()
+    var myPageSegmentedControlView = MyPageSegmentedControlView()
     
     // MARK: - Life Cycles
     
@@ -84,15 +52,14 @@ final class MyPageView: UIView {
 
 extension MyPageView {
     private func setUI() {
-        self.backgroundColor = .donBlack
+        self.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
         self.addSubviews(myPageScrollView)
         myPageScrollView.addSubview(myPageContentView)
-        myPageContentView.addSubviews(myPageProfileView, 
-                                      segmentedControl,
-                                      pageViewController.view)
+        myPageContentView.addSubviews(myPageProfileView,
+                                      myPageSegmentedControlView)
     }
     
     private func setLayout() {
@@ -103,23 +70,17 @@ extension MyPageView {
         myPageContentView.snp.makeConstraints {
             $0.edges.equalTo(myPageScrollView)
             $0.width.equalTo(myPageScrollView.snp.width)
+            $0.height.equalTo(1000)
         }
         
         myPageProfileView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(300.adjusted)
+            $0.bottom.equalTo(myPageSegmentedControlView.snp.top)
         }
         
-        segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(myPageProfileView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(54.adjusted)
-        }
-        
-        pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom)
+        myPageSegmentedControlView.snp.makeConstraints {
+            $0.top.equalTo(myPageProfileView.transparencyInfoButton.snp.bottom).offset(25.adjusted)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1000.adjusted) // 임의 값 설정
         }
     }
     
