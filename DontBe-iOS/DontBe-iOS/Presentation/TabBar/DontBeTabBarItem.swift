@@ -43,8 +43,8 @@ enum DontBeTabBarItem: CaseIterable {
     var targetViewController: UIViewController? {
         switch self {
         case .home: return HomeViewController()
-        case .writing: return nil
-        case .notification: return nil
+        case .writing: return nil // 애니메이션 -> 다른 곳에서 뷰컨 연결
+        case .notification: return NotificationViewController()
         case .myPage: return MyPageViewController()
         }
     }
