@@ -148,7 +148,7 @@ extension OnboardingEndingViewController {
         output.voidPublisher
             .sink { value in
                 if value == "start" {
-                    let viewController = HomeViewController()
+                    let viewController = DontBeTabBarController()
                     print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
                     self.navigationController?.pushViewController(viewController, animated: true)
                 } else {
