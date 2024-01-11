@@ -159,6 +159,7 @@ extension OnboardingViewController {
     
     private func setAddTarget() {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
@@ -186,5 +187,11 @@ extension OnboardingViewController {
     private func backButtonTapped() {
         OnboardingViewController.pushCount -= 1
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func skipButtonTapped() {
+        let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel())
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

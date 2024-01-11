@@ -70,7 +70,7 @@ final class JoinProfileViewController: UIViewController {
 
 extension JoinProfileViewController {
     private func setUI() {
-        self.view.backgroundColor = .donWhite
+        self.view.backgroundColor = .donGray1
         self.navigationItem.title = StringLiterals.Join.joinNavigationTitle
     }
     
@@ -130,6 +130,12 @@ extension JoinProfileViewController {
 // MARK: - UITextFieldDelegate
 
 extension JoinProfileViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        // 키보드 내리면서 동작
+        textField.resignFirstResponder()
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let maxLength = 12 // 글자수 제한
         let oldText = textField.text ?? "" // 입력하기 전 textField에 표시되어있던 text

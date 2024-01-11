@@ -69,7 +69,7 @@ final class JoinAgreementViewController: UIViewController {
 
 extension JoinAgreementViewController {
     private func setUI() {
-        self.view.backgroundColor = .donWhite
+        self.view.backgroundColor = .donGray1
         self.navigationItem.title = StringLiterals.Join.joinNavigationTitle
     }
     
