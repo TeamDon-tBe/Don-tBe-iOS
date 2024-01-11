@@ -56,6 +56,7 @@
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
+		3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -71,6 +72,9 @@
 		3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12F2B4C2F740086E4A3 /* UIImageView+.swift */; };
 		3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1312B4C3C2D0086E4A3 /* UITextView+.swift */; };
 		3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */; };
+		3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */; };
+		3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEE4CBF2B500BE500F506AF /* TransparencyInfoDummy.swift */; };
+		3CEE4CC22B503F9E00F506AF /* DontBeCustomInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CEE4CC12B503F9E00F506AF /* DontBeCustomInfoView.swift */; };
 		3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */; };
 		3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CC2B4EEC1900816D5F /* MyPageView.swift */; };
 		3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */; };
@@ -125,6 +129,7 @@
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
+		3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControlView.swift; sourceTree = "<group>"; };
 		3C6192E92B3A719A00220CEB /* DontBe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontBe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C6192EC2B3A719A00220CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -142,6 +147,9 @@
 		3CE9C12F2B4C2F740086E4A3 /* UIImageView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+.swift"; sourceTree = "<group>"; };
 		3CE9C1312B4C3C2D0086E4A3 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressbar.swift; sourceTree = "<group>"; };
+		3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTransparencyInfoView.swift; sourceTree = "<group>"; };
+		3CEE4CBF2B500BE500F506AF /* TransparencyInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencyInfoDummy.swift; sourceTree = "<group>"; };
+		3CEE4CC12B503F9E00F506AF /* DontBeCustomInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeCustomInfoView.swift; sourceTree = "<group>"; };
 		3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3CF184CC2B4EEC1900816D5F /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileView.swift; sourceTree = "<group>"; };
@@ -508,6 +516,8 @@
 			children = (
 				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
+				3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */,
+				3CEE4CC12B503F9E00F506AF /* DontBeCustomInfoView.swift */,
 				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
 				2A2672042B4C3C00009D214F /* CancelBag.swift */,
 				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
@@ -517,11 +527,20 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		3CEE4CBE2B500BA900F506AF /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				3CEE4CBF2B500BE500F506AF /* TransparencyInfoDummy.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		3CF184C72B4EEBD200816D5F /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
 				3CF184C82B4EEBEA00816D5F /* Views */,
 				3CF184C92B4EEBF500816D5F /* ViewControllers */,
+				3CEE4CBE2B500BA900F506AF /* Helpers */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -531,6 +550,7 @@
 			children = (
 				3CF184CC2B4EEC1900816D5F /* MyPageView.swift */,
 				3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */,
+				3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */,
 				3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */,
 			);
 			path = Views;
@@ -635,12 +655,14 @@
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
+				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
 				2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */,
 				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
 				2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				2A8D70D12B4DD356009F4C6C /* JoinAgreementViewController.swift in Sources */,
+				3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
@@ -669,6 +691,7 @@
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
+				3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */,
 				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */,
@@ -689,6 +712,7 @@
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,
 				3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */,
+				3CEE4CC22B503F9E00F506AF /* DontBeCustomInfoView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
