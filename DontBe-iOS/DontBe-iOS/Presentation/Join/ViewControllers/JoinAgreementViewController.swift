@@ -4,7 +4,7 @@
 //
 //  Created by 변희주 on 1/10/24.
 //
-
+import Combine
 import UIKit
 
 import SnapKit
@@ -16,17 +16,18 @@ final class JoinAgreementViewController: UIViewController {
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
     
-    private lazy var backButtonTapped = navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var backButtonTapped = self.navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var allCheckButtonTapped = self.originView.allCheck.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var firstCheck = self.originView.firstCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var secondCheck = self.originView.secondCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var thirdCheck = self.originView.thirdCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var fourtchCheck = self.originView.fourthCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var nextButtonTapped = self.originView.nextActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     
     // MARK: - UI Components
     
-    private let navigationBackButton = BackButton()
+    private var navigationBackButton = BackButton()
     private let originView = JoinAgreeView()
     
     // MARK: - Life Cycles
@@ -51,16 +52,16 @@ final class JoinAgreementViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
-        setHierarchy()
-        setLayout()
         bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = true
+        setHierarchy()
+        setLayout()
     }
 }
 
@@ -74,7 +75,6 @@ extension JoinAgreementViewController {
     
     private func setHierarchy() {
         self.navigationController?.navigationBar.addSubviews(navigationBackButton)
-        
     }
     
     private func setLayout() {
@@ -91,7 +91,8 @@ extension JoinAgreementViewController {
             firstCheckButtonTapped: firstCheck,
             secondCheckButtonTapped: secondCheck,
             thirdCheckButtonTapped: thirdCheck,
-            fourthCheckButtonTapped: fourtchCheck)
+            fourthCheckButtonTapped: fourtchCheck,
+            nextButtonTapped: nextButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -156,6 +157,13 @@ extension JoinAgreementViewController {
                     self.originView.nextActiveButton.isHidden = true
                     self.originView.allCheck.checkButton.setImage(ImageLiterals.Join.btnNotCheckBox, for: .normal)
                 }
+            }
+            .store(in: self.cancelBag)
+        
+        output.pushViewController
+            .sink { _ in
+                let viewController = JoinProfileViewController(viewModel: JoinProfileViewModel())
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
     }

@@ -36,7 +36,7 @@ final class OnboardingEndingViewController: UIViewController {
     
     private let profileImage: UIImageView = {
         let profile = UIImageView()
-        profile.image = ImageLiterals.Onboarding.imgProfile
+        profile.image = ImageLiterals.Common.imgProfile
         return profile
     }()
 
@@ -148,7 +148,7 @@ extension OnboardingEndingViewController {
         output.voidPublisher
             .sink { value in
                 if value == "start" {
-                    let viewController = OnboardingViewController()
+                    let viewController = DontBeTabBarController()
                     print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
                     self.navigationController?.pushViewController(viewController, animated: true)
                 } else {
