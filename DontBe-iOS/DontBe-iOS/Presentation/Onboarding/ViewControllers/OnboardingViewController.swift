@@ -15,6 +15,7 @@ final class OnboardingViewController: UIViewController {
 
     static var pushCount: Int = 0
     private let dummy = OnboardingDummy.dummy()
+    private let isExistUser: Bool = true
     
     // MARK: - UI Components
     
@@ -139,14 +140,21 @@ extension OnboardingViewController {
             }
         }
         
-        nextButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-        
-        skipButton.snp.makeConstraints {
-            $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
-            $0.centerX.equalToSuperview()
+        if isExistUser {
+            nextButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+            
+            skipButton.snp.makeConstraints {
+                $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+        } else {
+            nextButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(29.adjusted)
+                $0.centerX.equalToSuperview()
+            }
         }
     }
     

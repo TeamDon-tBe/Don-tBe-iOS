@@ -18,6 +18,7 @@ final class OnboardingEndingViewController: UIViewController {
     private let viewModel: OnboardingEndingViewModel
     private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var backButtonTapped = self.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private let isExistUser: Bool = true
 
     // MARK: - UI Components
     
@@ -130,14 +131,21 @@ extension OnboardingEndingViewController {
             $0.top.equalTo(profileImage).offset(50.adjusted)
         }
         
-        startButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-        
-        skipButton.snp.makeConstraints {
-            $0.top.equalTo(startButton.snp.bottom).offset(12.adjusted)
-            $0.centerX.equalToSuperview()
+        if isExistUser {
+            startButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+            
+            skipButton.snp.makeConstraints {
+                $0.top.equalTo(startButton.snp.bottom).offset(12.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+        } else {
+            startButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(29.adjusted)
+                $0.centerX.equalToSuperview()
+            }
         }
     }
     
