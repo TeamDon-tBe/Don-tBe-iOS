@@ -15,7 +15,6 @@ final class OnboardingViewController: UIViewController {
 
     static var pushCount: Int = 0
     private let dummy = OnboardingDummy.dummy()
-    private let isExistUser: Bool = true
     
     // MARK: - UI Components
     
@@ -140,7 +139,7 @@ extension OnboardingViewController {
             }
         }
         
-        if isExistUser {
+        if loadUserData()?.isSocialLogined == true {
             nextButton.snp.makeConstraints {
                 $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
                 $0.centerX.equalToSuperview()

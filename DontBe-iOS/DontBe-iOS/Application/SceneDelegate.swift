@@ -20,9 +20,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window?.makeKeyAndVisible()
         
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2.0) {
-            let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
+//            let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
 //            let navigationController = UINavigationController(rootViewController: DontBeTabBarController())
-            self.window?.rootViewController = navigationController
+            if loadUserData()?.isSocialLogined == true && loadUserData()?.isJoinedApp == true && loadUserData()?.isOnboardingFinished == true {
+                let navigationController = UINavigationController(rootViewController: DontBeTabBarController())
+                self.window?.rootViewController = navigationController
+            } else if loadUserData()?.isJoinedApp == false {
+                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
+                self.window?.rootViewController = navigationController
+            } else if loadUserData()?.isOnboardingFinished == false {
+                let navigationController = UINavigationController(rootViewController: OnboardingViewController())
+                self.window?.rootViewController = navigationController
+            } else {
+                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel()))
+                self.window?.rootViewController = navigationController
+            }
             self.window?.makeKeyAndVisible()
         }
     }

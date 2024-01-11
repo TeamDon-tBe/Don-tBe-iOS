@@ -16,10 +16,14 @@ final class OnboardingEndingViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
-    private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _
+        in saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? true,
+                                 isJoinedApp: true, 
+                                 isOnboardingFinished: true,
+                                 userNickname: loadUserData()?.userNickname ?? ""))
+    }.eraseToAnyPublisher()
     private lazy var backButtonTapped = self.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    private let isExistUser: Bool = true
-
+    
     // MARK: - UI Components
     
     private let progressImage: UIImageView = {
@@ -131,7 +135,7 @@ extension OnboardingEndingViewController {
             $0.top.equalTo(profileImage).offset(50.adjusted)
         }
         
-        if isExistUser {
+        if loadUserData()?.isSocialLogined == true {
             startButton.snp.makeConstraints {
                 $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
                 $0.centerX.equalToSuperview()
