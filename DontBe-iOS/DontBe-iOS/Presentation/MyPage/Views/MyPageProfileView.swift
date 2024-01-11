@@ -87,7 +87,7 @@ final class MyPageProfileView: UIView {
         button.semanticContentAttribute = .forceRightToLeft // 이미지를 버튼 오른쪽에 표시하도록 설정
         
         var config = UIButton.Configuration.plain()
-        config.imagePadding = 4
+        config.imagePadding = 4.adjusted
         button.configuration = config
         return button
     }()
