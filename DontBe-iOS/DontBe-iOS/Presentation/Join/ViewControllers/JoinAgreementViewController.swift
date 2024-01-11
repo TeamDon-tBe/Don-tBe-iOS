@@ -163,6 +163,7 @@ extension JoinAgreementViewController {
         output.pushViewController
             .sink { _ in
                 let viewController = JoinProfileViewController(viewModel: JoinProfileViewModel())
+                self.navigationBackButton.removeFromSuperview()
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

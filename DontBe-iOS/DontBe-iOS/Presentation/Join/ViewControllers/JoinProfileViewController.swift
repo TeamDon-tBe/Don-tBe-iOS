@@ -105,6 +105,7 @@ extension JoinProfileViewController {
                     UserDefaults.standard.set(userNickname.userNickname, forKey: "nickname")
                     
                     let viewContoller = OnboardingViewController()
+                    self.navigationBackButton.removeFromSuperview()
                     self.navigationController?.pushViewController(viewContoller, animated: true)
                 }
             }
@@ -112,6 +113,7 @@ extension JoinProfileViewController {
         
         output.isEnable
             .sink { isTrue in
+                self.originView.nickNameTextField.resignFirstResponder()
                 self.originView.finishActiveButton.isHidden = !isTrue
                 if isTrue {
                     self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass

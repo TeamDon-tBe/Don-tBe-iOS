@@ -68,6 +68,7 @@ final class OnboardingEndingViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
+        setDelegate()
         bindViewModel()
     }
     
@@ -140,6 +141,10 @@ extension OnboardingEndingViewController {
         }
     }
     
+    private func setDelegate() {
+        self.introductionView.introduction.delegate = self
+    }
+    
     private func bindViewModel() {
         let input = OnboardingEndingViewModel.Input(startButtonTapped: startButtonTapped, backButtonTapped: backButtonTapped)
         
@@ -154,8 +159,15 @@ extension OnboardingEndingViewController {
                 } else {
                     self.navigationController?.popViewController(animated: true)
                 }
-                
             }
             .store(in: self.cancelBag)
+    }
+}
+
+extension OnboardingEndingViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool{
+        // 키보드 내리면서 동작
+        textField.resignFirstResponder()
+        return true
     }
 }
