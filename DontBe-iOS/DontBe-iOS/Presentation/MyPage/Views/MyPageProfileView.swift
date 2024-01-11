@@ -33,7 +33,7 @@ final class MyPageProfileView: UIView {
         label.text = "안녕하세요반가와요우히히"
         label.textColor = .donWhite
         label.textAlignment = .center
-        label.font = UIFont.font(.head3)
+        label.font = .font(.head3)
         return label
     }()
     
@@ -42,7 +42,7 @@ final class MyPageProfileView: UIView {
         label.text = "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히"
         label.textColor = .donGray7
         label.textAlignment = .center
-        label.font = UIFont.font(.caption2)
+        label.font = .font(.caption2)
         label.numberOfLines = 2
         return label
     }()
@@ -83,7 +83,7 @@ final class MyPageProfileView: UIView {
         button.imageView?.frame = CGRect(x: 0, y: 0, width: 12.adjusted, height: 12.adjusted)
         button.setTitle("투명도", for: .normal)
         button.setTitleColor(.donGray6, for: .normal)
-        button.titleLabel?.font = UIFont.font(.body4)
+        button.titleLabel?.font = .font(.body4)
         button.semanticContentAttribute = .forceRightToLeft // 이미지를 버튼 오른쪽에 표시하도록 설정
         
         var config = UIButton.Configuration.plain()
