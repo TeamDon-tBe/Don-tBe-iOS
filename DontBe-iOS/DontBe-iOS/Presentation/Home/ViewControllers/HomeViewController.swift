@@ -23,6 +23,8 @@ final class HomeViewController: UIViewController {
     private lazy var homeCollectionView = HomeCollectionView().collectionView
     private let uploadToastView = DontBeToastView()
     
+    private let transparentButtonPopupView = DontBePopupView(popupImage: UIImage(named: "transparentPopUp"), popupTitle: StringLiterals.Home.transparentPopupTitleLabel, popupContent: StringLiterals.Home.transparentPopupContentLabel, leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle, rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
+    
     // MARK: - Life Cycles
     
     override func loadView() {
@@ -58,11 +60,13 @@ extension HomeViewController {
         self.view.backgroundColor = UIColor.donGray1
         self.navigationController?.navigationBar.isHidden = true
         uploadToastView.alpha = 0
+        transparentButtonPopupView.alpha = 0
     }
     
     private func setHierarchy() {
         view.addSubviews(homeCollectionView,
-                         uploadToastView)
+                         uploadToastView,
+                         transparentButtonPopupView)
     }
     
     private func setLayout() {
@@ -77,11 +81,17 @@ extension HomeViewController {
             $0.bottom.equalTo(tabBarHeight).inset(6.adjusted)
             $0.height.equalTo(44)
         }
+        
+        transparentButtonPopupView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
     }
     
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
+        transparentButtonPopupView.delegate = self
     }
     
     private func setNotification() {
@@ -154,6 +164,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         }
+        cell.TransparentButtonAction = {
+            self.transparentButtonPopupView.alpha = 1
+        }
         return cell
     }
     
@@ -169,6 +182,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
-        
+    }
+}
+
+extension HomeViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        transparentButtonPopupView.alpha = 0
+    }
+    
+    func confirmButtonTapped() {
+        transparentButtonPopupView.alpha = 0
+        // ✅ 투명도 주기 버튼 클릭 시 액션 추가
     }
 }

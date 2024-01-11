@@ -66,4 +66,11 @@ enum StringLiterals {
     enum MyPage {
         static let MyPageNavigationTitle = "마이"
     }
+    
+    enum Home {
+        static let transparentPopupTitleLabel = "투명도 주기"
+        static let transparentPopupContentLabel = "지금 누르신 투명도 기능이 Don’t be를 더 온화한 커뮤니티로 만들기 위한 일이겠죠?"
+        static let transparentPopupLefteftButtonTitle = "조금 더 고민하기"
+        static let transparentPopupRightButtonTitle = "네, 맞아요"
+    }
 }
