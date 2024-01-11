@@ -23,4 +23,13 @@ extension UILabel {
             self.attributedText = attrString
         }
     }
+    
+    /// 특정 텍스트만 폰트를 다르게 주는 함수
+    func asFont(targetString: String, font: UIFont) {
+        let fullText = text ?? ""
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let range = (fullText as NSString).range(of: targetString)
+        attributedString.addAttribute(.font, value: font, range: range)
+        attributedText = attributedString
+    }
 }

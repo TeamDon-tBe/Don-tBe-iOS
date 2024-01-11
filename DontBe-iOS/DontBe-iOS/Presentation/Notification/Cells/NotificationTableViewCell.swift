@@ -17,10 +17,12 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     
     private let profileImage = UIImageView()
     private var notificationLabel: UILabel = {
-        let description = UILabel()
-        description.textColor = .donGray12
-        description.font = .font(.body4)
-        return description
+        let notificationLabel = UILabel()
+        notificationLabel.textColor = .donGray12
+        notificationLabel.font = .font(.body4)
+        notificationLabel.numberOfLines = 0  // 여러 줄 지원
+        notificationLabel.lineBreakMode = .byCharWrapping
+        return notificationLabel
     }()
     private let minutes: UILabel = {
         let minutes = UILabel()
@@ -54,6 +56,11 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     func configureCell(item: NotificationDummy) {
         profileImage.setCircularImage(image: item.profile)
         notificationLabel.text = item.userName + " " + item.description
+        if item.description == StringLiterals.Notification.violation {
+            notificationLabel.asFont(targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation, font: .font(.body3))
+        } else {
+            notificationLabel.asFont(targetString: item.userName, font: .font(.body3))
+        }
         minutes.text = item.minutes
     }
 }
@@ -84,8 +91,8 @@ extension NotificationTableViewCell {
         
         notificationLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(profileImage.snp.trailing).offset(14.adjusted)
-            $0.trailing.equalTo(minutes.snp.leading).offset(-14.adjusted)
+            $0.leading.equalToSuperview().inset(70.adjusted)
+            $0.trailing.equalToSuperview().inset(63.adjusted)
         }
         
         minutes.snp.makeConstraints {

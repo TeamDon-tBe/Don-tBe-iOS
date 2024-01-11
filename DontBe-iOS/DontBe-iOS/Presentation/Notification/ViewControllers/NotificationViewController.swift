@@ -16,9 +16,9 @@ final class NotificationViewController: UIViewController {
     private let dummy = NotificationDummy.dummy()
     
     // MARK: - UI Components
-    
+
     private let notificationTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
@@ -26,6 +26,13 @@ final class NotificationViewController: UIViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         return tableView
     }()
+    
+    private let notificationTableFooterView: UIView = {
+        let notificationTableFooterView = UIView()
+        notificationTableFooterView.backgroundColor = .donGray1
+        return notificationTableFooterView
+    }()
+
     
     // MARK: - Life Cycles
 
@@ -52,9 +59,10 @@ final class NotificationViewController: UIViewController {
 
 extension NotificationViewController {
     private func setUI() {
-        self.view.backgroundColor = .donGray1
+        self.view.backgroundColor = .donWhite
         self.navigationItem.title = StringLiterals.Notification.alarm
         self.navigationController?.navigationBar.barTintColor = .donWhite
+        self.navigationController?.navigationBar.tintColor = .donWhite
         self.navigationController?.navigationBar.backgroundColor = .donWhite
     }
     
@@ -64,9 +72,8 @@ extension NotificationViewController {
     
     private func setLayout() {
         notificationTableView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide).inset(6.adjusted)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(1000.adjusted)
+            $0.top.equalToSuperview().inset(statusBarHeight + 14.adjusted)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
     
@@ -91,5 +98,19 @@ extension NotificationViewController: UITableViewDataSource {
         cell.configureCell(item: dummy[indexPath.row])
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        
+        return UITableView.automaticDimension
+        
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return notificationTableFooterView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 59.adjusted
     }
 }
