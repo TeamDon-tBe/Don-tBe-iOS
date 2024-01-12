@@ -133,20 +133,22 @@ extension OnboardingView {
             }
         }
         
-        if loadUserData()?.isNotFirstUser == true {
-            nextButton.snp.makeConstraints {
-                $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(91.adjusted)
-                $0.centerX.equalToSuperview()
-            }
-            
-            skipButton.snp.makeConstraints {
-                $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
-                $0.centerX.equalToSuperview()
-            }
-        } else {
-            nextButton.snp.makeConstraints {
-                $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
-                $0.centerX.equalToSuperview()
+        DispatchQueue.main.async {
+            if loadUserData()?.isNotFirstUser == true {
+                self.nextButton.snp.makeConstraints {
+                    $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(91.adjusted)
+                    $0.centerX.equalToSuperview()
+                }
+                
+                self.skipButton.snp.makeConstraints {
+                    $0.top.equalTo(self.nextButton.snp.bottom).offset(12.adjusted)
+                    $0.centerX.equalToSuperview()
+                }
+            } else {
+                self.nextButton.snp.makeConstraints {
+                    $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
+                    $0.centerX.equalToSuperview()
+                }
             }
         }
     }

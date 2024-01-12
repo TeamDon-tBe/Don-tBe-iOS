@@ -123,14 +123,14 @@ extension LoginViewController {
                                       isNotFirstUser: false,
                                       isOnboardingFinished: false,
                                       userNickname: ""))
-                // 서버통신 -> 이미 로그인 유저면
+//                 서버통신 -> 이미 로그인 유저면
 //                let viewController = OnboardingViewController()
-                saveUserData(UserInfo(isSocialLogined: true,
-                                      isJoinedApp: true, 
-                                      isNotFirstUser: true,
-                                      isOnboardingFinished: false,
-                                      userNickname: ""))
-                self.navigationController?.pushViewController(viewController, animated: true)
+//                saveUserData(UserInfo(isSocialLogined: true,
+//                                      isJoinedApp: true, 
+//                                      isNotFirstUser: true,
+//                                      isOnboardingFinished: false,
+//                                      userNickname: ""))
+//                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
     }
