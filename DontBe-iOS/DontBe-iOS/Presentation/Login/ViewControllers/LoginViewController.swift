@@ -116,7 +116,15 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                // 서버통신 -> 첫 로그인 유저면 여기
+                 let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                saveUserData(UserInfo(isSocialLogined: true,
+                                      isJoinedApp: false,
+                                      isOnboardingFinished: false,
+                                      userNickname: ""))
+                // 서버통신 -> 이미 로그인 유저면
+//                let viewController = OnboardingViewController()
+//                saveUserData(UserInfo(isExist: true, userNickname: "벼니주")) // 서버통신 후에 실제 닉네임을 넣음 (뷰모델에서)
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

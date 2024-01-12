@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = [
             NSAttributedString.Key.font: UIFont.font(.body1),
             NSAttributedString.Key.foregroundColor: UIColor.donBlack
-        ]
+        ] 
         
         KakaoSDK.initSDK(appKey: Bundle.main.object(forInfoDictionaryKey: Config.Keys.Plist.nativeAppKey) as? String ?? "")
         return true

@@ -139,19 +139,27 @@ extension OnboardingViewController {
             }
         }
         
-        nextButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-        
-        skipButton.snp.makeConstraints {
-            $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
-            $0.centerX.equalToSuperview()
+        if loadUserData()?.isSocialLogined == true {
+            nextButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+            
+            skipButton.snp.makeConstraints {
+                $0.top.equalTo(nextButton.snp.bottom).offset(12.adjusted)
+                $0.centerX.equalToSuperview()
+            }
+        } else {
+            nextButton.snp.makeConstraints {
+                $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(29.adjusted)
+                $0.centerX.equalToSuperview()
+            }
         }
     }
     
     private func setAddTarget() {
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        skipButton.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
     
@@ -179,5 +187,11 @@ extension OnboardingViewController {
     private func backButtonTapped() {
         OnboardingViewController.pushCount -= 1
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func skipButtonTapped() {
+        let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel())
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

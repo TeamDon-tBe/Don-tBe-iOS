@@ -19,7 +19,8 @@ enum ImageLiterals {
         static var icnHomeSelected: UIImage { .load(name: "icn_home_selected") }
         static var icnWriting: UIImage { .load(name: "icn_writing") }
         static var icnWritingSelected: UIImage { .load(name: "icn_writing_selected") }
-        static var icnNotification: UIImage { .load(name: "icn_notification") }
+        static var icnNotificationRead: UIImage { .load(name: "icn_notification").withRenderingMode(.alwaysOriginal) }
+        static var icnNotificationUnread: UIImage { .load(name: "icn_notification_unread").withRenderingMode(.alwaysOriginal) }
         static var icnNotificationSelected: UIImage { .load(name: "icn_notification_selected") }
         static var icnMyPage: UIImage { .load(name: "icn_mypage") }
         static var icnMyPageSelected: UIImage { .load(name: "icn_mypage_selected") }
@@ -72,6 +73,11 @@ enum ImageLiterals {
     
     enum Toast {
         static var icnCheck: UIImage { .load(name: "icn_check") }
+    }
+    
+    enum Notification {
+        static var imgDog: UIImage { .load(name: "img_dog") }
+        static var imgEmpty: UIImage { .load(name: "img_empty") }
     }
     
     enum MyPage {

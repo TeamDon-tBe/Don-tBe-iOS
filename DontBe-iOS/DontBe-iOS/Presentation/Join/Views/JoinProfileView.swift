@@ -95,7 +95,6 @@ final class JoinProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setHierarchy()
         setLayout()
     }
@@ -109,10 +108,6 @@ final class JoinProfileView: UIView {
 // MARK: - Extensions
 
 extension JoinProfileView {
-    func setUI() {
-        self.backgroundColor = .donWhite
-    }
-    
     func setHierarchy() {
         self.addSubviews(topDivisionLine,
                          profileImage,

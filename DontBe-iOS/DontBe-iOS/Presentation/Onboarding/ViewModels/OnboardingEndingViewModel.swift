@@ -12,8 +12,9 @@ final class OnboardingEndingViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     
     struct Input {
-        let startButtonTapped: AnyPublisher<Void, Never>
         let backButtonTapped: AnyPublisher<Void, Never>
+        let startButtonTapped: AnyPublisher<Void, Never>
+        let skipButtonTapped: AnyPublisher<Void, Never>
     }
     
     struct Output {
@@ -23,6 +24,13 @@ final class OnboardingEndingViewModel: ViewModelType {
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         let publisher = PassthroughSubject<String, Never>()
         
+        input.backButtonTapped
+            .sink { _ in 
+                // back 버튼 누르면 바로 신호보냄
+                publisher.send("back")
+            }
+            .store(in: self.cancelBag)
+        
         input.startButtonTapped
             .sink { _ in
                 // 온보딩 완료 서버통신
@@ -31,10 +39,10 @@ final class OnboardingEndingViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        input.backButtonTapped
-            .sink { _ in 
-                // back 버튼 누르면 바로 신호보냄
-                publisher.send("back")
+        input.skipButtonTapped
+            .sink { _ in
+                // 이때는 서버통신 X
+                publisher.send("skip")
             }
             .store(in: self.cancelBag)
         

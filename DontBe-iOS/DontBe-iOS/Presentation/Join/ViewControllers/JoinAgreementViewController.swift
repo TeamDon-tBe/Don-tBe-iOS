@@ -69,7 +69,7 @@ final class JoinAgreementViewController: UIViewController {
 
 extension JoinAgreementViewController {
     private func setUI() {
-        self.view.backgroundColor = .donWhite
+        self.view.backgroundColor = .donGray1
         self.navigationItem.title = StringLiterals.Join.joinNavigationTitle
     }
     
@@ -163,6 +163,7 @@ extension JoinAgreementViewController {
         output.pushViewController
             .sink { _ in
                 let viewController = JoinProfileViewController(viewModel: JoinProfileViewModel())
+                self.navigationBackButton.removeFromSuperview()
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

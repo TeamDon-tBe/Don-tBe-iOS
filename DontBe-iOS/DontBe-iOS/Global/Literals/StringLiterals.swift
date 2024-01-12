@@ -48,7 +48,7 @@ enum StringLiterals {
     
     enum Onboarding {
         static let placeHolder = "한문장으로 소개를 남겨주세요!"
-        static let information = "설정한 사진, 닉네임, 한줄소개는 설정에서 변경 가능해요!"
+        static let information = "설정한 사진, 닉네임, 한줄소개는 설정에서 변경 가능해요!\n작성한 한 줄 소개는 작성한 게시글로 업로드 돼요."
     }
     
     enum Button {
@@ -61,6 +61,21 @@ enum StringLiterals {
     enum Toast {
         static let uploading = "게시 중..."
         static let uploaded = "게시 완료!"
+    }
+    
+    enum Notification {
+        static let alarm = "알림"
+        static let likeContent = "님이 회원님의 글을 좋아합니다."
+        static let writeComment = "님이 답글을 작성했습니다."
+        static let likeComment = "님이 회원님의 답글을 좋아합니다."
+        static let welcome = "님, 이제 다시 글을 작성할 수 있어요! 오랜만에 인사를 남겨주세요!"
+        static let transparency = "님, 투명해져서 당분간 글을 작성할 수 없어요."
+        static let violation = "님 커뮤니티 활동 정책 위반으로 더이상 돈비를 이용할 수 없어요. 자세한 내용은 문의사항으로 남겨주세요."
+        static let emphasizeViolation = "님 커뮤니티 활동 정책 위반으로 더이상 돈비를 이용할 수 없어요."
+        static let contentTransparency = "님, 작성하신 게시글로 인해 점점 투명해지고 있어요."
+        static let commentTransparency = "님, 작성하신 답글로 인해 점점 투명해지고 있어요."
+        static let emptyTitle = "아직 받은 알림이 없어요."
+        static let emptyDescription = "새로운 소식이 도착하면 알려드릴게요."
     }
     
     enum MyPage {
