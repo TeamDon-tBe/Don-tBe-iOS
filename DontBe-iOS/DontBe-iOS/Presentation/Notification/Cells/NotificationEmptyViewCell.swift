@@ -37,7 +37,6 @@ final class NotificationEmptyViewCell: UITableViewCell, UITableViewCellRegistera
         return emptyDescirption
     }()
     
-    
     // MARK: - Life Cycles
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

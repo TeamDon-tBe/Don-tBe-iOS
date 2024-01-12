@@ -16,6 +16,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     // MARK: - UI Components
     
     private let profileImage = UIImageView()
+    
     let notificationLabel: UILabel = {
         let notificationLabel = UILabel()
         notificationLabel.textColor = .donGray12
@@ -24,6 +25,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         notificationLabel.lineBreakMode = .byCharWrapping
         return notificationLabel
     }()
+    
     private let minutes: UILabel = {
         let minutes = UILabel()
         minutes.textColor = .donGray8

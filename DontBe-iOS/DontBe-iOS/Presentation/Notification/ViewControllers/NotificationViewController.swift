@@ -32,9 +32,7 @@ final class NotificationViewController: UIViewController {
         return notificationTableFooterView
     }()
     
-    
     // MARK: - Life Cycles
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

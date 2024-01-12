@@ -56,7 +56,7 @@ extension UILabel {
     }
     
     class func lineNumber(label: UILabel, labelWidth: CGFloat) -> Int {
-        let boundingRect = label.text?.boundingRect(with: .zero, options: [.usesFontLeading], attributes: [.font: label.font!], context: nil)
+        let boundingRect = label.text?.boundingRect(with: .zero, options: [.usesFontLeading], attributes: [.font: label.font as Any], context: nil)
         return Int((boundingRect?.width ?? 0) / labelWidth + 1)
     }
 }
