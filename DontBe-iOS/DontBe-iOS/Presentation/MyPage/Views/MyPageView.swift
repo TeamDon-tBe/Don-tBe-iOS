@@ -10,12 +10,13 @@ import UIKit
 import SnapKit
 
 final class MyPageView: UIView {
-
+    
     // MARK: - Properties
     
-    var dataViewControllers: [UIViewController] {
-        [self.myPageContentViewController, self.myPageCommentViewController]
-      }
+    static var pushCount: Int = 0
+    private let dummy = TransparencyInfoDummy.dummy()
+    
+    var transparencyInfoView: DontBeTransparencyInfoView?
     
     // MARK: - UI Components
     
@@ -32,35 +33,11 @@ final class MyPageView: UIView {
     }()
     
     private var myPageProfileView = MyPageProfileView()
-    
-    let segmentedControl: UISegmentedControl = {
-        let segmentedControl = MyPageSegmentedControl(items: ["게시글", "답글"])
-        segmentedControl.backgroundColor = .donWhite
-        segmentedControl.selectedSegmentIndex = 0
-        segmentedControl.setTitleTextAttributes(
-            [
-                NSAttributedString.Key.foregroundColor: UIColor.donGray12,
-                .font: UIFont.font(.body1)
-            ], for: .normal
-        )
-        segmentedControl.setTitleTextAttributes(
-            [
-                NSAttributedString.Key.foregroundColor: UIColor.donPrimary,
-                .font: UIFont.font(.body1)
-            ],
-            for: .selected
-        )
-        return segmentedControl
-    }()
-    
-    lazy var pageViewController: UIPageViewController = {
-        let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
-        return vc
-    }()
-    
-    let myPageContentViewController = MyPageContentViewController()
-    let myPageCommentViewController = MyPageCommentViewController()
+    var myPageSegmentedControlView = MyPageSegmentedControlView()
+    var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,
+                                                  accountInfoImage: ImageLiterals.MyPage.btnAccount,
+                                                  feedbackImage: ImageLiterals.MyPage.btnFeedback,
+                                                  customerCenterImage: ImageLiterals.MyPage.btnCustomerCenter)
     
     // MARK: - Life Cycles
     
@@ -71,7 +48,6 @@ final class MyPageView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -84,15 +60,14 @@ final class MyPageView: UIView {
 
 extension MyPageView {
     private func setUI() {
-        self.backgroundColor = .donBlack
+        self.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
         self.addSubviews(myPageScrollView)
         myPageScrollView.addSubview(myPageContentView)
-        myPageContentView.addSubviews(myPageProfileView, 
-                                      segmentedControl,
-                                      pageViewController.view)
+        myPageContentView.addSubviews(myPageProfileView,
+                                      myPageSegmentedControlView)
     }
     
     private func setLayout() {
@@ -103,35 +78,80 @@ extension MyPageView {
         myPageContentView.snp.makeConstraints {
             $0.edges.equalTo(myPageScrollView)
             $0.width.equalTo(myPageScrollView.snp.width)
+            $0.height.equalTo(1000)
         }
         
         myPageProfileView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(300.adjusted)
+            $0.bottom.equalTo(myPageSegmentedControlView.snp.top)
         }
         
-        segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(myPageProfileView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(54.adjusted)
-        }
-        
-        pageViewController.view.snp.makeConstraints {
-            $0.top.equalTo(segmentedControl.snp.bottom)
+        myPageSegmentedControlView.snp.makeConstraints {
+            $0.top.equalTo(myPageProfileView.transparencyInfoButton.snp.bottom).offset(25.adjusted)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(1000.adjusted) // 임의 값 설정
         }
     }
     
     private func setAddTarget() {
+        self.myPageProfileView.transparencyInfoButton.addTarget(self, action: #selector(infoButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc
+    private func infoButtonTapped() {
+        self.myPageScrollView.isScrollEnabled = false
+        
+        transparencyInfoView = DontBeTransparencyInfoView()
+        myPageContentView.addSubview(transparencyInfoView!)
+        
+        transparencyInfoView?.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        transparencyInfoView?.bringSubviewToFront(myPageContentView)
+        transparencyInfoView?.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        transparencyInfoView?.infoScrollView.delegate = self
+    }
+    
+    @objc
+    private func closeButtonTapped() {        
+        self.transparencyInfoView?.removeFromSuperview()
+    }
+    
+    private func setTransparencyInfoView(view: DontBeCustomInfoView) {
+        view.InfoImage.image = self.dummy[MyPageView.pushCount].infoImage
+        view.title.text = self.dummy[MyPageView.pushCount].title
+        view.content.text = self.dummy[MyPageView.pushCount].content
+    }
+}
 
-    }
-    
-    private func setRegisterCell() {
+extension MyPageView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.frame.size.width
+        var currentPage = Int((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1
         
-    }
-    
-    private func setDataBind() {
+        if ((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) < 0 {
+            currentPage = 0
+        }
         
+        switch currentPage {
+        case 0:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar1
+        case 1:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar2
+        case 2:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar3
+        case 3:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar4
+        case 4:
+            transparencyInfoView?.progressImage.image = ImageLiterals.TransparencyInfo.progressbar5
+        default:
+            break
+        }
+        
+        let allowedRange = 0..<5
+        if !allowedRange.contains(currentPage) {
+            let targetOffsetX = CGFloat(min(max(allowedRange.lowerBound, currentPage), allowedRange.upperBound - 1)) * scrollView.frame.size.width
+            scrollView.setContentOffset(CGPoint(x: targetOffsetX, y: 0), animated: true)
+        }
     }
 }
