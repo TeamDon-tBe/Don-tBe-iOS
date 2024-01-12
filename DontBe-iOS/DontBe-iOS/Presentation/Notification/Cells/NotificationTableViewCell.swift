@@ -74,7 +74,7 @@ extension NotificationTableViewCell {
         profileImage.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.top.leading.equalToSuperview().inset(14.adjusted)
-            $0.size.equalTo(42.adjusted)
+            $0.size.equalTo(42.adjusted).priority(.low)
         }
         
         notificationLabel.snp.makeConstraints {

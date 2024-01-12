@@ -17,7 +17,7 @@ final class DontBeTabBarController: UITabBarController {
         self.setUI()
         self.setTabBarController()
         self.setInitialFont()
-        self.delegate = self
+        self.getTabBarBadgeAPI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,8 +40,10 @@ final class DontBeTabBarController: UITabBarController {
     // MARK: - Set UI
     
     private func setUI() {
+        self.delegate = self
         self.tabBar.backgroundColor = UIColor.donWhite // 탭바 배경색 설정
         self.tabBar.isTranslucent = false // 배경이 투명하지 않도록 설정
+        self.tabBar.clipsToBounds = true // 탭바 위쪽에 선 생기는 거 없앰
     }
     
     // MARK: - Methods
@@ -111,22 +113,29 @@ final class DontBeTabBarController: UITabBarController {
         }
         tabBarItem.setTitleTextAttributes(attributes, for: .normal)
     }
+    
+    private func getTabBarBadgeAPI() {
+        // 서버통신 -> 알림이 있으면 아래코드 처리
+        // 현재는 앱 처음 시작할 때만 badge가 보임 -> 알림 탭 누르면 아예 기본으로 변경됨
+        self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationUnread
+    }
 }
 
 extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
         if selectedIndex == 1 {
             self.selectedIndex = 0
+        }
+        
+        if selectedIndex == 2 {
+            self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationRead
         }
         
         if let selectedViewController = tabBarController.selectedViewController {
             applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
-        
         let myViewController = tabBarController.viewControllers ?? [UIViewController()]
-        
         for (index, controller) in myViewController.enumerated() {
             if let tabBarItem = controller.tabBarItem {
                 if index != tabBarController.selectedIndex {
@@ -138,12 +147,10 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let index = viewControllers?.firstIndex(of: viewController)
-        
         if index == 1 {
             let destinationViewController = WriteViewController()
             self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
-        
         return true
     }
 }

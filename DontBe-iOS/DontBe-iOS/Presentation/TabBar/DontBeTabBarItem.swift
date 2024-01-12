@@ -17,7 +17,7 @@ enum DontBeTabBarItem: CaseIterable {
         switch self {
         case .home: return ImageLiterals.TabBar.icnHome
         case .writing: return ImageLiterals.TabBar.icnWriting
-        case .notification: return ImageLiterals.TabBar.icnNotification
+        case .notification: return ImageLiterals.TabBar.icnNotificationRead
         case .myPage: return ImageLiterals.TabBar.icnMyPage
         }
     }
