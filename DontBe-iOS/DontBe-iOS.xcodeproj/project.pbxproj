@@ -40,6 +40,8 @@
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
 		2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */; };
 		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
+		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
+		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
 		2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735412B4BE66500E55552 /* HomeViewController.swift */; };
 		2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735432B4BE67300E55552 /* HomeViewModel.swift */; };
@@ -113,6 +115,8 @@
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementListCustomView.swift; sourceTree = "<group>"; };
 		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
+		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
+		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2F8735412B4BE66500E55552 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2F8735432B4BE67300E55552 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -398,6 +402,7 @@
 				2A8D70C42B4D8079009F4C6C /* UIViewController+.swift */,
 				2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */,
 				2A31FF562B4F1E0400FEEED9 /* String+.swift */,
+				2F1741872B500C270089FC4D /* UIApplication+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -457,6 +462,7 @@
 				2F8735452B4C34A500E55552 /* HomeCollectionView.swift */,
 				2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */,
 				2F8735492B4C427000E55552 /* UICollectionViewRegisterable.swift */,
+				2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -653,6 +659,7 @@
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
+				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
@@ -709,6 +716,7 @@
 				3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
+				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,
 				3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */,

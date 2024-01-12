@@ -96,6 +96,10 @@ enum ImageLiterals {
         static var imgTransparencyInfo5: UIImage { .load(name: "img_transparenc_info5") }
         static var btnClose: UIImage { .load(name: "btn_close") }
     }
+
+    enum Popup {
+        static var transparentButtonImage: UIImage { .load(name: "transparentPopUp") }
+    }
 }
 
 extension UIImage {

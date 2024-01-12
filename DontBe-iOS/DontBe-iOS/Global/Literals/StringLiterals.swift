@@ -79,4 +79,11 @@ enum StringLiterals {
         static let content4 = "투명도가 -85%가 된 유저는\n더 이상 게시글과 답글을 작성할 수 없어요."
         static let content5 = "투명도는 최근 5일 동안 버튼이 적용된 내용을 반영해요.\n5일이 지나면 적용되었던 투명도가 다시 회복돼요."
     }
+    
+    enum Home {
+        static let transparentPopupTitleLabel = "투명도 주기"
+        static let transparentPopupContentLabel = "지금 누르신 투명도 기능이 Don’t be를 더 온화한 커뮤니티로 만들기 위한 일이겠죠?"
+        static let transparentPopupLefteftButtonTitle = "조금 더 고민하기"
+        static let transparentPopupRightButtonTitle = "네, 맞아요"
+    }
 }
