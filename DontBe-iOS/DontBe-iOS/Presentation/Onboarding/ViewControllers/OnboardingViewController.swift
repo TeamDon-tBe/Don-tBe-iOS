@@ -139,7 +139,7 @@ extension OnboardingViewController {
             }
         }
         
-        if loadUserData()?.isSocialLogined == true {
+        if loadUserData()?.isNotFirstUser == true {
             nextButton.snp.makeConstraints {
                 $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
                 $0.centerX.equalToSuperview()

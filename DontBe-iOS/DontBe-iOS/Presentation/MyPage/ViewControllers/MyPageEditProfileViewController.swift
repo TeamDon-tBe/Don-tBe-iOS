@@ -105,7 +105,6 @@ extension MyPageEditProfileViewController {
     
     @objc
     private func textFieldTisEmpty() {
-        print("dsafadsfdsafdsafadsf")
         self.editView.postButton.setTitleColor(.donGray9, for: .normal)
         self.editView.postButton.backgroundColor = .donGray4
         self.editView.postButton.isEnabled = false
