@@ -83,6 +83,8 @@ enum StringLiterals {
         static let MyPageNavigationTitle = "마이"
         static let MyPageEditNavigationTitle = "프로필 편집"
         static let MyPageAccountInfoNavigationTitle = "계정 정보"
+        static let myPageEditIntroduction = "한줄 소개"
+        static let myPageEditIntroductionPlease = "한 줄로 자신을 소개해주세요."
     }
     
     enum TransparencyInfo {

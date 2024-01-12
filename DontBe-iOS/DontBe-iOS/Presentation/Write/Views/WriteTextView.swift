@@ -38,8 +38,7 @@ final class WriteTextView: UIView {
         textView.textColor = .donBlack
         textView.tintColor = .donPrimary
         textView.backgroundColor = .clear
-        textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder)
-        
+        textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainer.lineBreakMode = .byWordWrapping
