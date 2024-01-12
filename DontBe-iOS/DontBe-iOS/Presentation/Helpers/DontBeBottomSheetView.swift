@@ -116,21 +116,21 @@ extension DontBeBottomSheetView {
     
     private func setLayout() {
         bottomsheetView.snp.makeConstraints {
-            $0.height.equalTo(155)
+            $0.height.equalTo(155.adjusted)
         }
         
         dragIndicatorView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(50)
-            $0.height.equalTo(2)
-            $0.top.equalTo(19)
+            $0.width.equalTo(50.adjusted)
+            $0.height.equalTo(2.adjusted)
+            $0.top.equalTo(19.adjusted)
         }
         
         singleButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344)
-            $0.height.equalTo(60)
-            $0.top.equalTo(dragIndicatorView).offset(30)
+            $0.width.equalTo(344.adjusted)
+            $0.height.equalTo(60.adjusted)
+            $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
         }
     }
     
@@ -151,42 +151,42 @@ extension DontBeBottomSheetView {
     
     private func setMultiButtonLayout() {
         bottomsheetView.snp.makeConstraints {
-            $0.height.equalTo(365)
+            $0.height.equalTo(365.adjusted)
         }
         
         dragIndicatorView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(50)
-            $0.height.equalTo(2)
-            $0.top.equalTo(19)
+            $0.width.equalTo(50.adjusted)
+            $0.height.equalTo(2.adjusted)
+            $0.top.equalTo(19.adjusted)
         }
         
         profileEditButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344)
-            $0.height.equalTo(60)
-            $0.top.equalTo(dragIndicatorView).offset(30)
+            $0.width.equalTo(344.adjusted)
+            $0.height.equalTo(60.adjusted)
+            $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
         }
         
         accountInfoButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344)
-            $0.height.equalTo(60)
-            $0.top.equalTo(profileEditButton.snp.bottom).offset(10)
+            $0.width.equalTo(344.adjusted)
+            $0.height.equalTo(60.adjusted)
+            $0.top.equalTo(profileEditButton.snp.bottom).offset(10.adjusted)
         }
         
         feedbackButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344)
-            $0.height.equalTo(60)
-            $0.top.equalTo(accountInfoButton.snp.bottom).offset(10)
+            $0.width.equalTo(344.adjusted)
+            $0.height.equalTo(60.adjusted)
+            $0.top.equalTo(accountInfoButton.snp.bottom).offset(10.adjusted)
         }
         
         customerCenterButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344)
-            $0.height.equalTo(60)
-            $0.top.equalTo(feedbackButton.snp.bottom).offset(10)
+            $0.width.equalTo(344.adjusted)
+            $0.height.equalTo(60.adjusted)
+            $0.top.equalTo(feedbackButton.snp.bottom).offset(10.adjusted)
         }
     }
     
@@ -234,7 +234,7 @@ extension DontBeBottomSheetView {
         case .changed:
             self.center = CGPoint(x: initialPosition.x, y: initialPosition.y + translation.y)
         case .ended:
-            if self.frame.origin.y < 512 {
+            if self.frame.origin.y < 512.adjusted {
                 UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                     self.dimView.alpha = 0
                     if let window = UIApplication.shared.keyWindowInConnectedScenes {
