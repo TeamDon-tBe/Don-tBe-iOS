@@ -55,6 +55,7 @@ enum StringLiterals {
         static let skip = "건너뛰기"
         static let next = "다음으로"
         static let start = "시작하기"
+        static let later = "한 줄 소개 나중에 작성하기"
         static let finish = "완료하기"
         static let editFinish = "수정완료"
     }

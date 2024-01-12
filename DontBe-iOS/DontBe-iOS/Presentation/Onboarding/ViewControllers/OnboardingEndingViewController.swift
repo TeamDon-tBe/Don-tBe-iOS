@@ -25,7 +25,7 @@ final class OnboardingEndingViewController: UIViewController {
                                  isOnboardingFinished: true,
                                  userNickname: loadUserData()?.userNickname ?? ""))
     }.eraseToAnyPublisher()
-    private lazy var skipButtonTapped = self.originView.skipButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var skipButtonTapped = self.originView.laterButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     // MARK: - UI Components

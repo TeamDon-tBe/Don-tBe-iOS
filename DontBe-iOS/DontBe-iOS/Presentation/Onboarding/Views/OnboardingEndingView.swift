@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class OnboardingEndingView: UIView {
-
+    
     // MARK: - Properties
     
     // MARK: - UI Components
@@ -32,7 +32,7 @@ final class OnboardingEndingView: UIView {
         profile.image = ImageLiterals.Common.imgProfile
         return profile
     }()
-
+    
     let introductionView = IntroductionView()
     
     let backButton = BackButton()
@@ -48,7 +48,7 @@ final class OnboardingEndingView: UIView {
         return startButton
     }()
     
-    let skipButton = CustomButton(title: StringLiterals.Button.skip, backColor: .clear, titleColor: .donGray7)
+    let laterButton = CustomButton(title: StringLiterals.Button.later, backColor: .clear, titleColor: .donGray7)
     
     // MARK: - Life Cycles
     
@@ -71,21 +71,21 @@ final class OnboardingEndingView: UIView {
 extension OnboardingEndingView {
     private func setHierarchy() {
         self.addSubviews(backButton,
-                              progressImage,
-                              titleImage,
-                              profileImage,
-                              introductionView,
-                              startButton,
-                              skipButton)
+                         progressImage,
+                         titleImage,
+                         profileImage,
+                         introductionView,
+                         startButton,
+                         laterButton)
         self.bringSubviewToFront(profileImage)
     }
     
     private func setLayout() {
         let statusBarHeight = UIApplication.shared.connectedScenes
-                   .compactMap { $0 as? UIWindowScene }
-                   .first?
-                   .statusBarManager?
-                   .statusBarFrame.height ?? 20
+            .compactMap { $0 as? UIWindowScene }
+            .first?
+            .statusBarManager?
+            .statusBarFrame.height ?? 20
         
         backButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(statusBarHeight + 38.adjusted)
@@ -118,25 +118,17 @@ extension OnboardingEndingView {
             $0.top.equalTo(profileImage).offset(50.adjusted)
         }
         
-        if loadUserData()?.isNotFirstUser == true {
-            startButton.snp.makeConstraints {
-                $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(91.adjusted)
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(342.adjusted)
-                $0.height.equalTo(50.adjusted)
-            }
+        startButton.snp.makeConstraints {
+            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(91.adjusted)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(342.adjusted)
+            $0.height.equalTo(50.adjusted)
+        }
+        
+        laterButton.snp.makeConstraints {
+            $0.top.equalTo(startButton.snp.bottom).offset(12.adjusted)
+            $0.centerX.equalToSuperview()
             
-            skipButton.snp.makeConstraints {
-                $0.top.equalTo(startButton.snp.bottom).offset(12.adjusted)
-                $0.centerX.equalToSuperview()
-            }
-        } else {
-            startButton.snp.makeConstraints {
-                $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
-                $0.centerX.equalToSuperview()
-                $0.width.equalTo(342.adjusted)
-                $0.height.equalTo(50.adjusted)
-            }
         }
     }
     
