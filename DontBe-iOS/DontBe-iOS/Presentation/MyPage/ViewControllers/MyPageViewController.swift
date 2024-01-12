@@ -14,8 +14,8 @@ final class MyPageViewController: UIViewController {
     var currentPage: Int = 0 {
         didSet {
             let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
-            rootView.pageViewController.setViewControllers(
-                [rootView.dataViewControllers[self.currentPage]],
+            rootView.myPageSegmentedControlView.pageViewController.setViewControllers(
+                [rootView.myPageSegmentedControlView.dataViewControllers[self.currentPage]],
                 direction: direction,
                 animated: true,
                 completion: nil
@@ -62,12 +62,12 @@ extension MyPageViewController {
     }
     
     private func setDelegate() {
-        rootView.pageViewController.delegate = self
-        rootView.pageViewController.dataSource = self
+        rootView.myPageSegmentedControlView.pageViewController.delegate = self
+        rootView.myPageSegmentedControlView.pageViewController.dataSource = self
     }
     
     private func setAddTarget() {
-        rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+        rootView.myPageSegmentedControlView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
     }
     
     @objc private func changeValue(control: UISegmentedControl) {
@@ -90,10 +90,10 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
         guard
-            let index = rootView.dataViewControllers.firstIndex(of: viewController),
+            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController),
             index - 1 >= 0
         else { return nil }
-        return rootView.dataViewControllers[index - 1]
+        return rootView.myPageSegmentedControlView.dataViewControllers[index - 1]
     }
     
     func pageViewController(
@@ -101,10 +101,10 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
         guard
-            let index = rootView.dataViewControllers.firstIndex(of: viewController),
-            index + 1 < rootView.dataViewControllers.count
+            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController),
+            index + 1 < rootView.myPageSegmentedControlView.dataViewControllers.count
         else { return nil }
-        return rootView.dataViewControllers[index + 1]
+        return rootView.myPageSegmentedControlView.dataViewControllers[index + 1]
     }
     
     func pageViewController(
@@ -115,9 +115,9 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
     ) {
         guard
             let viewController = pageViewController.viewControllers?[0],
-            let index = rootView.dataViewControllers.firstIndex(of: viewController)
+            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController)
         else { return }
         self.currentPage = index
-        rootView.segmentedControl.selectedSegmentIndex = index
+        rootView.myPageSegmentedControlView.segmentedControl.selectedSegmentIndex = index
     }
 }

@@ -67,6 +67,19 @@ enum StringLiterals {
         static let MyPageNavigationTitle = "마이"
     }
     
+    enum TransparencyInfo {
+        static let title1 = "투명도가 무엇인가요?"
+        static let title2 = "게시글의 투명도 주기 버튼을 클릭하면,"
+        static let title3 = "게시글의 투명도 주기 버튼을 클릭하면,"
+        static let title4 = "투명도가 너무 낮아지면\n활동에 제한이 생겨요."
+        static let title5 = "투명도 적용은 5일간 지속돼요."
+        static let content1 = "투명도는 돈비 커뮤니티의 온화함을 만들어나가는\n기능으로, 상대의 감정을 반영한 온화 권장 수치예요."
+        static let content2 = "해당 유저가 작성한 모든 게시글, 답글이 -1%씩 점점\n투명해지고, 모두에게 투명도가 적용되어 보여져요."
+        static let content3 = "내가 투명도를 적용한 유저들의 활동은\n홈 화면에서 투명하게 보여져요."
+        static let content4 = "투명도가 -85%가 된 유저는\n더 이상 게시글과 답글을 작성할 수 없어요."
+        static let content5 = "투명도는 최근 5일 동안 버튼이 적용된 내용을 반영해요.\n5일이 지나면 적용되었던 투명도가 다시 회복돼요."
+    }
+    
     enum Home {
         static let transparentPopupTitleLabel = "투명도 주기"
         static let transparentPopupContentLabel = "지금 누르신 투명도 기능이 Don’t be를 더 온화한 커뮤니티로 만들기 위한 일이겠죠?"

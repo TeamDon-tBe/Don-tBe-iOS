@@ -37,7 +37,7 @@ final class MyPageProfileView: UIView {
         return label
     }()
     
-    private let userIntroduction: UILabel = {
+    let userIntroduction: UILabel = {
         let label = UILabel()
         label.text = "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히"
         label.textColor = .donGray7
@@ -76,7 +76,7 @@ final class MyPageProfileView: UIView {
         return imageView
     }()
     
-    private let transparencyInfoButton: UIButton = {
+    let transparencyInfoButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.MyPage.icnTransparencyInfo, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
@@ -168,13 +168,13 @@ extension MyPageProfileView {
         }
         
         emptyTransparencyPercentage.snp.makeConstraints {
-            $0.top.equalTo(userIntroduction.snp.bottom).offset(49.adjusted)
+            $0.top.equalTo(userIntroduction.snp.bottom).offset(48.adjusted)
             $0.leading.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(10.adjusted)
         }
         
         fullTransparencyPercentage.snp.makeConstraints {
-            $0.top.equalTo(userIntroduction.snp.bottom).offset(49.adjusted)
+            $0.top.equalTo(userIntroduction.snp.bottom).offset(48.adjusted)
             $0.leading.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(10.adjusted)
         }
