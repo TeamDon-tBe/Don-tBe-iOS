@@ -81,6 +81,10 @@ enum ImageLiterals {
         static var fullPercentage: UIImage { .load(name: "transparency percentage") }
         static var icnTransparencyInfo: UIImage { .load(name: "icn_transparency_info") }
         static var icnPercentageBox: UIImage { .load(name: "icn_percentage-box") }
+        static var btnEditProfile: UIImage { .load(name: "btn_editprofile") }
+        static var btnAccount: UIImage { .load(name: "btn_acoount") }
+        static var btnFeedback: UIImage { .load(name: "btn_feedback") }
+        static var btnCustomerCenter: UIImage { .load(name: "btn_customerCenter") }
     }
     
     enum TransparencyInfo {
