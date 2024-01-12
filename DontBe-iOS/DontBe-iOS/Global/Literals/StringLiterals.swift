@@ -88,4 +88,8 @@ enum StringLiterals {
         static let transparentPopupLefteftButtonTitle = "조금 더 고민하기"
         static let transparentPopupRightButtonTitle = "네, 맞아요"
     }
+    
+    enum Post {
+        static let navigationTitleLabel = "게시글"
+    }
 }
