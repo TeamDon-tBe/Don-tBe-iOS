@@ -16,7 +16,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     // MARK: - UI Components
     
     private let profileImage = UIImageView()
-    private var notificationLabel: UILabel = {
+    let notificationLabel: UILabel = {
         let notificationLabel = UILabel()
         notificationLabel.textColor = .donGray12
         notificationLabel.font = .font(.body4)
@@ -34,7 +34,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 13.adjusted, bottom: 4.adjusted, right: 13.adjusted))
+        self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 13.adjusted, bottom: 4.adjustedH, right: 13.adjusted))
     }
     
     // MARK: - Life Cycles
@@ -44,7 +44,6 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
 
         setUI()
         setHierarchy()
-        setLayout()
     }
     
     @available(*, unavailable)
@@ -57,11 +56,20 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         profileImage.setCircularImage(image: item.profile)
         notificationLabel.text = item.userName + " " + item.description
         if item.description == StringLiterals.Notification.violation {
-            notificationLabel.asFont(targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation, font: .font(.body3))
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text, 
+                lineHeight: 21.adjusted,
+                targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation,
+                font: .font(.body3))
         } else {
-            notificationLabel.asFont(targetString: item.userName, font: .font(.body3))
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                lineHeight: 21.adjusted,
+                targetString: item.userName,
+                font: .font(.body3))
         }
         minutes.text = item.minutes
+        setLayout()
     }
 }
 
@@ -96,7 +104,9 @@ extension NotificationTableViewCell {
         }
         
         minutes.snp.makeConstraints {
-            $0.top.trailing.equalToSuperview().inset(14.adjusted)
+            $0.top.equalTo(notificationLabel).offset(2.adjustedH)
+            $0.trailing.equalToSuperview().inset(14.adjusted)
+            $0.height.equalTo(18.adjusted)
         }
     }
 }

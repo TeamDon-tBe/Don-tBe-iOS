@@ -14,6 +14,7 @@ final class NotificationViewController: UIViewController {
     // MARK: - Properties
     
     private let dummy = NotificationDummy.dummy()
+    private var numsOfLinesOfCellLabel: Int = 0
     
     // MARK: - UI Components
 
@@ -21,8 +22,6 @@ final class NotificationViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
         tableView.separatorStyle = .none
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 70.adjusted
         tableView.contentInsetAdjustmentBehavior = .never
         return tableView
     }()
@@ -32,10 +31,10 @@ final class NotificationViewController: UIViewController {
         notificationTableFooterView.backgroundColor = .donGray1
         return notificationTableFooterView
     }()
-
+    
     
     // MARK: - Life Cycles
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,7 +86,26 @@ extension NotificationViewController {
     }
 }
 
-extension NotificationViewController: UITableViewDelegate { }
+extension NotificationViewController: UITableViewDelegate { 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if numsOfLinesOfCellLabel == 3 {
+            return 95.adjustedH
+        } else if numsOfLinesOfCellLabel == 4 {
+            return 116.adjustedH
+        } else {
+            return 74.adjustedH
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        return notificationTableFooterView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 59.adjusted
+    }
+}
+
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dummy.count
@@ -97,20 +115,8 @@ extension NotificationViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
         cell.configureCell(item: dummy[indexPath.row])
         cell.selectionStyle = .none
+        let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
+        numsOfLinesOfCellLabel = numsOflines
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-        return UITableView.automaticDimension
-        
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return notificationTableFooterView
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 59.adjusted
     }
 }
