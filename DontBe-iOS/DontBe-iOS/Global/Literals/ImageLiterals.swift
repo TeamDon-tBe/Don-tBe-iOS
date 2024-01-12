@@ -76,6 +76,7 @@ enum ImageLiterals {
     
     enum Notification {
         static var imgDog: UIImage { .load(name: "img_dog") }
+        static var imgEmpty: UIImage { .load(name: "img_empty") }
     }
     
     enum MyPage {

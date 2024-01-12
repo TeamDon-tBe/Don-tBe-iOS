@@ -19,7 +19,6 @@
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
 		2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */; };
-		2A5220F52B508142001510B7 /* NotificationEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F42B508142001510B7 /* NotificationEmptyView.swift */; };
 		2A5220F82B508177001510B7 /* NotificationDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F72B508177001510B7 /* NotificationDummy.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
@@ -47,6 +46,7 @@
 		2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */; };
 		2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */; };
 		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
+		2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
 		2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735412B4BE66500E55552 /* HomeViewController.swift */; };
 		2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735432B4BE67300E55552 /* HomeViewModel.swift */; };
@@ -97,7 +97,6 @@
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
-		2A5220F42B508142001510B7 /* NotificationEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmptyView.swift; sourceTree = "<group>"; };
 		2A5220F72B508177001510B7 /* NotificationDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDummy.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
@@ -123,6 +122,7 @@
 		2AAEFC982B4A9E3B00C2D323 /* DontBeTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeTabBarController.swift; sourceTree = "<group>"; };
 		2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementListCustomView.swift; sourceTree = "<group>"; };
 		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
+		2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmptyViewCell.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2F8735412B4BE66500E55552 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2F8735432B4BE67300E55552 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -227,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */,
+				2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -234,7 +235,6 @@
 		2A5220F32B508135001510B7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2A5220F42B508142001510B7 /* NotificationEmptyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -736,7 +736,6 @@
 				2A5220F82B508177001510B7 /* NotificationDummy.swift in Sources */,
 				2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */,
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,
-				2A5220F52B508142001510B7 /* NotificationEmptyView.swift in Sources */,
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
@@ -761,6 +760,7 @@
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
+				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,

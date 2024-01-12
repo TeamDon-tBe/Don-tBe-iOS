@@ -74,6 +74,8 @@ enum StringLiterals {
         static let emphasizeViolation = "님 커뮤니티 활동 정책 위반으로 더이상 돈비를 이용할 수 없어요."
         static let contentTransparency = "님, 작성하신 게시글로 인해 점점 투명해지고 있어요."
         static let commentTransparency = "님, 작성하신 답글로 인해 점점 투명해지고 있어요."
+        static let emptyTitle = "아직 받은 알림이 없어요."
+        static let emptyDescription = "새로운 소식이 도착하면 알려드릴게요."
     }
     
     enum MyPage {

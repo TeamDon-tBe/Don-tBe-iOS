@@ -44,32 +44,12 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
 
         setUI()
         setHierarchy()
+        setLayout()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    func configureCell(item: NotificationDummy) {
-        profileImage.setCircularImage(image: item.profile)
-        notificationLabel.text = item.userName + " " + item.description
-        if item.description == StringLiterals.Notification.violation {
-            notificationLabel.setTextWithLineHeightAndFont(
-                text: notificationLabel.text, 
-                lineHeight: 21.adjusted,
-                targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation,
-                font: .font(.body3))
-        } else {
-            notificationLabel.setTextWithLineHeightAndFont(
-                text: notificationLabel.text,
-                lineHeight: 21.adjusted,
-                targetString: item.userName,
-                font: .font(.body3))
-        }
-        minutes.text = item.minutes
-        setLayout()
     }
 }
 
@@ -108,5 +88,24 @@ extension NotificationTableViewCell {
             $0.trailing.equalToSuperview().inset(14.adjusted)
             $0.height.equalTo(18.adjusted)
         }
+    }
+    
+    func configureCell(item: NotificationDummy) {
+        profileImage.setCircularImage(image: item.profile)
+        notificationLabel.text = item.userName + " " + item.description
+        if item.description == StringLiterals.Notification.violation {
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                lineHeight: 21.adjusted,
+                targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation,
+                font: .font(.body3))
+        } else {
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                lineHeight: 21.adjusted,
+                targetString: item.userName,
+                font: .font(.body3))
+        }
+        minutes.text = item.minutes
     }
 }
