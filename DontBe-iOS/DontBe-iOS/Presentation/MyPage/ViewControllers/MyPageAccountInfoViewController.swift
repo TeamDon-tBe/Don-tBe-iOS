@@ -14,7 +14,7 @@ class MyPageAccountInfoViewController: UIViewController {
 
         tabBarController?.tabBar.isHidden = true
         self.view.backgroundColor = .donError
-        self.title = "계정 정보"
+        self.title = StringLiterals.MyPage.MyPageAccountInfoNavigationTitle
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -25,16 +25,6 @@ class MyPageAccountInfoViewController: UIViewController {
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     @objc
     private func backButtonPressed() {

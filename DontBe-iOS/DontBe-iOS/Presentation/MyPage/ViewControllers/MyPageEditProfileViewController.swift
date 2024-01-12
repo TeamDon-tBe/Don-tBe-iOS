@@ -8,16 +8,13 @@
 import UIKit
 
 class MyPageEditProfileViewController: UIViewController {
-    
-//    let backButton = UIBarButtonItem.setupBackButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         tabBarController?.tabBar.isHidden = true
-        tabBarController?.tabBar.isTranslucent = true
         self.view.backgroundColor = .donPrimary
-        self.title = "프로필 편집"
+        self.title = StringLiterals.MyPage.MyPageEditNavigationTitle
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,16 +25,6 @@ class MyPageEditProfileViewController: UIViewController {
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @objc
     private func backButtonPressed() {
