@@ -42,6 +42,12 @@ final class MyPageViewController: UIViewController {
         setDelegate()
         setAddTarget()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        tabBarController?.tabBar.isHidden = false
+    }
 }
 
 // MARK: - Extensions
@@ -54,9 +60,9 @@ extension MyPageViewController {
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
         let hambergerButton = UIBarButtonItem(image: renderedImage,
-                                           style: .plain,
-                                           target: self,
-                                           action: nil)
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(hambergerButtonTapped))
         
         navigationItem.rightBarButtonItem = hambergerButton
     }
@@ -68,11 +74,44 @@ extension MyPageViewController {
     
     private func setAddTarget() {
         rootView.myPageSegmentedControlView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+        rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
+        rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
+        rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
+        rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
     }
     
-    @objc private func changeValue(control: UISegmentedControl) {
-        // 코드로 값을 변경하면 해당 메소드 호출 x
+    @objc
+    private func changeValue(control: UISegmentedControl) {
         self.currentPage = control.selectedSegmentIndex
+    }
+    
+    @objc
+    private func hambergerButtonTapped() {
+        rootView.myPageBottomsheet.showSettings()
+    }
+    
+    @objc
+    private func profileEditButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
+        let vc = MyPageEditProfileViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func accountInfoButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
+        let vc = MyPageAccountInfoViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc
+    private func feedbackButtonTapped() {
+        
+    }
+    
+    @objc
+    private func customerCenterButtonTapped() {
+        
     }
 }
 
