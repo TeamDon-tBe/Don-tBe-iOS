@@ -109,7 +109,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private lazy var commentStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.addArrangedSubviews(commentButton, commentNumLabel)
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
         stackView.spacing = 0
@@ -180,6 +179,7 @@ extension HomeCollectionViewCell {
                                      ghostButton,
                                      verticalTextBarView)
         
+        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }

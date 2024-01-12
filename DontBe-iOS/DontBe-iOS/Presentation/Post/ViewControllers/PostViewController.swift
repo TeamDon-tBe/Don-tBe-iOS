@@ -13,7 +13,7 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let myView = ExampleView()
+    private let myView = PostDetailView()
     
     // MARK: - Life Cycles
     
@@ -48,7 +48,7 @@ final class PostViewController: UIViewController {
 extension PostViewController {
     private func setUI() {
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
-        view.backgroundColor = .brown
+        view.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
