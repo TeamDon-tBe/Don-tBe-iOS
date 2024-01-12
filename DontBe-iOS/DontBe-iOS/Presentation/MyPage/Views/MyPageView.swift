@@ -35,6 +35,16 @@ final class MyPageView: UIView {
     private var myPageProfileView = MyPageProfileView()
     var myPageSegmentedControlView = MyPageSegmentedControlView()
     
+    var profileEditButton = UIButton()
+    var accountInfoButton = UIButton()
+    var feedBackButton = UIButton()
+    var customerCenterButton = UIButton()
+    
+    var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,
+                                                  accountInfoImage: ImageLiterals.MyPage.btnAccount,
+                                                  feedbackImage: ImageLiterals.MyPage.btnFeedback,
+                                                  customerCenterImage: ImageLiterals.MyPage.btnCustomerCenter)
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
