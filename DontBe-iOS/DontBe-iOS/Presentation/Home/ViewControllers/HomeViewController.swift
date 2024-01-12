@@ -15,7 +15,8 @@ final class HomeViewController: UIViewController {
     
     var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
-    private var bottomsheet = HomeBottomsheetView()
+    
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     
     // MARK: - UI Components
     
@@ -161,7 +162,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         cell.KebabButtonAction = {
-            self.bottomsheet.showSettings()
+            self.deleteBottomsheet.showSettings()
         }
         cell.LikeButtonAction = {
             cell.isLiked.toggle()

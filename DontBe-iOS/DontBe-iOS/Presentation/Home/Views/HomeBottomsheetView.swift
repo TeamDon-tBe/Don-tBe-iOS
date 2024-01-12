@@ -19,7 +19,7 @@ final class HomeBottomsheetView: UIView {
     
     private let dimView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(white: 0, alpha: 0.5)
+        view.backgroundColor = .donBlack.withAlphaComponent(0.6)
         return view
     }()
     

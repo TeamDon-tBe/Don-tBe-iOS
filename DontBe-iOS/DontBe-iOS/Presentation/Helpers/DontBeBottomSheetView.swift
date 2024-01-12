@@ -37,7 +37,7 @@ final class DontBeBottomSheetView: UIView {
         return view
     }()
     
-    private let userActionButton: UIButton = {
+    let singleButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
         return button
@@ -69,10 +69,10 @@ final class DontBeBottomSheetView: UIView {
     
     // MARK: - Life Cycles
     
-    init(singleButton: UIButton) {
+    init(singleButtonImage: UIImage) {
         super.init(frame: .zero)
         
-        singleButton.setImage(ImageLiterals.MyPage.btnEditProfile, for: .normal)
+        singleButton.setImage(singleButtonImage, for: .normal)
         
         setUI()
         setHierarchy()
@@ -111,7 +111,7 @@ extension DontBeBottomSheetView {
         self.addSubviews(dimView,
                          bottomsheetView)
         bottomsheetView.addSubviews(dragIndicatorView,
-                                    userActionButton)
+                                    singleButton)
     }
     
     private func setLayout() {
@@ -126,7 +126,7 @@ extension DontBeBottomSheetView {
             $0.top.equalTo(19)
         }
         
-        userActionButton.snp.makeConstraints {
+        singleButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.width.equalTo(344)
             $0.height.equalTo(60)
@@ -191,7 +191,6 @@ extension DontBeBottomSheetView {
     }
     
     func showSettings() {
-        print("showSettings")
         if let window = UIApplication.shared.keyWindowInConnectedScenes {
             dimView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleDismiss)))
             
@@ -213,7 +212,6 @@ extension DontBeBottomSheetView {
     }
     
     @objc func handleDismiss() {
-        print("handleDismiss")
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.dimView.alpha = 0
@@ -228,7 +226,6 @@ extension DontBeBottomSheetView {
     }
     
     @objc private func handlepanGesture(_ gesture: UIPanGestureRecognizer) {
-        print("handlepanGesture")
         let translation = gesture.translation(in: self)
         
         switch gesture.state {
