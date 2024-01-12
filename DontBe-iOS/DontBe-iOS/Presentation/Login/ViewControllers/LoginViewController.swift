@@ -130,7 +130,7 @@ extension LoginViewController {
 //                                      isNotFirstUser: true,
 //                                      isOnboardingFinished: false,
 //                                      userNickname: ""))
-//                self.navigationController?.pushViewController(viewController, animated: true)
+                self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
     }
