@@ -50,6 +50,7 @@
 		2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */; };
 		2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */; };
 		2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */; };
+		2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
@@ -138,6 +139,7 @@
 		2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterable.swift; sourceTree = "<group>"; };
 		2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNicknameEditView.swift; sourceTree = "<group>"; };
 		2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageIntroductionEditView.swift; sourceTree = "<group>"; };
+		2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */,
+				2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */,
 				2A8868D52B5069790017513A /* OnboardingEndingView.swift */,
 			);
 			path = Views;
@@ -807,6 +810,7 @@
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
+				2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */,
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
 				2A8868DA2B506D720017513A /* NotificationViewController.swift in Sources */,
 				3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */,
