@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageEditTextView: UIView {
+final class MyPageIntroductionEditView: UIView {
 
     // MARK: - Properties
     
@@ -79,7 +79,7 @@ final class MyPageEditTextView: UIView {
 
 // MARK: - Extensions
 
-extension MyPageEditTextView {
+extension MyPageIntroductionEditView {
     func setDelegate() {
         self.contentTextView.delegate = self
     }
@@ -117,7 +117,7 @@ extension MyPageEditTextView {
     }
 }
 
-extension MyPageEditTextView: UITextViewDelegate {
+extension MyPageIntroductionEditView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let textLength = contentTextView.text.count
         textView.text = String(textView.text.prefix(maxLength))

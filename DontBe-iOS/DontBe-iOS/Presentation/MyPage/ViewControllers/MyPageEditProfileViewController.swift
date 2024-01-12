@@ -17,8 +17,8 @@ final class MyPageEditProfileViewController: UIViewController {
 
     // MARK: - UI Components
     
-    let originView = MyPageEditView()
-    let editView = MyPageEditTextView()
+    let originView = MyPageNicknameEditView()
+    let editView = MyPageIntroductionEditView()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)

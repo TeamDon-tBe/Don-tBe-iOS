@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageEditView: UIView {
+final class MyPageNicknameEditView: UIView {
 
     // MARK: - Properties
     
@@ -96,7 +96,7 @@ final class MyPageEditView: UIView {
 
 // MARK: - Extensions
 
-extension MyPageEditView {
+extension MyPageNicknameEditView {
     func setHierarchy() {
         self.addSubviews(topDivisionLine,
                          profileImage,
@@ -164,7 +164,7 @@ extension MyPageEditView {
 
 // MARK: - UITextFieldDelegate
 
-extension MyPageEditView: UITextFieldDelegate {
+extension MyPageNicknameEditView: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         // 키보드 내리면서 동작
