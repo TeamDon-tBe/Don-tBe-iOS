@@ -21,6 +21,7 @@ extension UILabel {
             let attrString = NSAttributedString(string: text,
                                                 attributes: attributes)
             self.attributedText = attrString
+            self.textAlignment = .center
         }
     }
     

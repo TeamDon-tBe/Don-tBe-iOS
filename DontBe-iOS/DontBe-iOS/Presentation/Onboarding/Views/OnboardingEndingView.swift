@@ -107,12 +107,12 @@ extension OnboardingEndingView {
         profileImage.snp.makeConstraints {
             $0.size.equalTo(100.adjusted)
             $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(statusBarHeight + 201.adjustedH)
+            $0.top.equalToSuperview().inset(statusBarHeight + 186.adjustedH)
         }
         
         introductionView.snp.makeConstraints {
             $0.width.equalTo(320.adjusted)
-            $0.height.equalTo(211.adjusted)
+            $0.height.equalTo(229.adjusted)
             $0.centerX.equalToSuperview()
             $0.top.equalTo(profileImage).offset(50.adjusted)
         }
