@@ -47,6 +47,7 @@
 		2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */; };
 		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
 		2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */; };
+		2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
@@ -54,7 +55,6 @@
 		2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735432B4BE67300E55552 /* HomeViewModel.swift */; };
 		2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735452B4C34A500E55552 /* HomeCollectionView.swift */; };
 		2F8735482B4C355100E55552 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */; };
-		2F87354A2B4C427000E55552 /* UICollectionViewRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735492B4C427000E55552 /* UICollectionViewRegisterable.swift */; };
 		2F87354C2B4D28D700E55552 /* HomeCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
@@ -133,6 +133,7 @@
 		2AC9FB1A2B4DE77400D31071 /* AgreementListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgreementListCustomView.swift; sourceTree = "<group>"; };
 		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
 		2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmptyViewCell.swift; sourceTree = "<group>"; };
+		2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterable.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -140,7 +141,6 @@
 		2F8735432B4BE67300E55552 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		2F8735452B4C34A500E55552 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
 		2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
-		2F8735492B4C427000E55552 /* UICollectionViewRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterable.swift; sourceTree = "<group>"; };
 		2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionFooterView.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
@@ -538,7 +538,6 @@
 				2F87353F2B4BE65300E55552 /* HomeView.swift */,
 				2F8735452B4C34A500E55552 /* HomeCollectionView.swift */,
 				2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */,
-				2F8735492B4C427000E55552 /* UICollectionViewRegisterable.swift */,
 				2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */,
 			);
 			path = Views;
@@ -597,6 +596,7 @@
 		3CE9C1332B4C4BA90086E4A3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */,
 				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 				3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */,
@@ -607,7 +607,6 @@
 				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
 				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
 				2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */,
-				2F8735492B4C427000E55552 /* UICollectionViewRegisterable.swift */,
 				2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */,
 			);
 			path = Helpers;
@@ -734,9 +733,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
-				2F87354A2B4C427000E55552 /* UICollectionViewRegisterable.swift in Sources */,
 				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
+				2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */,
 				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
 				2A8868D62B5069790017513A /* OnboardingEndingView.swift in Sources */,
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
