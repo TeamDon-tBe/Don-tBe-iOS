@@ -14,9 +14,12 @@ final class HomeCollectionView: UIView {
     lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumLineSpacing = 10
+        flowLayout.minimumInteritemSpacing = 10
         flowLayout.scrollDirection = .vertical
+        flowLayout.estimatedItemSize = CGSize(width: 343.adjusted, height: 160.adjusted)
         
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        let collectionView = UICollectionView(frame: .zero, 
+                                              collectionViewLayout: flowLayout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.clipsToBounds = true
         collectionView.contentInsetAdjustmentBehavior = .never

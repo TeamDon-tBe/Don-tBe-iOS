@@ -78,7 +78,8 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     private let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 그나저나 돈비 정말 흥미로운 서비스인 것 같아요 어떻게 이런 기획을 ? 대박 ㄷ ㄷ ㄷ 돈비를 사용하면 진짜 돈비를 맞을 수 있나요?"
+        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
         return label
@@ -186,6 +187,7 @@ extension HomeCollectionViewCell {
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+            $0.width.equalTo(UIScreen.main.bounds.width - 32)
         }
         
         profileImageView.snp.makeConstraints {
@@ -223,23 +225,26 @@ extension HomeCollectionViewCell {
         contentTextLabel.snp.makeConstraints {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
             $0.leading.equalTo(nicknameLabel)
-            $0.trailing.equalTo(kebabButton.snp.trailing).inset(12.adjusted)
+            $0.trailing.equalToSuperview().inset(20.adjusted)
+//            $0.trailing.equalTo(kebabButton.snp.trailing).inset(12.adjusted)
         }
         
         commentStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(commentStackView)
             $0.trailing.equalTo(kebabButton).inset(8.adjusted)
+            $0.bottom.equalToSuperview().inset(16)
         }
         
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
             $0.height.equalTo(42.adjusted)
             $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
+            $0.bottom.equalToSuperview().inset(16)
         }
         
         ghostButton.snp.makeConstraints {
-            $0.bottom.equalTo(commentStackView.snp.bottom).offset(-4.adjusted)
+            $0.bottom.equalToSuperview().inset(16)
             $0.leading.equalTo(profileImageView)
             $0.size.equalTo(44.adjusted)
         }
