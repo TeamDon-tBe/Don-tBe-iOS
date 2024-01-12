@@ -17,8 +17,8 @@ final class MyPageEditProfileViewController: UIViewController {
 
     // MARK: - UI Components
     
-    let originView = MyPageNicknameEditView()
-    let editView = MyPageIntroductionEditView()
+    let nicknameEditView = MyPageNicknameEditView()
+    let introductionEditView = MyPageIntroductionEditView()
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
@@ -49,19 +49,19 @@ extension MyPageEditProfileViewController {
     }
     
     private func setHierarchy() {
-        self.view.addSubviews(originView,
-                              editView)
+        self.view.addSubviews(nicknameEditView,
+                              introductionEditView)
     }
     
     private func setLayout() {
-        originView.snp.makeConstraints {
+        nicknameEditView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().inset(323.adjusted)
         }
         
-        editView.snp.makeConstraints {
-            $0.top.equalTo(originView.duplicationCheckDescription.snp.bottom).offset(16.adjustedH)
+        introductionEditView.snp.makeConstraints {
+            $0.top.equalTo(nicknameEditView.duplicationCheckDescription.snp.bottom).offset(16.adjustedH)
             $0.leading.trailing.bottom.equalToSuperview()
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
@@ -73,7 +73,8 @@ extension MyPageEditProfileViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldTisEmpty), name: UITextField.textDidChangeNotification, object: nil)
         
-        originView.duplicationCheckButton.addTarget(self, action: #selector(duplicationCheckButtonTapped), for: .touchUpInside)
+        nicknameEditView.duplicationCheckButton.addTarget(self, action: #selector(duplicationCheckButtonTapped), for: .touchUpInside)
+        introductionEditView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
     @objc
@@ -84,29 +85,35 @@ extension MyPageEditProfileViewController {
     @objc
     private func duplicationCheckButtonTapped() {
         // 중복확인 서버통신에 성공
-        self.originView.nickNameTextField.resignFirstResponder()
-        self.editView.postButton.isEnabled = !isTrue
+        self.nicknameEditView.nickNameTextField.resignFirstResponder()
+        self.introductionEditView.postButton.isEnabled = !isTrue
         
         // 중복확인 -> 성공 (서버통신으로 isTrue 값 변경해주어야함)
         if isTrue {
-            self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
-            self.editView.postButton.setTitleColor(.donWhite, for: .normal)
-            self.editView.postButton.backgroundColor = .donBlack
-            self.originView.duplicationCheckDescription.textColor = .donSecondary
+            self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
+            self.introductionEditView.postButton.setTitleColor(.donWhite, for: .normal)
+            self.introductionEditView.postButton.backgroundColor = .donBlack
+            self.nicknameEditView.duplicationCheckDescription.textColor = .donSecondary
         }
         // 중복확인 -> 실패
         else {
-            self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
-            self.editView.postButton.setTitleColor(.donGray9, for: .normal)
-            self.editView.postButton.backgroundColor = .donGray4
-            self.originView.duplicationCheckDescription.textColor = .donError
+            self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
+            self.introductionEditView.postButton.setTitleColor(.donGray9, for: .normal)
+            self.introductionEditView.postButton.backgroundColor = .donGray4
+            self.nicknameEditView.duplicationCheckDescription.textColor = .donError
         }
     }
     
     @objc
+    private func postButtonTapped() {
+        // 서버통신 -> POST
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
     private func textFieldTisEmpty() {
-        self.editView.postButton.setTitleColor(.donGray9, for: .normal)
-        self.editView.postButton.backgroundColor = .donGray4
-        self.editView.postButton.isEnabled = false
+        self.introductionEditView.postButton.setTitleColor(.donGray9, for: .normal)
+        self.introductionEditView.postButton.backgroundColor = .donGray4
+        self.introductionEditView.postButton.isEnabled = false
     }
 }
