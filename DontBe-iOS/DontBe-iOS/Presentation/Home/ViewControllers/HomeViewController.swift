@@ -16,6 +16,7 @@ final class HomeViewController: UIViewController {
     var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
     private var bottomsheet = HomeBottomsheetView()
+    private let refreshControl = UIRefreshControl()
     
     // MARK: - UI Components
     
@@ -46,6 +47,7 @@ final class HomeViewController: UIViewController {
         setLayout()
         setDelegate()
         setNotification()
+        setRefreshControll()
     }
     
     // MARK: - TabBar Height
@@ -100,6 +102,29 @@ extension HomeViewController {
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
     }
+    
+    private func setRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        homeCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .donGray1
+    }
+    
+    @objc 
+    func refreshPost() {
+        DispatchQueue.main.async {
+            // ✅ 서버 통신 영역
+            //
+        }
+        self.homeCollectionView.reloadData()
+        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+      
+      @objc 
+    func finishedRefreshing() {
+            refreshControl.endRefreshing()
+      }
+    
+    
     
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
