@@ -54,6 +54,10 @@
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
 		3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FE2B3AA01700369C99 /* ExampleView.swift */; };
 		3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */; };
+		3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F544D2B50F65500E7BF01 /* DontBeBottomSheetView.swift */; };
+		3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */; };
+		3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */; };
+		3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F54532B5126C600E7BF01 /* UIBarButtonItem+.swift */; };
 		3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C35565A2B494F0A0016BA49 /* UIColor+.swift */; };
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
@@ -129,6 +133,10 @@
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		3C2854FE2B3AA01700369C99 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewCell.swift; sourceTree = "<group>"; };
+		3C2F544D2B50F65500E7BF01 /* DontBeBottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeBottomSheetView.swift; sourceTree = "<group>"; };
+		3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageEditProfileViewController.swift; sourceTree = "<group>"; };
+		3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoViewController.swift; sourceTree = "<group>"; };
+		3C2F54532B5126C600E7BF01 /* UIBarButtonItem+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+.swift"; sourceTree = "<group>"; };
 		3C35565A2B494F0A0016BA49 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
@@ -403,6 +411,7 @@
 				2A8D70CB2B4DA7BD009F4C6C /* UITextField+.swift */,
 				2A31FF562B4F1E0400FEEED9 /* String+.swift */,
 				2F1741872B500C270089FC4D /* UIApplication+.swift */,
+				3C2F54532B5126C600E7BF01 /* UIBarButtonItem+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -524,6 +533,7 @@
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 				3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */,
 				3CEE4CC12B503F9E00F506AF /* DontBeCustomInfoView.swift */,
+				3C2F544D2B50F65500E7BF01 /* DontBeBottomSheetView.swift */,
 				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
 				2A2672042B4C3C00009D214F /* CancelBag.swift */,
 				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
@@ -568,6 +578,8 @@
 				3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */,
 				3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */,
 				3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */,
+				3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */,
+				3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -660,6 +672,7 @@
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
+				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
@@ -670,11 +683,13 @@
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				2A8D70D12B4DD356009F4C6C /* JoinAgreementViewController.swift in Sources */,
 				3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */,
+				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
+				3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
 				3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
@@ -706,6 +721,7 @@
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
 				2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
+				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
