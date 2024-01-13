@@ -79,6 +79,15 @@ final class MyPageNicknameEditView: UIView {
         return duplicationCheckDescription
     }()
     
+    let isNotValidNickname: UILabel = {
+        let isNotValidNickname = UILabel()
+        isNotValidNickname.text = StringLiterals.Join.notValidNickName
+        isNotValidNickname.textColor = .donError
+        isNotValidNickname.font = .font(.caption4)
+        isNotValidNickname.isHidden = true
+        return isNotValidNickname
+    }()
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -105,7 +114,8 @@ extension MyPageNicknameEditView {
                          nickNameLabel,
                          nickNameTextField,
                          duplicationCheckButton,
-                         duplicationCheckDescription)
+                         duplicationCheckDescription,
+                         isNotValidNickname)
         
         nickNameTextField.addSubview(numOfLetters)
     }
@@ -155,6 +165,10 @@ extension MyPageNicknameEditView {
         duplicationCheckDescription.snp.makeConstraints {
             $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
+        }
+        
+        isNotValidNickname.snp.makeConstraints {
+            $0.top.leading.equalTo(duplicationCheckDescription)
         }
     }
     
@@ -215,5 +229,18 @@ extension MyPageNicknameEditView: UITextFieldDelegate {
         } else {
             self.numOfLetters.text = "(\(text.count)/\(maxLength))"
         }
+        
+        if isValidInput(text) {
+            duplicationCheckButton.isEnabled = true
+            duplicationCheckButton.setTitleColor(.donBlack, for: .normal)
+            duplicationCheckButton.backgroundColor = .donPrimary
+        } else {
+            duplicationCheckButton.isEnabled = false
+            duplicationCheckButton.setTitleColor(.donGray9, for: .normal)
+            duplicationCheckButton.backgroundColor = .donGray4
+        }
+        
+        duplicationCheckDescription.isHidden = !isValidInput(text)
+        isNotValidNickname.isHidden = isValidInput(text)
     }
 }
