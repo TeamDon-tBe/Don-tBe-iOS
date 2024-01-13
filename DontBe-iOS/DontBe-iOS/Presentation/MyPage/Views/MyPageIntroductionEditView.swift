@@ -132,9 +132,9 @@ extension MyPageIntroductionEditView: UITextViewDelegate {
             postButton.backgroundColor = .donGray4
             postButton.isEnabled = false
         } else if textLength < 50 {
-            self.numOfLetters.text = "(\(textLength)/\(maxLength)"
+            self.numOfLetters.text = "(\(textLength)/\(maxLength))"
         } else {
-            self.numOfLetters.text = "(\(maxLength)/\(maxLength)"
+            self.numOfLetters.text = "(\(maxLength)/\(maxLength))"
         }
     }
 }
