@@ -8,7 +8,7 @@
 import UIKit
 
 struct NotificationDummy {
-    let profile: UIImage
+    let profile: UIImage?
     let userName: String
     let description: String
     let minutes: String

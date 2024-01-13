@@ -93,7 +93,7 @@ extension NotificationTableViewCell {
     }
     
     func configureCell(item: NotificationDummy) {
-        profileImage.setCircularImage(image: item.profile)
+        profileImage.setCircularImage(image: item.profile ?? UIImage())
         notificationLabel.text = item.userName + " " + item.description
         if item.description == StringLiterals.Notification.violation {
             notificationLabel.setTextWithLineHeightAndFont(

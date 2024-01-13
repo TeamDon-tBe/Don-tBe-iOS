@@ -22,6 +22,9 @@ final class NotificationViewController: UIViewController {
     
     private let refreshControl = UIRefreshControl()
     
+    private lazy var refreshControlClicked = refreshControl.refreshControlPublisher.map { _ in
+         }.eraseToAnyPublisher()
+    
     private let notificationTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
@@ -100,28 +103,27 @@ extension NotificationViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshTableView), for: .valueChanged)
-        notificationTableView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .donGray1
+        self.notificationTableView.refreshControl = refreshControl
+        self.refreshControl.backgroundColor = .donGray1
     }
     
     private func bindViewModel() {
-        let output = viewModel.transform()
+        let input = NotificationViewModel.Input(viewAppear: Just(()).eraseToAnyPublisher(), refreshControlClicked: refreshControlClicked)
+        
+        let output = viewModel.transform(from: input, cancelBag: cancelBag)
 
         output.reloadTableView
-            .sink { value in
-                self.notificationTableView.reloadData()
-            }
-            .store(in: self.cancelBag)
+            .receive(on: RunLoop.main)
+               .sink { value in
+                   self.notificationTableView.reloadData()
+
+                   if value == 1 {
+                       self.refreshControl.endRefreshing()
+                   }
+               }
+               .store(in: self.cancelBag)
     }
-    
-    @objc
-    func refreshTableView() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            self.notificationTableView.reloadData()
-            self.refreshControl.endRefreshing()
-        }
-    }
+
 }
 
 extension NotificationViewController: UITableViewDelegate {

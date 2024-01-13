@@ -18,6 +18,12 @@ public extension CombineCompatible where Self: UIControl {
     }
 }
 
+public extension CombineCompatible where Self: UIRefreshControl {
+    var refreshControlPublisher: UIControlPublisher<Self> {
+        return UIControlPublisher(control: self, events: .valueChanged)
+    }
+}
+
 final class UIControlSubscription<SubscriberType: Subscriber, Control: UIControl>: Subscription where SubscriberType.Input == Control {
     private var subscriber: SubscriberType?
     private let control: Control
