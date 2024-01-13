@@ -7,23 +7,22 @@
 
 import UIKit
 
-class MyPageCommentViewController: UIViewController {
+import SnapKit
+
+final class MyPageCommentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.view.backgroundColor = .donWhite
+        setUI()
+        setLayout()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setUI() {
+        self.view.backgroundColor = .donPale
     }
-    */
-
+    
+    private func setLayout() {
+        
+    }
 }

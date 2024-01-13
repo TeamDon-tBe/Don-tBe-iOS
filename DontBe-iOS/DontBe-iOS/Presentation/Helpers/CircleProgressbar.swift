@@ -11,7 +11,7 @@ final class CircleProgressbar: UIView {
     
     var lineWidth: CGFloat = 2
     var circleBackgroundColor: UIColor = .gray
-    var circleTintColor: UIColor = .black
+    var circleTintColor: UIColor = .clear
     
     var value: Double? {
         didSet {
@@ -33,7 +33,11 @@ final class CircleProgressbar: UIView {
     override func draw(_ rect: CGRect) {
         let bezierPath = UIBezierPath()
 
-        bezierPath.addArc(withCenter: CGPoint(x: rect.midX, y: rect.midY), radius: rect.midX - ((lineWidth - 1) / 2), startAngle: 0, endAngle: .pi * 2, clockwise: true)
+        bezierPath.addArc(withCenter: CGPoint(x: rect.midX, y: rect.midY), 
+                          radius: rect.midX - ((lineWidth) / 2),
+                          startAngle: 0,
+                          endAngle: .pi * 2,
+                          clockwise: true)
 
         bezierPath.lineWidth = lineWidth
         circleBackgroundColor.set()
@@ -45,17 +49,22 @@ final class CircleProgressbar: UIView {
             return
         }
         
+        
         self.subviews.forEach { $0.removeFromSuperview() }
         self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
 
         let bezierPath = UIBezierPath()
 
-        bezierPath.addArc(withCenter: CGPoint(x: rect.midX, y: rect.midY), radius: rect.midX - ((lineWidth - 1) / 2), startAngle: -.pi / 2, endAngle: ((.pi * 2) * value) - (.pi / 2), clockwise: true)
+        bezierPath.addArc(withCenter: CGPoint(x: rect.midX, y: rect.midY), 
+                          radius: rect.midX - ((lineWidth) / 2),
+                          startAngle: -.pi / 2,
+                          endAngle: ((.pi * 2) * value) - (.pi / 2),
+                          clockwise: true)
 
         let shapeLayer = CAShapeLayer()
 
         shapeLayer.path = bezierPath.cgPath
-        shapeLayer.lineCap = .square
+        shapeLayer.lineCap = .round
 
         shapeLayer.strokeColor = circleTintColor.cgColor
         shapeLayer.fillColor = UIColor.clear.cgColor

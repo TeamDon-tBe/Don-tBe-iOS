@@ -17,7 +17,7 @@ class MyPageSegmentedControl: UISegmentedControl {
         let width = self.bounds.size.width / CGFloat(self.numberOfSegments)
         let height = 2.adjusted
         let xPosition = CGFloat(self.selectedSegmentIndex * Int(width))
-        let yPosition = self.bounds.size.height - 1.adjusted
+        let yPosition = self.bounds.size.height - height
         let frame = CGRect(x: xPosition, y: yPosition, width: width, height: height)
         let view = UIView(frame: frame)
         view.backgroundColor = .donPrimary

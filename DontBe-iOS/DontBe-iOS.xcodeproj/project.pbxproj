@@ -78,7 +78,6 @@
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
-		3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -173,7 +172,6 @@
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
-		3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControlView.swift; sourceTree = "<group>"; };
 		3C6192E92B3A719A00220CEB /* DontBe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontBe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C6192EC2B3A719A00220CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -624,6 +622,13 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		3C8A262D2B5194C100E549F3 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		3CE9C1252B4BE5970086E4A3 /* Write */ = {
 			isa = PBXGroup;
 			children = (
@@ -682,6 +687,7 @@
 			children = (
 				3CF184C82B4EEBEA00816D5F /* Views */,
 				3CF184C92B4EEBF500816D5F /* ViewControllers */,
+				3C8A262D2B5194C100E549F3 /* Cells */,
 				3CEE4CBE2B500BA900F506AF /* Helpers */,
 			);
 			path = MyPage;
@@ -692,7 +698,6 @@
 			children = (
 				3CF184CC2B4EEC1900816D5F /* MyPageView.swift */,
 				3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */,
-				3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */,
 				3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */,
 				2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */,
 				2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */,
@@ -812,7 +817,6 @@
 				2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				2A8D70D12B4DD356009F4C6C /* JoinAgreementViewController.swift in Sources */,
-				3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */,
 				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,

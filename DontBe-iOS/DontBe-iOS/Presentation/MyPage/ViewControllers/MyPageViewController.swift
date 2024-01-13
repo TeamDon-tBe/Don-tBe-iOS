@@ -14,18 +14,22 @@ final class MyPageViewController: UIViewController {
     var currentPage: Int = 0 {
         didSet {
             let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
-            rootView.myPageSegmentedControlView.pageViewController.setViewControllers(
-                [rootView.myPageSegmentedControlView.dataViewControllers[self.currentPage]],
+            rootView.pageViewController.setViewControllers(
+                [rootView.dataViewControllers[self.currentPage]],
                 direction: direction,
                 animated: true,
                 completion: nil
             )
+            let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+            rootView.myPageScrollView.setContentOffset(CGPoint(x: 0, y: -rootView.myPageScrollView.contentInset.top - navigationBarHeight - statusBarHeight), animated: true)
+            rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
+            rootView.myPageScrollView.isScrollEnabled = true
         }
     }
     
     // MARK: - UI Components
     
-    private let rootView = MyPageView()
+    let rootView = MyPageView()
     
     // MARK: - Life Cycles
     
@@ -54,6 +58,7 @@ final class MyPageViewController: UIViewController {
 
 extension MyPageViewController {
     private func setUI() {
+        self.tabBarController?.tabBar.isTranslucent = true
         self.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         
@@ -68,12 +73,13 @@ extension MyPageViewController {
     }
     
     private func setDelegate() {
-        rootView.myPageSegmentedControlView.pageViewController.delegate = self
-        rootView.myPageSegmentedControlView.pageViewController.dataSource = self
+        rootView.myPageScrollView.delegate = self
+        rootView.pageViewController.delegate = self
+        rootView.pageViewController.dataSource = self
     }
     
     private func setAddTarget() {
-        rootView.myPageSegmentedControlView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+        rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
@@ -113,6 +119,11 @@ extension MyPageViewController {
     private func customerCenterButtonTapped() {
         
     }
+    
+    private func moveTop() {
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        rootView.myPageScrollView.setContentOffset(CGPoint(x: 0, y: -rootView.myPageScrollView.contentInset.top - navigationBarHeight - statusBarHeight), animated: true)
+    }
 }
 
 // MARK: - Network
@@ -129,10 +140,10 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
         guard
-            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController),
+            let index = rootView.dataViewControllers.firstIndex(of: viewController),
             index - 1 >= 0
         else { return nil }
-        return rootView.myPageSegmentedControlView.dataViewControllers[index - 1]
+        return rootView.dataViewControllers[index - 1]
     }
     
     func pageViewController(
@@ -140,10 +151,10 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
         guard
-            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController),
-            index + 1 < rootView.myPageSegmentedControlView.dataViewControllers.count
+            let index = rootView.dataViewControllers.firstIndex(of: viewController),
+            index + 1 < rootView.dataViewControllers.count
         else { return nil }
-        return rootView.myPageSegmentedControlView.dataViewControllers[index + 1]
+        return rootView.dataViewControllers[index + 1]
     }
     
     func pageViewController(
@@ -154,9 +165,38 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
     ) {
         guard
             let viewController = pageViewController.viewControllers?[0],
-            let index = rootView.myPageSegmentedControlView.dataViewControllers.firstIndex(of: viewController)
+            let index = rootView.dataViewControllers.firstIndex(of: viewController)
         else { return }
         self.currentPage = index
-        rootView.myPageSegmentedControlView.segmentedControl.selectedSegmentIndex = index
+        rootView.segmentedControl.selectedSegmentIndex = index
+    }
+}
+
+extension MyPageViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let yOffset = scrollView.contentOffset.y
+        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+        let homeCollectionView = rootView.pageViewController.view.frame.origin.y
+        
+        scrollView.isScrollEnabled = true
+        rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
+        
+        if yOffset <= -91.adjusted {
+            rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
+        } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {
+            rootView.segmentedControl.frame.origin.y = yOffset - rootView.myPageProfileView.frame.height + statusBarHeight + navigationBarHeight
+            rootView.segmentedControl.snp.remakeConstraints {
+                $0.top.equalTo(rootView.segmentedControl.frame.origin.y)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(54.adjusted)
+            }
+            scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+            
+            rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
+            scrollView.isScrollEnabled = true
+        } else {
+            rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
+        }
     }
 }
