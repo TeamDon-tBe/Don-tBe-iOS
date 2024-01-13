@@ -40,7 +40,7 @@ final class JoinAgreeView: UIView {
     let allCheck = AgreementListCustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
     let firstCheckView = AgreementListCustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
     let secondCheckView = AgreementListCustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    let thirdCheckView = AgreementListCustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary)
+    let thirdCheckView = AgreementListCustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary, moreImage: nil)
     let fourthCheckView = AgreementListCustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
     
     private let nextButton: UIButton = {
