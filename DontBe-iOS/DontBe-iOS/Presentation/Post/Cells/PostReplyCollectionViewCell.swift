@@ -31,9 +31,8 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1.adjusted
-        image.layer.borderColor = UIColor.clear.cgColor
         image.image = ImageLiterals.Onboarding.imgTwo
+        image.layer.cornerRadius = 22.adjusted
         return image
     }()
     

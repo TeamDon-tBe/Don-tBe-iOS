@@ -30,13 +30,12 @@ final class PostView: UIView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1.adjusted
-        image.layer.borderColor = UIColor.clear.cgColor
+        image.layer.cornerRadius = 22.adjusted
         image.image = ImageLiterals.Onboarding.imgOne
         return image
     }()
     
-    private let nicknameLabel: UILabel = {
+    public let postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "Don't be야 사랑해~"
@@ -176,7 +175,7 @@ extension PostView {
         addSubviews(PostbackgroundUIView, horizontalDivierView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
-                                     nicknameLabel,
+                                     postNicknameLabel,
                                      transparentLabel,
                                      dotLabel,
                                      timeLabel,
@@ -204,14 +203,14 @@ extension PostView {
             $0.size.equalTo(44.adjusted)
         }
         
-        nicknameLabel.snp.makeConstraints {
+        postNicknameLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(profileImageView.snp.top).offset(4.adjusted)
         }
         
         transparentLabel.snp.makeConstraints {
-            $0.leading.equalTo(nicknameLabel)
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(4.adjusted)
+            $0.leading.equalTo(postNicknameLabel)
+            $0.top.equalTo(postNicknameLabel.snp.bottom).offset(4.adjusted)
         }
         
         dotLabel.snp.makeConstraints {
@@ -232,7 +231,7 @@ extension PostView {
         
         contentTextLabel.snp.makeConstraints {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
-            $0.leading.equalTo(nicknameLabel)
+            $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
         

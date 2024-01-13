@@ -11,11 +11,13 @@ final class PostViewController: UIViewController {
     
     // MARK: - Properties
     var tabBarHeight: CGFloat = 0
+    private lazy var postUserNickname = postView.postNicknameLabel.text
     
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
     private lazy var postView = PostView()
+    private lazy var textFieldview = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     
     private let verticalBarView: UIView = {
@@ -66,12 +68,14 @@ final class PostViewController: UIViewController {
 extension PostViewController {
     private func setUI() {
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
+        textFieldview.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
     }
     
     private func setHierarchy() {
         view.addSubviews(postView,
                          verticalBarView,
-                         postReplyCollectionView)
+                         postReplyCollectionView,
+                         textFieldview)
     }
     
     private func setLayout() {
@@ -83,7 +87,7 @@ extension PostViewController {
         
         postReplyCollectionView.snp.makeConstraints {
             $0.top.equalTo(postView.PostbackgroundUIView.snp.bottom).offset(10.adjusted)
-            $0.bottom.equalTo(tabBarHeight)
+            $0.bottom.equalTo(tabBarHeight).inset(66)
             $0.leading.equalTo(verticalBarView.snp.trailing)
             $0.trailing.equalToSuperview().inset(16.adjusted)
         }
@@ -93,6 +97,11 @@ extension PostViewController {
             $0.leading.equalToSuperview().inset(18.adjusted)
             $0.width.equalTo(1.adjusted)
             $0.bottom.equalToSuperview()
+        }
+        
+        textFieldview.snp.makeConstraints {
+            $0.bottom.equalTo(tabBarHeight).offset(-56)
+            $0.leading.trailing.equalToSuperview()
         }
     }
     
@@ -127,5 +136,10 @@ extension PostViewController: UICollectionViewDataSource {
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
+        return footer
     }
 }

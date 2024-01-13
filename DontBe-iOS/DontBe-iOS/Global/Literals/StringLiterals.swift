@@ -91,5 +91,6 @@ enum StringLiterals {
     
     enum Post {
         static let navigationTitleLabel = "게시글"
+        static let textFieldLabel = "님에게 답글 남기기"
     }
 }
