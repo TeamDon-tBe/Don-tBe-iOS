@@ -13,6 +13,8 @@ final class MyPageProfileView: UIView {
 
     // MARK: - Properties
     
+    let transparencyValue: Int = -85
+    
     // MARK: - UI Components
     
     private let profileImageView: UIImageView = {
@@ -39,7 +41,7 @@ final class MyPageProfileView: UIView {
     
     let userIntroduction: UILabel = {
         let label = UILabel()
-        label.setTextWithLineHeight(text: "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted)
+        label.setTextWithLineHeight(text: "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted, alignment: .center)
         label.textColor = .donGray7
         label.textAlignment = .center
         label.font = .font(.caption2)
@@ -65,14 +67,20 @@ final class MyPageProfileView: UIView {
     private let emptyTransparencyPercentage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = ImageLiterals.MyPage.emptyPercentage
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .left
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 5.adjusted
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
     private let fullTransparencyPercentage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = ImageLiterals.MyPage.fullPercentage
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .left
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 5.adjusted
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -100,8 +108,6 @@ final class MyPageProfileView: UIView {
         setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -115,6 +121,7 @@ final class MyPageProfileView: UIView {
 extension MyPageProfileView {
     private func setUI() {
         self.backgroundColor = .donBlack
+        self.transparencyLabel.text = "\(self.transparencyValue)%"
     }
     
     private func setHierarchy() {
@@ -157,7 +164,7 @@ extension MyPageProfileView {
         }
         
         percentageBox.snp.makeConstraints {
-            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.trailing.equalToSuperview().offset(((CGFloat(self.transparencyValue) * (UIScreen.main.bounds.width - 32.adjusted)) / 100) - 16.adjusted)
             $0.bottom.equalTo(fullTransparencyPercentage.snp.top).offset(-4.adjusted)
             $0.height.equalTo(28.adjusted)
         }
@@ -174,26 +181,15 @@ extension MyPageProfileView {
         }
         
         fullTransparencyPercentage.snp.makeConstraints {
-            $0.top.equalTo(userIntroduction.snp.bottom).offset(48.adjusted)
-            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-            $0.height.equalTo(10.adjusted)
+            $0.top.equalTo(emptyTransparencyPercentage)
+            $0.leading.equalToSuperview().inset(16.adjusted)
+            $0.trailing.equalTo(percentageBox.snp.trailing)
+            $0.height.equalTo(emptyTransparencyPercentage)
         }
         
         transparencyInfoButton.snp.makeConstraints {
             $0.top.equalTo(fullTransparencyPercentage.snp.bottom).offset(6.adjusted)
             $0.leading.equalTo(fullTransparencyPercentage.snp.leading).offset(-10.adjusted)
         }
-    }
-    
-    private func setAddTarget() {
-
-    }
-    
-    private func setRegisterCell() {
-        
-    }
-    
-    private func setDataBind() {
-        
     }
 }
