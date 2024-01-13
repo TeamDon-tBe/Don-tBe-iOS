@@ -12,7 +12,6 @@ import SnapKit
 final class PostDetailView: UIView {
 
     // MARK: - Properties
-    var postView = PostView()
     
     // MARK: - UI Components
     
@@ -38,17 +37,15 @@ final class PostDetailView: UIView {
 
 extension PostDetailView {
     private func setUI() {
-        
+        self.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
-        addSubviews(postView)
+
     }
     
     private func setLayout() {
-        postView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
+
     }
     
     private func setAddTarget() {

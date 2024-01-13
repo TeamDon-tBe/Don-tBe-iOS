@@ -20,9 +20,9 @@ final class PostView: UIView {
     
     // MARK: - UI Components
     
-    private let backgroundUIView: UIView = {
+    let PostbackgroundUIView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donWhite
+        view.backgroundColor = .donWhite
         return view
     }()
     
@@ -32,7 +32,7 @@ final class PostView: UIView {
         image.clipsToBounds = true
         image.layer.borderWidth = 1.adjusted
         image.layer.borderColor = UIColor.clear.cgColor
-        image.image = UIImage.checkmark
+        image.image = ImageLiterals.Onboarding.imgOne
         return image
     }()
     
@@ -137,13 +137,13 @@ final class PostView: UIView {
     
     private let verticalTextBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donPale
+        view.backgroundColor = .donPale
         return view
     }()
     
-    private let verticalDividerView: UIView = {
+    public let horizontalDivierView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donGray2
+        view.backgroundColor = .donGray2
         return view
     }()
     
@@ -169,13 +169,13 @@ final class PostView: UIView {
 
 extension PostView {
     private func setUI() {
-        
+        self.backgroundColor = .donGray1
     }
     
     private func setHierarchy() {
-        addSubviews(backgroundUIView, verticalDividerView)
+        addSubviews(PostbackgroundUIView, horizontalDivierView)
         
-        backgroundUIView.addSubviews(profileImageView,
+        PostbackgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
                                      transparentLabel,
                                      dotLabel,
@@ -193,7 +193,7 @@ extension PostView {
     }
     
     func setLayout() {
-        backgroundUIView.snp.makeConstraints {
+        PostbackgroundUIView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
         }
@@ -240,7 +240,7 @@ extension PostView {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(commentStackView)
             $0.trailing.equalTo(kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         likeStackView.snp.makeConstraints {
@@ -263,8 +263,8 @@ extension PostView {
             $0.centerX.equalTo(profileImageView)
         }
         
-        verticalDividerView.snp.makeConstraints {
-            $0.top.equalTo(backgroundUIView.snp.bottom)
+        horizontalDivierView.snp.makeConstraints {
+            $0.top.equalTo(PostbackgroundUIView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1.adjusted)
         }

@@ -52,6 +52,8 @@
 		2FB818D12B51693400B7498F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D02B51693400B7498F /* PostViewController.swift */; };
 		2FB818D32B51694F00B7498F /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D22B51694F00B7498F /* PostView.swift */; };
 		2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D42B517EE700B7498F /* PostDetailView.swift */; };
+		2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */; };
+		2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
@@ -134,6 +136,8 @@
 		2FB818D02B51693400B7498F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = "DontBe-iOS/Presentation/Post/ViewControllers/PostViewController.swift"; sourceTree = SOURCE_ROOT; };
 		2FB818D22B51694F00B7498F /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		2FB818D42B517EE700B7498F /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionView.swift; sourceTree = "<group>"; };
+		2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionViewCell.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 			children = (
 				2FB818CF2B5168E100B7498F /* Views */,
 				2FB818CE2B5168D400B7498F /* ViewControllers */,
+				2FB818DA2B51873500B7498F /* Cells */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -340,8 +345,17 @@
 			children = (
 				2FB818D42B517EE700B7498F /* PostDetailView.swift */,
 				2FB818D22B51694F00B7498F /* PostView.swift */,
+				2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		2FB818DA2B51873500B7498F /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		3C2855022B3AAEE400369C99 /* Example */ = {
@@ -758,8 +772,10 @@
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
+				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
+				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
 				3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */,
 				3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */,
