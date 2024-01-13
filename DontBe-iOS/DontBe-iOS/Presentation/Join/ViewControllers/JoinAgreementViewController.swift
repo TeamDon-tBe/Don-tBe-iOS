@@ -4,7 +4,9 @@
 //
 //  Created by 변희주 on 1/10/24.
 //
+
 import Combine
+import SafariServices
 import UIKit
 
 import SnapKit
@@ -12,6 +14,8 @@ import SnapKit
 final class JoinAgreementViewController: UIViewController {
     
     // MARK: - Properties
+    
+    let useAgreementURL = NSURL(string: "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0")
     
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
@@ -23,7 +27,6 @@ final class JoinAgreementViewController: UIViewController {
     private lazy var thirdCheck = self.originView.thirdCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var fourtchCheck = self.originView.fourthCheckView.checkButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var nextButtonTapped = self.originView.nextActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    
     
     // MARK: - UI Components
     
@@ -51,15 +54,14 @@ final class JoinAgreementViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
+        setAddTarget()
         bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.hidesBackButton = true
+        setUI()
         setHierarchy()
         setLayout()
     }
@@ -71,6 +73,8 @@ extension JoinAgreementViewController {
     private func setUI() {
         self.view.backgroundColor = .donGray1
         self.navigationItem.title = StringLiterals.Join.joinNavigationTitle
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.hidesBackButton = true
     }
     
     private func setHierarchy() {
@@ -82,6 +86,10 @@ extension JoinAgreementViewController {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(23.adjusted)
         }
+    }
+    
+    private func setAddTarget() {
+        self.originView.firstCheckView.moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
     }
     
     private func bindViewModel() {
@@ -167,5 +175,16 @@ extension JoinAgreementViewController {
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)
+    }
+    
+    @objc
+    private func moreButtonTapped() {
+        let useAgreementView: SFSafariViewController
+        if let useAgreementURL = self.useAgreementURL as? URL {
+            useAgreementView = SFSafariViewController(url: useAgreementURL)
+            self.present(useAgreementView, animated: true, completion: nil)
+        } else {
+            print("👻👻👻 유효하지 않은 URL 입니다 👻👻👻")
+        }
     }
 }

@@ -24,15 +24,9 @@ final class AgreementListCustomView: UIView {
         return infoLabel
     }()
     
-    let necessaryOrSelectButton: UIButton = {
-        let necessaryOrSelectButton = UIButton()
-        return necessaryOrSelectButton
-    }()
+    let necessaryOrSelectImage = UIImageView()
     
-    let moreButton: UIButton = {
-        let moreButton = UIButton()
-        return moreButton
-    }()
+    let moreButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,12 +36,12 @@ final class AgreementListCustomView: UIView {
         super.init(frame: .zero)
         
         infoLabel.text = title
-        necessaryOrSelectButton.setImage(subImage, for: .normal)
+        necessaryOrSelectImage.image = subImage
         moreButton.setImage(moreImage, for: .normal)
         
         self.addSubviews(checkButton,
                          infoLabel,
-                         necessaryOrSelectButton,
+                         necessaryOrSelectImage,
                          moreButton)
         
         checkButton.snp.makeConstraints {
@@ -60,7 +54,7 @@ final class AgreementListCustomView: UIView {
             $0.centerY.equalTo(checkButton)
         }
         
-        necessaryOrSelectButton.snp.makeConstraints {
+        necessaryOrSelectImage.snp.makeConstraints {
             $0.leading.equalTo(infoLabel.snp.trailing).offset(4.adjusted)
             $0.centerY.equalTo(infoLabel)
             $0.width.equalTo(33.adjusted)
@@ -68,7 +62,7 @@ final class AgreementListCustomView: UIView {
         }
         
         moreButton.snp.makeConstraints {
-            $0.leading.equalTo(necessaryOrSelectButton.snp.trailing).offset(6.adjusted)
+            $0.leading.equalTo(necessaryOrSelectImage.snp.trailing).offset(6.adjusted)
             $0.centerY.equalTo(infoLabel)
             $0.width.equalTo(23.adjusted)
             $0.height.equalTo(24.adjusted)

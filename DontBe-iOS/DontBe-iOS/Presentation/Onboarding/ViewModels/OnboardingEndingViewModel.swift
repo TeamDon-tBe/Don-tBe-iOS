@@ -9,6 +9,7 @@ import Combine
 import Foundation
 
 final class OnboardingEndingViewModel: ViewModelType {
+    
     private let cancelBag = CancelBag()
     
     struct Input {

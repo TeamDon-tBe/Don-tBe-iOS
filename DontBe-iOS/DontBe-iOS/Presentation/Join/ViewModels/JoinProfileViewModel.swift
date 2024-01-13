@@ -9,6 +9,7 @@ import Combine
 import Foundation
 
 final class JoinProfileViewModel: ViewModelType {
+    
     private let cancelBag = CancelBag()
     private let pushOrPopViewController = PassthroughSubject<Int, Never>()
     private let isNotDuplicated = PassthroughSubject<Bool, Never>()

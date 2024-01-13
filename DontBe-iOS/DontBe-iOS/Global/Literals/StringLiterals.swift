@@ -40,6 +40,7 @@ enum StringLiterals {
         static let advertisementAgreement = "마케팅 활용 / 광고성 정보 수신동의"
         static let nickName = "닉네임"
         static let nickNamePlaceHolder = "닉네임을 입력해주세요."
+        static let notValidNickName = "*닉네임에 사용할 수 없는 문자가 포함되어 있어요."
         static let duplicationCheck = "중복확인"
         static let duplicationCheckDescription = "*중복된 닉네임인지 확인해주세요"
         static let duplicationNotPass = "*사용 불가능한 닉네임입니다."

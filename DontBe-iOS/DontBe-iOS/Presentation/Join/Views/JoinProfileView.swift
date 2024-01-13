@@ -63,11 +63,12 @@ final class JoinProfileView: UIView {
     let duplicationCheckButton: UIButton = {
         let duplicationCheckButton = UIButton()
         duplicationCheckButton.setTitle(StringLiterals.Join.duplicationCheck, for: .normal)
-        duplicationCheckButton.setTitleColor(.donBlack, for: .normal)
+        duplicationCheckButton.setTitleColor(.donGray9, for: .normal)
+        duplicationCheckButton.backgroundColor = .donGray4
         duplicationCheckButton.titleLabel?.font = .font(.body3)
         duplicationCheckButton.layer.cornerRadius = 4.adjusted
         duplicationCheckButton.layer.masksToBounds = true
-        duplicationCheckButton.backgroundColor = .donPrimary
+        duplicationCheckButton.isEnabled = false
         return duplicationCheckButton
     }()
     
@@ -77,6 +78,15 @@ final class JoinProfileView: UIView {
         duplicationCheckDescription.textColor = .donGray8
         duplicationCheckDescription.font = .font(.caption4)
         return duplicationCheckDescription
+    }()
+    
+    let isNotValidNickname: UILabel = {
+        let isNotValidNickname = UILabel()
+        isNotValidNickname.text = StringLiterals.Join.notValidNickName
+        isNotValidNickname.textColor = .donError
+        isNotValidNickname.font = .font(.caption4)
+        isNotValidNickname.isHidden = true
+        return isNotValidNickname
     }()
     
     let finishButton: UIButton = {
@@ -118,6 +128,7 @@ extension JoinProfileView {
                          nickNameTextField,
                          duplicationCheckButton,
                          duplicationCheckDescription,
+                         isNotValidNickname,
                          finishButton,
                          finishActiveButton)
         
@@ -169,6 +180,10 @@ extension JoinProfileView {
         duplicationCheckDescription.snp.makeConstraints {
             $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
+        }
+        
+        isNotValidNickname.snp.makeConstraints {
+            $0.top.leading.equalTo(duplicationCheckDescription)
         }
         
         finishButton.snp.makeConstraints {
@@ -226,6 +241,7 @@ extension JoinProfileView: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         let text = textField.text ?? "" // textField에 수정이 반영된 후의 text
         let maxLength = 12 // 글자 수 제한
+        
         if text.count >= maxLength {
             let startIndex = text.startIndex
             let endIndex = text.index(startIndex, offsetBy: maxLength - 1)
@@ -235,5 +251,18 @@ extension JoinProfileView: UITextFieldDelegate {
         } else {
             self.numOfLetters.text = "(\(text.count)/\(maxLength))"
         }
+
+        if isValidInput(text) {
+            duplicationCheckButton.isEnabled = true
+            duplicationCheckButton.setTitleColor(.donBlack, for: .normal)
+            duplicationCheckButton.backgroundColor = .donPrimary
+        } else {
+            duplicationCheckButton.isEnabled = false
+            duplicationCheckButton.setTitleColor(.donGray9, for: .normal)
+            duplicationCheckButton.backgroundColor = .donGray4
+        }
+        
+        duplicationCheckDescription.isHidden = !isValidInput(text)
+        isNotValidNickname.isHidden = isValidInput(text)
     }
 }
