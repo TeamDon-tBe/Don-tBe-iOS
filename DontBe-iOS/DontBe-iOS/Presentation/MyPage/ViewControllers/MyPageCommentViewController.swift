@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class MyPageCommentViewController: UIViewController {
+final class MyPageCommentViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -159,7 +159,7 @@ extension MyPageView {
         self.myPageScrollView.isScrollEnabled = false
         
         transparencyInfoView = DontBeTransparencyInfoView()
-        self.addSubview(transparencyInfoView!)
+        self.addSubview(transparencyInfoView ?? DontBeTransparencyInfoView())
         
         transparencyInfoView?.snp.makeConstraints {
             $0.edges.equalToSuperview()

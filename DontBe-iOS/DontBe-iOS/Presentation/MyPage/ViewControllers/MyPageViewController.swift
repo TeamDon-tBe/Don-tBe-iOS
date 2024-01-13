@@ -182,7 +182,7 @@ extension MyPageViewController: UICollectionViewDelegate {
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
         
-        if yOffset <= -91 {
+        if yOffset <= -91.adjusted {
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
         } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {
             rootView.segmentedControl.frame.origin.y = yOffset - rootView.myPageProfileView.frame.height + statusBarHeight + navigationBarHeight
