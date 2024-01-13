@@ -12,6 +12,7 @@ import KakaoSDKUser
 import KakaoSDKCommon
 
 final class LoginViewModel: ViewModelType {
+    
     private let cancelBag = CancelBag()
     
     struct Input {

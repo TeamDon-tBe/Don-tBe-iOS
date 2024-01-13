@@ -149,6 +149,8 @@ extension OnboardingView {
                     $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
                     $0.centerX.equalToSuperview()
                 }
+                
+                self.skipButton.removeFromSuperview()
             }
         }
     }

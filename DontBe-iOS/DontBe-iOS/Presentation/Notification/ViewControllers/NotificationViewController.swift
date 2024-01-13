@@ -5,6 +5,7 @@
 //  Created by 변희주 on 1/12/24.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -13,12 +14,14 @@ final class NotificationViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let dummy = NotificationDummy.dummy()
+    private let cancelBag = CancelBag()
+    private let viewModel: NotificationViewModel
     private var numsOfLinesOfCellLabel: Int = 0
     
     // MARK: - UI Components
     
     private let refreshControl = UIRefreshControl()
+    
     private let notificationTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
@@ -26,6 +29,7 @@ final class NotificationViewController: UIViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         return tableView
     }()
+    
     private let notificationTableFooterView: UIView = {
         let notificationTableFooterView = UIView()
         notificationTableFooterView.backgroundColor = .donGray1
@@ -33,6 +37,15 @@ final class NotificationViewController: UIViewController {
     }()
     
     // MARK: - Life Cycles
+    
+    init(viewModel: NotificationViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +56,7 @@ final class NotificationViewController: UIViewController {
         setDelegate()
         setRegisterCell()
         setRefreshControll()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +105,16 @@ extension NotificationViewController {
         refreshControl.backgroundColor = .donGray1
     }
     
+    private func bindViewModel() {
+        let output = viewModel.transform()
+
+        output.reloadTableView
+            .sink { value in
+                self.notificationTableView.reloadData()
+            }
+            .store(in: self.cancelBag)
+    }
+    
     @objc
     func refreshTableView() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -122,7 +146,7 @@ extension NotificationViewController: UITableViewDelegate {
 
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = dummy.count
+        let count = viewModel.dummy.count
         if count == 0 {
             return 1
         } else {
@@ -131,12 +155,12 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if dummy.isEmpty {
+        if viewModel.dummy.isEmpty {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationEmptyViewCell.reuseIdentifier, for: indexPath) as? NotificationEmptyViewCell else { return UITableViewCell() }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(item: dummy[indexPath.row])
+            cell.configureCell(item: viewModel.dummy[indexPath.row])
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines

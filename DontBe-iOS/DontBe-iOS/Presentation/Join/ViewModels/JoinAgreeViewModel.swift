@@ -9,6 +9,7 @@ import Combine
 import Foundation
 
 final class JoinAgreeViewModel: ViewModelType {
+   
     private let cancelBag = CancelBag()
     
     private let popViewController = PassthroughSubject<Void, Never>()
