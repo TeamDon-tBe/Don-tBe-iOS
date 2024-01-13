@@ -39,7 +39,7 @@ final class MyPageProfileView: UIView {
     
     let userIntroduction: UILabel = {
         let label = UILabel()
-        label.text = "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히"
+        label.setTextWithLineHeight(text: "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted)
         label.textColor = .donGray7
         label.textAlignment = .center
         label.font = .font(.caption2)
