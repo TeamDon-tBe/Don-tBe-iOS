@@ -178,9 +178,6 @@ extension MyPageViewController: UICollectionViewDelegate {
         let yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         let homeCollectionView = rootView.pageViewController.view.frame.origin.y
-        print("-------myPageScrollView---------")
-        print("offsetY: \(yOffset)")
-        print("rootView.pageViewController.view.frame.origin.y: \(homeCollectionView)")
         
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false

@@ -210,8 +210,6 @@ extension MyPageContentViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
-        print("--------homeCollectionView---------")
-        print("offsetY: \(yOffset)")
         if yOffset > 0 {
             scrollView.isScrollEnabled = true
         } else if yOffset < 0 {
