@@ -1,16 +1,16 @@
 //
-//  HomeCollectionViewCell.swift
+//  PostView.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/8/24.
+//  Created by yeonsu on 1/12/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegisterable {
-    
+final class PostView: UIView {
+
     // MARK: - Properties
     
     var KebabButtonAction: (() -> Void) = {}
@@ -20,10 +20,9 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     // MARK: - UI Components
     
-    private let backgroundUIView: UIView = {
+    let PostbackgroundUIView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donWhite
-        view.layer.cornerRadius = 8.adjusted
+        view.backgroundColor = .donWhite
         return view
     }()
     
@@ -31,13 +30,12 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1.adjusted
-        image.layer.borderColor = UIColor.clear.cgColor
-        image.image = UIImage.checkmark
+        image.layer.cornerRadius = 22.adjusted
+        image.image = ImageLiterals.Onboarding.imgOne
         return image
     }()
     
-    private let nicknameLabel: UILabel = {
+    public let postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "Don't be야 사랑해~"
@@ -109,6 +107,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private lazy var commentStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.addArrangedSubviews(commentButton, commentNumLabel)
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
         stackView.spacing = 0
@@ -137,7 +136,13 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let verticalTextBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donPale
+        view.backgroundColor = .donPale
+        return view
+    }()
+    
+    public let horizontalDivierView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray2
         return view
     }()
     
@@ -150,8 +155,10 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         setHierarchy()
         setLayout()
         setAddTarget()
+        setRegisterCell()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -159,16 +166,16 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
 
 // MARK: - Extensions
 
-extension HomeCollectionViewCell {
-    func setUI() {
-        kebabButton.contentMode = .scaleAspectFill
+extension PostView {
+    private func setUI() {
+        self.backgroundColor = .donGray1
     }
     
-    func setHierarchy() {
-        contentView.addSubviews(backgroundUIView)
+    private func setHierarchy() {
+        addSubviews(PostbackgroundUIView, horizontalDivierView)
         
-        backgroundUIView.addSubviews(profileImageView,
-                                     nicknameLabel,
+        PostbackgroundUIView.addSubviews(profileImageView,
+                                     postNicknameLabel,
                                      transparentLabel,
                                      dotLabel,
                                      timeLabel,
@@ -185,9 +192,9 @@ extension HomeCollectionViewCell {
     }
     
     func setLayout() {
-        backgroundUIView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width - 32)
+        PostbackgroundUIView.snp.makeConstraints {
+            $0.top.equalTo(safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {
@@ -196,14 +203,14 @@ extension HomeCollectionViewCell {
             $0.size.equalTo(44.adjusted)
         }
         
-        nicknameLabel.snp.makeConstraints {
+        postNicknameLabel.snp.makeConstraints {
             $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
             $0.top.equalTo(profileImageView.snp.top).offset(4.adjusted)
         }
         
         transparentLabel.snp.makeConstraints {
-            $0.leading.equalTo(nicknameLabel)
-            $0.top.equalTo(nicknameLabel.snp.bottom).offset(4.adjusted)
+            $0.leading.equalTo(postNicknameLabel)
+            $0.top.equalTo(postNicknameLabel.snp.bottom).offset(4.adjusted)
         }
         
         dotLabel.snp.makeConstraints {
@@ -224,7 +231,7 @@ extension HomeCollectionViewCell {
         
         contentTextLabel.snp.makeConstraints {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
-            $0.leading.equalTo(nicknameLabel)
+            $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
         
@@ -232,18 +239,18 @@ extension HomeCollectionViewCell {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(commentStackView)
             $0.trailing.equalTo(kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
             $0.height.equalTo(42.adjusted)
             $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         ghostButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
             $0.leading.equalTo(profileImageView)
             $0.size.equalTo(44.adjusted)
         }
@@ -253,6 +260,12 @@ extension HomeCollectionViewCell {
             $0.bottom.equalTo(ghostButton.snp.top)
             $0.width.equalTo(1.adjusted)
             $0.centerX.equalTo(profileImageView)
+        }
+        
+        horizontalDivierView.snp.makeConstraints {
+            $0.top.equalTo(PostbackgroundUIView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1.adjusted)
         }
     }
     
@@ -274,5 +287,13 @@ extension HomeCollectionViewCell {
     @objc
     func transparentShowPopupButton() {
         TransparentButtonAction()
+    }
+    
+    private func setRegisterCell() {
+        
+    }
+    
+    private func setDataBind() {
+        
     }
 }

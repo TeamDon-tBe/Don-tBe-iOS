@@ -1,15 +1,15 @@
 //
-//  HomeCollectionViewCell.swift
+//  PostReplyCollectionViewCell.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/8/24.
+//  Created by yeonsu on 1/12/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegisterable {
+final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewRegisterable {
     
     // MARK: - Properties
     
@@ -22,7 +22,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let backgroundUIView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donWhite
+        view.backgroundColor = .donWhite
         view.layer.cornerRadius = 8.adjusted
         return view
     }()
@@ -31,9 +31,8 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.layer.borderWidth = 1.adjusted
-        image.layer.borderColor = UIColor.clear.cgColor
-        image.image = UIImage.checkmark
+        image.image = ImageLiterals.Onboarding.imgTwo
+        image.layer.cornerRadius = 22.adjusted
         return image
     }()
     
@@ -78,7 +77,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     private let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -107,28 +106,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return label
     }()
     
-    private lazy var commentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.distribution = .equalSpacing
-        stackView.axis = .horizontal
-        stackView.spacing = 0
-        return stackView
-    }()
-    
-    private let commentButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnComment, for: .normal)
-        return button
-    }()
-    
-    private let commentNumLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .donGray11
-        label.text = "54"
-        label.font = .font(.caption4)
-        return label
-    }()
-    
     private let ghostButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnTransparent, for: .normal)
@@ -137,10 +114,23 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     private let verticalTextBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donPale
+        view.backgroundColor = .donPale
         return view
     }()
     
+    private let horizontalCellBarView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray3
+        return view
+    }()
+    
+    private let horizontalCellBarCircleView : UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray3
+        view.layer.cornerRadius = 6.adjusted
+        return view
+    }()
+
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -159,13 +149,15 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
 
 // MARK: - Extensions
 
-extension HomeCollectionViewCell {
+extension PostReplyCollectionViewCell {
     func setUI() {
         kebabButton.contentMode = .scaleAspectFill
     }
     
     func setHierarchy() {
-        contentView.addSubviews(backgroundUIView)
+        contentView.addSubviews(horizontalCellBarCircleView,
+                                backgroundUIView,
+                                horizontalCellBarView)
         
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
@@ -174,20 +166,33 @@ extension HomeCollectionViewCell {
                                      timeLabel,
                                      kebabButton,
                                      contentTextLabel,
-                                     commentStackView,
                                      likeStackView,
                                      ghostButton,
                                      verticalTextBarView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width - 32)
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().inset(14.adjusted)
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(UIScreen.main.bounds.width - 56.adjusted)
+        }
+        
+        horizontalCellBarView.snp.makeConstraints {
+            $0.centerY.equalTo(backgroundUIView)
+            $0.trailing.equalTo(backgroundUIView.snp.leading)
+            $0.height.equalTo(1.adjusted)
+            $0.leading.equalToSuperview().inset(-18.adjusted)
+        }
+        
+        horizontalCellBarCircleView.snp.makeConstraints {
+            $0.centerY.equalTo(horizontalCellBarView)
+            $0.size.equalTo(8.adjusted)
+            $0.leading.equalTo(backgroundUIView.snp.leading).inset(-4.adjusted)
         }
         
         profileImageView.snp.makeConstraints {
@@ -218,7 +223,7 @@ extension HomeCollectionViewCell {
         
         kebabButton.snp.makeConstraints {
             $0.top.equalTo(24.adjusted)
-            $0.trailing.equalToSuperview().inset(12.adjusted)
+            $0.trailing.equalToSuperview().inset(6.adjusted)
             $0.size.equalTo(34.adjusted)
         }
         
@@ -228,22 +233,15 @@ extension HomeCollectionViewCell {
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
         
-        commentStackView.snp.makeConstraints {
-            $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
-            $0.height.equalTo(commentStackView)
-            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
-        }
-        
         likeStackView.snp.makeConstraints {
-            $0.top.equalTo(commentStackView)
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(42.adjusted)
-            $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.trailing.equalTo(kebabButton).inset(8.adjusted)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         ghostButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
             $0.leading.equalTo(profileImageView)
             $0.size.equalTo(44.adjusted)
         }
