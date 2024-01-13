@@ -50,7 +50,7 @@ enum ImageLiterals {
     enum Join {
         static var btnCheckBox: UIImage { .load(name: "btn_checkbox") }
         static var btnNotCheckBox: UIImage { .load(name: "btn_not_checkbox") }
-        static var btnNecessary: UIImage { .load(name: "btn_necessary") }
+        static var imgNecessary: UIImage { .load(name: "btn_necessary") }
         static var btnSelect: UIImage { .load(name: "btn_select") }
         static var btnView: UIImage { .load(name: "btn_view") }
         static var btnPlus: UIImage { .load(name: "btn_plus") }

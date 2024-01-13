@@ -38,9 +38,9 @@ final class JoinAgreeView: UIView {
     }()
     
     let allCheck = AgreementListCustomView(title: StringLiterals.Join.allCheck, subImage: nil, moreImage: nil)
-    let firstCheckView = AgreementListCustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    let secondCheckView = AgreementListCustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.btnNecessary)
-    let thirdCheckView = AgreementListCustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.btnNecessary, moreImage: nil)
+    let firstCheckView = AgreementListCustomView(title: StringLiterals.Join.useAgreement, subImage: ImageLiterals.Join.imgNecessary)
+    let secondCheckView = AgreementListCustomView(title: StringLiterals.Join.privacyAgreement, subImage: ImageLiterals.Join.imgNecessary)
+    let thirdCheckView = AgreementListCustomView(title: StringLiterals.Join.checkAge, subImage: ImageLiterals.Join.imgNecessary, moreImage: nil)
     let fourthCheckView = AgreementListCustomView(title: StringLiterals.Join.advertisementAgreement, subImage: ImageLiterals.Join.btnSelect)
     
     private let nextButton: UIButton = {
@@ -74,11 +74,11 @@ final class JoinAgreeView: UIView {
 // MARK: - Extensions
 
 extension JoinAgreeView {
-    func setUI() {
+    private func setUI() {
         allCheck.infoLabel.font = .font(.body1)
     }
     
-    func setHierarchy() {
+    private func setHierarchy() {
         self.addSubviews(topDivisionLine,
                          titleLabel,
                          descriptionLabel,
@@ -92,7 +92,7 @@ extension JoinAgreeView {
                          nextActiveButton)
     }
     
-    func setLayout() {
+    private func setLayout() {
         topDivisionLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(self.safeAreaLayoutGuide)
