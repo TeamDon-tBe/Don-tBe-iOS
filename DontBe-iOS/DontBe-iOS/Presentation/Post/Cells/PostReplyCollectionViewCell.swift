@@ -179,16 +179,16 @@ extension PostReplyCollectionViewCell {
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(16.adjusted)
-            $0.width.equalTo(UIScreen.main.bounds.width.adjusted - 48.adjusted)
+            $0.leading.equalToSuperview().inset(14.adjusted)
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(UIScreen.main.bounds.width - 56.adjusted)
         }
         
         horizontalCellBarView.snp.makeConstraints {
             $0.centerY.equalTo(backgroundUIView)
             $0.trailing.equalTo(backgroundUIView.snp.leading)
             $0.height.equalTo(1.adjusted)
-            $0.leading.equalToSuperview().inset(-16.adjusted)
+            $0.leading.equalToSuperview().inset(-18.adjusted)
         }
         
         horizontalCellBarCircleView.snp.makeConstraints {

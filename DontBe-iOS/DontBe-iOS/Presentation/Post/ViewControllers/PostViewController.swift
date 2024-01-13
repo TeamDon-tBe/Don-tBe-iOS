@@ -30,6 +30,7 @@ final class PostViewController: UIViewController {
         super.loadView()
         
         view = myView
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewDidLoad() {
@@ -84,7 +85,7 @@ extension PostViewController {
             $0.top.equalTo(postView.PostbackgroundUIView.snp.bottom).offset(10.adjusted)
             $0.bottom.equalTo(tabBarHeight)
             $0.leading.equalTo(verticalBarView.snp.trailing)
-            $0.trailing.equalTo(16.adjusted)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
         }
         
         verticalBarView.snp.makeConstraints {
@@ -102,7 +103,7 @@ extension PostViewController {
     
     @objc
     private func backButtonPressed() {
-        
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

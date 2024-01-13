@@ -25,7 +25,7 @@ final class PostReplyCollectionView: UIView {
         collectionView.contentInsetAdjustmentBehavior = .never
         collectionView.isUserInteractionEnabled = true
         collectionView.allowsSelection = true
-        collectionView.backgroundColor = UIColor.donGray1
+        collectionView.backgroundColor = .donGray1
         
         return collectionView
     }()

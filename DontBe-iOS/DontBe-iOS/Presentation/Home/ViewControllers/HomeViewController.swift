@@ -57,6 +57,10 @@ final class HomeViewController: UIViewController {
         
         tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+    }
 }
 
 // MARK: - Extensions
@@ -64,7 +68,6 @@ final class HomeViewController: UIViewController {
 extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
-        self.navigationController?.navigationBar.isHidden = true
         uploadToastView.alpha = 0
         transparentButtonPopupView.alpha = 0
     }
@@ -196,6 +199,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.transparentButtonPopupView.alpha = 1
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let destinationViewController = PostViewController()
+        self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
