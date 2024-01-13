@@ -76,7 +76,7 @@ final class PostView: UIView {
     private let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다.돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -263,7 +263,7 @@ extension PostView {
         }
         
         horizontalDivierView.snp.makeConstraints {
-            $0.top.equalTo(PostbackgroundUIView.snp.bottom)
+            $0.bottom.equalTo(PostbackgroundUIView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(1.adjusted)
         }
