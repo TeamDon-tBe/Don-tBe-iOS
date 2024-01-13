@@ -43,7 +43,7 @@ final class IntroductionView: UIView {
         label.numberOfLines = 2
         label.textColor = .donGray8
         label.font = .font(.caption4)
-        label.setTextWithLineHeight(text: label.text, lineHeight: 17.adjusted)
+        label.setTextWithLineHeight(text: label.text, lineHeight: 17.adjusted, alignment: .center)
         return label
     }()
     

@@ -32,7 +32,8 @@ final class JoinAgreeView: UIView {
         descriptionLabel.textColor = .donGray9
         descriptionLabel.font = .font(.body2)
         descriptionLabel.numberOfLines = 2
-        descriptionLabel.setTextWithLineHeight(text: descriptionLabel.text, lineHeight: 25.adjusted)
+        descriptionLabel.textAlignment = .left
+        descriptionLabel.setTextWithLineHeight(text: descriptionLabel.text, lineHeight: 25.adjusted, alignment: .left)
         return descriptionLabel
     }()
     

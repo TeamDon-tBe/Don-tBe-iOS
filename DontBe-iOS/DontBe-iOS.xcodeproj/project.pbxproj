@@ -48,6 +48,9 @@
 		2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */; };
 		2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */; };
 		2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */; };
+		2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */; };
+		2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */; };
+		2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
@@ -134,6 +137,9 @@
 		2AC9FB1E2B4E634A00D31071 /* JoinAgreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinAgreeView.swift; sourceTree = "<group>"; };
 		2AF069AD2B514B0100CA3E48 /* NotificationEmptyViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEmptyViewCell.swift; sourceTree = "<group>"; };
 		2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICollectionViewRegisterable.swift; sourceTree = "<group>"; };
+		2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageNicknameEditView.swift; sourceTree = "<group>"; };
+		2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageIntroductionEditView.swift; sourceTree = "<group>"; };
+		2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -327,6 +333,7 @@
 			isa = PBXGroup;
 			children = (
 				2A8D70C92B4D9787009F4C6C /* IntroductionView.swift */,
+				2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */,
 				2A8868D52B5069790017513A /* OnboardingEndingView.swift */,
 			);
 			path = Views;
@@ -637,6 +644,8 @@
 				3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */,
 				3C49936A2B4FF118002A99CF /* MyPageSegmentedControlView.swift */,
 				3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */,
+				2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */,
+				2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -755,6 +764,7 @@
 				3C49936B2B4FF118002A99CF /* MyPageSegmentedControlView.swift in Sources */,
 				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
+				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
@@ -798,7 +808,9 @@
 				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
+				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
+				2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */,
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
 				2A8868DA2B506D720017513A /* NotificationViewController.swift in Sources */,
 				3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */,

@@ -55,7 +55,9 @@ enum StringLiterals {
         static let skip = "건너뛰기"
         static let next = "다음으로"
         static let start = "시작하기"
+        static let later = "한 줄 소개 나중에 작성하기"
         static let finish = "완료하기"
+        static let editFinish = "수정완료"
     }
     
     enum Toast {
@@ -82,6 +84,8 @@ enum StringLiterals {
         static let MyPageNavigationTitle = "마이"
         static let MyPageEditNavigationTitle = "프로필 편집"
         static let MyPageAccountInfoNavigationTitle = "계정 정보"
+        static let myPageEditIntroduction = "한줄 소개"
+        static let myPageEditIntroductionPlease = "한 줄로 자신을 소개해주세요."
     }
     
     enum TransparencyInfo {
