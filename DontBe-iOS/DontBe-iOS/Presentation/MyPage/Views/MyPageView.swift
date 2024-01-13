@@ -13,6 +13,10 @@ final class MyPageView: UIView {
     
     // MARK: - Properties
     
+    var dataViewControllers: [UIViewController] {
+        [self.myPageContentViewController, self.myPageCommentViewController]
+    }
+    
     static var pushCount: Int = 0
     private let dummy = TransparencyInfoDummy.dummy()
     
@@ -20,9 +24,10 @@ final class MyPageView: UIView {
     
     // MARK: - UI Components
     
-    private var myPageScrollView: UIScrollView = {
+    var myPageScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .donBlack
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -32,8 +37,43 @@ final class MyPageView: UIView {
         return view
     }()
     
-    private var myPageProfileView = MyPageProfileView()
-    var myPageSegmentedControlView = MyPageSegmentedControlView()
+    var myPageProfileView = MyPageProfileView()
+    
+    private var myPageSegmentedView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donWhite
+        return view
+    }()
+    
+    let segmentedControl: UISegmentedControl = {
+        let segmentedControl = MyPageSegmentedControl(items: ["게시글", "답글"])
+        segmentedControl.backgroundColor = .donWhite
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.donGray7,
+                .font: UIFont.font(.body1)
+            ], for: .normal
+        )
+        segmentedControl.setTitleTextAttributes(
+            [
+                NSAttributedString.Key.foregroundColor: UIColor.donGray12,
+                .font: UIFont.font(.body1)
+            ],
+            for: .selected
+        )
+        return segmentedControl
+    }()
+    
+    lazy var pageViewController: UIPageViewController = {
+        let vc = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        vc.setViewControllers([self.dataViewControllers[0]], direction: .forward, animated: true)
+        return vc
+    }()
+    
+    let myPageContentViewController = MyPageContentViewController()
+    let myPageCommentViewController = MyPageCommentViewController()
+    
     var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,
                                                   accountInfoImage: ImageLiterals.MyPage.btnAccount,
                                                   feedbackImage: ImageLiterals.MyPage.btnFeedback,
@@ -47,6 +87,7 @@ final class MyPageView: UIView {
         setUI()
         setHierarchy()
         setLayout()
+        setDelegate()
         setAddTarget()
     }
     
@@ -67,7 +108,9 @@ extension MyPageView {
         self.addSubviews(myPageScrollView)
         myPageScrollView.addSubview(myPageContentView)
         myPageContentView.addSubviews(myPageProfileView,
-                                      myPageSegmentedControlView)
+                                      myPageSegmentedView)
+        myPageSegmentedView.addSubviews(segmentedControl,
+                                        pageViewController.view)
     }
     
     private func setLayout() {
@@ -76,20 +119,35 @@ extension MyPageView {
         }
         
         myPageContentView.snp.makeConstraints {
-            $0.edges.equalTo(myPageScrollView)
+            $0.top.leading.bottom.equalToSuperview()
             $0.width.equalTo(myPageScrollView.snp.width)
-            $0.height.equalTo(1000)
+            $0.height.equalTo(2000)
         }
         
         myPageProfileView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(myPageSegmentedControlView.snp.top)
+            $0.height.equalTo(270.adjusted)
         }
         
-        myPageSegmentedControlView.snp.makeConstraints {
-            $0.top.equalTo(myPageProfileView.transparencyInfoButton.snp.bottom).offset(25.adjusted)
+        myPageSegmentedView.snp.makeConstraints {
+            $0.top.equalTo(myPageProfileView.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
         }
+        
+        segmentedControl.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(54.adjusted)
+        }
+        
+        pageViewController.view.snp.makeConstraints {
+            $0.top.equalTo(segmentedControl.snp.bottom).offset(2.adjusted)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(2000)
+        }
+    }
+    
+    private func setDelegate() {
+        
     }
     
     private func setAddTarget() {
@@ -101,13 +159,13 @@ extension MyPageView {
         self.myPageScrollView.isScrollEnabled = false
         
         transparencyInfoView = DontBeTransparencyInfoView()
-        myPageContentView.addSubview(transparencyInfoView!)
+        self.addSubview(transparencyInfoView!)
         
         transparencyInfoView?.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
-        transparencyInfoView?.bringSubviewToFront(myPageContentView)
+        transparencyInfoView?.bringSubviewToFront(self)
         transparencyInfoView?.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         transparencyInfoView?.infoScrollView.delegate = self
     }
