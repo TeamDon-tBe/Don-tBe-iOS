@@ -211,9 +211,9 @@ extension MyPageNicknameEditView: UITextFieldDelegate {
             let endIndex = text.index(startIndex, offsetBy: maxLength - 1)
             let fixedText = String(text[startIndex...endIndex])
             textField.text = fixedText
-            self.numOfLetters.text = "\(maxLength)/\(maxLength)"
+            self.numOfLetters.text = "(\(maxLength)/\(maxLength))"
         } else {
-            self.numOfLetters.text = "\(text.count)/\(maxLength)"
+            self.numOfLetters.text = "(\(text.count)/\(maxLength))"
         }
     }
 }

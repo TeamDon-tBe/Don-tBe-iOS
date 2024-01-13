@@ -14,7 +14,6 @@ final class MyPageIntroductionEditView: UIView {
     // MARK: - Properties
     
     let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
-    let maxLength = 50 // 최대 글자 수
     
     // MARK: - UI Components
 
@@ -44,7 +43,7 @@ final class MyPageIntroductionEditView: UIView {
     
     private let numOfLetters: UILabel = {
         let numOfLetters = UILabel()
-        numOfLetters.text = "0/50"
+        numOfLetters.text = "(0/50)"
         numOfLetters.textColor = .donGray7
         numOfLetters.font = .font(.caption4)
         return numOfLetters
@@ -119,6 +118,8 @@ extension MyPageIntroductionEditView {
 
 extension MyPageIntroductionEditView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        let maxLength = 50 // 최대 글자 수
+
         let textLength = contentTextView.text.count
         textView.text = String(textView.text.prefix(maxLength))
         
@@ -131,9 +132,9 @@ extension MyPageIntroductionEditView: UITextViewDelegate {
             postButton.backgroundColor = .donGray4
             postButton.isEnabled = false
         } else if textLength < 50 {
-            self.numOfLetters.text = "\(textLength)/50"
+            self.numOfLetters.text = "(\(textLength)/\(maxLength)"
         } else {
-            self.numOfLetters.text = "50/50"
+            self.numOfLetters.text = "(\(maxLength)/\(maxLength)"
         }
     }
 }
