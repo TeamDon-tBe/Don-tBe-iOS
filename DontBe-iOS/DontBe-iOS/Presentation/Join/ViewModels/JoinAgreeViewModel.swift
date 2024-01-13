@@ -51,13 +51,23 @@ final class JoinAgreeViewModel: ViewModelType {
         input.allCheckButtonTapped
             .sink { [weak self] _ in
                 // 모든 버튼 상태를 업데이트하고 신호를 보냄
-                self?.isAllChecked.toggle()
-                self?.isFirstChecked = self?.isAllChecked ?? false
-                self?.isSecondChecked = self?.isAllChecked ?? false
-                self?.isThirdChecked = self?.isAllChecked ?? false
-                self?.isFourthChecked = self?.isAllChecked ?? false
-                self?.isEnabled.send(self?.isNextButtonEnabled() ?? 0)
-                self?.allButtonChecked.send(self?.isAllChecked ?? false)
+                if self?.isFirstChecked == true && self?.isSecondChecked == true && self?.isThirdChecked == true && self?.isFourthChecked == true {
+                    self?.isAllChecked.toggle()
+                    self?.isFirstChecked = self?.isAllChecked ?? false
+                    self?.isSecondChecked = self?.isAllChecked ?? false
+                    self?.isThirdChecked = self?.isAllChecked ?? false
+                    self?.isFourthChecked = self?.isAllChecked ?? false
+                    self?.isEnabled.send(self?.isNextButtonEnabled() ?? 0)
+                    self?.allButtonChecked.send(self?.isAllChecked ?? false)
+                } else {
+                    self?.isAllChecked = true
+                    self?.isFirstChecked = self?.isAllChecked ?? false
+                    self?.isSecondChecked = self?.isAllChecked ?? false
+                    self?.isThirdChecked = self?.isAllChecked ?? false
+                    self?.isFourthChecked = self?.isAllChecked ?? false
+                    self?.isEnabled.send(self?.isNextButtonEnabled() ?? 0)
+                    self?.allButtonChecked.send(self?.isAllChecked ?? false)
+                }
             }
             .store(in: cancelBag)
         
