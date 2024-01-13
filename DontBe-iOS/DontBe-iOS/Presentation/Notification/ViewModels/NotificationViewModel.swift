@@ -15,7 +15,7 @@ final class NotificationViewModel: ViewModelType {
     var dummy = [NotificationDummy(profile: nil, userName: "", description: "", minutes: "")]
     
     struct Input {
-        let viewAppear: AnyPublisher<Void, Never>
+        let viewLoad: AnyPublisher<Void, Never>
         let refreshControlClicked: AnyPublisher<Void, Never>
     }
     
@@ -26,7 +26,7 @@ final class NotificationViewModel: ViewModelType {
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         // 서버통신으로 구조체 받아옴
         // self.dummy는 서버통신으로 받아온 구조체 배열로 대체
-        input.viewAppear
+        input.viewLoad
             .sink { _ in
                 self.dummy = NotificationDummy.dummy()
                 self.reloadTableView.send(0)

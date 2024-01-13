@@ -108,7 +108,7 @@ extension NotificationViewController {
     }
     
     private func bindViewModel() {
-        let input = NotificationViewModel.Input(viewAppear: Just(()).eraseToAnyPublisher(), refreshControlClicked: refreshControlClicked)
+        let input = NotificationViewModel.Input(viewLoad: Just(()).eraseToAnyPublisher(), refreshControlClicked: refreshControlClicked)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
 
