@@ -15,7 +15,7 @@ final class JoinAgreementViewController: UIViewController {
     
     // MARK: - Properties
     
-    let useAgreementURL = NSURL(string: "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0")
+    let useAgreementURL = URL(string: "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0")
     
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
@@ -180,7 +180,7 @@ extension JoinAgreementViewController {
     @objc
     private func moreButtonTapped() {
         let useAgreementView: SFSafariViewController
-        if let useAgreementURL = self.useAgreementURL as? URL {
+        if let useAgreementURL = self.useAgreementURL {
             useAgreementView = SFSafariViewController(url: useAgreementURL)
             self.present(useAgreementView, animated: true, completion: nil)
         } else {

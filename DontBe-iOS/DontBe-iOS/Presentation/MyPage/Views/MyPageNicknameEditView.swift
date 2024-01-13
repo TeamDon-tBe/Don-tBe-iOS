@@ -230,7 +230,8 @@ extension MyPageNicknameEditView: UITextFieldDelegate {
             self.numOfLetters.text = "(\(text.count)/\(maxLength))"
         }
         
-        if isValidInput(text) {
+        let isValid = isValidInput(text)
+        if isValid {
             duplicationCheckButton.isEnabled = true
             duplicationCheckButton.setTitleColor(.donBlack, for: .normal)
             duplicationCheckButton.backgroundColor = .donPrimary
@@ -240,7 +241,7 @@ extension MyPageNicknameEditView: UITextFieldDelegate {
             duplicationCheckButton.backgroundColor = .donGray4
         }
         
-        duplicationCheckDescription.isHidden = !isValidInput(text)
-        isNotValidNickname.isHidden = isValidInput(text)
+        duplicationCheckDescription.isHidden = !isValid
+        isNotValidNickname.isHidden = isValid
     }
 }
