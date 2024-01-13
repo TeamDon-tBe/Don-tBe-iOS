@@ -58,9 +58,19 @@ final class MyPageViewController: UIViewController {
 
 extension MyPageViewController {
     private func setUI() {
+        self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
         self.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
+        self.navigationController?.navigationBar.tintColor = .donBlack
+        self.navigationController?.navigationBar.barTintColor = .donBlack
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.isTranslucent = true
+        
+        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        statusBarView.backgroundColor = UIColor.donBlack  // 적절한 색상으로 변경 가능
+        view.addSubview(statusBarView)
         
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
