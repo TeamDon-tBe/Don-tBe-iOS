@@ -16,37 +16,22 @@ final class OnboardingEndingViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
-    private lazy var startButtonTapped = self.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    private lazy var backButtonTapped = self.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
 
+    private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _
+        in saveUserData(UserInfo(isSocialLogined: 
+                                 loadUserData()?.isSocialLogined ?? true,
+                                 isJoinedApp: true, 
+                                 isNotFirstUser: true,
+                                 isOnboardingFinished: true,
+                                 userNickname: loadUserData()?.userNickname ?? ""))
+    }.eraseToAnyPublisher()
+    private lazy var skipButtonTapped = self.originView.laterButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    
     // MARK: - UI Components
     
-    private let progressImage: UIImageView = {
-        let progress = UIImageView()
-        progress.image = ImageLiterals.Onboarding.progressbar4
-        return progress
-    }()
-    
-    private let titleImage: UIImageView = {
-        let title = UIImageView()
-        title.image = ImageLiterals.Onboarding.imgFourthTitle
-        title.contentMode = .scaleAspectFit
-        return title
-    }()
-    
-    private let profileImage: UIImageView = {
-        let profile = UIImageView()
-        profile.image = ImageLiterals.Common.imgProfile
-        return profile
-    }()
+    private let originView = OnboardingEndingView()
 
-    private let introductionView = IntroductionView()
-    
-    private let backButton = BackButton()
-    private let startButton = CustomButton(title: StringLiterals.Button.start, backColor: .donPrimary, titleColor: .donBlack)
-    
-    private let skipButton = CustomButton(title: StringLiterals.Button.skip, backColor: .clear, titleColor: .donGray7)
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }
@@ -62,12 +47,16 @@ final class OnboardingEndingViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        super.loadView()
+        
+        view = originView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUI()
-        setHierarchy()
-        setLayout()
         bindViewModel()
     }
     
@@ -86,75 +75,23 @@ extension OnboardingEndingViewController {
         self.view.backgroundColor = .donGray1
     }
     
-    private func setHierarchy() {
-        self.view.addSubviews(backButton,
-                              progressImage,
-                              titleImage,
-                              profileImage,
-                              introductionView,
-                              startButton,
-                              skipButton)
-        self.view.bringSubviewToFront(profileImage)
-    }
-    
-    private func setLayout() {
-        backButton.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(statusBarHeight + 38.adjusted)
-            $0.leading.equalToSuperview().inset(23.adjusted)
-        }
-        
-        progressImage.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(statusBarHeight + 46.adjusted)
-            $0.width.equalTo(48.adjusted)
-            $0.height.equalTo(6.adjusted)
-        }
-        
-        titleImage.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(91.adjusted)
-            $0.top.equalToSuperview().inset(statusBarHeight + 90.adjustedH)
-            $0.height.equalTo(72.adjusted)
-        }
-        
-        profileImage.snp.makeConstraints {
-            $0.size.equalTo(100.adjusted)
-            $0.centerX.equalToSuperview()
-            $0.top.equalToSuperview().inset(statusBarHeight + 201.adjustedH)
-        }
-        
-        introductionView.snp.makeConstraints {
-            $0.width.equalTo(320.adjusted)
-            $0.height.equalTo(211.adjusted)
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(profileImage).offset(50.adjusted)
-        }
-        
-        startButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(91.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-        
-        skipButton.snp.makeConstraints {
-            $0.top.equalTo(startButton.snp.bottom).offset(12.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-    }
-    
     private func bindViewModel() {
-        let input = OnboardingEndingViewModel.Input(startButtonTapped: startButtonTapped, backButtonTapped: backButtonTapped)
+        let input = OnboardingEndingViewModel.Input(
+            backButtonTapped: backButtonTapped,
+            startButtonTapped: startButtonTapped,
+            skipButtonTapped: skipButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.voidPublisher
             .sink { value in
-                if value == "start" {
-                    let viewController = DontBeTabBarController()
-                    print(self.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
-                    self.navigationController?.pushViewController(viewController, animated: true)
-                } else {
+                if value == "back" {
                     self.navigationController?.popViewController(animated: true)
+                } else {
+                    let viewController = DontBeTabBarController()
+                    print(self.originView.introductionView.introduction.text ?? "") // 텍스트 필드 텍스트 잘 넘어오는지 확인
+                    self.navigationController?.pushViewController(viewController, animated: true)
                 }
-                
             }
             .store(in: self.cancelBag)
     }

@@ -17,7 +17,7 @@ final class IntroductionView: UIView {
     
     private let nickName: UILabel = {
         let nickName = UILabel()
-        nickName.text = UserDefaults.standard.string(forKey: "nickname")
+        nickName.text = loadUserData()?.userNickname
         nickName.textColor = .donBlack
         nickName.font = .font(.head3)
         return nickName
@@ -40,8 +40,10 @@ final class IntroductionView: UIView {
     private let information: UILabel = {
         let label = UILabel()
         label.text = StringLiterals.Onboarding.information
+        label.numberOfLines = 2
         label.textColor = .donGray8
         label.font = .font(.caption4)
+        label.setTextWithLineHeight(text: label.text, lineHeight: 17.adjusted, alignment: .center)
         return label
     }()
     
@@ -85,14 +87,15 @@ extension IntroductionView {
         }
         
         introduction.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(51.adjusted)
+            $0.bottom.equalToSuperview().inset(70.adjusted)
             $0.leading.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(55.adjusted)
         }
         
         information.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(20.adjusted)
             $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(22.adjusted)
+            $0.height.equalTo(36.adjusted)
         }
     }
 }

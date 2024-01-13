@@ -31,7 +31,7 @@ final class LoginViewController: UIViewController {
         title.textColor = .black
         title.numberOfLines = 2
         title.font = .font(.head1)
-        title.setTextWithLineHeight(text: title.text, lineHeight: 37.adjusted)
+        title.setTextWithLineHeight(text: title.text, lineHeight: 37.adjusted, alignment: .left)
         return title
     }()
     
@@ -116,7 +116,20 @@ extension LoginViewController {
         //            .receive(on: RunLoop.main)
             .sink { userInfo in
                 print(userInfo)
-                let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                // 서버통신 -> 첫 로그인 유저면 여기
+                 let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                saveUserData(UserInfo(isSocialLogined: true,
+                                      isJoinedApp: false, 
+                                      isNotFirstUser: false,
+                                      isOnboardingFinished: false,
+                                      userNickname: ""))
+//                 서버통신 -> 이미 로그인 유저면
+//                let viewController = OnboardingViewController()
+//                saveUserData(UserInfo(isSocialLogined: true,
+//                                      isJoinedApp: true, 
+//                                      isNotFirstUser: true,
+//                                      isOnboardingFinished: false,
+//                                      userNickname: ""))
                 self.navigationController?.pushViewController(viewController, animated: true)
             }
             .store(in: self.cancelBag)

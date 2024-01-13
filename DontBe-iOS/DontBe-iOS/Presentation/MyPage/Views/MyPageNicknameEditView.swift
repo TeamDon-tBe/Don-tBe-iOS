@@ -1,15 +1,15 @@
 //
-//  ProfileView.swift
+//  MyPageEditView.swift
 //  DontBe-iOS
 //
-//  Created by 변희주 on 1/11/24.
+//  Created by 변희주 on 1/13/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class JoinProfileView: UIView {
+final class MyPageNicknameEditView: UIView {
 
     // MARK: - Properties
     
@@ -79,18 +79,6 @@ final class JoinProfileView: UIView {
         return duplicationCheckDescription
     }()
     
-    let finishButton: UIButton = {
-        let finishButton = CustomButton(title: StringLiterals.Button.finish, backColor: .donGray4, titleColor: .donGray9)
-        finishButton.isEnabled = false
-        return finishButton
-    }()
-    
-    let finishActiveButton: UIButton = {
-        let finishActiveButton = CustomButton(title: StringLiterals.Button.finish, backColor: .donBlack, titleColor: .donWhite)
-        finishActiveButton.isHidden = true
-        return finishActiveButton
-    }()
-    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -109,22 +97,20 @@ final class JoinProfileView: UIView {
 
 // MARK: - Extensions
 
-extension JoinProfileView {
-    private func setHierarchy() {
+extension MyPageNicknameEditView {
+    func setHierarchy() {
         self.addSubviews(topDivisionLine,
                          profileImage,
 //                         plusButton,
                          nickNameLabel,
                          nickNameTextField,
                          duplicationCheckButton,
-                         duplicationCheckDescription,
-                         finishButton,
-                         finishActiveButton)
+                         duplicationCheckDescription)
         
         nickNameTextField.addSubview(numOfLetters)
     }
     
-    private func setLayout() {
+    func setLayout() {
         topDivisionLine.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(self.safeAreaLayoutGuide)
@@ -170,16 +156,6 @@ extension JoinProfileView {
             $0.top.equalTo(nickNameTextField.snp.bottom).offset(6.adjustedH)
             $0.leading.equalToSuperview().inset(16.adjusted)
         }
-        
-        finishButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
-            $0.centerX.equalToSuperview()
-        }
-        
-        finishActiveButton.snp.makeConstraints {
-            $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(29.adjusted)
-            $0.centerX.equalToSuperview()
-        }
     }
     
     private func setDelegate() {
@@ -189,7 +165,8 @@ extension JoinProfileView {
 
 // MARK: - UITextFieldDelegate
 
-extension JoinProfileView: UITextFieldDelegate {
+extension MyPageNicknameEditView: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool{
         // 키보드 내리면서 동작
         textField.resignFirstResponder()
@@ -197,6 +174,9 @@ extension JoinProfileView: UITextFieldDelegate {
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+                
+        self.duplicationCheckDescription.text = StringLiterals.Join.duplicationCheckDescription
+        self.duplicationCheckDescription.textColor = .donGray8
         
         let maxLength = 12 // 글자수 제한
         let oldText = textField.text ?? "" // 입력하기 전 textField에 표시되어있던 text

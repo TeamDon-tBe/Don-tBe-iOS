@@ -70,7 +70,7 @@ final class JoinProfileViewController: UIViewController {
 
 extension JoinProfileViewController {
     private func setUI() {
-        self.view.backgroundColor = .donWhite
+        self.view.backgroundColor = .donGray1
         self.navigationItem.title = StringLiterals.Join.joinNavigationTitle
     }
     
@@ -87,7 +87,7 @@ extension JoinProfileViewController {
     }
     
     private func setDelegate() {
-        self.originView.nickNameTextField.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldTisEmpty), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     private func bindViewModel() {
@@ -99,21 +99,24 @@ extension JoinProfileViewController {
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                    // UserInfo 인스턴스 생성
-                    let userNickname = UserInfo(userNickname: self.originView.nickNameTextField.text ?? "")
-                    // Local DB에 저장
-                    UserDefaults.standard.set(userNickname.userNickname, forKey: "nickname")
+                    saveUserData(UserInfo(isSocialLogined: true,
+                                          isJoinedApp: true, 
+                                          isNotFirstUser: false,
+                                          isOnboardingFinished: false,
+                                          userNickname: self.originView.nickNameTextField.text ?? ""))
                     
                     let viewContoller = OnboardingViewController()
+                    self.navigationBackButton.removeFromSuperview()
                     self.navigationController?.pushViewController(viewContoller, animated: true)
                 }
             }
             .store(in: self.cancelBag)
         
         output.isEnable
-            .sink { isTrue in
-                self.originView.finishActiveButton.isHidden = !isTrue
-                if isTrue {
+            .sink { isEnable in
+                self.originView.nickNameTextField.resignFirstResponder()
+                self.originView.finishActiveButton.isHidden = !isEnable
+                if isEnable {
                     self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
                     self.originView.duplicationCheckDescription.textColor = .donSecondary
                 } else {
@@ -123,48 +126,12 @@ extension JoinProfileViewController {
             }
             .store(in: self.cancelBag)
     }
-}
 
-// MARK: - UITextFieldDelegate
-
-extension JoinProfileViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 12 // 글자수 제한
-        let oldText = textField.text ?? "" // 입력하기 전 textField에 표시되어있던 text
-        let addedText = string // 입력한 text
-        let newText = oldText + addedText // 입력하기 전 text와 입력한 후 text를 합침
-        let newTextLength = newText.count // 합쳐진 text의 길이
-        
-        // 글자수 제한
-        if newTextLength <= maxLength {
-            return true
-        }
-        
-        let lastWordOfOldText = String(oldText[oldText.index(before: oldText.endIndex)]) // 입력하기 전 text의 마지막 글자
-        let separatedCharacters = lastWordOfOldText.decomposedStringWithCanonicalMapping.unicodeScalars.map{ String($0) } // 입력하기 전 text의 마지막 글자를 자음과 모음으로 분리
-        let separatedCharactersCount = separatedCharacters.count // 분리된 자음, 모음의 개수
-        
-        if separatedCharactersCount == 1 && !addedText.isConsonant {
-            return true
-        } else if separatedCharactersCount == 2 && addedText.isConsonant {
-            return true
-        } else if separatedCharactersCount == 3 && addedText.isConsonant {
-            return true
-        }
-        return false
-    }
-    
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        let text = textField.text ?? "" // textField에 수정이 반영된 후의 text
-        let maxLength = 12 // 글자 수 제한
-        if text.count >= maxLength {
-            let startIndex = text.startIndex
-            let endIndex = text.index(startIndex, offsetBy: maxLength - 1)
-            let fixedText = String(text[startIndex...endIndex])
-            textField.text = fixedText
-            self.originView.numOfLetters.text = "12/12"
-        } else {
-            self.originView.numOfLetters.text = "\(text.count)/12"
-        }
+    @objc
+    private func textFieldTisEmpty() {
+        self.originView.finishActiveButton.isHidden = true
+        self.originView.finishButton.isHidden = false
+        self.originView.duplicationCheckDescription.text = StringLiterals.Join.duplicationCheckDescription
+        self.originView.duplicationCheckDescription.textColor = .donGray8
     }
 }
