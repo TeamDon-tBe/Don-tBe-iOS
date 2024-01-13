@@ -11,6 +11,7 @@ enum Config {
     enum Keys {
         enum Plist {
             static let nativeAppKey = "NATIVE_APP_KEY"
+            static let baseURL = "BASE_URL"
         }
     }
     
