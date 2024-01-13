@@ -131,7 +131,6 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return view
     }()
 
-    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {

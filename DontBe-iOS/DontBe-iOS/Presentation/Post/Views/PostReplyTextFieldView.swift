@@ -100,20 +100,20 @@ extension PostReplyTextFieldView {
         
         profileImageView.snp.makeConstraints {
             $0.size.equalTo(40.adjusted)
-            $0.leading.equalTo(16)
+            $0.leading.equalTo(16.adjusted)
             $0.centerY.equalToSuperview()
         }
         
         textFieldView.snp.makeConstraints {
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(8)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(40.adjusted)
             $0.centerY.equalToSuperview()
         }
         
         replyTextFieldLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(textFieldView.snp.leading).offset(16)
+            $0.leading.equalTo(textFieldView.snp.leading).offset(16.adjusted)
         }
         
     }
