@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageAccountInfoViewController: UIViewController {
+final class MyPageAccountInfoViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     

@@ -17,14 +17,7 @@ final class OnboardingEndingViewController: UIViewController {
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
 
-    private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _
-        in saveUserData(UserInfo(isSocialLogined: 
-                                 loadUserData()?.isSocialLogined ?? true,
-                                 isFirstUser: false,
-                                 isJoinedApp: true,
-                                 isOnboardingFinished: true,
-                                 userNickname: loadUserData()?.userNickname ?? ""))
-    }.eraseToAnyPublisher()
+    private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var skipButtonTapped = self.originView.laterButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     

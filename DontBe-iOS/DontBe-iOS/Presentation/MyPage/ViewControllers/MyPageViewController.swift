@@ -94,7 +94,8 @@ extension MyPageViewController {
         self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
         self.navigationController?.navigationBar.backgroundColor = .donBlack
-        
+        self.navigationController?.navigationBar.barTintColor = .donBlack
+
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
         let hambergerButton = UIBarButtonItem(image: renderedImage,

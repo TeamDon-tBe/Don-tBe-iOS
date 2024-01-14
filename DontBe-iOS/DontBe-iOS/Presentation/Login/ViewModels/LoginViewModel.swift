@@ -37,56 +37,49 @@ final class LoginViewModel: ViewModelType {
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.kakaoButtonTapped
             .sink {
-                Task {
-                    do {
-                        if UserApi.isKakaoTalkLoginAvailable() {
-                            let oauthToken = try await self.loginWithKakaoTalk()
-                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
-                            self.userInfoPublisher.send(isNewUser)
-                        } else {
-                            let oauthToken = try await self.loginWithKakaoAccount()
-                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
-                            self.userInfoPublisher.send(isNewUser)
-                        }
-                        print("👻👻👻👻👻카카오 로그인 성공👻👻👻👻👻")
-                    } catch {
-                        print(error)
-                    }
-                }
+                self.performKakaoLogin()
             }
-            .store(in: self.cancelBag)
+            .store(in: cancelBag)
         
         return Output(userInfoPublisher: userInfoPublisher)
+    }
+    
+    private func performKakaoLogin() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            UserApi.shared.loginWithKakaoTalk { [weak self] (oauthToken, error) in
+                self?.handleKakaoLoginResult(oauthToken: oauthToken, error: error)
+            }
+        } else {
+            UserApi.shared.loginWithKakaoAccount { [weak self] (oauthToken, error) in
+                self?.handleKakaoLoginResult(oauthToken: oauthToken, error: error)
+            }
+        }
+    }
+    
+    private func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
+        if let error = error {
+            print(error)
+        } else if let accessToken = oauthToken?.accessToken {
+            Task {
+                do {
+                    let isNewUser = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
+                    let nickname = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
+                    
+                    if !isNewUser && !nickname.isEmpty {
+                        self.userInfoPublisher.send(false)
+                    } else {
+                        self.userInfoPublisher.send(true)
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
     }
 }
 
 extension LoginViewModel {
-    private func loginWithKakaoTalk() async throws -> OAuthToken {
-        return try await withCheckedThrowingContinuation { continuation in
-            UserApi.shared.loginWithKakaoTalk { oauthToken, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else if let oauthToken = oauthToken {
-                    continuation.resume(returning: oauthToken)
-                }
-            }
-        }
-    }
-    
-    private func loginWithKakaoAccount() async throws -> OAuthToken {
-        return try await withCheckedThrowingContinuation { continuation in
-            UserApi.shared.loginWithKakaoAccount { oauthToken, error in
-                if let error = error {
-                    continuation.resume(throwing: error)
-                } else if let oauthToken = oauthToken {
-                    continuation.resume(returning: oauthToken)
-                }
-            }
-        }
-    }
-    
-    private func getSocialLoginAPI(oauthToken: OAuthToken) async throws -> BaseResponse<SocialLoginResponseDTO>? {
-        let accessToken = oauthToken.accessToken
+    private func getSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,

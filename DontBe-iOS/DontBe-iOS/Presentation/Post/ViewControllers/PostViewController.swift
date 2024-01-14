@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostViewController: UIViewController {
+final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     var tabBarHeight: CGFloat = 0
