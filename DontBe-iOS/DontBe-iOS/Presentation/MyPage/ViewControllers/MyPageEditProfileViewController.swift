@@ -40,12 +40,13 @@ final class MyPageEditProfileViewController: UIViewController {
 
 extension MyPageEditProfileViewController {
     private func setUI() {
+        self.view.backgroundColor = .donWhite
         self.tabBarController?.tabBar.isHidden = true
         self.tabBarController?.tabBar.isTranslucent = true
-        self.view.backgroundColor = .donGray1
         self.title = StringLiterals.MyPage.MyPageEditNavigationTitle
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }
     
     private func setHierarchy() {

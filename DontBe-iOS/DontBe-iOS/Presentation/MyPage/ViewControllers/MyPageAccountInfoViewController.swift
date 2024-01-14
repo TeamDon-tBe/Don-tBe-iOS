@@ -73,13 +73,14 @@ final class MyPageAccountInfoViewController: UIViewController {
         setAddTarget()
         setDelegate()
         setRegisterCell()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.backgroundColor = .donWhite
+        self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
@@ -94,8 +95,6 @@ extension MyPageAccountInfoViewController {
         self.title = "계정 정보"
         self.view.backgroundColor = .donWhite
         
-        self.navigationController?.navigationBar.barTintColor = .donWhite
-        self.navigationController?.navigationBar.tintColor = .donWhite
         self.navigationController?.navigationBar.backgroundColor = .donWhite
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         
