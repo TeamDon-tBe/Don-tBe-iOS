@@ -15,10 +15,10 @@ import KakaoSDKUser
 final class LoginViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
-    private let networkProvider: SocialLoginServiceType
+    private let networkProvider: NetworkServiceType
     private let userInfoPublisher = PassthroughSubject<Bool, Never>()
     
-    init(networkProvider: SocialLoginServiceType) {
+    init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
     }
     
@@ -41,11 +41,22 @@ final class LoginViewModel: ViewModelType {
                     do {
                         if UserApi.isKakaoTalkLoginAvailable() {
                             let oauthToken = try await self.loginWithKakaoTalk()
-                            try await self.handleLoginResult(oauthToken: oauthToken)
+                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
+                            self.userInfoPublisher.send(isNewUser)
+                            saveUserData(UserInfo(isSocialLogined: true,
+                                                  isJoinedApp: isNewUser,
+                                                  isOnboardingFinished: false,
+                                                  userNickname: ""))
                         } else {
                             let oauthToken = try await self.loginWithKakaoAccount()
-                            try await self.handleLoginResult(oauthToken: oauthToken)
+                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
+                            self.userInfoPublisher.send(isNewUser)
+                            saveUserData(UserInfo(isSocialLogined: true,
+                                                  isJoinedApp: isNewUser,
+                                                  isOnboardingFinished: false,
+                                                  userNickname: ""))
                         }
+                        print("카카오 로그인 성공 👻👻👻👻👻")
                     } catch {
                         print(error)
                     }
@@ -69,7 +80,7 @@ extension LoginViewModel {
             }
         }
     }
-
+    
     private func loginWithKakaoAccount() async throws -> OAuthToken {
         return try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.loginWithKakaoAccount { oauthToken, error in
@@ -81,34 +92,17 @@ extension LoginViewModel {
             }
         }
     }
-
-    private func handleLoginResult(oauthToken: OAuthToken) async throws {
-        let accessToken = oauthToken.accessToken
-        let isNewUser = try await postSocialLoginAPI(accessToken: accessToken)
-        userInfoPublisher.send(isNewUser)
-        print("카카오 로그인 성공 👻👻👻👻👻")
-    }
     
-    private func postSocialLoginAPI(accessToken: String) async -> Bool {
+    private func getSocialLoginAPI(oauthToken: OAuthToken) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+        let accessToken = oauthToken.accessToken
         do {
-            if let result = try await networkProvider.postData(accessToken: accessToken) {
-                let isNewUser = result.data?.isNewUser ?? true
-                if isNewUser {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isJoinedApp: true,
-                                          isOnboardingFinished: false,
-                                          userNickname: ""))
-                } else {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isJoinedApp: false,
-                                          isOnboardingFinished: false,
-                                          userNickname: ""))
-                }
-                return isNewUser
-            }
-        } catch {
-            print(error)
+            let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(type: .post, baseURL: Config.baseURL + "/auth", accessToken: accessToken, body: SocialLoginRequestDTO(socialPlatform: "KAKAO"), pathVariables: ["":""])
+            print ("👻👻👻👻👻👻👻👻👻👻👻👻")
+            print (data?.data?.accessToken)
+            return data
         }
-        return false
+        catch {
+           return nil
+       }
     }
 }

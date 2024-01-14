@@ -24,13 +24,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let navigationController = UINavigationController(rootViewController: DontBeTabBarController())
                 self.window?.rootViewController = navigationController
             } else if loadUserData()?.isJoinedApp == false {
-                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel(networkProvider: SocialLoginService())))
+                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService())))
                 self.window?.rootViewController = navigationController
             } else if loadUserData()?.isOnboardingFinished == false {
                 let navigationController = UINavigationController(rootViewController: OnboardingViewController())
                 self.window?.rootViewController = navigationController
             } else {
-                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel(networkProvider: SocialLoginService())))
+                let navigationController = UINavigationController(rootViewController: LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService())))
                 self.window?.rootViewController = navigationController
             }
             self.window?.makeKeyAndVisible()

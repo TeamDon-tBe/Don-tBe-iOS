@@ -48,8 +48,8 @@ enum StringLiterals {
     }
     
     enum Onboarding {
-        static let placeHolder = "한문장으로 소개를 남겨주세요!"
-        static let information = "설정한 사진, 닉네임, 한줄소개는 설정에서 변경 가능해요!\n작성한 한 줄 소개는 작성한 게시글로 업로드 돼요."
+        static let placeHolder = "한 문장으로 소개를 남겨주세요!"
+        static let information = "설정한 닉네임, 한줄소개는 설정에서 변경 가능해요!\n작성한 한 줄 소개는 작성한 게시글로 업로드 돼요."
     }
     
     enum Button {
