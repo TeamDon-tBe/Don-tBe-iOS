@@ -179,7 +179,7 @@ extension PostReplyCollectionViewCell {
             $0.top.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(14.adjusted)
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width - 56.adjusted)
+            $0.width.equalTo(UIScreen.main.bounds.width - 64.adjusted)
         }
         
         horizontalCellBarView.snp.makeConstraints {

@@ -81,13 +81,13 @@ extension HomeViewController {
     private func setLayout() {
         homeCollectionView.snp.makeConstraints {
             $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
-            $0.bottom.equalTo(tabBarHeight)
+            $0.bottom.equalTo(tabBarHeight.adjusted)
             $0.width.equalToSuperview()
         }
         
         uploadToastView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalTo(tabBarHeight).inset(6.adjusted)
+            $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
             $0.height.equalTo(44)
         }
         

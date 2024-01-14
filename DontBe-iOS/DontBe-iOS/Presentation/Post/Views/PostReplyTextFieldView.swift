@@ -38,10 +38,11 @@ final class PostReplyTextFieldView: UIView {
         return image
     }()
     
-    private let textFieldView: UIView = {
+    public let greenTextFieldView: UIView = {
         let view = UIView()
         view.backgroundColor = .donPale
         view.layer.cornerRadius = 20.adjusted
+        view.isUserInteractionEnabled = true
         return view
     }()
     
@@ -82,13 +83,13 @@ extension PostReplyTextFieldView {
     
     private func setHierarchy() {
         addSubviews(horizontalDivierView, backgroundView)
-        backgroundView.addSubviews(profileImageView, textFieldView)
-        textFieldView.addSubviews(replyTextFieldLabel)
+        backgroundView.addSubviews(profileImageView, greenTextFieldView)
+        greenTextFieldView.addSubviews(replyTextFieldLabel)
     }
     
     private func setLayout() {
         horizontalDivierView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(1.adjusted)
         }
         
@@ -104,7 +105,7 @@ extension PostReplyTextFieldView {
             $0.centerY.equalToSuperview()
         }
         
-        textFieldView.snp.makeConstraints {
+        greenTextFieldView.snp.makeConstraints {
             $0.leading.equalTo(profileImageView.snp.trailing).offset(8.adjusted)
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(40.adjusted)
@@ -113,7 +114,7 @@ extension PostReplyTextFieldView {
         
         replyTextFieldLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalTo(textFieldView.snp.leading).offset(16.adjusted)
+            $0.leading.equalTo(greenTextFieldView.snp.leading).offset(16.adjusted)
         }
         
     }

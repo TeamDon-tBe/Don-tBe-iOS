@@ -12,13 +12,15 @@ final class PostViewController: UIViewController {
     // MARK: - Properties
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
+    private lazy var postDividerView = postView.horizontalDivierView
     
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
     private lazy var postView = PostView()
-    private lazy var textFieldview = PostReplyTextFieldView()
+    private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
+    private lazy var greenTextField = textFieldView.greenTextFieldView
     
     private let verticalBarView: UIView = {
         let view = UIView()
@@ -33,6 +35,7 @@ final class PostViewController: UIViewController {
         
         view = myView
         self.navigationController?.navigationBar.isHidden = false
+        textFieldView.isUserInteractionEnabled = true
     }
     
     override func viewDidLoad() {
@@ -43,6 +46,8 @@ final class PostViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
+        setTextFieldGesture()
+        
     }
     
     // MARK: - TabBar Height
@@ -68,40 +73,42 @@ final class PostViewController: UIViewController {
 extension PostViewController {
     private func setUI() {
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
-        textFieldview.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
+        textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
+        
+        self.view.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
         view.addSubviews(postView,
                          verticalBarView,
                          postReplyCollectionView,
-                         textFieldview)
+                         textFieldView)
     }
     
     private func setLayout() {
         postView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         
         postReplyCollectionView.snp.makeConstraints {
-            $0.top.equalTo(postView.PostbackgroundUIView.snp.bottom).offset(10.adjusted)
-            $0.bottom.equalTo(tabBarHeight).inset(66)
+            $0.top.equalTo(postView.horizontalDivierView.snp.bottom).offset(10)
+            $0.bottom.equalTo(textFieldView.snp.bottom).offset(-56.adjusted)
             $0.leading.equalTo(verticalBarView.snp.trailing)
             $0.trailing.equalToSuperview().inset(16.adjusted)
         }
         
         verticalBarView.snp.makeConstraints {
-            $0.top.equalTo(postView.horizontalDivierView.snp.bottom)
-            $0.leading.equalToSuperview().inset(18.adjusted)
+            $0.top.equalTo(postReplyCollectionView)
+            $0.leading.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(1.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(postReplyCollectionView.snp.bottom)
         }
         
-        textFieldview.snp.makeConstraints {
-            $0.bottom.equalTo(tabBarHeight).offset(-56)
+        textFieldView.snp.makeConstraints {
+            $0.bottom.equalTo(tabBarHeight.adjusted)
             $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(56.adjusted)
         }
     }
     
@@ -113,6 +120,22 @@ extension PostViewController {
     @objc
     private func backButtonPressed() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func setTextFieldGesture() {
+        greenTextField.isUserInteractionEnabled = true
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(textFieldDidTapped))
+        gesture.cancelsTouchesInView = false
+        greenTextField.addGestureRecognizer(gesture)
+    }
+    
+    @objc func textFieldDidTapped() {
+        showReplyVC()
+    }
+    
+    private func showReplyVC() {
+        let navigationController = UINavigationController(rootViewController: WriteReplyViewController())
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -139,7 +162,13 @@ extension PostViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
+        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
+        footer.backgroundColor = .red
         return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
     }
 }

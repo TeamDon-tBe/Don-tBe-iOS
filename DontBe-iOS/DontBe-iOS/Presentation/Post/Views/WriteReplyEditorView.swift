@@ -1,15 +1,15 @@
 //
-//  WriteTextView.swift
+//  WriteReplyEditorView.swift
 //  DontBe-iOS
 //
-//  Created by 변상우 on 1/8/24.
+//  Created by yeonsu on 1/14/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class WriteTextView: UIView {
+final class WriteReplyEditorView: UIView {
 
     // MARK: - Properties
     
@@ -18,9 +18,17 @@ final class WriteTextView: UIView {
     
     // MARK: - UI Components
     
+    private let backgroundUIView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donWhite
+        view.layer.cornerRadius = 8
+        return view
+    }()
+    
     private let userProfileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.setCircularImage(image: ImageLiterals.Common.logoSymbol)
+        imageView.setCircularImage(image: ImageLiterals.Onboarding.imgOne)
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -71,7 +79,7 @@ final class WriteTextView: UIView {
         return circle
     }()
     
-    public let postButton: UIButton = {
+    private let postButton: UIButton = {
         let button = UIButton()
         button.setTitle(StringLiterals.Write.writePostButtonTitle, for: .normal)
         button.setTitleColor(.donGray9, for: .normal)
@@ -87,10 +95,13 @@ final class WriteTextView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setDelegate()
         setUI()
+        setObserver()
         setHierarchy()
         setLayout()
+        setDelegate()
+        setAddTarget()
+        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -101,12 +112,16 @@ final class WriteTextView: UIView {
 
 // MARK: - Extensions
 
-extension WriteTextView {
+extension WriteReplyEditorView {
+    func setUI() {
+        self.backgroundColor = .donGray1
+    }
     func setDelegate() {
         self.contentTextView.delegate = self
+        
     }
     
-    func setUI() {
+    private func setObserver() {
         contentTextView.becomeFirstResponder()
         limitedCircleProgressBar.alpha = 0
         
@@ -116,21 +131,29 @@ extension WriteTextView {
         impactFeedbackGenerator.prepare()
     }
     
-    func setHierarchy() {
-        self.addSubviews(userProfileImage, 
-                         userNickname,
-                         contentTextView,
+    private func setHierarchy() {
+        self.addSubviews(backgroundUIView,
                          keyboardToolbarView)
+        
+        backgroundUIView.addSubviews(userProfileImage,
+                                     userNickname,
+                                     contentTextView)
         
         keyboardToolbarView.addSubviews(circleProgressBar,
                                         limitedCircleProgressBar,
                                         postButton)
     }
     
-    func setLayout() {
+    private func setLayout() {
+        backgroundUIView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.top.equalTo(8)
+            $0.bottom.equalToSuperview()
+        }
+        
         userProfileImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(12.adjusted)
-            $0.leading.equalToSuperview().inset(16.adjusted)
+            $0.top.equalToSuperview().offset(18.adjusted)
+            $0.leading.equalToSuperview().offset(10.adjusted)
             $0.width.equalTo(44.adjusted)
             $0.height.equalTo(44.adjusted)
         }
@@ -182,9 +205,21 @@ extension WriteTextView {
             keyboardToolbarView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor, constant: -keyboardHeight).isActive = true
         }
     }
+    
+    private func setAddTarget() {
+
+    }
+    
+    private func setRegisterCell() {
+        
+    }
+    
+    private func setDataBind() {
+        
+    }
 }
 
-extension WriteTextView: UITextViewDelegate {
+extension WriteReplyEditorView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let textLength = contentTextView.text.count
         textView.text = String(textView.text.prefix(maxLength))
@@ -213,3 +248,4 @@ extension WriteTextView: UITextViewDelegate {
         }
     }
 }
+
