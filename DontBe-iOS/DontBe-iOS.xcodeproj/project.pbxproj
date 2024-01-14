@@ -275,7 +275,6 @@
 		2A28453C2B531DAD0023F9B5 /* SocialLogin */ = {
 			isa = PBXGroup;
 			children = (
-				2A2845442B5320D60023F9B5 /* Service */,
 				2A2845412B531FF90023F9B5 /* DTO */,
 			);
 			path = SocialLogin;
@@ -288,14 +287,6 @@
 				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
 			);
 			path = DTO;
-			sourceTree = "<group>";
-		};
-		2A2845442B5320D60023F9B5 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				2A28453D2B531DDE0023F9B5 /* NetworkService.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
@@ -631,6 +622,7 @@
 		3C61930E2B3A787000220CEB /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				2A28453D2B531DDE0023F9B5 /* NetworkService.swift */,
 				3C6193182B3A7AC700220CEB /* Config.swift */,
 				3C61931A2B3A7AD000220CEB /* NetworkError.swift */,
 				2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */,
