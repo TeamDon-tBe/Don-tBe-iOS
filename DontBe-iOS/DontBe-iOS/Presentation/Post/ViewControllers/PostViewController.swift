@@ -13,7 +13,7 @@ final class PostViewController: UIViewController {
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
-    
+
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
@@ -115,6 +115,8 @@ extension PostViewController {
     private func setDelegate() {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
     }
     
     @objc
@@ -136,6 +138,11 @@ extension PostViewController {
     private func showReplyVC() {
         let navigationController = UINavigationController(rootViewController: WriteReplyViewController())
         present(navigationController, animated: true, completion: nil)
+    }
+    
+    @objc
+    private func dismissViewController() {
+        self.dismiss(animated: false)
     }
 }
 

@@ -10,6 +10,7 @@ import UIKit
 final class CancelReplyPopupViewController: UIViewController {
     
     // MARK: - Properties
+    static let popViewController = NSNotification.Name("pop")
     
     // MARK: - UI Components
     
@@ -76,6 +77,7 @@ extension CancelReplyPopupViewController: DontBePopupDelegate {
     }
 
     func confirmButtonTapped() {
+        NotificationCenter.default.post(name: CancelReplyPopupViewController.popViewController, object: nil)
         self.dismiss(animated: false)
     }
 }
