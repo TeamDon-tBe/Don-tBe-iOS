@@ -107,6 +107,7 @@ extension LoginViewModel {
             
             // KeychainWrapper에 Access Token 저장
             let accessToken = data?.data?.accessToken ?? ""
+            print(accessToken)
             KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
             
             // KeychainWrasapper에 Refresh Token 저장
