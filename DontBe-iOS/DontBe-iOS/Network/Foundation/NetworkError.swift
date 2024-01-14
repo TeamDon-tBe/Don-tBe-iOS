@@ -9,6 +9,7 @@ import UIKit
 
 enum NetworkError: Int, Error, CustomStringConvertible {
     var description: String { self.errorDescription }
+    case responseError
     case badRequestError = 400
     case unautohorizedError = 401
     case notFoundError = 404
@@ -17,6 +18,7 @@ enum NetworkError: Int, Error, CustomStringConvertible {
     
     var errorDescription: String {
         switch self {
+        case .responseError: return "REQUEST_ERROR"
         case .badRequestError: return "BAD_REQUEST_ERROR"
         case .unautohorizedError: return "UNAUTHORIZED_ERROR"
         case .notFoundError: return "NOT_FOUND_ERROR"
