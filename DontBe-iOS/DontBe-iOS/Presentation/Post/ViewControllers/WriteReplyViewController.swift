@@ -11,6 +11,8 @@ final class WriteReplyViewController: UIViewController {
     
     // MARK: - Properties
     
+    static let showUploadToastNotification = Notification.Name("ShowUploadToastNotification")
+    
     // MARK: - UI Components
     
     private let writeView = WriteReplyView()
@@ -63,9 +65,14 @@ extension WriteReplyViewController {
         writeView.writeReplyView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
     }
     
+    private func sendData() {
+        NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
+    }
+    
     @objc
     func postButtonTapped() {
         popupNavigation()
+        sendData()
     }
 
     private func popupNavigation() {
