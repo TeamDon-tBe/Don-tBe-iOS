@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             NSAttributedString.Key.foregroundColor: UIColor.donBlack
         ] 
         
-        KakaoSDK.initSDK(appKey: Bundle.main.object(forInfoDictionaryKey: Config.Keys.Plist.nativeAppKey) as? String ?? "")
+        KakaoSDK.initSDK(appKey: Config.nativeAppKey)
         return true
     }
 

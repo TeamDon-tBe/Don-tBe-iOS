@@ -18,7 +18,7 @@ final class OnboardingViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let originView = OnboardingView()
+    let originView = OnboardingView()
     
     // MARK: - Life Cycles
     

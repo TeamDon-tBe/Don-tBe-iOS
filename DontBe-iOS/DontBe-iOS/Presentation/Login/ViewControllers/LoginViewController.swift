@@ -113,24 +113,18 @@ extension LoginViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.userInfoPublisher
-        //            .receive(on: RunLoop.main)
-            .sink { userInfo in
-                print(userInfo)
-                // 서버통신 -> 첫 로그인 유저면 여기
-                 let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
-                saveUserData(UserInfo(isSocialLogined: true,
-                                      isJoinedApp: false, 
-                                      isNotFirstUser: false,
-                                      isOnboardingFinished: false,
-                                      userNickname: ""))
-//                 서버통신 -> 이미 로그인 유저면
-//                let viewController = OnboardingViewController()
-//                saveUserData(UserInfo(isSocialLogined: true,
-//                                      isJoinedApp: true, 
-//                                      isNotFirstUser: true,
-//                                      isOnboardingFinished: false,
-//                                      userNickname: ""))
-                self.navigationController?.pushViewController(viewController, animated: true)
+            .receive(on: RunLoop.main)
+            .sink { isFirstUser in
+                if isFirstUser {
+                    // 첫 로그인 유저면 여기
+                    let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    // 이미 가입한 유저면 여기
+                    let viewController = OnboardingViewController()
+                    viewController.originView.isFirstUser = false
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }
             }
             .store(in: self.cancelBag)
     }
