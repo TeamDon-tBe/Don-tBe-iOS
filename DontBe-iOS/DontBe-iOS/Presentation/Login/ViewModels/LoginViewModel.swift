@@ -42,11 +42,23 @@ final class LoginViewModel: ViewModelType {
                         if UserApi.isKakaoTalkLoginAvailable() {
                             let oauthToken = try await self.loginWithKakaoTalk()
                             let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
-                            self.userInfoPublisher.send(isNewUser)
+                            let nickname = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.nickName ?? ""
+                            // 새로운 유저가 아니고 닉네임이 있는 경우에는 온보딩으로 보내기 위한 신호
+                            if !isNewUser && !nickname.isEmpty{
+                                self.userInfoPublisher.send(false)
+                            } else {
+                                // 새로운 유저이거나 닉네임이 없는 경우에는 약관동의로 보내기 위한 신호
+                                self.userInfoPublisher.send(true)
+                            }
                         } else {
                             let oauthToken = try await self.loginWithKakaoAccount()
                             let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
-                            self.userInfoPublisher.send(isNewUser)
+                            let nickname = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.nickName ?? ""
+                            if !isNewUser && !nickname.isEmpty{
+                                self.userInfoPublisher.send(false)
+                            } else {
+                                self.userInfoPublisher.send(true)
+                            }
                         }
                         print("👻👻👻👻👻카카오 로그인 성공👻👻👻👻👻")
                     } catch {
