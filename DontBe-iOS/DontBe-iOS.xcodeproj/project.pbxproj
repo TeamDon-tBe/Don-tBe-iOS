@@ -96,6 +96,8 @@
 		3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193162B3A7A7B00220CEB /* UIStackView+.swift */; };
 		3C6193192B3A7AC700220CEB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193182B3A7AC700220CEB /* Config.swift */; };
 		3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61931A2B3A7AD000220CEB /* NetworkError.swift */; };
+		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
+		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
 		3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */; };
 		3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */; };
@@ -201,6 +203,8 @@
 		3C6193162B3A7A7B00220CEB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3C6193182B3A7AC700220CEB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3C61931A2B3A7AD000220CEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
+		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteTextView.swift; sourceTree = "<group>"; };
@@ -676,6 +680,7 @@
 		3C8A262D2B5194C100E549F3 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -729,6 +734,7 @@
 			isa = PBXGroup;
 			children = (
 				3CEE4CBF2B500BE500F506AF /* TransparencyInfoDummy.swift */,
+				3C7741532B531AC80069E694 /* AccountInfoDummy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -930,6 +936,8 @@
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
 				2A8868DA2B506D720017513A /* NotificationViewController.swift in Sources */,
 				3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */,
+				3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */,
+				3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */,
 				3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */,
 				2FB818D32B51694F00B7498F /* PostView.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
