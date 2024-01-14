@@ -26,11 +26,15 @@ final class MyPageAccountInfoViewController: UIViewController, UIGestureRecogniz
     
     // MARK: - UI Components
     
+    private let topDivisionLine = UIView().makeDivisionLine()
+    
     private let accountInfoTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
         tableView.isUserInteractionEnabled = false
+        tableView.layer.borderWidth = 1
+        tableView.layer.borderColor = UIColor.donGray2.cgColor
         return tableView
     }()
     
@@ -116,7 +120,8 @@ extension MyPageAccountInfoViewController {
     }
     
     private func setHierarchy() {
-        self.view.addSubviews(accountInfoTableView,
+        self.view.addSubviews(topDivisionLine,
+                              accountInfoTableView,
                               seperateView,
                               moreInfoTitle,
                               moreInfoButton,
@@ -124,10 +129,16 @@ extension MyPageAccountInfoViewController {
     }
     
     private func setLayout() {
+        topDivisionLine.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(1.adjusted)
+        }
+        
         accountInfoTableView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo((48 * 4).adjusted)
+            $0.height.equalTo((48.adjustedH * 4))
         }
         
         seperateView.snp.makeConstraints {
@@ -205,7 +216,7 @@ extension MyPageAccountInfoViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 48.adjusted
+        return 48.adjustedH
     }
 }
 
