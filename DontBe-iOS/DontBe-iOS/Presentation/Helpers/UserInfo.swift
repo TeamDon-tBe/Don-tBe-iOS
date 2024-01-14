@@ -9,6 +9,7 @@ import Foundation
 
 struct UserInfo: Codable {
     let isSocialLogined: Bool
+    let isFirstUser: Bool
     let isJoinedApp: Bool
     let isOnboardingFinished: Bool
     let userNickname: String

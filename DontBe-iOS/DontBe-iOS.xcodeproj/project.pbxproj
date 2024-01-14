@@ -7,13 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73092B541555004478C1 /* HttpMethod.swift */; };
+		2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */; };
+		2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */; };
 		2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F62B4BEA34009D214F /* LoginViewController.swift */; };
 		2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F82B4C0819009D214F /* UILabel+.swift */; };
 		2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */; };
 		2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FE2B4C3AF0009D214F /* Publisher+UIControl.swift */; };
 		2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2672012B4C3B44009D214F /* ViewModelType.swift */; };
 		2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2672042B4C3C00009D214F /* CancelBag.swift */; };
-		2A28453E2B531DDE0023F9B5 /* SocialLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28453D2B531DDE0023F9B5 /* SocialLoginService.swift */; };
+		2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28453D2B531DDE0023F9B5 /* NetworkService.swift */; };
 		2A2845402B531F0A0023F9B5 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */; };
 		2A2845432B5320070023F9B5 /* SocialLoginResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */; };
 		2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */; };
@@ -113,6 +116,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2A0A73092B541555004478C1 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceType.swift; sourceTree = "<group>"; };
+		2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		2A2671F62B4BEA34009D214F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2A2671F82B4C0819009D214F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -120,7 +126,7 @@
 		2A2672012B4C3B44009D214F /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		2A2672042B4C3C00009D214F /* CancelBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelBag.swift; sourceTree = "<group>"; };
 		2A26720D2B4C40CE009D214F /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
-		2A28453D2B531DDE0023F9B5 /* SocialLoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginService.swift; sourceTree = "<group>"; };
+		2A28453D2B531DDE0023F9B5 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginResponseDTO.swift; sourceTree = "<group>"; };
 		2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginRequestDTO.swift; sourceTree = "<group>"; };
@@ -261,6 +267,7 @@
 			isa = PBXGroup;
 			children = (
 				2A2672012B4C3B44009D214F /* ViewModelType.swift */,
+				2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -268,7 +275,6 @@
 		2A28453C2B531DAD0023F9B5 /* SocialLogin */ = {
 			isa = PBXGroup;
 			children = (
-				2A2845442B5320D60023F9B5 /* Service */,
 				2A2845412B531FF90023F9B5 /* DTO */,
 			);
 			path = SocialLogin;
@@ -281,14 +287,6 @@
 				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
 			);
 			path = DTO;
-			sourceTree = "<group>";
-		};
-		2A2845442B5320D60023F9B5 /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				2A28453D2B531DDE0023F9B5 /* SocialLoginService.swift */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
@@ -624,9 +622,12 @@
 		3C61930E2B3A787000220CEB /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				2A28453D2B531DDE0023F9B5 /* NetworkService.swift */,
 				3C6193182B3A7AC700220CEB /* Config.swift */,
 				3C61931A2B3A7AD000220CEB /* NetworkError.swift */,
 				2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */,
+				2A0A73092B541555004478C1 /* HttpMethod.swift */,
+				2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -857,6 +858,7 @@
 				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
 				2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */,
+				2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */,
 				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
 				2A8868D62B5069790017513A /* OnboardingEndingView.swift in Sources */,
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
@@ -870,12 +872,14 @@
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
 				2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */,
+				2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */,
 				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
 				2A2845432B5320070023F9B5 /* SocialLoginResponseDTO.swift in Sources */,
 				3C61930A2B3A781300220CEB /* ImageLiterals.swift in Sources */,
 				2A8D70C52B4D8079009F4C6C /* UIViewController+.swift in Sources */,
 				2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */,
 				2A8D70D12B4DD356009F4C6C /* JoinAgreementViewController.swift in Sources */,
+				2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */,
 				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,
@@ -944,7 +948,7 @@
 				3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
 				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
-				2A28453E2B531DDE0023F9B5 /* SocialLoginService.swift in Sources */,
+				2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				2FB64FF02B5310DD0082A414 /* WriteReplyViewController.swift in Sources */,

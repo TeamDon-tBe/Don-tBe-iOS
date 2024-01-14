@@ -100,7 +100,8 @@ extension JoinProfileViewController {
                     self.navigationController?.popViewController(animated: true)
                 } else {
                     saveUserData(UserInfo(isSocialLogined: true,
-                                          isJoinedApp: true, 
+                                          isFirstUser: true,
+                                          isJoinedApp: true,
                                           isOnboardingFinished: false,
                                           userNickname: self.originView.nickNameTextField.text ?? ""))
                     

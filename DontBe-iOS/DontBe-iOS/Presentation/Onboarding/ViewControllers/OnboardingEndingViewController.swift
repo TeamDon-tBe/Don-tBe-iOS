@@ -20,7 +20,8 @@ final class OnboardingEndingViewController: UIViewController {
     private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _
         in saveUserData(UserInfo(isSocialLogined: 
                                  loadUserData()?.isSocialLogined ?? true,
-                                 isJoinedApp: true, 
+                                 isFirstUser: false,
+                                 isJoinedApp: true,
                                  isOnboardingFinished: true,
                                  userNickname: loadUserData()?.userNickname ?? ""))
     }.eraseToAnyPublisher()

@@ -69,6 +69,7 @@ extension OnboardingViewController {
         OnboardingViewController.pushCount += 1
         if OnboardingViewController.pushCount < 3 {
             let viewController = OnboardingViewController()
+            viewController.originView.isFirstUser = self.originView.isFirstUser
             self.setOnboardingView(viewController: viewController)
             self.navigationController?.pushViewController(viewController, animated: true)
         } else {

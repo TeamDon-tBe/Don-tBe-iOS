@@ -15,10 +15,10 @@ import KakaoSDKUser
 final class LoginViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
-    private let networkProvider: SocialLoginServiceType
+    private let networkProvider: NetworkServiceType
     private let userInfoPublisher = PassthroughSubject<Bool, Never>()
     
-    init(networkProvider: SocialLoginServiceType) {
+    init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
     }
     
@@ -41,11 +41,14 @@ final class LoginViewModel: ViewModelType {
                     do {
                         if UserApi.isKakaoTalkLoginAvailable() {
                             let oauthToken = try await self.loginWithKakaoTalk()
-                            try await self.handleLoginResult(oauthToken: oauthToken)
+                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
+                            self.userInfoPublisher.send(isNewUser)
                         } else {
                             let oauthToken = try await self.loginWithKakaoAccount()
-                            try await self.handleLoginResult(oauthToken: oauthToken)
+                            let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
+                            self.userInfoPublisher.send(isNewUser)
                         }
+                        print("👻👻👻👻👻카카오 로그인 성공👻👻👻👻👻")
                     } catch {
                         print(error)
                     }
@@ -69,7 +72,7 @@ extension LoginViewModel {
             }
         }
     }
-
+    
     private func loginWithKakaoAccount() async throws -> OAuthToken {
         return try await withCheckedThrowingContinuation { continuation in
             UserApi.shared.loginWithKakaoAccount { oauthToken, error in
@@ -81,34 +84,40 @@ extension LoginViewModel {
             }
         }
     }
-
-    private func handleLoginResult(oauthToken: OAuthToken) async throws {
-        let accessToken = oauthToken.accessToken
-        let isNewUser = try await postSocialLoginAPI(accessToken: accessToken)
-        userInfoPublisher.send(isNewUser)
-        print("카카오 로그인 성공 👻👻👻👻👻")
-    }
     
-    private func postSocialLoginAPI(accessToken: String) async -> Bool {
+    private func getSocialLoginAPI(oauthToken: OAuthToken) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+        let accessToken = oauthToken.accessToken
         do {
-            if let result = try await networkProvider.postData(accessToken: accessToken) {
-                let isNewUser = result.data?.isNewUser ?? true
-                if isNewUser {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isJoinedApp: true,
-                                          isOnboardingFinished: false,
-                                          userNickname: ""))
-                } else {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isJoinedApp: false,
-                                          isOnboardingFinished: false,
-                                          userNickname: ""))
-                }
-                return isNewUser
-            }
-        } catch {
-            print(error)
+            let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .post,
+                baseURL: Config.baseURL + "/auth",
+                accessToken: accessToken,
+                body: SocialLoginRequestDTO(socialPlatform: "KAKAO"),
+                pathVariables: ["":""])
+            print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
+            
+            // UserInfo 구조체에 유저 정보 저장
+            let userNickname = data?.data?.nickName ?? ""
+            let isNewUser = data?.data?.isNewUser ?? true
+            saveUserData(UserInfo(isSocialLogined: true,
+                                  isFirstUser: isNewUser,
+                                  isJoinedApp: false,
+                                  isOnboardingFinished: false,
+                                  userNickname: userNickname))
+            
+            // KeychainWrapper에 Access Token 저장
+            let accessToken = data?.data?.accessToken ?? ""
+            print(accessToken)
+            KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+            
+            // KeychainWrasapper에 Refresh Token 저장
+            let refreshToken = data?.data?.refreshToken ?? ""
+            KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
+
+            return data
         }
-        return false
+        catch {
+           return nil
+       }
     }
 }

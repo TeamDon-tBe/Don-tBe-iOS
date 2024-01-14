@@ -121,9 +121,18 @@ extension LoginViewController {
                     self.navigationController?.pushViewController(viewController, animated: true)
                 } else {
                     // 이미 가입한 유저면 여기
-                    let viewController = OnboardingViewController()
-                    viewController.originView.isFirstUser = false
-                    self.navigationController?.pushViewController(viewController, animated: true)
+                    let isJoinedUser = loadUserData()?.isJoinedApp ?? false
+                    
+                    // 회원가입 약관동의를 한 유저
+                    if isJoinedUser {
+                        let viewController = OnboardingViewController()
+                        viewController.originView.isFirstUser = false
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    } else {
+                        // 회원가입 약관동의를 안한 유저
+                        let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
+                        self.navigationController?.pushViewController(viewController, animated: true)
+                    }
                 }
             }
             .store(in: self.cancelBag)
