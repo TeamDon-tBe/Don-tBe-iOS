@@ -97,7 +97,11 @@ extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
-        self.title = StringLiterals.MyPage.MyPageNavigationTitle
+        
+        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+        self.navigationController?.navigationBar.barTintColor = .donBlack
+        self.navigationController?.navigationBar.tintColor = .donBlack
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         
         let image = ImageLiterals.MyPage.icnMenu

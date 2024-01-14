@@ -26,6 +26,8 @@ final class MyPageAccountInfoViewController: UIViewController {
     private let accountInfoTableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
+        tableView.isUserInteractionEnabled = false
         return tableView
     }()
     
@@ -76,6 +78,7 @@ final class MyPageAccountInfoViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .donWhite
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         
@@ -90,6 +93,12 @@ extension MyPageAccountInfoViewController {
     private func setUI() {
         self.title = "계정 정보"
         self.view.backgroundColor = .donWhite
+        
+        self.navigationController?.navigationBar.barTintColor = .donWhite
+        self.navigationController?.navigationBar.tintColor = .donWhite
+        self.navigationController?.navigationBar.backgroundColor = .donWhite
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        
         addUnderline(to: moreInfoButton)
         addUnderline(to: signOutButton)
     }
@@ -182,6 +191,7 @@ extension MyPageAccountInfoViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyPageAccountInfoTableViewCell", for: indexPath) as! MyPageAccountInfoTableViewCell
+        cell.backgroundColor = .donWhite
         cell.infoTitle.text = titleData[indexPath.row]
         cell.infoContent.text = infoData[indexPath.row].content
         return cell
