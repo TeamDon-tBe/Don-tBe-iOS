@@ -112,5 +112,9 @@ enum StringLiterals {
     enum Post {
         static let navigationTitleLabel = "게시글"
         static let textFieldLabel = "님에게 답글 남기기"
+        static let popupReplyContentLabel = "작성 중인 글을 삭제하시겠어요?"
+        static let popupReplyCancelButtonTitle = "취소"
+        static let popupReplyConfirmButtonTitle = "삭제"
+        
     }
 }

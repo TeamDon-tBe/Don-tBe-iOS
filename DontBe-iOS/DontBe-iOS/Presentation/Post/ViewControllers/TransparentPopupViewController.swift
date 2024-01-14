@@ -19,7 +19,7 @@ final class TransparentPopupViewController: UIViewController {
                                                              leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle,
                                                              rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
     
-    private let myView = ExampleView()
+    private let myView = PostPopupView()
     
     // MARK: - Life Cycles
     
