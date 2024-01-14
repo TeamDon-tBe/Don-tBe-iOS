@@ -36,7 +36,14 @@ final class OnboardingEndingViewModel: ViewModelType {
             .sink { _ in
                 // 온보딩 완료 서버통신
                 // 서버통신 완료되면 신호
+                saveUserData(UserInfo(isSocialLogined:
+                                         loadUserData()?.isSocialLogined ?? true,
+                                         isFirstUser: false,
+                                         isJoinedApp: true,
+                                         isOnboardingFinished: true,
+                                         userNickname: loadUserData()?.userNickname ?? ""))
                 publisher.send("start")
+                
             }
             .store(in: self.cancelBag)
         
@@ -44,6 +51,12 @@ final class OnboardingEndingViewModel: ViewModelType {
             .sink { _ in
                 // 이때는 서버통신 X
                 publisher.send("skip")
+                saveUserData(UserInfo(isSocialLogined:
+                                         loadUserData()?.isSocialLogined ?? true,
+                                         isFirstUser: false,
+                                         isJoinedApp: true,
+                                         isOnboardingFinished: true,
+                                         userNickname: loadUserData()?.userNickname ?? ""))
             }
             .store(in: self.cancelBag)
         
