@@ -100,7 +100,8 @@ extension LoginViewModel {
             let userNickname = data?.data?.nickName ?? ""
             let isNewUser = data?.data?.isNewUser ?? true
             saveUserData(UserInfo(isSocialLogined: true,
-                                  isJoinedApp: isNewUser,
+                                  isFirstUser: isNewUser,
+                                  isJoinedApp: false,
                                   isOnboardingFinished: false,
                                   userNickname: userNickname))
             
@@ -108,7 +109,7 @@ extension LoginViewModel {
             let accessToken = data?.data?.accessToken ?? ""
             KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
             
-            // KeychainWrapper에 Refresh Token 저장
+            // KeychainWrasapper에 Refresh Token 저장
             let refreshToken = data?.data?.refreshToken ?? ""
             KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
 
