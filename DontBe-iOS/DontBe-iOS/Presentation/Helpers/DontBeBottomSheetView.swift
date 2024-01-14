@@ -37,41 +37,19 @@ final class DontBeBottomSheetView: UIView {
         return view
     }()
     
-    let deleteButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
-        return button
-    }()
+    let deleteButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.deleteLabel,
+                                               image: ImageLiterals.BottomSheet.deleteIcon)
     
-    let warnButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnWarn, for: .normal)
-        return button
-    }()
+    let warnButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.warnLabel,
+                                             image: ImageLiterals.BottomSheet.warnIcon)
     
-    let profileEditButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
-        return button
-    }()
+    let profileEditButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.profileEdit)
     
-    let accountInfoButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
-        return button
-    }()
+    let accountInfoButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.accountInfo)
     
-    let feedbackButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
-        return button
-    }()
+    let feedbackButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.feedback)
     
-    let customerCenterButton: UIButton = {
-        let button = UIButton()
-        button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
-        return button
-    }()
+    let customerCenterButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.customerCenter)
     
     // MARK: - Life Cycles
     
@@ -87,12 +65,6 @@ final class DontBeBottomSheetView: UIView {
     init(profileEditImage: UIImage, accountInfoImage: UIImage, feedbackImage: UIImage, customerCenterImage: UIImage) {
         super.init(frame: .zero)
         
-        profileEditButton.setImage(profileEditImage, for: .normal)
-        accountInfoButton.setImage(accountInfoImage, for: .normal)
-        feedbackButton.setImage(feedbackImage, for: .normal)
-        customerCenterButton.setImage(customerCenterImage, for: .normal)
-        
-        setUI()
         setMultiButtonHierarchy()
         setMultiButtonLayout()
         setAddTarget()
@@ -132,8 +104,7 @@ extension DontBeBottomSheetView {
         
         deleteButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344.adjusted)
-            $0.height.equalTo(60.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
         }
     }
@@ -167,29 +138,25 @@ extension DontBeBottomSheetView {
         
         profileEditButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344.adjusted)
-            $0.height.equalTo(60.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
         }
         
         accountInfoButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344.adjusted)
-            $0.height.equalTo(60.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(profileEditButton.snp.bottom).offset(10.adjusted)
         }
         
         feedbackButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344.adjusted)
-            $0.height.equalTo(60.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(accountInfoButton.snp.bottom).offset(10.adjusted)
         }
         
         customerCenterButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(344.adjusted)
-            $0.height.equalTo(60.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(feedbackButton.snp.bottom).offset(10.adjusted)
         }
     }
