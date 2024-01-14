@@ -13,7 +13,6 @@ final class MyPageContentViewController: UIViewController {
     
     // MARK: - Properties
     
-    var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
@@ -42,14 +41,6 @@ final class MyPageContentViewController: UIViewController {
         setNotification()
         setRefreshControll()
     }
-    
-    // MARK: - TabBar Height
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
-    }
 }
 
 // MARK: - Extensions
@@ -70,15 +61,13 @@ extension MyPageContentViewController {
     
     private func setLayout() {
         homeCollectionView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
         }
         
         uploadToastView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalTo(tabBarHeight).inset(6.adjusted)
-            $0.height.equalTo(44)
+            $0.leading.trailing.bottom.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(44.adjusted)
         }
         
         transparentButtonPopupView.snp.makeConstraints {
@@ -209,7 +198,6 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
 extension MyPageContentViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let yOffset = scrollView.contentOffset.y
-        let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         if yOffset > 0 {
             scrollView.isScrollEnabled = true
         } else if yOffset < 0 {

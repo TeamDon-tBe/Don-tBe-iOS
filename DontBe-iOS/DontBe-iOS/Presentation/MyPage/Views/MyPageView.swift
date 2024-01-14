@@ -119,7 +119,7 @@ extension MyPageView {
         }
         
         myPageContentView.snp.makeConstraints {
-            $0.top.leading.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
             $0.width.equalTo(myPageScrollView.snp.width)
             $0.height.equalTo(2000)
         }
@@ -142,7 +142,7 @@ extension MyPageView {
         pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(2.adjusted)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(2000)
+            $0.height.equalTo(UIScreen.main.bounds.height - 150.adjusted)
         }
     }
     

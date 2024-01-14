@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
@@ -27,9 +29,13 @@ final class MyPageViewController: UIViewController {
         }
     }
     
+    var tabBarHeight: CGFloat = 0
+    
     // MARK: - UI Components
     
     let rootView = MyPageView()
+    
+    let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
     
     // MARK: - Life Cycles
     
@@ -43,6 +49,7 @@ final class MyPageViewController: UIViewController {
         
         getAPI()
         setUI()
+        setLayout()
         setDelegate()
         setAddTarget()
     }
@@ -51,6 +58,36 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(true)
         
         tabBarController?.tabBar.isHidden = false
+        self.navigationController?.navigationBar.tintColor = .donBlack
+        self.navigationController?.navigationBar.barTintColor = .donBlack
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationController?.navigationBar.isTranslucent = true
+        
+        statusBarView.backgroundColor = UIColor.donBlack
+        view.addSubview(statusBarView)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        statusBarView.removeFromSuperview()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0.adjusted
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
+        
+        rootView.pageViewController.view.snp.remakeConstraints {
+            $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
+            $0.leading.trailing.equalToSuperview()
+            let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+            $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
+        }
     }
 }
 
@@ -60,17 +97,12 @@ extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
-        self.title = StringLiterals.MyPage.MyPageNavigationTitle
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        self.navigationController?.navigationBar.tintColor = .donBlack
-        self.navigationController?.navigationBar.barTintColor = .donBlack
-        self.navigationController?.navigationBar.backgroundColor = .donBlack
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.isTranslucent = true
         
-        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
-        statusBarView.backgroundColor = UIColor.donBlack  // 적절한 색상으로 변경 가능
-        view.addSubview(statusBarView)
+        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+        self.navigationController?.navigationBar.barTintColor = .donBlack
+        self.navigationController?.navigationBar.tintColor = .donBlack
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
@@ -80,6 +112,13 @@ extension MyPageViewController {
                                               action: #selector(hambergerButtonTapped))
         
         navigationItem.rightBarButtonItem = hambergerButton
+    }
+    
+    private func setLayout() {
+        rootView.pageViewController.view.snp.makeConstraints {
+            $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
+            $0.leading.trailing.equalToSuperview()
+        }
     }
     
     private func setDelegate() {
@@ -185,28 +224,52 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
 extension MyPageViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        let yOffset = scrollView.contentOffset.y
+        var yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
-        let homeCollectionView = rootView.pageViewController.view.frame.origin.y
         
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
+        rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
         
-        if yOffset <= -91.adjusted {
+        if yOffset <= -(navigationBarHeight + statusBarHeight) {
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
-        } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {
-            rootView.segmentedControl.frame.origin.y = yOffset - rootView.myPageProfileView.frame.height + statusBarHeight + navigationBarHeight
+            rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
+            
+            yOffset = -(navigationBarHeight + statusBarHeight)
+            rootView.segmentedControl.frame.origin.y = yOffset + statusBarHeight + navigationBarHeight
             rootView.segmentedControl.snp.remakeConstraints {
-                $0.top.equalTo(rootView.segmentedControl.frame.origin.y)
+                $0.top.equalTo(rootView.myPageProfileView.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(54.adjusted)
             }
+            
+            rootView.pageViewController.view.snp.remakeConstraints {
+                $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
+                $0.leading.trailing.equalToSuperview()
+                let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+                $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
+            }
+        } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {
+            rootView.segmentedControl.frame.origin.y = yOffset - rootView.myPageProfileView.frame.height + statusBarHeight + navigationBarHeight
+            rootView.segmentedControl.snp.remakeConstraints {
+                $0.top.equalTo(rootView.myPageProfileView.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(54.adjusted)
+            }
+            
+            rootView.pageViewController.view.frame.origin.y = yOffset - rootView.myPageProfileView.frame.height + statusBarHeight + navigationBarHeight + rootView.segmentedControl.frame.height
+            
+            rootView.pageViewController.view.snp.remakeConstraints {
+                $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
+                $0.leading.trailing.equalToSuperview()
+                let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+                $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
+            }
+            
             scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
             
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
-            scrollView.isScrollEnabled = true
-        } else {
-            rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
+            rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = true
         }
     }
 }
