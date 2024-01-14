@@ -52,9 +52,6 @@ final class MyPageViewController: UIViewController {
         setLayout()
         setDelegate()
         setAddTarget()
-        
-        self.navigationController?.navigationBar.backgroundColor = .donBlack
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,15 +59,14 @@ final class MyPageViewController: UIViewController {
         
         self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        
-        self.navigationController?.navigationBar.backgroundColor = .clear
-        
+//        self.navigationController?.navigationBar.backgroundColor = .donBlack
         tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
+        self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
     }
     
@@ -97,7 +93,7 @@ extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
-        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
         
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
@@ -218,7 +214,6 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
 
 extension MyPageViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.navigationController?.navigationBar.backgroundColor = .donBlack
         var yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         
