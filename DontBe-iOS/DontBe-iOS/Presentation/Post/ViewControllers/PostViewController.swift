@@ -13,6 +13,10 @@ final class PostViewController: UIViewController {
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
+    private lazy var ghostButton = postView.ghostButton
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var transparentPopupVC = TransparentPopupViewController()
+    var deletePostPopupVC = CancelReplyPopupViewController()
 
     // MARK: - UI Components
     
@@ -49,6 +53,7 @@ final class PostViewController: UIViewController {
         setDelegate()
         setTextFieldGesture()
         setNotification()
+        setAddTarget()
         
     }
     
@@ -78,6 +83,9 @@ extension PostViewController {
         textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         
         self.view.backgroundColor = .donWhite
+        
+        transparentPopupVC.modalPresentationStyle = .overFullScreen
+        deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -179,6 +187,44 @@ extension PostViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+    private func setAddTarget() {
+        ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        postView.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    }
+    
+    @objc
+    func deletePost() {
+        popView()
+        presentView()
+    }
+    
+    func popView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deleteBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            deleteBottomsheet.dimView.removeFromSuperview()
+            deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deleteBottomsheet.dimView.removeFromSuperview()
+            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+    }
+    
+    func presentView() {
+        self.present(self.deletePostPopupVC, animated: false, completion: nil)
+    }
+    
+    @objc
+    func transparentShowPopupButton() {
+        self.present(self.transparentPopupVC, animated: false, completion: nil)
+    }
+    
     private func setTextFieldGesture() {
         greenTextField.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(textFieldDidTapped))
@@ -199,6 +245,7 @@ extension PostViewController {
     private func dismissViewController() {
         self.dismiss(animated: false)
     }
+    
 }
 
 // MARK: - Network
@@ -219,6 +266,18 @@ extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+        
+        cell.KebabButtonAction = {
+                    self.deleteBottomsheet.showSettings()
+                }
+                cell.LikeButtonAction = {
+                    cell.isLiked.toggle()
+                    cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+                }
+                cell.TransparentButtonAction = {
+                    // present
+                    self.present(self.transparentPopupVC, animated: false, completion: nil)
+                }
         
         return cell
     }

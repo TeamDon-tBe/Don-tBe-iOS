@@ -13,9 +13,7 @@ final class PostView: UIView {
 
     // MARK: - Properties
     
-    var KebabButtonAction: (() -> Void) = {}
-    var LikeButtonAction: (() -> Void) = {}
-    var TransparentButtonAction: (() -> Void) = {}
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var isLiked: Bool = false
     
     // MARK: - UI Components
@@ -128,7 +126,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private let ghostButton: UIButton = {
+    let ghostButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnTransparent, for: .normal)
         return button
@@ -272,21 +270,18 @@ extension PostView {
     func setAddTarget() {
         kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
-        ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
     }
     
     @objc
     func showButtons() {
-        KebabButtonAction()
+        self.deleteBottomsheet.showSettings()
     }
     
     @objc
     func likeToggleButton() {
-        LikeButtonAction()
-    }
-    @objc
-    func transparentShowPopupButton() {
-        TransparentButtonAction()
+        isLiked.toggle()
+                likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+
     }
     
     private func setRegisterCell() {
