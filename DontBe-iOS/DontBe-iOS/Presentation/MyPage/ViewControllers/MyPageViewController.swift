@@ -57,20 +57,16 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
+//        self.navigationController?.navigationBar.backgroundColor = .donBlack
         tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.tintColor = .donBlack
-        self.navigationController?.navigationBar.barTintColor = .donBlack
-        self.navigationController?.navigationBar.backgroundColor = .donBlack
-        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController?.navigationBar.isTranslucent = true
-        
-        statusBarView.backgroundColor = UIColor.donBlack
-        view.addSubview(statusBarView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
+        self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
     }
     
@@ -97,12 +93,7 @@ extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
         self.tabBarController?.tabBar.isTranslucent = true
-        
-        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
-        self.navigationController?.navigationBar.barTintColor = .donBlack
-        self.navigationController?.navigationBar.tintColor = .donBlack
         self.navigationController?.navigationBar.backgroundColor = .donBlack
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
@@ -223,7 +214,6 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
 
 extension MyPageViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         var yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         
