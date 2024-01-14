@@ -43,20 +43,12 @@ final class LoginViewModel: ViewModelType {
                             let oauthToken = try await self.loginWithKakaoTalk()
                             let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
                             self.userInfoPublisher.send(isNewUser)
-                            saveUserData(UserInfo(isSocialLogined: true,
-                                                  isJoinedApp: isNewUser,
-                                                  isOnboardingFinished: false,
-                                                  userNickname: ""))
                         } else {
                             let oauthToken = try await self.loginWithKakaoAccount()
                             let isNewUser = try await self.getSocialLoginAPI(oauthToken: oauthToken)?.data?.isNewUser ?? false
                             self.userInfoPublisher.send(isNewUser)
-                            saveUserData(UserInfo(isSocialLogined: true,
-                                                  isJoinedApp: isNewUser,
-                                                  isOnboardingFinished: false,
-                                                  userNickname: ""))
                         }
-                        print("카카오 로그인 성공 👻👻👻👻👻")
+                        print("👻👻👻👻👻카카오 로그인 성공👻👻👻👻👻")
                     } catch {
                         print(error)
                     }
@@ -96,9 +88,30 @@ extension LoginViewModel {
     private func getSocialLoginAPI(oauthToken: OAuthToken) async throws -> BaseResponse<SocialLoginResponseDTO>? {
         let accessToken = oauthToken.accessToken
         do {
-            let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(type: .post, baseURL: Config.baseURL + "/auth", accessToken: accessToken, body: SocialLoginRequestDTO(socialPlatform: "KAKAO"), pathVariables: ["":""])
-            print ("👻👻👻👻👻👻👻👻👻👻👻👻")
-            print (data?.data?.accessToken)
+            let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .post,
+                baseURL: Config.baseURL + "/auth",
+                accessToken: accessToken,
+                body: SocialLoginRequestDTO(socialPlatform: "KAKAO"),
+                pathVariables: ["":""])
+            print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
+            
+            // UserInfo 구조체에 유저 정보 저장
+            let userNickname = data?.data?.nickName ?? ""
+            let isNewUser = data?.data?.isNewUser ?? true
+            saveUserData(UserInfo(isSocialLogined: true,
+                                  isJoinedApp: isNewUser,
+                                  isOnboardingFinished: false,
+                                  userNickname: userNickname))
+            
+            // KeychainWrapper에 Access Token 저장
+            let accessToken = data?.data?.accessToken ?? ""
+            KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+            
+            // KeychainWrapper에 Refresh Token 저장
+            let refreshToken = data?.data?.refreshToken ?? ""
+            KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
+
             return data
         }
         catch {
