@@ -15,8 +15,8 @@ final class WriteReplyView: UIView {
     
     // MARK: - UI Components
     
-    private lazy var writeReplyPostview = WriteReplyPostView()
-    private lazy var writeReplyView = WriteReplyEditorView()
+    public lazy var writeReplyPostview = WriteReplyPostView()
+    public lazy var writeReplyView = WriteReplyEditorView()
     
     // MARK: - Life Cycles
     
