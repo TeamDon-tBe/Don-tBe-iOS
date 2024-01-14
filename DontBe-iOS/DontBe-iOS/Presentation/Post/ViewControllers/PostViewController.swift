@@ -74,7 +74,8 @@ extension PostViewController {
     private func setUI() {
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
-        self.view.backgroundColor = .donGray1
+        
+        self.view.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
@@ -105,7 +106,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(tabBarHeight)
+            $0.bottom.equalTo(tabBarHeight.adjusted)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
@@ -129,7 +130,12 @@ extension PostViewController {
     }
     
     @objc func textFieldDidTapped() {
-
+        showReplyVC()
+    }
+    
+    private func showReplyVC() {
+        let navigationController = UINavigationController(rootViewController: WriteReplyViewController())
+        present(navigationController, animated: true, completion: nil)
     }
 }
 
@@ -156,7 +162,13 @@ extension PostViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
+        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
+        footer.backgroundColor = .red
         return footer
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
     }
 }
