@@ -96,13 +96,11 @@ extension LoginViewModel {
                 if isNewUser {
                     saveUserData(UserInfo(isSocialLogined: true,
                                           isJoinedApp: true,
-                                          isNotFirstUser: true,
                                           isOnboardingFinished: false,
                                           userNickname: ""))
                 } else {
                     saveUserData(UserInfo(isSocialLogined: true,
                                           isJoinedApp: false,
-                                          isNotFirstUser: false,
                                           isOnboardingFinished: false,
                                           userNickname: ""))
                 }

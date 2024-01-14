@@ -10,8 +10,10 @@ import UIKit
 import SnapKit
 
 final class OnboardingView: UIView {
-
+    
     // MARK: - Properties
+    
+    var isFirstUser: Bool = false
     
     // MARK: - UI Components
     
@@ -68,19 +70,19 @@ final class OnboardingView: UIView {
 extension OnboardingView {
     private func setHierarchy() {
         self.addSubviews(backButton,
-                        progressImage,
-                        titleImage,
-                        mainImage,
-                        nextButton,
-                        skipButton)
+                         progressImage,
+                         titleImage,
+                         mainImage,
+                         nextButton,
+                         skipButton)
     }
     
     private func setLayout() {
         let statusBarHeight = UIApplication.shared.connectedScenes
-                   .compactMap { $0 as? UIWindowScene }
-                   .first?
-                   .statusBarManager?
-                   .statusBarFrame.height ?? 20
+            .compactMap { $0 as? UIWindowScene }
+            .first?
+            .statusBarManager?
+            .statusBarFrame.height ?? 20
         
         backButton.snp.makeConstraints {
             $0.top.equalToSuperview().inset(statusBarHeight + 38.adjusted)
@@ -134,7 +136,7 @@ extension OnboardingView {
         }
         
         DispatchQueue.main.async {
-            if loadUserData()?.isNotFirstUser == true {
+            if self.isFirstUser == false {
                 self.nextButton.snp.makeConstraints {
                     $0.bottom.equalTo(self.safeAreaLayoutGuide).inset(91.adjusted)
                     $0.centerX.equalToSuperview()

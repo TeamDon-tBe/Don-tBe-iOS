@@ -21,7 +21,6 @@ final class OnboardingEndingViewController: UIViewController {
         in saveUserData(UserInfo(isSocialLogined: 
                                  loadUserData()?.isSocialLogined ?? true,
                                  isJoinedApp: true, 
-                                 isNotFirstUser: true,
                                  isOnboardingFinished: true,
                                  userNickname: loadUserData()?.userNickname ?? ""))
     }.eraseToAnyPublisher()

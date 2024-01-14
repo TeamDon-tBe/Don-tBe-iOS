@@ -122,6 +122,7 @@ extension LoginViewController {
                 } else {
                     // 이미 가입한 유저면 여기
                     let viewController = OnboardingViewController()
+                    viewController.originView.isFirstUser = false
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
