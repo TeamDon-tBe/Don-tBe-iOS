@@ -1,5 +1,5 @@
 //
-//  KakaoLoginService.swift
+//  NetworkService.swift
 //  DontBe-iOS
 //
 //  Created by 변희주 on 1/14/24.
@@ -36,17 +36,20 @@ final class NetworkService: NetworkServiceType {
             request.addValue($0.value, forHTTPHeaderField: $0.key)
         }
         
-        // 리퀘스트 바디 설정 (구조체)
-        do {
-            let jsonData = try JSONEncoder().encode(body)
-            request.httpBody = jsonData
-        } catch {
-            print("Failed to encode request body: \(error)")
+        if type == .get {
+            request.httpBody = nil
+        } else {
+            // 리퀘스트 바디 설정 (구조체)
+            do {
+                let jsonData = try JSONEncoder().encode(body)
+                request.httpBody = jsonData
+            } catch {
+                print("Failed to encode request body: \(error)")
+            }
         }
         
         return request
     }
-
     
     func donNetwork<T: Decodable>(type: HttpMethod,
                                   baseURL: String,
