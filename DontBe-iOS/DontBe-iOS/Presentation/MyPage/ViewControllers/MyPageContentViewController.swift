@@ -67,7 +67,7 @@ extension MyPageContentViewController {
         
         uploadToastView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview().inset(16.adjusted)
-            $0.height.equalTo(44)
+            $0.height.equalTo(44.adjusted)
         }
         
         transparentButtonPopupView.snp.makeConstraints {

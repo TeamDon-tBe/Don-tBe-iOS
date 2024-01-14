@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class MyPageAccountInfoTableViewCell: UITableViewCell {
+final class MyPageAccountInfoTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     

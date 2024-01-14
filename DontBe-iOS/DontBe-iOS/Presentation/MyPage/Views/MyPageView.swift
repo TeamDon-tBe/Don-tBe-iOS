@@ -142,7 +142,7 @@ extension MyPageView {
         pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(2.adjusted)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(UIScreen.main.bounds.height - 150)
+            $0.height.equalTo(UIScreen.main.bounds.height - 150.adjusted)
         }
     }
     
