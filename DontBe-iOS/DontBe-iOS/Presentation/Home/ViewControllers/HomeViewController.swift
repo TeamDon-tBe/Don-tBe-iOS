@@ -18,6 +18,7 @@ final class HomeViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     var transparentPopupVC = TransparentPopupViewController()
+    var deletePostPopupVC = CancelReplyPopupViewController()
     
     // MARK: - UI Components
     
@@ -43,6 +44,7 @@ final class HomeViewController: UIViewController {
         setDelegate()
         setNotification()
         setRefreshControll()
+        setAddTarget()
     }
     
     // MARK: - TabBar Height
@@ -65,6 +67,7 @@ extension HomeViewController {
         self.view.backgroundColor = UIColor.donGray1
         uploadToastView.alpha = 0
         transparentPopupVC.modalPresentationStyle = .overFullScreen
+        deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -84,6 +87,38 @@ extension HomeViewController {
             $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
             $0.height.equalTo(44)
         }
+    }
+    
+    private func setAddTarget() {
+        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    }
+    
+    @objc
+    func deletePost() {
+        popView()
+        presentView()
+    }
+    
+    func popView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deleteBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.deleteBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            deleteBottomsheet.dimView.removeFromSuperview()
+            deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+    }
+    
+    func presentView() {
+        self.present(self.deletePostPopupVC, animated: false, completion: nil)
+    }
+    
+    @objc
+    private func dismissViewController() {
+        self.dismiss(animated: false)
     }
     
     private func setDelegate() {
@@ -115,8 +150,6 @@ extension HomeViewController {
     func finishedRefreshing() {
         refreshControl.endRefreshing()
     }
-    
-    
     
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {

@@ -80,6 +80,7 @@
 		2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */; };
 		2FBBADF62B53EEBD002D6286 /* CancelReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */; };
 		2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF72B53EF63002D6286 /* PostPopupView.swift */; };
+		2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
@@ -191,6 +192,7 @@
 		2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentPopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelReplyPopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADF72B53EF63002D6286 /* PostPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPopupView.swift; sourceTree = "<group>"; };
+		2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePopupViewController.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
@@ -667,6 +669,7 @@
 			isa = PBXGroup;
 			children = (
 				2F8735412B4BE66500E55552 /* HomeViewController.swift */,
+				2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -880,6 +883,7 @@
 				2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */,
 				2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
+				2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
 				2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */,
 				2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */,
