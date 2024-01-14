@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageAccountInfoViewController: UIViewController {
+final class MyPageAccountInfoViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     
@@ -85,6 +85,7 @@ final class MyPageAccountInfoViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 

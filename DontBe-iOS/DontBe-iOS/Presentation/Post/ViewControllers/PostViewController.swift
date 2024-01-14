@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostViewController: UIViewController {
+final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     var tabBarHeight: CGFloat = 0
@@ -65,6 +65,7 @@ final class PostViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 
