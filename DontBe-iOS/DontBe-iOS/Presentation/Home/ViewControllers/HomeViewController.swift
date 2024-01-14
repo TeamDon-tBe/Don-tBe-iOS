@@ -17,18 +17,13 @@ final class HomeViewController: UIViewController {
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
+    var transparentPopupVC = TransparentPopupViewController()
     
     // MARK: - UI Components
     
     private let myView = HomeView()
     private lazy var homeCollectionView = HomeCollectionView().collectionView
     private let uploadToastView = DontBeToastView()
-    
-    private let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
-                                                             popupTitle: StringLiterals.Home.transparentPopupTitleLabel,
-                                                             popupContent: StringLiterals.Home.transparentPopupContentLabel,
-                                                             leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle,
-                                                             rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
     
     // MARK: - Life Cycles
     
@@ -69,13 +64,12 @@ extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
         uploadToastView.alpha = 0
-        transparentButtonPopupView.alpha = 0
+        transparentPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
         view.addSubviews(homeCollectionView,
-                         uploadToastView,
-                         transparentButtonPopupView)
+                         uploadToastView)
     }
     
     private func setLayout() {
@@ -90,16 +84,11 @@ extension HomeViewController {
             $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
             $0.height.equalTo(44)
         }
-        
-        transparentButtonPopupView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
-        }
     }
     
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
-        transparentButtonPopupView.delegate = self
     }
     
     private func setNotification() {
@@ -112,7 +101,7 @@ extension HomeViewController {
         refreshControl.backgroundColor = .donGray1
     }
     
-    @objc 
+    @objc
     func refreshPost() {
         DispatchQueue.main.async {
             // ✅ 서버 통신 영역
@@ -121,11 +110,11 @@ extension HomeViewController {
         self.homeCollectionView.reloadData()
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
     }
-      
-      @objc 
+    
+    @objc
     func finishedRefreshing() {
-            refreshControl.endRefreshing()
-      }
+        refreshControl.endRefreshing()
+    }
     
     
     
@@ -196,7 +185,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         }
         cell.TransparentButtonAction = {
-            self.transparentButtonPopupView.alpha = 1
+            // present
+            self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         return cell
     }
@@ -214,16 +204,5 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
-    }
-}
-
-extension HomeViewController: DontBePopupDelegate {
-    func cancleButtonTapped() {
-        transparentButtonPopupView.alpha = 0
-    }
-    
-    func confirmButtonTapped() {
-        transparentButtonPopupView.alpha = 0
-        // ✅ 투명도 주기 버튼 클릭 시 액션 추가
     }
 }

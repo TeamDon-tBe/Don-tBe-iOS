@@ -77,6 +77,7 @@
 		2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */; };
 		2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */; };
 		2FBBADF12B53AF9B002D6286 /* PostReplyCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF02B53AF9B002D6286 /* PostReplyCollectionFooterView.swift */; };
+		2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
@@ -185,6 +186,7 @@
 		2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionView.swift; sourceTree = "<group>"; };
 		2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FBBADF02B53AF9B002D6286 /* PostReplyCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionFooterView.swift; sourceTree = "<group>"; };
+		2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentPopupViewController.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 			children = (
 				2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */,
 				2FB818D02B51693400B7498F /* PostViewController.swift */,
+				2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -884,6 +887,7 @@
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
 				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,
 				2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */,
+				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
