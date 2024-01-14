@@ -71,10 +71,6 @@ final class MyPageViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        self.navigationController?.navigationBar.tintColor = .donWhite
-        self.navigationController?.navigationBar.barTintColor = .donWhite
-        self.navigationController?.navigationBar.backgroundColor = .donWhite
-        
         statusBarView.removeFromSuperview()
     }
     
