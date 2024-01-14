@@ -13,7 +13,11 @@ final class PostViewController: UIViewController {
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
-    
+    private lazy var ghostButton = postView.ghostButton
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var transparentPopupVC = TransparentPopupViewController()
+    var deletePostPopupVC = CancelReplyPopupViewController()
+
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
@@ -21,6 +25,7 @@ final class PostViewController: UIViewController {
     private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
+    private var uploadToastView: DontBeToastView?
     
     private let verticalBarView: UIView = {
         let view = UIView()
@@ -47,6 +52,8 @@ final class PostViewController: UIViewController {
         setLayout()
         setDelegate()
         setTextFieldGesture()
+        setNotification()
+        setAddTarget()
         
     }
     
@@ -76,6 +83,9 @@ extension PostViewController {
         textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         
         self.view.backgroundColor = .donWhite
+        
+        transparentPopupVC.modalPresentationStyle = .overFullScreen
+        deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -115,11 +125,104 @@ extension PostViewController {
     private func setDelegate() {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
+    }
+    
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
+    }
+    
+    @objc func showToast(_ notification: Notification) {
+        if let showToast = notification.userInfo?["showToast"] as? Bool {
+            if showToast == true {
+                
+                uploadToastView = DontBeToastView()
+                
+                view.addSubviews(uploadToastView ?? DontBeToastView())
+                
+                uploadToastView?.snp.makeConstraints {
+                    $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                    $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
+                    $0.height.equalTo(48.adjusted)
+                }
+                
+                var value: Double = 0.0
+                let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
+                let increment: Double = 0.01 // 증가량
+                
+                // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
+                UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
+                    for i in 1...100 {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
+                            value = Double(i) * increment
+                            self.uploadToastView?.circleProgressBar.value = value
+                        }
+                    }
+                })
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.uploadToastView?.circleProgressBar.alpha = 0
+                    self.uploadToastView?.checkImageView.alpha = 1
+                    self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploaded
+                    self.uploadToastView?.container.backgroundColor = .donPrimary
+                }
+                
+                UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
+                    self.uploadToastView?.alpha = 0
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                    self.uploadToastView?.circleProgressBar.alpha = 1
+                    self.uploadToastView?.checkImageView.alpha = 0
+                    self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
+                    self.uploadToastView?.container.backgroundColor = .donGray3
+                }
+            }
+        }
     }
     
     @objc
     private func backButtonPressed() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func setAddTarget() {
+        ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        postView.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    }
+    
+    @objc
+    func deletePost() {
+        popView()
+        presentView()
+    }
+    
+    func popView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deleteBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            deleteBottomsheet.dimView.removeFromSuperview()
+            deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deleteBottomsheet.dimView.removeFromSuperview()
+            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+    }
+    
+    func presentView() {
+        self.present(self.deletePostPopupVC, animated: false, completion: nil)
+    }
+    
+    @objc
+    func transparentShowPopupButton() {
+        self.present(self.transparentPopupVC, animated: false, completion: nil)
     }
     
     private func setTextFieldGesture() {
@@ -137,6 +240,12 @@ extension PostViewController {
         let navigationController = UINavigationController(rootViewController: WriteReplyViewController())
         present(navigationController, animated: true, completion: nil)
     }
+    
+    @objc
+    private func dismissViewController() {
+        self.dismiss(animated: false)
+    }
+    
 }
 
 // MARK: - Network
@@ -157,6 +266,18 @@ extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+        
+        cell.KebabButtonAction = {
+                    self.deleteBottomsheet.showSettings()
+                }
+                cell.LikeButtonAction = {
+                    cell.isLiked.toggle()
+                    cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+                }
+                cell.TransparentButtonAction = {
+                    // present
+                    self.present(self.transparentPopupVC, animated: false, completion: nil)
+                }
         
         return cell
     }

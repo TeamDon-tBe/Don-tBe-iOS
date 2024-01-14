@@ -79,7 +79,7 @@ final class WriteReplyEditorView: UIView {
         return circle
     }()
     
-    private let postButton: UIButton = {
+    let postButton: UIButton = {
         let button = UIButton()
         button.setTitle(StringLiterals.Write.writePostButtonTitle, for: .normal)
         button.setTitleColor(.donGray9, for: .normal)

@@ -107,10 +107,18 @@ enum StringLiterals {
         static let transparentPopupContentLabel = "지금 누르신 투명도 기능이 Don’t be를 더 온화한 커뮤니티로 만들기 위한 일이겠죠?"
         static let transparentPopupLefteftButtonTitle = "조금 더 고민하기"
         static let transparentPopupRightButtonTitle = "네, 맞아요"
+        static let deletePopupTitleLabel = "게시글을 삭제하시겠어요?"
+        static let deletePopupContentLabel = "삭제한 게시글은 영구히 사라져요."
+        static let deletePopupLefteftButtonTitle = "취소"
+        static let deletePopupRightButtonTitle = "삭제"
     }
     
     enum Post {
         static let navigationTitleLabel = "게시글"
         static let textFieldLabel = "님에게 답글 남기기"
+        static let popupReplyContentLabel = "작성 중인 글을 삭제하시겠어요?"
+        static let popupReplyCancelButtonTitle = "취소"
+        static let popupReplyConfirmButtonTitle = "삭제"
+        
     }
 }

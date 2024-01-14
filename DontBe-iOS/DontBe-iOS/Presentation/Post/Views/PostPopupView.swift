@@ -1,5 +1,5 @@
 //
-//  WriteReplyView.swift
+//  PostPopupView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/14/24.
@@ -9,14 +9,11 @@ import UIKit
 
 import SnapKit
 
-final class WriteReplyView: UIView {
+final class PostPopupView: UIView {
 
     // MARK: - Properties
     
     // MARK: - UI Components
-    
-    public lazy var writeReplyPostview = WriteReplyPostView()
-    public lazy var writeReplyView = WriteReplyEditorView()
     
     // MARK: - Life Cycles
     
@@ -38,27 +35,17 @@ final class WriteReplyView: UIView {
 
 // MARK: - Extensions
 
-extension WriteReplyView {
+extension PostPopupView {
     private func setUI() {
         
     }
     
     private func setHierarchy() {
-        addSubviews(writeReplyPostview,
-                    writeReplyView)
+
     }
     
     private func setLayout() {
-        writeReplyPostview.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        writeReplyView.snp.makeConstraints {
-            $0.top.equalTo(writeReplyPostview.contentTextLabel.snp.bottom).offset(24)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(self.safeAreaLayoutGuide)
-        }
+
     }
     
     private func setAddTarget() {

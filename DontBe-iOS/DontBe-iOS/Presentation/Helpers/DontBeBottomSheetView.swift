@@ -17,13 +17,13 @@ final class DontBeBottomSheetView: UIView {
     
     // MARK: - UI Components
     
-    private let dimView: UIView = {
+    let dimView: UIView = {
         let view = UIView()
         view.backgroundColor = .donBlack.withAlphaComponent(0.6)
         return view
     }()
     
-    private let bottomsheetView: UIView = {
+    let bottomsheetView: UIView = {
         let view = UIView()
         view.backgroundColor = .donWhite
         view.layer.cornerRadius = 8.adjusted
@@ -37,9 +37,15 @@ final class DontBeBottomSheetView: UIView {
         return view
     }()
     
-    let singleButton: UIButton = {
+    let deleteButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnDelete, for: .normal)
+        return button
+    }()
+    
+    let warnButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Posting.btnWarn, for: .normal)
         return button
     }()
     
@@ -71,8 +77,6 @@ final class DontBeBottomSheetView: UIView {
     
     init(singleButtonImage: UIImage) {
         super.init(frame: .zero)
-        
-        singleButton.setImage(singleButtonImage, for: .normal)
         
         setUI()
         setHierarchy()
@@ -111,7 +115,7 @@ extension DontBeBottomSheetView {
         self.addSubviews(dimView,
                          bottomsheetView)
         bottomsheetView.addSubviews(dragIndicatorView,
-                                    singleButton)
+                                    deleteButton)
     }
     
     private func setLayout() {
@@ -126,7 +130,7 @@ extension DontBeBottomSheetView {
             $0.top.equalTo(19.adjusted)
         }
         
-        singleButton.snp.makeConstraints {
+        deleteButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.width.equalTo(344.adjusted)
             $0.height.equalTo(60.adjusted)
