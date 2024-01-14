@@ -65,7 +65,6 @@ final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 

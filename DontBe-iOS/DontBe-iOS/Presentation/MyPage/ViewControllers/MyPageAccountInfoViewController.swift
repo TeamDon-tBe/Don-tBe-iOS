@@ -85,7 +85,6 @@ final class MyPageAccountInfoViewController: UIViewController, UIGestureRecogniz
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
 }
 

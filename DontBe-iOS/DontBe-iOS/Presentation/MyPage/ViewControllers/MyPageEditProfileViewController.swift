@@ -34,12 +34,6 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
         setLayout()
         setAddTarget()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.interactivePopGestureRecognizer?.delegate = self
-    }
 }
 
 // MARK: - Extensions
