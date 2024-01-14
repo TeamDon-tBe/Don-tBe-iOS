@@ -5,6 +5,7 @@
 //  Created by 변상우 on 1/12/24.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -13,13 +14,15 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - Properties
     
+    private var cancelBag = CancelBag()
+    private let viewModel: MyPageViewModel
+    
     var titleData = [
         "소셜 로그인",
         "버전 정보",
         "아이디",
         "가입일"
     ]
-    var infoData = AccountInfoDummy.dummy()
     
     // MARK: - UI Components
     
@@ -63,6 +66,15 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - Life Cycles
     
+    init(viewModel: MyPageViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,6 +85,7 @@ final class MyPageAccountInfoViewController: UIViewController {
         setAddTarget()
         setDelegate()
         setRegisterCell()
+        bindViewModel()
         
     }
     
@@ -156,6 +169,19 @@ extension MyPageAccountInfoViewController {
         
     }
     
+    private func bindViewModel() {
+        let input = MyPageViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
+        
+        let output = viewModel.transform(from: input, cancelBag: cancelBag)
+        
+        output.getData
+            .receive(on: RunLoop.main)
+            .sink { _ in
+                self.accountInfoTableView.reloadData()
+            }
+            .store(in: self.cancelBag)
+    }
+    
     func addUnderline(to button: UIButton) {
         let attributes: [NSAttributedString.Key: Any] = [
             .underlineStyle: NSUnderlineStyle.single.rawValue,
@@ -185,14 +211,14 @@ extension MyPageAccountInfoViewController: UITableViewDelegate {
 
 extension MyPageAccountInfoViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return viewModel.myPageMemberData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MyPageAccountInfoTableViewCell", for: indexPath) as! MyPageAccountInfoTableViewCell
         cell.backgroundColor = .donWhite
         cell.infoTitle.text = titleData[indexPath.row]
-        cell.infoContent.text = infoData[indexPath.row].content
+        cell.infoContent.text = viewModel.myPageMemberData[indexPath.row]
         return cell
     }
 }
