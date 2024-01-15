@@ -5,9 +5,11 @@
 //  Created by 변희주 on 1/14/24.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkService: NetworkServiceType {
+    private let tokenManager = TokenManager()
+    
     func donMakeRequest(type: HttpMethod,
                         baseURL: String,
                         accessToken: String,
@@ -73,7 +75,17 @@ final class NetworkService: NetworkServiceType {
             case 400:
                 throw NetworkError.badRequestError
             case 401:
-                throw NetworkError.unautohorizedError
+                guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { throw NetworkError.responseError }
+                guard let refreshToken = KeychainWrapper.loadToken(forKey: "refreshToken") else { throw NetworkError.responseError }
+                
+                let result = try await tokenManager.getTokenAPI(accessToken: accessToken, refreshToken: refreshToken)
+                
+                guard let newAccessToken = result.data?.accessToken else { throw NetworkError.unknownError }
+                KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+               
+                print("👻👻👻👻👻 토큰 재발급 👻👻👻👻👻")
+                return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
+            
             case 404:
                 throw NetworkError.notFoundError
             case 500:

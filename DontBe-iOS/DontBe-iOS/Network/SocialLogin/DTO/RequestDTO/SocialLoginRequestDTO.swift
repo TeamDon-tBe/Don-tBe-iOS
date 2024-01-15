@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - SocialLoginRequestDTO
+
 struct SocialLoginRequestDTO: Encodable {
     let socialPlatform: String
 }

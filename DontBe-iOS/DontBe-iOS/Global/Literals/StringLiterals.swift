@@ -121,4 +121,8 @@ enum StringLiterals {
         static let popupReplyConfirmButtonTitle = "삭제"
         
     }
+    
+    enum Network {
+        static let expired = "access, refreshToken 모두 만료되었습니다. 재로그인이 필요합니다."
+    }
 }

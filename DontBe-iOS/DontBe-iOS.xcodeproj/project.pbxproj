@@ -10,6 +10,8 @@
 		2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73092B541555004478C1 /* HttpMethod.swift */; };
 		2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */; };
 		2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */; };
+		2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */; };
+		2A0A73192B5497AE004478C1 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73182B5497AE004478C1 /* TokenManager.swift */; };
 		2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F62B4BEA34009D214F /* LoginViewController.swift */; };
 		2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F82B4C0819009D214F /* UILabel+.swift */; };
 		2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */; };
@@ -126,6 +128,8 @@
 		2A0A73092B541555004478C1 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceType.swift; sourceTree = "<group>"; };
 		2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenReissueResponseDTO.swift; sourceTree = "<group>"; };
+		2A0A73182B5497AE004478C1 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		2A2671F62B4BEA34009D214F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2A2671F82B4C0819009D214F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -252,6 +256,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A0A73112B5483E4004478C1 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		2A0A73122B5483F1004478C1 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
+		2A0A73132B5486F8004478C1 /* TokenManager */ = {
+			isa = PBXGroup;
+			children = (
+				2A0A73182B5497AE004478C1 /* TokenManager.swift */,
+				2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */,
+			);
+			path = TokenManager;
+			sourceTree = "<group>";
+		};
 		2A2671F52B4BEA0E009D214F /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,8 +326,8 @@
 		2A2845412B531FF90023F9B5 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */,
-				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
+				2A0A73122B5483F1004478C1 /* RequestDTO */,
+				2A0A73112B5483E4004478C1 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -562,6 +591,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A0A73132B5486F8004478C1 /* TokenManager */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
 				3C70BE2A2B53EB81001AA5A6 /* MyPage */,
 				3C61930E2B3A787000220CEB /* Foundation */,
@@ -940,6 +970,7 @@
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
 				3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
+				2A0A73192B5497AE004478C1 /* TokenManager.swift in Sources */,
 				3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
 				2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */,
@@ -961,6 +992,7 @@
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */,
+				2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				2FB818D12B51693400B7498F /* PostViewController.swift in Sources */,
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,

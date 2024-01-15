@@ -62,9 +62,8 @@ final class LoginViewModel: ViewModelType {
         } else if let accessToken = oauthToken?.accessToken {
             Task {
                 do {
-                    let isNewUser = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
-                    let nickname = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
-                    
+                    let isNewUser = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
+                    let nickname = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
                     if !isNewUser && !nickname.isEmpty {
                         self.userInfoPublisher.send(false)
                     } else {
@@ -78,8 +77,10 @@ final class LoginViewModel: ViewModelType {
     }
 }
 
+// MARK: - Network
+
 extension LoginViewModel {
-    private func getSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+    private func postSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,
