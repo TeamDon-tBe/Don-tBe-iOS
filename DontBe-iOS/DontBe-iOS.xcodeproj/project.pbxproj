@@ -577,7 +577,7 @@
 		2FBBADFC2B56447F002D6286 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */,
+				3C61C9F92B56EA62006F1D24 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -783,6 +783,31 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		3C61C9F82B56E6E3006F1D24 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
+				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		3C61C9F92B56EA62006F1D24 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		3C61C9FA2B56EA75006F1D24 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 		3C70BE2A2B53EB81001AA5A6 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,8 +819,7 @@
 		3C70BE2C2B53EB92001AA5A6 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
-				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
+				3C61C9F82B56E6E3006F1D24 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -827,7 +851,7 @@
 		3CBF99202B549B510015FE4B /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */,
+				3C61C9FA2B56EA75006F1D24 /* RequestDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
