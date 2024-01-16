@@ -103,7 +103,8 @@ extension JoinProfileViewController {
                                           isFirstUser: true,
                                           isJoinedApp: true,
                                           isOnboardingFinished: false,
-                                          userNickname: self.originView.nickNameTextField.text ?? ""))
+                                          userNickname: self.originView.nickNameTextField.text ?? "", 
+                                          memberId: loadUserData()?.memberId ?? 0))
                     
                     let viewContoller = OnboardingViewController()
                     viewContoller.originView.isFirstUser = true

@@ -72,10 +72,10 @@ final class JoinProfileViewModel: ViewModelType {
 // MARK: - Network
 
 extension JoinProfileViewModel {
-    private func getNicknameDuplicationAPI(nickname: String) async throws -> BaseResponse<EmptyResponseDTO>? {
+    private func getNicknameDuplicationAPI(nickname: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
-            let data: BaseResponse<EmptyResponseDTO>? = try await self.networkProvider.donNetwork(
+            let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
                 type: .get,
                 baseURL: Config.baseURL + "/nickname-validation",
                 accessToken: accessToken,
