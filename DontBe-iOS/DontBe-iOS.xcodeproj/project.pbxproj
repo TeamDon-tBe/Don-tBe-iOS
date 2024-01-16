@@ -107,6 +107,7 @@
 		3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193162B3A7A7B00220CEB /* UIStackView+.swift */; };
 		3C6193192B3A7AC700220CEB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193182B3A7AC700220CEB /* Config.swift */; };
 		3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61931A2B3A7AD000220CEB /* NetworkError.swift */; };
+		3C61C9FC2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */; };
 		3C70BE302B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */; };
 		3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */; };
 		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
@@ -232,6 +233,7 @@
 		3C6193162B3A7A7B00220CEB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3C6193182B3A7AC700220CEB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3C61931A2B3A7AD000220CEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUserContentResponseDTO.swift; sourceTree = "<group>"; };
 		3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberDataResponseDTO.swift; sourceTree = "<group>"; };
 		3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -796,6 +798,7 @@
 			children = (
 				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
 				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
+				3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1161,6 +1164,7 @@
 				3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */,
 				3CEE4CC22B503F9E00F506AF /* DontBeCustomInfoView.swift in Sources */,
 				2A2845402B531F0A0023F9B5 /* BaseResponse.swift in Sources */,
+				3C61C9FC2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
