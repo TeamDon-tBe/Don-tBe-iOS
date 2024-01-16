@@ -11,10 +11,19 @@ import Foundation
 final class OnboardingEndingViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
+    private let networkProvider: NetworkServiceType
+
+    init(networkProvider: NetworkServiceType) {
+        self.networkProvider = networkProvider
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     struct Input {
         let backButtonTapped: AnyPublisher<Void, Never>
-        let startButtonTapped: AnyPublisher<Void, Never>
+        let startButtonTapped: AnyPublisher<String, Never>
         let skipButtonTapped: AnyPublisher<Void, Never>
     }
     
@@ -33,9 +42,19 @@ final class OnboardingEndingViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         input.startButtonTapped
-            .sink { _ in
-                // 온보딩 완료 서버통신
-                // 서버통신 완료되면 신호
+            .sink { value in
+                // 한 줄 소개 작성 서버통신
+                Task {
+                    do {
+                        let statusCode = try await self.patchUserInfoAPI(inroduction: value)?.status
+                        if statusCode == 200 {
+                            publisher.send("start")
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+                
                 saveUserData(UserInfo(isSocialLogined:
                                          loadUserData()?.isSocialLogined ?? true,
                                          isFirstUser: false,
@@ -43,8 +62,6 @@ final class OnboardingEndingViewModel: ViewModelType {
                                          isOnboardingFinished: true,
                                          userNickname: loadUserData()?.userNickname ?? "",
                                          memberId: loadUserData()?.memberId ?? 0))
-                publisher.send("start")
-                
             }
             .store(in: self.cancelBag)
         
@@ -63,5 +80,32 @@ final class OnboardingEndingViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         return Output(voidPublisher: publisher)
+    }
+}
+
+// MARK: - Network
+
+extension OnboardingEndingViewModel {
+    private func patchUserInfoAPI(inroduction: String) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            let requestDTO = UserProfileRequestDTO(
+                nickname: loadUserData()?.userNickname ?? "",
+                is_alarm_allowed: true,
+                member_intro: inroduction,
+                profile_url: StringLiterals.Network.baseImageURL)
+
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
+                type: .patch,
+                baseURL: Config.baseURL + "/user-profile",
+                accessToken: accessToken,
+                body: requestDTO,
+                pathVariables: ["":""])
+            
+            print ("👻👻👻👻👻한 줄 소개 작성 완료👻👻👻👻👻")
+            return data
+        } catch {
+           return nil
+       }
     }
 }

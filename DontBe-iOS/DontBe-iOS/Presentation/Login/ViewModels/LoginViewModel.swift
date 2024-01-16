@@ -60,6 +60,7 @@ final class LoginViewModel: ViewModelType {
         if let error = error {
             print(error)
         } else if let accessToken = oauthToken?.accessToken {
+            // 소셜로그인 서버통신
             Task {
                 do {
                     let isNewUser = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false

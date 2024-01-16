@@ -97,6 +97,7 @@ extension JoinProfileViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.pushOrPopViewController
+            .receive(on: RunLoop.main)
             .sink { value in
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
@@ -107,12 +108,10 @@ extension JoinProfileViewController {
                                           isOnboardingFinished: false,
                                           userNickname: self.originView.nickNameTextField.text ?? "", 
                                           memberId: loadUserData()?.memberId ?? 0))
-                    DispatchQueue.main.async {
                         let viewContoller = OnboardingViewController()
                         viewContoller.originView.isFirstUser = true
                         self.navigationBackButton.removeFromSuperview()
                         self.navigationController?.pushViewController(viewContoller, animated: true)
-                    }
                 }
             }
             .store(in: self.cancelBag)

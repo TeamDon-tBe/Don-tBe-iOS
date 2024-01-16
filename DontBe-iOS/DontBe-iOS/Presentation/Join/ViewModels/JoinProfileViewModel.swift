@@ -60,6 +60,7 @@ final class JoinProfileViewModel: ViewModelType {
         
         input.finishButtonTapped
             .sink { value in
+                // 회원가입 서버통신
                 Task {
                     do {
                         let statusCode = try await self.patchUserInfoAPI(nickname: value)?.status
