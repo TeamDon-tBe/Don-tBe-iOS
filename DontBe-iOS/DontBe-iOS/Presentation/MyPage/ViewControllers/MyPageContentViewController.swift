@@ -20,7 +20,6 @@ final class MyPageContentViewController: UIViewController {
     // MARK: - UI Components
     
     lazy var homeCollectionView = HomeCollectionView().collectionView
-    private let uploadToastView = DontBeToastView()
     
     private let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
                                                              popupTitle: StringLiterals.Home.transparentPopupTitleLabel,
@@ -38,7 +37,6 @@ final class MyPageContentViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
-        setNotification()
         setRefreshControll()
     }
 }
@@ -49,13 +47,11 @@ extension MyPageContentViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
         self.navigationController?.navigationBar.isHidden = true
-        uploadToastView.alpha = 0
         transparentButtonPopupView.alpha = 0
     }
     
     private func setHierarchy() {
         view.addSubviews(homeCollectionView,
-                         uploadToastView,
                          transparentButtonPopupView)
     }
     
@@ -63,11 +59,6 @@ extension MyPageContentViewController {
         homeCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
-        }
-        
-        uploadToastView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalToSuperview().inset(16.adjusted)
-            $0.height.equalTo(44.adjusted)
         }
         
         transparentButtonPopupView.snp.makeConstraints {
@@ -79,10 +70,6 @@ extension MyPageContentViewController {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
         transparentButtonPopupView.delegate = self
-    }
-    
-    private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
     }
     
     private func setRefreshControll() {
@@ -101,52 +88,11 @@ extension MyPageContentViewController {
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
     }
       
-      @objc
+    @objc
     func finishedRefreshing() {
-            refreshControl.endRefreshing()
-      }
-    
-    
-    
-    @objc func showToast(_ notification: Notification) {
-        if let showToast = notification.userInfo?["showToast"] as? Bool {
-            if showToast == true {
-                uploadToastView.alpha = 1
-                
-                var value: Double = 0.0
-                let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
-                let increment: Double = 0.01 // 증가량
-                
-                // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
-                UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
-                    for i in 1...100 {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
-                            value = Double(i) * increment
-                            self.uploadToastView.circleProgressBar.value = value
-                        }
-                    }
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 0
-                    self.uploadToastView.checkImageView.alpha = 1
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploaded
-                    self.uploadToastView.container.backgroundColor = .donPrimary
-                }
-                
-                UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
-                    self.uploadToastView.alpha = 0
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 1
-                    self.uploadToastView.checkImageView.alpha = 0
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploading
-                    self.uploadToastView.container.backgroundColor = .donGray3
-                }
-            }
-        }
+        refreshControl.endRefreshing()
     }
+    
 }
 
 // MARK: - Network
