@@ -155,7 +155,7 @@ extension MyPageViewController {
     }
     
     private func bindProfileData(data: MypageProfileResponseDTO) {
-        self.rootView.myPageProfileView.profileImageView.load(url: URL(string: data.memberProfileUrl)!)
+        self.rootView.myPageProfileView.profileImageView.load(url: data.memberProfileUrl)
         self.rootView.myPageProfileView.userNickname.text = data.nickname
         self.rootView.myPageProfileView.userIntroduction.text = data.memberIntro
         self.rootView.myPageProfileView.transparencyValue = data.memberGhost
