@@ -226,7 +226,7 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("viewModel.postData.count is \(viewModel.postData.count)")
+        
         return viewModel.postData.count
     }
     
@@ -244,6 +244,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             // present
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(viewModel.postData[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
+        cell.timeLabel.text = "\(viewModel.postData[indexPath.row].formatTime)"
+        
+        let url = URL(string: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.profileImageView.load(url: url!)
         return cell
     }
     
