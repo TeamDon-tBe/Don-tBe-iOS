@@ -181,7 +181,7 @@ extension MyPageAccountInfoViewController {
     }
     
     private func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
+        let input = MyPageViewModel.Input(viewUpdate: Just((0)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         

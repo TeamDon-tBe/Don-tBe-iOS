@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - WriteContentRequestDTO
+
 struct WriteContentRequestDTO: Encodable {
     let contentText: String
 }

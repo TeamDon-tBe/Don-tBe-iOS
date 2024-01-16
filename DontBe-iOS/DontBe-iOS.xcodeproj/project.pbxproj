@@ -113,6 +113,7 @@
 		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
 		3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */; };
 		3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */; };
+		3CBF99292B56BD210015FE4B /* MypageProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */; };
 		3CD25D272B5466DB0075F80F /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D262B5466DB0075F80F /* Empty.swift */; };
 		3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
@@ -237,6 +238,7 @@
 		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
 		3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteContentRequestDTO.swift; sourceTree = "<group>"; };
 		3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
+		3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileResponseDTO.swift; sourceTree = "<group>"; };
 		3CD25D262B5466DB0075F80F /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeBottomSheetButton.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -575,7 +577,7 @@
 		2FBBADFC2B56447F002D6286 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */,
+				3C61C9F92B56EA62006F1D24 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -781,6 +783,31 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		3C61C9F82B56E6E3006F1D24 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
+				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		3C61C9F92B56EA62006F1D24 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		3C61C9FA2B56EA75006F1D24 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 		3C70BE2A2B53EB81001AA5A6 /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -792,7 +819,7 @@
 		3C70BE2C2B53EB92001AA5A6 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
+				3C61C9F82B56E6E3006F1D24 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -824,7 +851,7 @@
 		3CBF99202B549B510015FE4B /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */,
+				3C61C9FA2B56EA75006F1D24 /* RequestDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -1073,6 +1100,7 @@
 				3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */,
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */,
+				3CBF99292B56BD210015FE4B /* MypageProfileResponseDTO.swift in Sources */,
 				2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */,
 				2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,

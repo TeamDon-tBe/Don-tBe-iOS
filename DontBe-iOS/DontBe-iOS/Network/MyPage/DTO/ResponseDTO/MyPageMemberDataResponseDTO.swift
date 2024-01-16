@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - MyPageMemberDataResponseDTO
+
 struct MyPageMemberDataResponseDTO: Decodable {
     let memberId: Int
     let joinDate: String

@@ -178,8 +178,18 @@ extension WriteTextView {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardHeight = keyboardFrame.cgRectValue.height
             
-            contentTextView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor, constant: -keyboardHeight - self.keyboardToolbarView.frame.height).isActive = true
-            keyboardToolbarView.bottomAnchor.constraint(equalTo: self.keyboardLayoutGuide.topAnchor, constant: -keyboardHeight).isActive = true
+            contentTextView.snp.remakeConstraints {
+                $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
+                $0.leading.equalTo(userNickname.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.bottom.equalTo(-keyboardHeight)
+            }
+            
+            keyboardToolbarView.snp.remakeConstraints {
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(56.adjusted)
+                $0.bottom.equalTo(-keyboardHeight)
+            }
         }
     }
 }
@@ -205,9 +215,11 @@ extension WriteTextView: UITextViewDelegate {
             
             let value = Double(textLength) / 500
             circleProgressBar.value = value
+            postButton.isEnabled = false
         } else {
             limitedCircleProgressBar.alpha = 1
             circleProgressBar.alpha = 0
+            postButton.isEnabled = true
             
             impactFeedbackGenerator.impactOccurred()
         }
