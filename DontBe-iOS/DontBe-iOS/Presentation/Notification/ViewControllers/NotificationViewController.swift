@@ -25,7 +25,7 @@ final class NotificationViewController: UIViewController {
     private lazy var refreshControlClicked = refreshControl.refreshControlPublisher.map { _ in
          }.eraseToAnyPublisher()
     
-    private let notificationTableView: UITableView = {
+    let notificationTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
         tableView.separatorStyle = .none
@@ -66,7 +66,6 @@ final class NotificationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.delegate = self
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = false
     }
@@ -171,14 +170,4 @@ extension NotificationViewController: UITableViewDataSource {
             return cell
         }
     }
-}
-
-extension NotificationViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-           if let navigationController = viewController as? UINavigationController {
-               if let topViewController = navigationController.topViewController as? NotificationViewController {
-                   topViewController.notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-               }
-           }
-       }
 }

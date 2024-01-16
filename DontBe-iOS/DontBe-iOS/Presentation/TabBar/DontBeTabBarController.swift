@@ -151,6 +151,28 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
             let destinationViewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
             self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
+        
+        guard let selectedViewController = tabBarController.selectedViewController else {
+            return true
+        }
+        
+        if selectedViewController == viewController {
+            if tabBarController.selectedIndex == 0 {
+                if let navigationController = viewController as? UINavigationController {
+                    if let topViewController = navigationController.topViewController as? HomeViewController {
+                        topViewController.homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                    }
+                }
+            } else if tabBarController.selectedIndex == 2 {
+                if let navigationController = viewController as? UINavigationController {
+                    if let topViewController = navigationController.topViewController as? NotificationViewController {
+                        topViewController.notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                    }
+                }
+
+            }
+        }
+        
         return true
     }
 }

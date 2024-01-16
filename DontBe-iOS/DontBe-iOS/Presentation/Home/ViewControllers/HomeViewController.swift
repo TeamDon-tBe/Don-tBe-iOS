@@ -27,7 +27,7 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private let myView = HomeView()
-    private lazy var homeCollectionView = HomeCollectionView().collectionView
+    lazy var homeCollectionView = HomeCollectionView().collectionView
     private var uploadToastView: DontBeToastView?
     
     // MARK: - Life Cycles
@@ -70,7 +70,6 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.delegate = self
     }
 }
 
@@ -276,14 +275,4 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
     }
-}
-
-extension HomeViewController: UITabBarControllerDelegate {
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-           if let navigationController = viewController as? UINavigationController {
-               if let topViewController = navigationController.topViewController as? HomeViewController {
-                   topViewController.homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-               }
-           }
-       }
 }
