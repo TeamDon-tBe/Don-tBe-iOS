@@ -13,15 +13,19 @@ final class MyPageViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
     private var getData = PassthroughSubject<Void, Never>()
+    private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
     
     var myPageMemberData: [String] = []
+    private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
+        let viewWillShow: AnyPublisher<Void, Never>
         let viewUpdate: AnyPublisher<Void, Never>
     }
     
     struct Output {
         let getData: PassthroughSubject<Void, Never>
+        let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
@@ -43,7 +47,24 @@ final class MyPageViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(getData: getData)
+        input.viewWillShow
+            .sink { value in
+                Task {
+                    do {
+                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                            let result = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                            if let data = result?.data {
+                                self.getProfileData.send(data)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+            .store(in: self.cancelBag)
+        
+        return Output(getData: getData, getProfileData: getProfileData)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -57,7 +78,6 @@ final class MyPageViewModel: ViewModelType {
 
 extension MyPageViewModel {
     private func getMyPageMemberData(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
-        let accessToken = accessToken
         do {
             let result: BaseResponse<MyPageMemberDataResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .get,
@@ -78,4 +98,19 @@ extension MyPageViewModel {
             return nil
         }
     }
+    
+    private func getProfileInfoAPI(accessToken: String, memberId: String) async throws -> BaseResponse<MypageProfileResponseDTO>? {
+        do {
+            let result: BaseResponse<MypageProfileResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/viewmember/\(memberId)",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["viewmemberId":"\(memberId)"])
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
 }
