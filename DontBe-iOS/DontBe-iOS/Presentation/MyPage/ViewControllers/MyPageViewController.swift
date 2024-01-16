@@ -15,7 +15,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - Properties
     
     private var cancelBag = CancelBag()
-    private let viewModel: MyPageViewModel
+    var viewModel: MyPageViewModel
     
     var currentPage: Int = 0 {
         didSet {
@@ -181,7 +181,7 @@ extension MyPageViewController {
     @objc
     private func accountInfoButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
-        let vc = MyPageAccountInfoViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+        let vc = MyPageAccountInfoViewController(viewModel: self.viewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
