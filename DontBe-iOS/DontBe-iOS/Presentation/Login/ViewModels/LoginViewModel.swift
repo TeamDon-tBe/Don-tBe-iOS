@@ -60,6 +60,7 @@ final class LoginViewModel: ViewModelType {
         if let error = error {
             print(error)
         } else if let accessToken = oauthToken?.accessToken {
+            // 소셜로그인 서버통신
             Task {
                 do {
                     let isNewUser = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
@@ -81,12 +82,13 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     private func postSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+        let requestDTO = SocialLoginRequestDTO(socialPlatform: "KAKAO")
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,
                 baseURL: Config.baseURL + "/auth",
                 accessToken: accessToken,
-                body: SocialLoginRequestDTO(socialPlatform: "KAKAO"),
+                body: requestDTO,
                 pathVariables: ["":""])
             print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
             

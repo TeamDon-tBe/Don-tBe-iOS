@@ -20,7 +20,7 @@ final class WriteTextView: UIView {
     
     private let userProfileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.setCircularImage(image: ImageLiterals.Common.logoSymbol)
+        imageView.load(url: StringLiterals.Network.baseImageURL)
         return imageView
     }()
     

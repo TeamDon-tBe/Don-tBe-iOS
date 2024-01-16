@@ -20,7 +20,9 @@ final class JoinProfileViewController: UIViewController {
     private lazy var duplicationCheckButtonTapped = self.originView.duplicationCheckButton.publisher(for: .touchUpInside).map { _ in
         return self.originView.nickNameTextField.text ?? ""
     }.eraseToAnyPublisher()
-    private lazy var finishButtonTapped = self.originView.finishActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var finishButtonTapped = self.originView.finishActiveButton.publisher(for: .touchUpInside).map { _ in
+        return self.originView.nickNameTextField.text ?? ""
+    }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -95,20 +97,15 @@ extension JoinProfileViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.pushOrPopViewController
+            .receive(on: RunLoop.main)
             .sink { value in
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isFirstUser: true,
-                                          isJoinedApp: true,
-                                          isOnboardingFinished: false,
-                                          userNickname: self.originView.nickNameTextField.text ?? "",
-                                          memberId: loadUserData()?.memberId ?? 0))
-                    let viewContoller = OnboardingViewController()
-                    viewContoller.originView.isFirstUser = true
-                    self.navigationBackButton.removeFromSuperview()
-                    self.navigationController?.pushViewController(viewContoller, animated: true)
+                        let viewContoller = OnboardingViewController()
+                        viewContoller.originView.isFirstUser = true
+                        self.navigationBackButton.removeFromSuperview()
+                        self.navigationController?.pushViewController(viewContoller, animated: true)
                 }
             }
             .store(in: self.cancelBag)

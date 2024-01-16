@@ -19,7 +19,7 @@ final class MyPageNicknameEditView: UIView {
 
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
-        profileImage.setCircularImage(image: ImageLiterals.Common.imgProfile)
+        profileImage.load(url: StringLiterals.Network.baseImageURL)
         return profileImage
     }()
     

@@ -19,7 +19,7 @@ final class JoinProfileView: UIView {
 
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
-        profileImage.setCircularImage(image: ImageLiterals.Common.imgProfile)
+        profileImage.image = ImageLiterals.Common.imgProfile
         return profileImage
     }()
     

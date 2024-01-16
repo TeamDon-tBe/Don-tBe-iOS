@@ -73,7 +73,7 @@ extension OnboardingViewController {
             self.setOnboardingView(viewController: viewController)
             self.navigationController?.pushViewController(viewController, animated: true)
         } else {
-            let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel())
+            let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel(networkProvider: NetworkService()))
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
@@ -86,7 +86,7 @@ extension OnboardingViewController {
     
     @objc
     private func skipButtonTapped() {
-        let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel())
+        let viewController = OnboardingEndingViewController(viewModel: OnboardingEndingViewModel(networkProvider: NetworkService()))
         self.navigationController?.pushViewController(viewController, animated: true)
     }
 }

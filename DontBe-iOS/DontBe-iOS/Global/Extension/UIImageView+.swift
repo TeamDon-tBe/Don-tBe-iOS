@@ -8,21 +8,17 @@
 import UIKit
 
 extension UIImageView {
-    func setCircularImage(image: UIImage) {
-        self.layer.cornerRadius = self.frame.size.width / 2
-        self.clipsToBounds = true
-        self.image = image
-        self.contentMode = .scaleAspectFit
-    }
-}
-
-extension UIImageView {
-    func load(url: URL) {
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.image = image
+    func load(url: String) {
+        if let url = URL(string: url) {
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self?.image = image
+                            self?.layer.cornerRadius = 0
+                            self?.clipsToBounds = true
+                            self?.contentMode = .scaleAspectFit
+                        }
                     }
                 }
             }
