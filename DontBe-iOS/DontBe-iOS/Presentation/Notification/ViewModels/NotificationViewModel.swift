@@ -50,6 +50,7 @@ final class NotificationViewModel: ViewModelType {
                             time: data.time)
                     }
                     self.notificationList = myNotiList ?? []
+                    _ = try await self.patchNotificationCheck()
                     self.reloadTableView.send(0)
                 }
             }
@@ -72,6 +73,7 @@ final class NotificationViewModel: ViewModelType {
                             time: data.time)
                     }
                     self.notificationList = myNotiList ?? []
+                    _ = try await self.patchNotificationCheck()
                     self.reloadTableView.send(1)
                 }
             }
@@ -92,6 +94,22 @@ extension NotificationViewModel {
                 body: EmptyBody(),
                 pathVariables: ["": ""])
             print ("👻👻👻👻👻노티 리스트 조회👻👻👻👻👻")
+            return data
+        } catch {
+            return nil
+        }
+    }
+    
+    private func patchNotificationCheck() async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
+                type: .patch,
+                baseURL: Config.baseURL + "/notification-check",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["": ""])
+            print ("👻👻👻👻👻노티 체크 성공👻👻👻👻👻")
             return data
         } catch {
             return nil
