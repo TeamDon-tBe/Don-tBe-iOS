@@ -14,8 +14,10 @@ final class MyPageViewModel: ViewModelType {
     private let networkProvider: NetworkServiceType
     private var getData = PassthroughSubject<Void, Never>()
     private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
+    private var getContentData = PassthroughSubject<[MyPageUserContentResponseDTO], Never>()
     
     var myPageMemberData: [String] = []
+    var myPageContentData: [MyPageUserContentResponseDTO] = []
     private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
@@ -25,12 +27,14 @@ final class MyPageViewModel: ViewModelType {
     struct Output {
         let getData: PassthroughSubject<Void, Never>
         let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
+        let getContentData: PassthroughSubject<[MyPageUserContentResponseDTO], Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewUpdate
             .sink { value in
                 if value == 0 {
+                    // 계정 정보 조회 API
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
@@ -45,12 +49,34 @@ final class MyPageViewModel: ViewModelType {
                         }
                     }
                 } else if value == 1 {
+                    // 유저 프로필 조회 API
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let result = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
-                                if let data = result?.data {
+                                let profileResult = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = profileResult?.data {
                                     self.getProfileData.send(data)
+                                }
+                                
+                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = contentResult?.data {
+                                    self.myPageContentData = data
+                                    self.getContentData.send(data)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
+                } else if value == 2 {
+                    // 유저에 해당하는 게시글 리스트 조회
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = contentResult?.data {
+                                    self.myPageContentData = data
+                                    self.getContentData.send(data)
                                 }
                             }
                         } catch {
@@ -61,7 +87,7 @@ final class MyPageViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(getData: getData, getProfileData: getProfileData)
+        return Output(getData: getData, getProfileData: getProfileData, getContentData: getContentData)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -82,14 +108,6 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["":""])
-            
-            if let data = result?.data {
-                let memberData = MyPageMemberDataResponseDTO(memberId: data.memberId,
-                                                             joinDate: data.joinDate,
-                                                             showMemberId: data.showMemberId,
-                                                             socialPlatform: data.socialPlatform,
-                                                             versionInformation: data.versionInformation)
-            }
             return result
         } catch {
             return nil
@@ -104,6 +122,20 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["":""])
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
+    func getMemberContentAPI(accessToken: String, memberId: String) async throws -> BaseResponse<[MyPageUserContentResponseDTO]>? {
+        do {
+            let result: BaseResponse<[MyPageUserContentResponseDTO]>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/member/\(memberId)/contents",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables:["":""])
             return result
         } catch {
             return nil
