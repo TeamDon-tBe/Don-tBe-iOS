@@ -175,9 +175,10 @@ extension NotificationViewController: UITableViewDataSource {
 
 extension NotificationViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let notificationViewController = viewController as? UINavigationController {
-            notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        }
-    }
+           if let navigationController = viewController as? UINavigationController {
+               if let topViewController = navigationController.topViewController as? NotificationViewController {
+                   topViewController.notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+               }
+           }
+       }
 }
-

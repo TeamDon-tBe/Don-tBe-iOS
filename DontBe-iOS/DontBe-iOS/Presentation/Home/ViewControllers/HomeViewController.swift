@@ -70,6 +70,7 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.delegate = self
     }
 }
 
@@ -129,7 +130,6 @@ extension HomeViewController {
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
-        self.tabBarController?.delegate = self
     }
     
     private func setNotification() {
@@ -280,8 +280,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 extension HomeViewController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if let notificationViewController = viewController as? UINavigationController {
-            homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
-        }
-    }
+           if let navigationController = viewController as? UINavigationController {
+               if let topViewController = navigationController.topViewController as? HomeViewController {
+                   topViewController.homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+               }
+           }
+       }
 }
