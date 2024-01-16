@@ -108,7 +108,9 @@
 		3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */; };
 		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
 		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
-		3CD25D272B5466DB0075F80F /* EmptyBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D262B5466DB0075F80F /* EmptyBody.swift */; };
+		3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */; };
+		3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */; };
+		3CD25D272B5466DB0075F80F /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D262B5466DB0075F80F /* Empty.swift */; };
 		3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
 		3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */; };
@@ -227,7 +229,9 @@
 		3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
 		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
-		3CD25D262B5466DB0075F80F /* EmptyBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBody.swift; sourceTree = "<group>"; };
+		3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteContentRequestDTO.swift; sourceTree = "<group>"; };
+		3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
+		3CD25D262B5466DB0075F80F /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeBottomSheetButton.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
@@ -582,6 +586,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				3CBF991F2B549B470015FE4B /* Write */,
 				2FBBADFB2B564471002D6286 /* Home */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
 				3C70BE2A2B53EB81001AA5A6 /* MyPage */,
@@ -667,7 +672,7 @@
 				2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */,
 				2A0A73092B541555004478C1 /* HttpMethod.swift */,
 				2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */,
-				3CD25D262B5466DB0075F80F /* EmptyBody.swift */,
+				3CD25D262B5466DB0075F80F /* Empty.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -751,11 +756,36 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		3CBF991F2B549B470015FE4B /* Write */ = {
+			isa = PBXGroup;
+			children = (
+				3CBF99202B549B510015FE4B /* DTO */,
+			);
+			path = Write;
+			sourceTree = "<group>";
+		};
+		3CBF99202B549B510015FE4B /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		3CBF99252B549C6C0015FE4B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		3CE9C1252B4BE5970086E4A3 /* Write */ = {
 			isa = PBXGroup;
 			children = (
 				3CE9C1262B4BE5E60086E4A3 /* Views */,
 				3CE9C1282B4BE6580086E4A3 /* ViewControllers */,
+				3CBF99252B549C6C0015FE4B /* ViewModels */,
 			);
 			path = Write;
 			sourceTree = "<group>";
@@ -932,7 +962,7 @@
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
-				3CD25D272B5466DB0075F80F /* EmptyBody.swift in Sources */,
+				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
@@ -958,6 +988,7 @@
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
+				3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */,
 				3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */,
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
 				3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */,
@@ -993,6 +1024,7 @@
 				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
 				3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */,
 				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
+				3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */,
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
