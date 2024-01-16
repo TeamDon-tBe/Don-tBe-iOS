@@ -43,6 +43,7 @@ final class JoinProfileViewModel: ViewModelType {
         
         input.duplicationCheckButtonTapped
             .sink { value in
+                // 닉네임 중복체크 서버통신
                 Task {
                     do {
                         let statusCode = try await self.getNicknameDuplicationAPI(nickname: value)?.status ?? 200
@@ -71,7 +72,13 @@ final class JoinProfileViewModel: ViewModelType {
                         print(error)
                     }
                 }
-                            }
+                saveUserData(UserInfo(isSocialLogined: true,
+                                      isFirstUser: true,
+                                      isJoinedApp: true,
+                                      isOnboardingFinished: false,
+                                      userNickname: value,
+                                      memberId: loadUserData()?.memberId ?? 0))
+            }
             .store(in: self.cancelBag)
         
         return Output(pushOrPopViewController: pushOrPopViewController,

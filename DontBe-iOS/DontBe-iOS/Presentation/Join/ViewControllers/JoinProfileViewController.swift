@@ -102,12 +102,6 @@ extension JoinProfileViewController {
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                    saveUserData(UserInfo(isSocialLogined: true,
-                                          isFirstUser: true,
-                                          isJoinedApp: true,
-                                          isOnboardingFinished: false,
-                                          userNickname: self.originView.nickNameTextField.text ?? "", 
-                                          memberId: loadUserData()?.memberId ?? 0))
                         let viewContoller = OnboardingViewController()
                         viewContoller.originView.isFirstUser = true
                         self.navigationBackButton.removeFromSuperview()
