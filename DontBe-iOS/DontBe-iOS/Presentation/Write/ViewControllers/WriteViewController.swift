@@ -11,7 +11,7 @@ final class WriteViewController: UIViewController {
     
     // MARK: - Properties
     
-    static let showUploadToastNotification = Notification.Name("ShowUploadToastNotification")
+    static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
     
     // MARK: - UI Components
     
@@ -74,7 +74,7 @@ extension WriteViewController {
     }
     
     private func sendData() {
-        NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
+        NotificationCenter.default.post(name: WriteViewController.showWriteToastNotification, object: nil, userInfo: ["showToast": true])
     }
     
     @objc
