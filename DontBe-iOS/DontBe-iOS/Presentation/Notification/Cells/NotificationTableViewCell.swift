@@ -73,12 +73,6 @@ extension NotificationTableViewCell {
     }
     
     private func setLayout() {
-        profileImage.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.top.leading.equalToSuperview().inset(14.adjusted)
-            $0.size.equalTo(42.adjusted).priority(.low)
-        }
-        
         notificationLabel.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(70.adjusted)
@@ -94,6 +88,11 @@ extension NotificationTableViewCell {
     
     func configureCell(item: NotificationDummy) {
         profileImage.load(url: StringLiterals.Network.notificationImageURL)
+        profileImage.snp.remakeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.top.leading.equalToSuperview().inset(14.adjusted)
+            $0.size.equalTo(42.adjusted)
+        }
         notificationLabel.text = item.userName + " " + item.description
         if item.description == StringLiterals.Notification.violation {
             notificationLabel.setTextWithLineHeightAndFont(

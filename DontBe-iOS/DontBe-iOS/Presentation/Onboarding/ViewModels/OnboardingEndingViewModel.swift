@@ -50,6 +50,7 @@ final class OnboardingEndingViewModel: ViewModelType {
                         if statusCode == 200 {
                             publisher.send("start")
                         }
+                        _ = try await self.postWriteContentAPI(inroduction: value)
                     } catch {
                         print(error)
                     }
@@ -107,5 +108,23 @@ extension OnboardingEndingViewModel {
         } catch {
            return nil
        }
+    }
+    
+    private func postWriteContentAPI(inroduction: String) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+
+            let result: BaseResponse<EmptyResponse>? = try await
+            self.networkProvider.donNetwork(
+                type: .post,
+                baseURL: Config.baseURL + "/content",
+                accessToken: accessToken,
+                body: WriteContentRequestDTO(contentText: inroduction),
+                pathVariables: ["":""]
+            )
+            return result
+        } catch {
+            return nil
+        }
     }
 }
