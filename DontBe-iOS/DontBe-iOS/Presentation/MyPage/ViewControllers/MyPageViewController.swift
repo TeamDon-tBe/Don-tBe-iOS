@@ -5,6 +5,7 @@
 //  Created by 변상우 on 1/11/24.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
@@ -12,6 +13,9 @@ import SnapKit
 final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
+    
+    private var cancelBag = CancelBag()
+    private let viewModel: MyPageViewModel
     
     var currentPage: Int = 0 {
         didSet {
@@ -44,6 +48,15 @@ final class MyPageViewController: UIViewController {
         view = rootView
     }
     
+    init(viewModel: MyPageViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +65,7 @@ final class MyPageViewController: UIViewController {
         setLayout()
         setDelegate()
         setAddTarget()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,6 +139,28 @@ extension MyPageViewController {
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
+    }
+    
+    private func bindViewModel() {
+        let input = MyPageViewModel.Input(
+            viewWillShow: Just(()).eraseToAnyPublisher(),
+            viewUpdate: Just(()).eraseToAnyPublisher())
+        
+        let output = viewModel.transform(from: input, cancelBag: cancelBag)
+        
+        output.getProfileData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.bindProfileData(data: data)
+            }
+            .store(in: self.cancelBag)
+    }
+    
+    private func bindProfileData(data: MypageProfileResponseDTO) {
+        self.rootView.myPageProfileView.profileImageView.load(url: data.memberProfileUrl)
+        self.rootView.myPageProfileView.userNickname.text = data.nickname
+        self.rootView.myPageProfileView.userIntroduction.text = data.memberIntro
+        self.rootView.myPageProfileView.transparencyValue = data.memberGhost
     }
     
     @objc
