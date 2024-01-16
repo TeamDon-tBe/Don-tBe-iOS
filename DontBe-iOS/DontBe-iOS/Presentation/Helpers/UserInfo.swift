@@ -13,6 +13,7 @@ struct UserInfo: Codable {
     let isJoinedApp: Bool
     let isOnboardingFinished: Bool
     let userNickname: String
+    let memberId: Int
 }
 
 // 구조체를 UserDefault에 저장하는 함수

@@ -97,11 +97,13 @@ extension LoginViewModel {
             // UserInfo 구조체에 유저 정보 저장
             let userNickname = data?.data?.nickName ?? ""
             let isNewUser = data?.data?.isNewUser ?? true
+            let memberId = data?.data?.memberId ?? 0
             saveUserData(UserInfo(isSocialLogined: true,
                                   isFirstUser: isNewUser,
                                   isJoinedApp: false,
                                   isOnboardingFinished: false,
-                                  userNickname: userNickname))
+                                  userNickname: userNickname,
+                                  memberId: memberId))
             
             // KeychainWrapper에 Access Token 저장
             let accessToken = data?.data?.accessToken ?? ""

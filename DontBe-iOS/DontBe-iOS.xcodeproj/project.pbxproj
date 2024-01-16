@@ -25,7 +25,6 @@
 		2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF562B4F1E0400FEEED9 /* String+.swift */; };
 		2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */; };
 		2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */; };
-		2A51830A2B569DEC00B43BA8 /* EmptyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
@@ -111,7 +110,6 @@
 		3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */; };
 		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
 		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
-		3CD25D272B5466DB0075F80F /* EmptyBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D262B5466DB0075F80F /* EmptyBody.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
 		3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */; };
 		3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */; };
@@ -146,7 +144,6 @@
 		2A31FF562B4F1E0400FEEED9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
-		2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -232,7 +229,6 @@
 		3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
 		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
-		3CD25D262B5466DB0075F80F /* EmptyBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyBody.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteTextView.swift; sourceTree = "<group>"; };
@@ -699,14 +695,12 @@
 		3C61930E2B3A787000220CEB /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */,
 				2A28453D2B531DDE0023F9B5 /* NetworkService.swift */,
 				3C6193182B3A7AC700220CEB /* Config.swift */,
 				3C61931A2B3A7AD000220CEB /* NetworkError.swift */,
 				2A28453F2B531F0A0023F9B5 /* BaseResponse.swift */,
 				2A0A73092B541555004478C1 /* HttpMethod.swift */,
 				2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */,
-				3CD25D262B5466DB0075F80F /* EmptyBody.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -970,11 +964,9 @@
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
-				3CD25D272B5466DB0075F80F /* EmptyBody.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
-				2A51830A2B569DEC00B43BA8 /* EmptyResponseDTO.swift in Sources */,
 				2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */,
 				2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
