@@ -115,7 +115,7 @@ extension NotificationViewController {
 
         output.reloadTableView
             .receive(on: RunLoop.main)
-               .sink { value in
+            .sink { value in
                    self.notificationTableView.reloadData()
 
                    if value == 1 {
@@ -149,7 +149,7 @@ extension NotificationViewController: UITableViewDelegate {
 
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = viewModel.dummy.count
+        let count = viewModel.notificationList.count
         if count == 0 {
             return 1
         } else {
@@ -158,12 +158,12 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if viewModel.dummy.isEmpty {
+        if viewModel.notificationList.isEmpty {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationEmptyViewCell.reuseIdentifier, for: indexPath) as? NotificationEmptyViewCell else { return UITableViewCell() }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(item: viewModel.dummy[indexPath.row])
+            cell.configureCell(info: viewModel.notificationList[indexPath.row] ?? NotificationList.baseList)
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines

@@ -26,6 +26,9 @@
 		2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */; };
 		2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */; };
 		2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */; };
+		2A5183182B57196D00B43BA8 /* NotificationListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183172B57196D00B43BA8 /* NotificationListResponseDTO.swift */; };
+		2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183192B571CC400B43BA8 /* NotificationList.swift */; };
+		2A51831C2B571CDA00B43BA8 /* NotificaitonType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51831B2B571CDA00B43BA8 /* NotificaitonType.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
@@ -152,6 +155,9 @@
 		2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
 		2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNotCheckResponseDTO.swift; sourceTree = "<group>"; };
+		2A5183172B57196D00B43BA8 /* NotificationListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationListResponseDTO.swift; sourceTree = "<group>"; };
+		2A5183192B571CC400B43BA8 /* NotificationList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationList.swift; sourceTree = "<group>"; };
+		2A51831B2B571CDA00B43BA8 /* NotificaitonType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificaitonType.swift; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -389,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */,
+				2A5183172B57196D00B43BA8 /* NotificationListResponseDTO.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -418,12 +425,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		2A5220F62B508169001510B7 /* Helpers */ = {
+		2A5220F62B508169001510B7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				2A5220F72B508177001510B7 /* NotificationDummy.swift */,
+				2A5183192B571CC400B43BA8 /* NotificationList.swift */,
+				2A51831B2B571CDA00B43BA8 /* NotificaitonType.swift */,
 			);
-			path = Helpers;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2A8868D72B506D3B0017513A /* Notification */ = {
@@ -432,7 +441,7 @@
 				2A8868D82B506D620017513A /* ViewControllers */,
 				2A5220ED2B507F82001510B7 /* ViewModels */,
 				2A5220F02B507F9C001510B7 /* Cells */,
-				2A5220F62B508169001510B7 /* Helpers */,
+				2A5220F62B508169001510B7 /* Models */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1090,6 +1099,7 @@
 				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
+				2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
 				3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */,
 				3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */,
@@ -1109,6 +1119,7 @@
 				2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */,
 				2F87354C2B4D28D700E55552 /* HomeCollectionFooterView.swift in Sources */,
 				2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */,
+				2A5183182B57196D00B43BA8 /* NotificationListResponseDTO.swift in Sources */,
 				2F8735482B4C355100E55552 /* HomeCollectionViewCell.swift in Sources */,
 				3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */,
 				2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */,
@@ -1138,6 +1149,7 @@
 				3C70BE302B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift in Sources */,
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
 				2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */,
+				2A51831C2B571CDA00B43BA8 /* NotificaitonType.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
 				2FBBADF12B53AF9B002D6286 /* PostReplyCollectionFooterView.swift in Sources */,

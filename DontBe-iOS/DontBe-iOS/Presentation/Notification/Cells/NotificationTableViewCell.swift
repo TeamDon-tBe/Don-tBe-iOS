@@ -86,27 +86,36 @@ extension NotificationTableViewCell {
         }
     }
     
-    func configureCell(item: NotificationDummy) {
-        profileImage.load(url: StringLiterals.Network.notificationImageURL)
+    func configureCell(info: NotificationList) {
+        profileImage.load(url: info.triggerMemberProfileUrl)
         profileImage.snp.remakeConstraints {
             $0.centerY.equalToSuperview()
             $0.top.leading.equalToSuperview().inset(14.adjusted)
             $0.size.equalTo(42.adjusted)
         }
-        notificationLabel.text = item.userName + " " + item.description
-        if item.description == StringLiterals.Notification.violation {
+        
+        switch info.notificationType {
+        case .contentLiked, .comment, .commentLiked:
+            notificationLabel.text = info.triggerMemberNickname + " " + info.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation,
+                targetString: info.triggerMemberNickname,
                 font: .font(.body3))
-        } else {
+        case .actingContinue, .beGhost, .contentGhost, .conmmentGhost:
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: item.userName,
+                targetString: info.memberNickname,
+                font: .font(.body3))
+        case .userBan:
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                lineHeight: 21.adjusted,
+                targetString: info.memberNickname + " " + StringLiterals.Notification.emphasizeViolation,
                 font: .font(.body3))
         }
-        minutes.text = item.minutes
+        
+        minutes.text = info.time.formattedTime()
     }
 }
