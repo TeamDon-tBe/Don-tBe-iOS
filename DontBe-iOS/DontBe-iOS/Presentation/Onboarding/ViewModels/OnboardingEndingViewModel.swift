@@ -41,8 +41,8 @@ final class OnboardingEndingViewModel: ViewModelType {
                                          isFirstUser: false,
                                          isJoinedApp: true,
                                          isOnboardingFinished: true,
-                                      userNickname: loadUserData()?.userNickname ?? "", 
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                         userNickname: loadUserData()?.userNickname ?? "",
+                                         memberId: loadUserData()?.memberId ?? 0))
                 publisher.send("start")
                 
             }
