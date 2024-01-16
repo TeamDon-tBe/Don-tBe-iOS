@@ -91,13 +91,6 @@ extension WriteViewController {
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
-        output.resultStatus
-            .sink { status in
-                // status 코드 값에 따른 분기 처리
-                self.sendData()
-            }
-            .store(in: self.cancelBag)
-        
         output.popViewController
             .sink { _ in
                 DispatchQueue.main.async {

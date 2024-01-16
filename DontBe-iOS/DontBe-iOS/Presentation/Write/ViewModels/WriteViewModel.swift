@@ -13,7 +13,6 @@ final class WriteViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
     
-    private var resultStatus = PassthroughSubject<Int, Never>()
     private let popViewController = PassthroughSubject<Bool, Never>()
     
     struct Input {
@@ -21,7 +20,6 @@ final class WriteViewModel: ViewModelType {
     }
     
     struct Output {
-        let resultStatus: PassthroughSubject<Int, Never>
         let popViewController: PassthroughSubject<Bool, Never>
     }
     
@@ -31,8 +29,7 @@ final class WriteViewModel: ViewModelType {
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            if let resultStatus = try await self.postWriteContent(accessTokken: "\(accessToken)", contentText: "\(value)") {
-                                self.resultStatus.send(resultStatus.status)
+                            if let resultStatus = try await self.postWriteContent(accessToken: "\(accessToken)", contentText: "\(value)") {
                                 self.popViewController.send(true)
                             }
                         }
@@ -43,7 +40,7 @@ final class WriteViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(resultStatus: resultStatus, popViewController: popViewController)
+        return Output(popViewController: popViewController)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -56,13 +53,13 @@ final class WriteViewModel: ViewModelType {
 }
 
 extension WriteViewModel {
-    private func postWriteContent(accessTokken: String, contentText: String) async throws -> BaseResponse<EmptyResponse>? {
+    private func postWriteContent(accessToken: String, contentText: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
                 type: .post,
                 baseURL: Config.baseURL + "/content",
-                accessToken: accessTokken,
+                accessToken: accessToken,
                 body: WriteContentRequestDTO(contentText: contentText),
                 pathVariables: ["":""]
             )
