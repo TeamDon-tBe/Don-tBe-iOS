@@ -24,7 +24,7 @@ final class HomeViewController: UIViewController {
     
     private let myView = HomeView()
     private lazy var homeCollectionView = HomeCollectionView().collectionView
-    private let uploadToastView = DontBeToastView()
+    private var uploadToastView: DontBeToastView?
     
     // MARK: - Life Cycles
     
@@ -65,14 +65,12 @@ final class HomeViewController: UIViewController {
 extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
-        uploadToastView.alpha = 0
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
-        view.addSubviews(homeCollectionView,
-                         uploadToastView)
+        view.addSubviews(homeCollectionView)
     }
     
     private func setLayout() {
@@ -80,12 +78,6 @@ extension HomeViewController {
             $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
             $0.bottom.equalTo(tabBarHeight.adjusted)
             $0.width.equalToSuperview()
-        }
-        
-        uploadToastView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
-            $0.height.equalTo(44)
         }
     }
     
@@ -127,7 +119,7 @@ extension HomeViewController {
     }
     
     private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
     }
     
     private func setRefreshControll() {
@@ -154,38 +146,48 @@ extension HomeViewController {
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
             if showToast == true {
-                uploadToastView.alpha = 1
-                
-                var value: Double = 0.0
-                let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
-                let increment: Double = 0.01 // 증가량
-                
-                // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
-                UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
-                    for i in 1...100 {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
-                            value = Double(i) * increment
-                            self.uploadToastView.circleProgressBar.value = value
-                        }
+                DispatchQueue.main.async {
+                    self.uploadToastView = DontBeToastView()
+                    
+                    self.view.addSubviews(self.uploadToastView ?? DontBeToastView())
+                    
+                    self.uploadToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                        $0.height.equalTo(44)
                     }
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 0
-                    self.uploadToastView.checkImageView.alpha = 1
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploaded
-                    self.uploadToastView.container.backgroundColor = .donPrimary
-                }
-                
-                UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
-                    self.uploadToastView.alpha = 0
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 1
-                    self.uploadToastView.checkImageView.alpha = 0
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploading
-                    self.uploadToastView.container.backgroundColor = .donGray3
+                    
+                    var value: Double = 0.0
+                    let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
+                    let increment: Double = 0.01 // 증가량
+                    
+                    // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
+                    UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
+                        for i in 1...100 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
+                                value = Double(i) * increment
+                                self.uploadToastView?.circleProgressBar.value = value
+                            }
+                        }
+                    })
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.uploadToastView?.circleProgressBar.alpha = 0
+                        self.uploadToastView?.checkImageView.alpha = 1
+                        self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploaded
+                        self.uploadToastView?.container.backgroundColor = .donPrimary
+                    }
+                    
+                    UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
+                        self.uploadToastView?.alpha = 0
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                        self.uploadToastView?.circleProgressBar.alpha = 1
+                        self.uploadToastView?.checkImageView.alpha = 0
+                        self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
+                        self.uploadToastView?.container.backgroundColor = .donGray3
+                    }
                 }
             }
         }
