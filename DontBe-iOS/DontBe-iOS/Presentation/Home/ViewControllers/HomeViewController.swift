@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import Combine
 
 final class HomeViewController: UIViewController {
     
@@ -20,11 +21,14 @@ final class HomeViewController: UIViewController {
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = CancelReplyPopupViewController()
     
+    private var cancelBag = CancelBag()
+    private let viewModel: HomeViewModel
+    
     // MARK: - UI Components
     
     private let myView = HomeView()
     private lazy var homeCollectionView = HomeCollectionView().collectionView
-    private let uploadToastView = DontBeToastView()
+    private var uploadToastView: DontBeToastView?
     
     // MARK: - Life Cycles
     
@@ -34,10 +38,18 @@ final class HomeViewController: UIViewController {
         view = myView
     }
     
+    init(viewModel: HomeViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAPI()
         setUI()
         setHierarchy()
         setLayout()
@@ -45,6 +57,7 @@ final class HomeViewController: UIViewController {
         setNotification()
         setRefreshControll()
         setAddTarget()
+        bindViewModel()
     }
     
     // MARK: - TabBar Height
@@ -65,14 +78,12 @@ final class HomeViewController: UIViewController {
 extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
-        uploadToastView.alpha = 0
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
-        view.addSubviews(homeCollectionView,
-                         uploadToastView)
+        view.addSubviews(homeCollectionView)
     }
     
     private func setLayout() {
@@ -80,12 +91,6 @@ extension HomeViewController {
             $0.top.equalTo(myView.safeAreaLayoutGuide.snp.top).offset(52.adjusted)
             $0.bottom.equalTo(tabBarHeight.adjusted)
             $0.width.equalToSuperview()
-        }
-        
-        uploadToastView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
-            $0.height.equalTo(44)
         }
     }
     
@@ -127,7 +132,7 @@ extension HomeViewController {
     }
     
     private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
     }
     
     private func setRefreshControll() {
@@ -139,8 +144,7 @@ extension HomeViewController {
     @objc
     func refreshPost() {
         DispatchQueue.main.async {
-            // ✅ 서버 통신 영역
-            //
+            self.bindViewModel()
         }
         self.homeCollectionView.reloadData()
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
@@ -154,38 +158,48 @@ extension HomeViewController {
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
             if showToast == true {
-                uploadToastView.alpha = 1
-                
-                var value: Double = 0.0
-                let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
-                let increment: Double = 0.01 // 증가량
-                
-                // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
-                UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
-                    for i in 1...100 {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
-                            value = Double(i) * increment
-                            self.uploadToastView.circleProgressBar.value = value
-                        }
+                DispatchQueue.main.async {
+                    self.uploadToastView = DontBeToastView()
+                    
+                    self.view.addSubviews(self.uploadToastView ?? DontBeToastView())
+                    
+                    self.uploadToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                        $0.height.equalTo(44)
                     }
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 0
-                    self.uploadToastView.checkImageView.alpha = 1
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploaded
-                    self.uploadToastView.container.backgroundColor = .donPrimary
-                }
-                
-                UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
-                    self.uploadToastView.alpha = 0
-                }
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                    self.uploadToastView.circleProgressBar.alpha = 1
-                    self.uploadToastView.checkImageView.alpha = 0
-                    self.uploadToastView.toastLabel.text = StringLiterals.Toast.uploading
-                    self.uploadToastView.container.backgroundColor = .donGray3
+                    
+                    var value: Double = 0.0
+                    let duration: TimeInterval = 1.0 // 애니메이션 기간 (초 단위)
+                    let increment: Double = 0.01 // 증가량
+                    
+                    // 0에서 1까지 1초 동안 0.01씩 증가하는 애니메이션 블록
+                    UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: {
+                        for i in 1...100 {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + (duration / 100) * TimeInterval(i)) {
+                                value = Double(i) * increment
+                                self.uploadToastView?.circleProgressBar.value = value
+                            }
+                        }
+                    })
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.uploadToastView?.circleProgressBar.alpha = 0
+                        self.uploadToastView?.checkImageView.alpha = 1
+                        self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploaded
+                        self.uploadToastView?.container.backgroundColor = .donPrimary
+                    }
+                    
+                    UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
+                        self.uploadToastView?.alpha = 0
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                        self.uploadToastView?.circleProgressBar.alpha = 1
+                        self.uploadToastView?.checkImageView.alpha = 0
+                        self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
+                        self.uploadToastView?.container.backgroundColor = .donGray3
+                    }
                 }
             }
         }
@@ -195,8 +209,17 @@ extension HomeViewController {
 // MARK: - Network
 
 extension HomeViewController {
-    private func getAPI() {
+    private func bindViewModel() {
+        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
         
+        let output = viewModel.transform(from: input, cancelBag: cancelBag)
+        
+        output.getData
+            .receive(on: RunLoop.main)
+            .sink { _ in
+                self.homeCollectionView.reloadData()
+            }
+            .store(in: self.cancelBag)
     }
 }
 
@@ -204,7 +227,14 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        let sortedData = viewModel.postData.sorted {
+                $0.time.compare($1.time, options: .numeric) == .orderedDescending
+            }
+            
+            // Replace the viewModel.postData array with the sortedData
+            viewModel.postData = sortedData
+        
+        return viewModel.postData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -221,6 +251,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             // present
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(viewModel.postData[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
+        cell.timeLabel.text = "\(viewModel.postData[indexPath.row].formatTime)"
+        
+        let url = URL(string: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.profileImageView.load(url: url!)
         return cell
     }
     

@@ -119,7 +119,15 @@ enum StringLiterals {
         static let popupReplyContentLabel = "작성 중인 글을 삭제하시겠어요?"
         static let popupReplyCancelButtonTitle = "취소"
         static let popupReplyConfirmButtonTitle = "삭제"
-        
+    }
+    
+    enum BottomSheet {
+        static let deleteLabel = "삭제하기"
+        static let warnLabel = "신고하기"
+        static let profileEdit = "프로필 편집"
+        static let accountInfo = "계정 정보"
+        static let feedback = "피드백 남기기"
+        static let customerCenter = "고객센터"
     }
     
     enum Network {

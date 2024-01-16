@@ -130,7 +130,7 @@ extension PostViewController {
     }
     
     private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showUploadToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
     }
     
     @objc func showToast(_ notification: Notification) {

@@ -66,7 +66,7 @@ extension WriteReplyViewController {
     }
     
     private func sendData() {
-        NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
+        NotificationCenter.default.post(name: WriteReplyViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
     }
     
     @objc

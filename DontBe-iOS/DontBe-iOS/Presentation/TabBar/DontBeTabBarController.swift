@@ -148,7 +148,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         let index = viewControllers?.firstIndex(of: viewController)
         if index == 1 {
-            let destinationViewController = WriteViewController()
+            let destinationViewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
             self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
         return true

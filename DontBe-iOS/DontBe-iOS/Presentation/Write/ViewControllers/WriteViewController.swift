@@ -11,7 +11,14 @@ final class WriteViewController: UIViewController {
     
     // MARK: - Properties
     
-    static let showUploadToastNotification = Notification.Name("ShowUploadToastNotification")
+    static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
+    
+    private var cancelBag = CancelBag()
+    private let viewModel: WriteViewModel
+    
+    private lazy var postButtonTapped = rootView.writeTextView.postButton.publisher(for: .touchUpInside).map { _ in
+        return self.rootView.writeTextView.contentTextView.text ?? ""
+    }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -19,8 +26,18 @@ final class WriteViewController: UIViewController {
     
     // MARK: - Life Cycles
     
+    init(viewModel: WriteViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
     
@@ -30,7 +47,7 @@ final class WriteViewController: UIViewController {
         getAPI()
         setUI()
         setDelegate()
-        setAddTarget()
+        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,12 +86,29 @@ extension WriteViewController {
         self.rootView.writeCanclePopupView.delegate = self
     }
     
-    private func setAddTarget() {
-        self.rootView.writeTextView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
+    private func bindViewModel() {
+        let input = WriteViewModel.Input(postButtonTapped: postButtonTapped)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.popViewController
+            .sink { _ in
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: true)
+                    self.tabBarController?.selectedIndex = 0
+                    self.sendData()
+                }
+            }
+            .store(in: self.cancelBag)
     }
     
     private func sendData() {
-        NotificationCenter.default.post(name: WriteViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
+        NotificationCenter.default.post(name: WriteViewController.showWriteToastNotification, object: nil, userInfo: ["showToast": true])
+    }
+    
+    private func popupNavigation() {
+        self.navigationController?.popViewController(animated: true)
+        self.tabBarController?.selectedIndex = 0
     }
     
     @objc
@@ -85,18 +119,6 @@ extension WriteViewController {
         } else {
             self.rootView.writeCanclePopupView.alpha = 1
         }
-    }
-    
-    @objc
-    private func postButtonTapped() {
-        popupNavigation()
-        sendData()
-    }
-    
-    @objc
-    private func popupNavigation() {
-        self.navigationController?.popViewController(animated: true)
-        self.tabBarController?.selectedIndex = 0
     }
 }
 
