@@ -86,36 +86,38 @@ extension NotificationTableViewCell {
         }
     }
     
-    func configureCell(info: NotificationList) {
-        profileImage.load(url: info.triggerMemberProfileUrl)
+    func configureCell(list: NotificationList) {
+        profileImage.load(url: list.triggerMemberProfileUrl)
         profileImage.snp.remakeConstraints {
             $0.centerY.equalToSuperview()
             $0.top.leading.equalToSuperview().inset(14.adjusted)
             $0.size.equalTo(42.adjusted)
         }
         
-        switch info.notificationType {
+        switch list.notificationType {
         case .contentLiked, .comment, .commentLiked:
-            notificationLabel.text = info.triggerMemberNickname + " " + info.notificationType.description
+            notificationLabel.text = list.triggerMemberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: info.triggerMemberNickname,
+                targetString: list.triggerMemberNickname,
                 font: .font(.body3))
         case .actingContinue, .beGhost, .contentGhost, .conmmentGhost:
+            notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: info.memberNickname,
+                targetString: list.memberNickname,
                 font: .font(.body3))
         case .userBan:
+            notificationLabel.text = list.triggerMemberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: info.memberNickname + " " + StringLiterals.Notification.emphasizeViolation,
+                targetString: list.memberNickname + " " + StringLiterals.Notification.emphasizeViolation,
                 font: .font(.body3))
         }
         
-        minutes.text = info.time.formattedTime()
+        minutes.text = list.time.formattedTime()
     }
 }

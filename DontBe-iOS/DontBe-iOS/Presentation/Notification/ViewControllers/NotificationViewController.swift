@@ -163,7 +163,7 @@ extension NotificationViewController: UITableViewDataSource {
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(info: viewModel.notificationList[indexPath.row] ?? NotificationList.baseList)
+            cell.configureCell(list: viewModel.notificationList[indexPath.row] ?? NotificationList.baseList)
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines
