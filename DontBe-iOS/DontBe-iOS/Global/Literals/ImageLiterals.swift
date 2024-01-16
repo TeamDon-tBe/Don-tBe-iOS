@@ -110,6 +110,11 @@ enum ImageLiterals {
     enum Popup {
         static var transparentButtonImage: UIImage { .load(name: "transparentPopUp") }
     }
+    
+    enum BottomSheet {
+        static var deleteIcon: UIImage { .load(name: "icn_delete") }
+        static var warnIcon: UIImage { .load(name: "icn_warning") }
+    }
 }
 
 extension UIImage {
