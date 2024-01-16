@@ -114,6 +114,7 @@ extension JoinProfileViewController {
             .store(in: self.cancelBag)
         
         output.isEnable
+            .receive(on: RunLoop.main)
             .sink { isEnable in
                 self.originView.nickNameTextField.resignFirstResponder()
                 self.originView.finishActiveButton.isHidden = !isEnable

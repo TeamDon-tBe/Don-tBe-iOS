@@ -11,10 +11,18 @@ import Foundation
 final class JoinProfileViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
+    private let networkProvider: NetworkServiceType
     private let pushOrPopViewController = PassthroughSubject<Int, Never>()
     private let isNotDuplicated = PassthroughSubject<Bool, Never>()
-    private var isPossible: Bool = true
     
+    init(networkProvider: NetworkServiceType) {
+        self.networkProvider = networkProvider
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     struct Input {
         let backButtonTapped: AnyPublisher<Void, Never>
         let duplicationCheckButtonTapped: AnyPublisher<String, Never>
@@ -35,12 +43,18 @@ final class JoinProfileViewModel: ViewModelType {
         
         input.duplicationCheckButtonTapped
             .sink { value in
-                print(value)
-                // value(텍스트 필드의 텍스트) 가지고 서버통신 ㄱㄱ
-                // 서버통신 완료되면 신호
-                /* 서버통신 -> 사용불가 -> false
-                          -> 사용가능 -> true 반환 */
-                self.isNotDuplicated.send(self.isPossible)
+                Task {
+                    do {
+                        let isPossible = try await self.getNicknameDuplicationAPI(nickname: value)?.status ?? 200
+                        if isPossible == 200 {
+                            self.isNotDuplicated.send(true)
+                        } else {
+                            self.isNotDuplicated.send(false)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
             }
             .store(in: self.cancelBag)
         
@@ -54,3 +68,24 @@ final class JoinProfileViewModel: ViewModelType {
                       isEnable: isNotDuplicated)
     }
 }
+
+// MARK: - Network
+
+extension JoinProfileViewModel {
+    private func getNicknameDuplicationAPI(nickname: String) async throws -> BaseResponse<EmptyResponseDTO>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/nickname-validation",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["nickname":nickname])
+            print ("👻👻👻👻👻닉네임 중복 체크👻👻👻👻👻")
+            return data
+        } catch {
+           return nil
+       }
+    }
+}
+

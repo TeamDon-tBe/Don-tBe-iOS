@@ -24,6 +24,8 @@
 		2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */; };
 		2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF562B4F1E0400FEEED9 /* String+.swift */; };
 		2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */; };
+		2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */; };
+		2A51830A2B569DEC00B43BA8 /* EmptyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
@@ -143,6 +145,8 @@
 		2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginRequestDTO.swift; sourceTree = "<group>"; };
 		2A31FF562B4F1E0400FEEED9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
+		2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResponseDTO.swift; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -330,6 +334,30 @@
 				2A0A73112B5483E4004478C1 /* ResponseDTO */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		2A5182FD2B569B8600B43BA8 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2A5182FE2B569BA200B43BA8 /* DTO */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		2A5182FE2B569BA200B43BA8 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183002B569BB600B43BA8 /* RequestDTO */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		2A5183002B569BB600B43BA8 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
@@ -591,6 +619,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A5182FD2B569B8600B43BA8 /* UserProfile */,
 				2A0A73132B5486F8004478C1 /* TokenManager */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
 				3C70BE2A2B53EB81001AA5A6 /* MyPage */,
@@ -670,6 +699,7 @@
 		3C61930E2B3A787000220CEB /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				2A5183092B569DEC00B43BA8 /* EmptyResponseDTO.swift */,
 				2A28453D2B531DDE0023F9B5 /* NetworkService.swift */,
 				3C6193182B3A7AC700220CEB /* Config.swift */,
 				3C61931A2B3A7AD000220CEB /* NetworkError.swift */,
@@ -944,6 +974,7 @@
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
+				2A51830A2B569DEC00B43BA8 /* EmptyResponseDTO.swift in Sources */,
 				2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */,
 				2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
@@ -1032,6 +1063,7 @@
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
 				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
 				2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */,
+				2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */,

@@ -90,6 +90,10 @@ extension LoginViewModel {
                 pathVariables: ["":""])
             print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
             
+            if data?.status == 400 {
+                print(NetworkError.badRequestError)
+            }
+            
             // UserInfo 구조체에 유저 정보 저장
             let userNickname = data?.data?.nickName ?? ""
             let isNewUser = data?.data?.isNewUser ?? true
