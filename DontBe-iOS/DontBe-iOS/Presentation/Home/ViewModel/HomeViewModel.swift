@@ -32,7 +32,7 @@ final class HomeViewModel: ViewModelType {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                             let result = try await
-                            self.getPostData(accessToken: accessToken)
+                            self.getPostDataAPI(accessToken: accessToken)
                             if let data = result?.data {
                                 var tempArray: [PostDataResponseDTO] = []
                                 for content in data {
@@ -61,7 +61,7 @@ final class HomeViewModel: ViewModelType {
 }
 
 extension HomeViewModel {
-    private func getPostData(accessToken: String) async throws -> BaseResponse<[PostDataResponseDTO]>? {
+    private func getPostDataAPI(accessToken: String) async throws -> BaseResponse<[PostDataResponseDTO]>? {
         let accessToken = accessToken
         do {
             let result: BaseResponse<[PostDataResponseDTO]>? = try

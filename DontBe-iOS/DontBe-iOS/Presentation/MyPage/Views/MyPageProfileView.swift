@@ -13,24 +13,34 @@ final class MyPageProfileView: UIView {
 
     // MARK: - Properties
     
-    let transparencyValue: Int = -85
+    var transparencyValue: Int = 0 {
+        didSet {
+            UIView.animate(withDuration: 0.5) {
+                self.percentageBox.snp.updateConstraints {
+                    $0.trailing.equalToSuperview().offset(((CGFloat(self.transparencyValue) * (UIScreen.main.bounds.width - 32.adjusted)) / 100) - 16.adjusted)
+                }
+                self.layoutIfNeeded()
+            }
+            self.transparencyLabel.text = "\(self.transparencyValue)%"
+        }
+    }
     
     // MARK: - UI Components
     
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.load(url: StringLiterals.Network.baseImageURL)
         return imageView
     }()
     
-    private let editButton: UIButton = {
+    let editButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.MyPage.icnEditProfile, for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         return button
     }()
     
-    private let userNickname: UILabel = {
+    let userNickname: UILabel = {
         let label = UILabel()
         label.text = "안녕하세요반가와요우히히"
         label.textColor = .donWhite
@@ -41,7 +51,7 @@ final class MyPageProfileView: UIView {
     
     let userIntroduction: UILabel = {
         let label = UILabel()
-        label.setTextWithLineHeight(text: "안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted, alignment: .center)
+        label.setTextWithLineHeight(text: "안녕하세요히안우히히안녕하세요반가와요우히히히히안녕하세요히안우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted, alignment: .center)
         label.textColor = .donGray7
         label.textAlignment = .center
         label.font = .font(.caption2)
@@ -56,9 +66,8 @@ final class MyPageProfileView: UIView {
         return imageView
     }()
     
-    private let transparencyLabel: UILabel = {
+    let transparencyLabel: UILabel = {
         let label = UILabel()
-        label.text = "0%"
         label.textColor = .donPrimary
         label.font = .font(.body3)
         return label
@@ -121,7 +130,6 @@ final class MyPageProfileView: UIView {
 extension MyPageProfileView {
     private func setUI() {
         self.backgroundColor = .donBlack
-        self.transparencyLabel.text = "\(self.transparencyValue)%"
     }
     
     private func setHierarchy() {
@@ -161,10 +169,11 @@ extension MyPageProfileView {
             $0.centerX.equalToSuperview()
             $0.top.equalTo(userNickname.snp.bottom).offset(8.adjusted)
             $0.leading.trailing.equalToSuperview().inset(32.adjusted)
+            $0.height.equalTo(40.adjusted)
         }
         
         percentageBox.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(((CGFloat(self.transparencyValue) * (UIScreen.main.bounds.width - 32.adjusted)) / 100) - 16.adjusted)
+            $0.trailing.equalToSuperview().offset(((CGFloat(transparencyValue) * (UIScreen.main.bounds.width - 32.adjusted)) / 100) - 16.adjusted)
             $0.bottom.equalTo(fullTransparencyPercentage.snp.top).offset(-4.adjusted)
             $0.height.equalTo(28.adjusted)
         }

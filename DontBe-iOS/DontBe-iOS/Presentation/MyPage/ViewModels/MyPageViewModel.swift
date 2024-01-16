@@ -13,37 +13,55 @@ final class MyPageViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
     private var getData = PassthroughSubject<Void, Never>()
+    private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
     
     var myPageMemberData: [String] = []
+    private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
-        let viewUpdate: AnyPublisher<Void, Never>
+        let viewUpdate: AnyPublisher<Int, Never>
     }
     
     struct Output {
         let getData: PassthroughSubject<Void, Never>
+        let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewUpdate
-            .sink { _ in
-                Task {
-                    do {
-                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            let result = try await self.getMyPageMemberData(accessToken: accessToken)
-                            if let data = result?.data {
-                                self.myPageMemberData = [data.socialPlatform, data.versionInformation, data.showMemberId ?? "money_rain_is_coming", data.joinDate]
-                                self.getData.send()
+            .sink { value in
+                if value == 0 {
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let result = try await self.getMyPageMemberDataAPI(accessToken: accessToken)
+                                if let data = result?.data {
+                                    self.myPageMemberData = [data.socialPlatform, data.versionInformation, data.showMemberId ?? "money_rain_is_coming", data.joinDate]
+                                    self.getData.send()
+                                }
                             }
+                        } catch {
+                            print(error)
                         }
-                    } catch {
-                        print(error)
+                    }
+                } else if value == 1 {
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let result = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = result?.data {
+                                    self.getProfileData.send(data)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
                     }
                 }
             }
             .store(in: self.cancelBag)
         
-        return Output(getData: getData)
+        return Output(getData: getData, getProfileData: getProfileData)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -56,8 +74,7 @@ final class MyPageViewModel: ViewModelType {
 }
 
 extension MyPageViewModel {
-    private func getMyPageMemberData(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
-        let accessToken = accessToken
+    private func getMyPageMemberDataAPI(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
         do {
             let result: BaseResponse<MyPageMemberDataResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .get,
@@ -78,4 +95,19 @@ extension MyPageViewModel {
             return nil
         }
     }
+    
+    private func getProfileInfoAPI(accessToken: String, memberId: String) async throws -> BaseResponse<MypageProfileResponseDTO>? {
+        do {
+            let result: BaseResponse<MypageProfileResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/viewmember/\(memberId)",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["":""])
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
 }

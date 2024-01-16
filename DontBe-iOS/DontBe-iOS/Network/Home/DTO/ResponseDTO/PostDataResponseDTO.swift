@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - PostDataResponseDTO
+
 struct PostDataResponseDTO: Decodable {
     let memberId: Int
     let memberProfileUrl: String
