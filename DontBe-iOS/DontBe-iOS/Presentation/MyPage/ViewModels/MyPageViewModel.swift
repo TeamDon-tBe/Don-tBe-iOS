@@ -19,8 +19,7 @@ final class MyPageViewModel: ViewModelType {
     private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
-        let viewWillShow: AnyPublisher<Void, Never>
-        let viewUpdate: AnyPublisher<Void, Never>
+        let viewUpdate: AnyPublisher<Int, Never>
     }
     
     struct Output {
@@ -30,35 +29,33 @@ final class MyPageViewModel: ViewModelType {
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewUpdate
-            .sink { _ in
-                Task {
-                    do {
-                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            let result = try await self.getMyPageMemberData(accessToken: accessToken)
-                            if let data = result?.data {
-                                self.myPageMemberData = [data.socialPlatform, data.versionInformation, data.showMemberId ?? "money_rain_is_coming", data.joinDate]
-                                self.getData.send()
-                            }
-                        }
-                    } catch {
-                        print(error)
-                    }
-                }
-            }
-            .store(in: self.cancelBag)
-        
-        input.viewWillShow
             .sink { value in
-                Task {
-                    do {
-                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            let result = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
-                            if let data = result?.data {
-                                self.getProfileData.send(data)
+                if value == 0 {
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let result = try await self.getMyPageMemberDataAPI(accessToken: accessToken)
+                                if let data = result?.data {
+                                    self.myPageMemberData = [data.socialPlatform, data.versionInformation, data.showMemberId ?? "money_rain_is_coming", data.joinDate]
+                                    self.getData.send()
+                                }
                             }
+                        } catch {
+                            print(error)
                         }
-                    } catch {
-                        print(error)
+                    }
+                } else if value == 1 {
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let result = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = result?.data {
+                                    self.getProfileData.send(data)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
                     }
                 }
             }
@@ -77,7 +74,7 @@ final class MyPageViewModel: ViewModelType {
 }
 
 extension MyPageViewModel {
-    private func getMyPageMemberData(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
+    private func getMyPageMemberDataAPI(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
         do {
             let result: BaseResponse<MyPageMemberDataResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .get,
@@ -106,7 +103,7 @@ extension MyPageViewModel {
                 baseURL: Config.baseURL + "/viewmember/\(memberId)",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables: ["viewmemberId":"\(memberId)"])
+                pathVariables: ["":""])
             return result
         } catch {
             return nil

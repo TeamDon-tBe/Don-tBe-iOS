@@ -142,9 +142,7 @@ extension MyPageViewController {
     }
     
     private func bindViewModel() {
-        let input = MyPageViewModel.Input(
-            viewWillShow: Just(()).eraseToAnyPublisher(),
-            viewUpdate: Just(()).eraseToAnyPublisher())
+        let input = MyPageViewModel.Input(viewUpdate: Just((1)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -157,7 +155,7 @@ extension MyPageViewController {
     }
     
     private func bindProfileData(data: MypageProfileResponseDTO) {
-        self.rootView.myPageProfileView.profileImageView.load(url: data.memberProfileUrl)
+        self.rootView.myPageProfileView.profileImageView.load(url: URL(string: data.memberProfileUrl)!)
         self.rootView.myPageProfileView.userNickname.text = data.nickname
         self.rootView.myPageProfileView.userIntroduction.text = data.memberIntro
         self.rootView.myPageProfileView.transparencyValue = data.memberGhost
