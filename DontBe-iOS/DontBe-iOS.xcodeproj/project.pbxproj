@@ -25,6 +25,7 @@
 		2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF562B4F1E0400FEEED9 /* String+.swift */; };
 		2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */; };
 		2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */; };
+		2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
@@ -150,6 +151,7 @@
 		2A31FF562B4F1E0400FEEED9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
+		2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationNotCheckResponseDTO.swift; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -373,6 +375,22 @@
 			children = (
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2A5183132B57131F00B43BA8 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183142B57132B00B43BA8 /* DTO */,
+			);
+			path = Notification;
+			sourceTree = "<group>";
+		};
+		2A5183142B57132B00B43BA8 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
@@ -643,6 +661,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A5183132B57131F00B43BA8 /* Notification */,
 				2A5182FD2B569B8600B43BA8 /* UserProfile */,
 				2A0A73132B5486F8004478C1 /* TokenManager */,
 				3CBF991F2B549B470015FE4B /* Write */,
@@ -1104,6 +1123,7 @@
 				2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */,
 				2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
+				2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */,
 				2FB818D12B51693400B7498F /* PostViewController.swift in Sources */,
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
