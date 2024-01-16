@@ -27,7 +27,7 @@ final class WriteReplyEditorView: UIView {
     
     private let userProfileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.setCircularImage(image: ImageLiterals.Onboarding.imgOne)
+        imageView.load(url: StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()

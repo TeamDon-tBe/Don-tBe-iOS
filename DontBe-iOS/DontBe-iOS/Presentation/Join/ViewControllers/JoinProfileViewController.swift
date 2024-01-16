@@ -20,7 +20,9 @@ final class JoinProfileViewController: UIViewController {
     private lazy var duplicationCheckButtonTapped = self.originView.duplicationCheckButton.publisher(for: .touchUpInside).map { _ in
         return self.originView.nickNameTextField.text ?? ""
     }.eraseToAnyPublisher()
-    private lazy var finishButtonTapped = self.originView.finishActiveButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var finishButtonTapped = self.originView.finishActiveButton.publisher(for: .touchUpInside).map { _ in
+        return self.originView.nickNameTextField.text ?? ""
+    }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -105,11 +107,12 @@ extension JoinProfileViewController {
                                           isOnboardingFinished: false,
                                           userNickname: self.originView.nickNameTextField.text ?? "", 
                                           memberId: loadUserData()?.memberId ?? 0))
-                    
-                    let viewContoller = OnboardingViewController()
-                    viewContoller.originView.isFirstUser = true
-                    self.navigationBackButton.removeFromSuperview()
-                    self.navigationController?.pushViewController(viewContoller, animated: true)
+                    DispatchQueue.main.async {
+                        let viewContoller = OnboardingViewController()
+                        viewContoller.originView.isFirstUser = true
+                        self.navigationBackButton.removeFromSuperview()
+                        self.navigationController?.pushViewController(viewContoller, animated: true)
+                    }
                 }
             }
             .store(in: self.cancelBag)

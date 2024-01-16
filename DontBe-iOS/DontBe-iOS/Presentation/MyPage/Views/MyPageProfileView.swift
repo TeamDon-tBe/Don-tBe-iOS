@@ -19,7 +19,7 @@ final class MyPageProfileView: UIView {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.setCircularImage(image: ImageLiterals.Common.imgProfile)
+        imageView.load(url: StringLiterals.Network.baseImageURL)
         return imageView
     }()
     

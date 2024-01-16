@@ -366,6 +366,13 @@
 			path = RequestDTO;
 			sourceTree = "<group>";
 		};
+		2A5183102B56CAAA00B43BA8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
 			isa = PBXGroup;
 			children = (
@@ -475,6 +482,7 @@
 		2A8D70CD2B4DD2EA009F4C6C /* Join */ = {
 			isa = PBXGroup;
 			children = (
+				2A5183102B56CAAA00B43BA8 /* Models */,
 				2AC9FB192B4DE75700D31071 /* Views */,
 				2A8D70CE2B4DD301009F4C6C /* ViewControllers */,
 				2A8D70CF2B4DD338009F4C6C /* ViewModels */,

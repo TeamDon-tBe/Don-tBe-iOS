@@ -63,13 +63,12 @@ final class NetworkService: NetworkServiceType {
                                               accessToken: accessToken, body: body,
                                               pathVariables: pathVariables)
             let (data, response) = try await URLSession.shared.data(for: request)
-            dump(request)
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.responseError
             }
             
             switch httpResponse.statusCode {
-            case 200..<300:
+            case 200..<401:
                 let result = try JSONDecoder().decode(T.self, from: data)
                 return result
             case 401:
@@ -93,10 +92,10 @@ final class NetworkService: NetworkServiceType {
                 
                 print("👻👻👻👻👻 토큰 재발급 👻👻👻👻👻")
                 return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
-                
-            case 400..<501:
-                let result = try JSONDecoder().decode(T.self, from: data)
-                return result
+            case 404 :
+                throw NetworkError.notFoundError
+            case 500:
+                throw NetworkError.internalServerError
             default:
                 throw NetworkError.unknownError
             }

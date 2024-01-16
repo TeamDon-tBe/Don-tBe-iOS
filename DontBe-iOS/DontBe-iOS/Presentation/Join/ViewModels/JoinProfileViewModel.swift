@@ -26,7 +26,7 @@ final class JoinProfileViewModel: ViewModelType {
     struct Input {
         let backButtonTapped: AnyPublisher<Void, Never>
         let duplicationCheckButtonTapped: AnyPublisher<String, Never>
-        let finishButtonTapped: AnyPublisher<Void, Never>
+        let finishButtonTapped: AnyPublisher<String, Never>
     }
     
     struct Output {
@@ -45,8 +45,8 @@ final class JoinProfileViewModel: ViewModelType {
             .sink { value in
                 Task {
                     do {
-                        let isPossible = try await self.getNicknameDuplicationAPI(nickname: value)?.status ?? 200
-                        if isPossible == 200 {
+                        let statusCode = try await self.getNicknameDuplicationAPI(nickname: value)?.status ?? 200
+                        if statusCode == 200 {
                             self.isNotDuplicated.send(true)
                         } else {
                             self.isNotDuplicated.send(false)
@@ -59,9 +59,18 @@ final class JoinProfileViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         input.finishButtonTapped
-            .sink { _ in
-                self.pushOrPopViewController.send(1)
-            }
+            .sink { value in
+                Task {
+                    do {
+                        let statusCode = try await self.patchUserInfoAPI(nickname: value)?.status
+                        if statusCode == 200 {
+                            self.pushOrPopViewController.send(1)
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+                            }
             .store(in: self.cancelBag)
         
         return Output(pushOrPopViewController: pushOrPopViewController,
@@ -82,6 +91,25 @@ extension JoinProfileViewModel {
                 body: EmptyBody(),
                 pathVariables: ["nickname":nickname])
             print ("👻👻👻👻👻닉네임 중복 체크👻👻👻👻👻")
+            return data
+        } catch {
+           return nil
+       }
+    }
+    
+    private func patchUserInfoAPI(nickname: String) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            let requestDTO = UserProfileRequestDTO(nickname: nickname, is_alarm_allowed: true, member_intro: "", profile_url: StringLiterals.Network.baseImageURL)
+
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
+                type: .patch,
+                baseURL: Config.baseURL + "/user-profile",
+                accessToken: accessToken,
+                body: requestDTO,
+                pathVariables: ["":""])
+            
+            print ("👻👻👻👻👻회원가입 완료👻👻👻👻👻")
             return data
         } catch {
            return nil

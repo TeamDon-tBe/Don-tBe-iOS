@@ -257,9 +257,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.likeNumLabel.text = "\(viewModel.postData[indexPath.row].likedNumber)"
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].formatTime)"
-        
-        let url = URL(string: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
-        cell.profileImageView.load(url: url!)
+        cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
         return cell
     }
     

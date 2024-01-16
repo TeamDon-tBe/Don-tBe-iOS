@@ -81,12 +81,13 @@ final class LoginViewModel: ViewModelType {
 
 extension LoginViewModel {
     private func postSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+        let requestDTO = SocialLoginRequestDTO(socialPlatform: "KAKAO")
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,
                 baseURL: Config.baseURL + "/auth",
                 accessToken: accessToken,
-                body: SocialLoginRequestDTO(socialPlatform: "KAKAO"),
+                body: requestDTO,
                 pathVariables: ["":""])
             print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
             
