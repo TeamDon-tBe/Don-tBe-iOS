@@ -152,8 +152,7 @@ extension HomeViewController {
     @objc
     func refreshPost() {
         DispatchQueue.main.async {
-            // ✅ 서버 통신 영역
-            //
+            self.bindViewModel()
         }
         self.homeCollectionView.reloadData()
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
