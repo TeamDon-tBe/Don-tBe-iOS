@@ -63,7 +63,7 @@ final class NetworkService: NetworkServiceType {
                                               accessToken: accessToken, body: body,
                                               pathVariables: pathVariables)
             let (data, response) = try await URLSession.shared.data(for: request)
-            dump(request)
+            
             guard let httpResponse = response as? HTTPURLResponse else {
                 throw NetworkError.responseError
             }

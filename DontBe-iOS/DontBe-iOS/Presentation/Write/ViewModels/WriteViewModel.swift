@@ -29,7 +29,7 @@ final class WriteViewModel: ViewModelType {
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            if let resultStatus = try await self.postWriteContent(accessToken: "\(accessToken)", contentText: "\(value)") {
+                            if let resultStatus = try await self.postWriteContentAPI(accessToken: "\(accessToken)", contentText: "\(value)") {
                                 self.popViewController.send(true)
                             }
                         }
@@ -53,7 +53,7 @@ final class WriteViewModel: ViewModelType {
 }
 
 extension WriteViewModel {
-    private func postWriteContent(accessToken: String, contentText: String) async throws -> BaseResponse<EmptyResponse>? {
+    private func postWriteContentAPI(accessToken: String, contentText: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
