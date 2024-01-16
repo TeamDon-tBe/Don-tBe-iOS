@@ -129,6 +129,7 @@ extension HomeViewController {
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
+        self.tabBarController?.delegate = self
     }
     
     private func setNotification() {
@@ -274,5 +275,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+    }
+}
+
+extension HomeViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let notificationViewController = viewController as? UINavigationController {
+            homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        }
     }
 }

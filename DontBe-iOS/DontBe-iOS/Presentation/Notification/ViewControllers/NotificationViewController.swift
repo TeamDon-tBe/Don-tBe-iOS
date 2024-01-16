@@ -30,6 +30,7 @@ final class NotificationViewController: UIViewController {
         tableView.backgroundColor = .donGray1
         tableView.separatorStyle = .none
         tableView.contentInsetAdjustmentBehavior = .never
+        tableView.isScrollEnabled = true
         return tableView
     }()
     
@@ -65,6 +66,7 @@ final class NotificationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tabBarController?.delegate = self
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = false
     }
@@ -170,3 +172,12 @@ extension NotificationViewController: UITableViewDataSource {
         }
     }
 }
+
+extension NotificationViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let notificationViewController = viewController as? UINavigationController {
+            notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+        }
+    }
+}
+

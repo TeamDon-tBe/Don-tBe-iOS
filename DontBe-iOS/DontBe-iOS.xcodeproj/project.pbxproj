@@ -400,13 +400,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		2A5220F32B508135001510B7 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		2A5220F62B508169001510B7 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -418,7 +411,6 @@
 		2A8868D72B506D3B0017513A /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				2A5220F32B508135001510B7 /* Views */,
 				2A8868D82B506D620017513A /* ViewControllers */,
 				2A5220ED2B507F82001510B7 /* ViewModels */,
 				2A5220F02B507F9C001510B7 /* Cells */,
