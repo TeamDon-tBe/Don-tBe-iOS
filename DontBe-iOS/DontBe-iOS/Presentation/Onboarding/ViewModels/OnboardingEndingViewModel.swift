@@ -41,7 +41,8 @@ final class OnboardingEndingViewModel: ViewModelType {
                                          isFirstUser: false,
                                          isJoinedApp: true,
                                          isOnboardingFinished: true,
-                                         userNickname: loadUserData()?.userNickname ?? ""))
+                                         userNickname: loadUserData()?.userNickname ?? "",
+                                         memberId: loadUserData()?.memberId ?? 0))
                 publisher.send("start")
                 
             }
@@ -56,7 +57,8 @@ final class OnboardingEndingViewModel: ViewModelType {
                                          isFirstUser: false,
                                          isJoinedApp: true,
                                          isOnboardingFinished: true,
-                                         userNickname: loadUserData()?.userNickname ?? ""))
+                                         userNickname: loadUserData()?.userNickname ?? "",
+                                        memberId: loadUserData()?.memberId ?? 0))
             }
             .store(in: self.cancelBag)
         

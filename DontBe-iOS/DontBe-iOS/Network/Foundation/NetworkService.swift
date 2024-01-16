@@ -5,9 +5,11 @@
 //  Created by 변희주 on 1/14/24.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkService: NetworkServiceType {
+    private let tokenManager = TokenManager()
+    
     func donMakeRequest(type: HttpMethod,
                         baseURL: String,
                         accessToken: String,
@@ -70,14 +72,31 @@ final class NetworkService: NetworkServiceType {
             case 200..<300:
                 let result = try JSONDecoder().decode(T.self, from: data)
                 return result
-            case 400:
-                throw NetworkError.badRequestError
             case 401:
-                throw NetworkError.unautohorizedError
-            case 404:
-                throw NetworkError.notFoundError
-            case 500:
-                throw NetworkError.internalServerError
+                // Network 요청 중 401 에러가 발생하면 여기로
+                guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { throw NetworkError.responseError }
+                guard let refreshToken = KeychainWrapper.loadToken(forKey: "refreshToken") else { throw NetworkError.responseError }
+                
+                let result = try await tokenManager.getTokenAPI(accessToken: accessToken, refreshToken: refreshToken)
+                if result.status == 401 && result.message == StringLiterals.Network.expired {
+                    // 401 에러 중 accessToken, refreshToken 둘 다 만료된 경우 소셜로그인 화면으로
+                    if let sceneDelegate = await UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        DispatchQueue.main.async {
+                            let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                            sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                        }
+                    }
+                }
+                
+                guard let newAccessToken = result.data?.accessToken else { throw NetworkError.unknownError }
+                KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+                
+                print("👻👻👻👻👻 토큰 재발급 👻👻👻👻👻")
+                return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
+                
+            case 400..<501:
+                let result = try JSONDecoder().decode(T.self, from: data)
+                return result
             default:
                 throw NetworkError.unknownError
             }

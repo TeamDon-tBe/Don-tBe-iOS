@@ -129,4 +129,8 @@ enum StringLiterals {
         static let feedback = "피드백 남기기"
         static let customerCenter = "고객센터"
     }
+    
+    enum Network {
+        static let expired = "access, refreshToken 모두 만료되었습니다. 재로그인이 필요합니다."
+    }
 }

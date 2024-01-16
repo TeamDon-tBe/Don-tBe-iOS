@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - SocilLoginResponseDTO
+
 struct SocialLoginResponseDTO: Decodable {
     let nickName: String
     let memberId: Int

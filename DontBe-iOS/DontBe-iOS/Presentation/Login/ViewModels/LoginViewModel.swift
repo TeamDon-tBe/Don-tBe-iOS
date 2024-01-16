@@ -62,9 +62,8 @@ final class LoginViewModel: ViewModelType {
         } else if let accessToken = oauthToken?.accessToken {
             Task {
                 do {
-                    let isNewUser = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
-                    let nickname = try await self.getSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
-                    
+                    let isNewUser = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
+                    let nickname = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
                     if !isNewUser && !nickname.isEmpty {
                         self.userInfoPublisher.send(false)
                     } else {
@@ -78,8 +77,10 @@ final class LoginViewModel: ViewModelType {
     }
 }
 
+// MARK: - Network
+
 extension LoginViewModel {
-    private func getSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+    private func postSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,
@@ -89,14 +90,20 @@ extension LoginViewModel {
                 pathVariables: ["":""])
             print ("👻👻👻👻👻소셜로그인 서버통신👻👻👻👻👻")
             
+            if data?.status == 400 {
+                print(NetworkError.badRequestError)
+            }
+            
             // UserInfo 구조체에 유저 정보 저장
             let userNickname = data?.data?.nickName ?? ""
             let isNewUser = data?.data?.isNewUser ?? true
+            let memberId = data?.data?.memberId ?? 0
             saveUserData(UserInfo(isSocialLogined: true,
                                   isFirstUser: isNewUser,
                                   isJoinedApp: false,
                                   isOnboardingFinished: false,
-                                  userNickname: userNickname))
+                                  userNickname: userNickname,
+                                  memberId: memberId))
             
             // KeychainWrapper에 Access Token 저장
             let accessToken = data?.data?.accessToken ?? ""

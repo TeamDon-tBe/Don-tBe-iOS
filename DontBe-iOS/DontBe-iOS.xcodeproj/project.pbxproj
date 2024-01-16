@@ -10,6 +10,8 @@
 		2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73092B541555004478C1 /* HttpMethod.swift */; };
 		2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */; };
 		2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */; };
+		2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */; };
+		2A0A73192B5497AE004478C1 /* TokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73182B5497AE004478C1 /* TokenManager.swift */; };
 		2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F62B4BEA34009D214F /* LoginViewController.swift */; };
 		2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671F82B4C0819009D214F /* UILabel+.swift */; };
 		2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */; };
@@ -22,6 +24,7 @@
 		2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */; };
 		2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF562B4F1E0400FEEED9 /* String+.swift */; };
 		2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */; };
+		2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */; };
 		2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A51AE842B4B05AA00FF770A /* SplashViewController.swift */; };
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
@@ -130,6 +133,8 @@
 		2A0A73092B541555004478C1 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceType.swift; sourceTree = "<group>"; };
 		2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenReissueResponseDTO.swift; sourceTree = "<group>"; };
+		2A0A73182B5497AE004478C1 /* TokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenManager.swift; sourceTree = "<group>"; };
 		2A2671F62B4BEA34009D214F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		2A2671F82B4C0819009D214F /* UILabel+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
 		2A2671FC2B4C3A9F009D214F /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
@@ -143,6 +148,7 @@
 		2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginRequestDTO.swift; sourceTree = "<group>"; };
 		2A31FF562B4F1E0400FEEED9 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
+		2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileRequestDTO.swift; sourceTree = "<group>"; };
 		2A51AE842B4B05AA00FF770A /* SplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
@@ -260,6 +266,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A0A73112B5483E4004478C1 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		2A0A73122B5483F1004478C1 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
+		2A0A73132B5486F8004478C1 /* TokenManager */ = {
+			isa = PBXGroup;
+			children = (
+				2A0A73182B5497AE004478C1 /* TokenManager.swift */,
+				2A0A730F2B5483E0004478C1 /* TokenReissueResponseDTO.swift */,
+			);
+			path = TokenManager;
+			sourceTree = "<group>";
+		};
 		2A2671F52B4BEA0E009D214F /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -305,10 +336,34 @@
 		2A2845412B531FF90023F9B5 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				2A2845422B5320070023F9B5 /* SocialLoginResponseDTO.swift */,
-				2A2845452B532BCB0023F9B5 /* SocialLoginRequestDTO.swift */,
+				2A0A73122B5483F1004478C1 /* RequestDTO */,
+				2A0A73112B5483E4004478C1 /* ResponseDTO */,
 			);
 			path = DTO;
+			sourceTree = "<group>";
+		};
+		2A5182FD2B569B8600B43BA8 /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				2A5182FE2B569BA200B43BA8 /* DTO */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		2A5182FE2B569BA200B43BA8 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183002B569BB600B43BA8 /* RequestDTO */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		2A5183002B569BB600B43BA8 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183012B569BD900B43BA8 /* UserProfileRequestDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		2A51AE832B4B05AA00FF770A /* Splash */ = {
@@ -586,6 +641,8 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A5182FD2B569B8600B43BA8 /* UserProfile */,
+				2A0A73132B5486F8004478C1 /* TokenManager */,
 				3CBF991F2B549B470015FE4B /* Write */,
 				2FBBADFB2B564471002D6286 /* Home */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
@@ -993,6 +1050,7 @@
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
 				3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
+				2A0A73192B5497AE004478C1 /* TokenManager.swift in Sources */,
 				3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
 				2A8D70CC2B4DA7BD009F4C6C /* UITextField+.swift in Sources */,
@@ -1015,6 +1073,7 @@
 				3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */,
 				2AAEFC992B4A9E3B00C2D323 /* DontBeTabBarController.swift in Sources */,
 				2A31FF592B4F3A8B00FEEED9 /* UserInfo.swift in Sources */,
+				2A0A73102B5483E0004478C1 /* TokenReissueResponseDTO.swift in Sources */,
 				2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				2FB818D12B51693400B7498F /* PostViewController.swift in Sources */,
@@ -1056,6 +1115,7 @@
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
 				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
 				2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */,
+				2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */,
