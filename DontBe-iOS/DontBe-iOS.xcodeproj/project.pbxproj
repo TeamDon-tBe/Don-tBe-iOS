@@ -105,6 +105,7 @@
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
+		3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -239,6 +240,7 @@
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
+		3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyResponseDTO.swift; sourceTree = "<group>"; };
 		3C6192E92B3A719A00220CEB /* DontBe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontBe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C6192EC2B3A719A00220CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -582,6 +584,7 @@
 			isa = PBXGroup;
 			children = (
 				2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */,
+				3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -1175,6 +1178,7 @@
 				2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */,
 				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
+				3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */,
 				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,
 				2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */,
 				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
