@@ -30,7 +30,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return view
     }()
     
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -39,7 +39,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return image
     }()
     
-    private let nicknameLabel: UILabel = {
+    let nicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "Don't be야 사랑해~"
@@ -47,7 +47,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return label
     }()
     
-    private let transparentLabel: UILabel = {
+    let transparentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
         label.text = "투명도 0%"
@@ -63,7 +63,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return label
     }()
     
-    private let timeLabel: UILabel = {
+    let timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
         label.text = "3분 전"
@@ -71,13 +71,13 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return label
     }()
     
-    private let kebabButton: UIButton = {
+    let kebabButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnKebab, for: .normal)
         return button
     }()
     
-    private let contentTextLabel: UILabel = {
+    let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
@@ -101,7 +101,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return button
     }()
     
-    private let likeNumLabel: UILabel = {
+    let likeNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
         label.text = "54"

@@ -305,14 +305,22 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher())
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), collectionViewUpdata: Just((contentId)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
+                print(data)
                 self.bindPostData(data: data)
+            }
+            .store(in: self.cancelBag)
+        
+        output.getPostReplyData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.postReplyCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
     }
@@ -340,18 +348,21 @@ extension PostViewController: UICollectionViewDelegate { }
 
 extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        let sortedData = viewModel.postReplyData.sorted {
+            $0.time.compare($1.time, options: .numeric) == .orderedDescending
+        }
+        
+        viewModel.postReplyData = sortedData
+        return viewModel.postReplyData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         cell.alarmTriggerType = "commentGhost"
-//        cell.targetMemberId = viewModel.postData[indexPath.row].memberId
-//        cell.alarmTriggerdId = viewModel.postData[indexPath.row].contentId
-        cell.targetMemberId = 7
-        cell.alarmTriggerdId = 15
-        if self.memberId == loadUserData()?.memberId {
+        cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
+        cell.alarmTriggerdId = self.contentId
+        if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
         } else {
@@ -371,6 +382,13 @@ extension PostViewController: UICollectionViewDataSource {
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(viewModel.postReplyData[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = viewModel.postReplyData[indexPath.row].commentText
+        cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
+        cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
+        cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
+        
         
         return cell
     }
