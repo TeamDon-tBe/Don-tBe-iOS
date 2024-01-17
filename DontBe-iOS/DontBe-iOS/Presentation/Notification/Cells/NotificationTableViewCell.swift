@@ -86,27 +86,38 @@ extension NotificationTableViewCell {
         }
     }
     
-    func configureCell(item: NotificationDummy) {
-        profileImage.load(url: StringLiterals.Network.notificationImageURL)
+    func configureCell(list: NotificationList) {
+        profileImage.load(url: list.triggerMemberProfileUrl)
         profileImage.snp.remakeConstraints {
             $0.centerY.equalToSuperview()
             $0.top.leading.equalToSuperview().inset(14.adjusted)
             $0.size.equalTo(42.adjusted)
         }
-        notificationLabel.text = item.userName + " " + item.description
-        if item.description == StringLiterals.Notification.violation {
+        
+        switch list.notificationType {
+        case .contentLiked, .comment, .commentLiked:
+            notificationLabel.text = list.triggerMemberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: item.userName + " " + StringLiterals.Notification.emphasizeViolation,
+                targetString: list.triggerMemberNickname,
                 font: .font(.body3))
-        } else {
+        case .actingContinue, .beGhost, .contentGhost, .commentGhost:
+            notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,
-                targetString: item.userName,
+                targetString: list.memberNickname,
+                font: .font(.body3))
+        case .userBan:
+            notificationLabel.text = list.memberNickname + " " + list.notificationType.description
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                lineHeight: 21.adjusted,
+                targetString: list.memberNickname + " " + StringLiterals.Notification.emphasizeViolation,
                 font: .font(.body3))
         }
-        minutes.text = item.minutes
+        
+        minutes.text = list.time.formattedTime()
     }
 }

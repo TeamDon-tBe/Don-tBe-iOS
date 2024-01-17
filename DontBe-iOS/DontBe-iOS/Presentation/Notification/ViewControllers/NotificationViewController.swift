@@ -23,13 +23,14 @@ final class NotificationViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     private lazy var refreshControlClicked = refreshControl.refreshControlPublisher.map { _ in
-         }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
     
-    private let notificationTableView: UITableView = {
+    let notificationTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .donGray1
         tableView.separatorStyle = .none
         tableView.contentInsetAdjustmentBehavior = .never
+        tableView.isScrollEnabled = true
         return tableView
     }()
     
@@ -111,19 +112,19 @@ extension NotificationViewController {
         let input = NotificationViewModel.Input(viewLoad: Just(()).eraseToAnyPublisher(), refreshControlClicked: refreshControlClicked)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
-
+        
         output.reloadTableView
             .receive(on: RunLoop.main)
-               .sink { value in
-                   self.notificationTableView.reloadData()
-
-                   if value == 1 {
-                       self.refreshControl.endRefreshing()
-                   }
-               }
-               .store(in: self.cancelBag)
+            .sink { value in
+                self.notificationTableView.reloadData()
+                
+                if value == 1 {
+                    self.refreshControl.endRefreshing()
+                }
+            }
+            .store(in: self.cancelBag)
     }
-
+    
 }
 
 extension NotificationViewController: UITableViewDelegate {
@@ -144,11 +145,39 @@ extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 59.adjusted
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !viewModel.notificationList.isEmpty {
+            // 선택한 셀에 해당하는 데이터
+            let selectedNotification = viewModel.notificationList[indexPath.row]
+            if selectedNotification?.notificationType != .userBan {
+                if selectedNotification?.notificationType == .beGhost {
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        DispatchQueue.main.async {
+                            let viewController = DontBeTabBarController()
+                            viewController.selectedIndex = 3
+                            if let selectedViewController = viewController.selectedViewController {
+                                viewController.applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                            }
+                            sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: viewController)
+                        }
+                    }
+                } else if selectedNotification?.notificationType == .actingContinue {
+                    let viewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    let viewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+                    viewController.contentId = selectedNotification?.notificationTriggerId ?? 0
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }
+        }
+    }
 }
 
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = viewModel.dummy.count
+        let count = viewModel.notificationList.count
         if count == 0 {
             return 1
         } else {
@@ -157,12 +186,12 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if viewModel.dummy.isEmpty {
+        if viewModel.notificationList.isEmpty {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationEmptyViewCell.reuseIdentifier, for: indexPath) as? NotificationEmptyViewCell else { return UITableViewCell() }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(item: viewModel.dummy[indexPath.row])
+            cell.configureCell(list: viewModel.notificationList[indexPath.row] ?? NotificationList.baseList)
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines

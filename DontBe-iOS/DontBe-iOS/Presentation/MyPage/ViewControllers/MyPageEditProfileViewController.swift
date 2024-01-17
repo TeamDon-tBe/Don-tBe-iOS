@@ -13,10 +13,29 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
     
     // MARK: - Properties
     
+    static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
+    
+    private var cancelBag = CancelBag()
+    private let viewModel: MyPageProfileViewModel
+    
+    private lazy var backButtonTapped = navigationBackButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var duplicationCheckButtonTapped = self.nicknameEditView.duplicationCheckButton.publisher(for: .touchUpInside).map { _ in
+        return self.nicknameEditView.nickNameTextField.text ?? ""
+    }.eraseToAnyPublisher()
+    private lazy var postButtonTapped = self.introductionEditView.postActiveButton.publisher(for: .touchUpInside).map { _ in
+        return UserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
+                                     is_alarm_allowed: true,
+                                     member_intro: self.introductionEditView.contentTextView.text ?? "",
+                                     profile_url: StringLiterals.Network.baseImageURL)
+    }.eraseToAnyPublisher()
+    
     var isTrue: Bool = true
+    var nickname: String = ""
+    var introText: String = ""
 
     // MARK: - UI Components
     
+    private let navigationBackButton = BackButton()
     let nicknameEditView = MyPageNicknameEditView()
     let introductionEditView = MyPageIntroductionEditView()
     
@@ -32,7 +51,32 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
         setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
+        setDelegate()
+        bindViewModel()
+    }
+    
+    init(viewModel: MyPageProfileViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        
+        let backButton = UIBarButtonItem.backButton(target: self, action: #selector(navBackButtonTapped))
+        self.navigationItem.leftBarButtonItem = backButton
+        
+        if introText == "" {
+            self.introductionEditView.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
+        } else {
+            self.nicknameEditView.nickNameTextField.text = nickname
+            self.introductionEditView.contentTextView.text = introText
+        }
     }
 }
 
@@ -68,53 +112,45 @@ extension MyPageEditProfileViewController {
         }
     }
     
-    private func setAddTarget() {
-        let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
-        self.navigationItem.leftBarButtonItem = backButton
-        
+    private func setDelegate() {
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldTisEmpty), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    private func bindViewModel() {
+        let input = MyPageProfileViewModel.Input(backButtonTapped: backButtonTapped, duplicationCheckButtonTapped: duplicationCheckButtonTapped, finishButtonTapped: postButtonTapped)
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
-        nicknameEditView.duplicationCheckButton.addTarget(self, action: #selector(duplicationCheckButtonTapped), for: .touchUpInside)
-        introductionEditView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc
-    private func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc
-    private func duplicationCheckButtonTapped() {
-        // 중복확인 서버통신에 성공
-        self.nicknameEditView.nickNameTextField.resignFirstResponder()
-        self.introductionEditView.postButton.isEnabled = !isTrue
+        output.popViewController
+            .receive(on: RunLoop.main)
+            .sink { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
+            .store(in: self.cancelBag)
         
-        // 중복확인 -> 성공 (서버통신으로 isTrue 값 변경해주어야함)
-        if isTrue {
-            self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
-            self.introductionEditView.postButton.setTitleColor(.donWhite, for: .normal)
-            self.introductionEditView.postButton.backgroundColor = .donBlack
-            self.nicknameEditView.duplicationCheckDescription.textColor = .donSecondary
-        }
-        // 중복확인 -> 실패
-        else {
-            self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
-            self.introductionEditView.postButton.setTitleColor(.donGray9, for: .normal)
-            self.introductionEditView.postButton.backgroundColor = .donGray4
-            self.nicknameEditView.duplicationCheckDescription.textColor = .donError
-        }
-    }
-    
-    @objc
-    private func postButtonTapped() {
-        // 서버통신 -> POST
-        self.navigationController?.popViewController(animated: true)
+        output.isEnable
+            .receive(on: RunLoop.main)
+            .sink { isEnable in
+                self.nicknameEditView.nickNameTextField.resignFirstResponder()
+                self.introductionEditView.postActiveButton.isHidden = !isEnable
+                if isEnable {
+                    self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
+                    self.nicknameEditView.duplicationCheckDescription.textColor = .donSecondary
+                } else {
+                    self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
+                    self.nicknameEditView.duplicationCheckDescription.textColor = .donError
+                }
+            }
+            .store(in: self.cancelBag)
     }
     
     @objc
     private func textFieldTisEmpty() {
-        self.introductionEditView.postButton.setTitleColor(.donGray9, for: .normal)
-        self.introductionEditView.postButton.backgroundColor = .donGray4
-        self.introductionEditView.postButton.isEnabled = false
+        self.introductionEditView.postButton.isHidden = false
+        self.introductionEditView.postActiveButton.isHidden = true
+    }
+    
+    @objc
+    private func navBackButtonTapped() {
+        self.navigationController?.popViewController(animated: true)
     }
 }

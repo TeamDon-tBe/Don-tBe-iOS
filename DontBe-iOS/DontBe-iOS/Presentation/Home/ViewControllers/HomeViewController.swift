@@ -33,7 +33,7 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private let myView = HomeView()
-    private lazy var homeCollectionView = HomeCollectionView().collectionView
+    lazy var homeCollectionView = HomeCollectionView().collectionView
     private var uploadToastView: DontBeToastView?
     
     // MARK: - Life Cycles
@@ -246,8 +246,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-        cell.KebabButtonAction = {
-            self.deleteBottomsheet.showSettings()
+        if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
+            cell.ghostButton.isHidden = true
+            cell.verticalTextBarView.isHidden = true
+            cell.KebabButtonAction = {
+                self.deleteBottomsheet.showSettings()
+            }
+        } else {
+            cell.ghostButton.isHidden = false
+            cell.verticalTextBarView.isHidden = false
+            cell.KebabButtonAction = {
+                self.deleteBottomsheet.showSettings()
+            }
         }
         cell.LikeButtonAction = {
             cell.isLiked.toggle()

@@ -47,11 +47,12 @@ final class WriteViewController: UIViewController {
         getAPI()
         setUI()
         setDelegate()
-        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        bindViewModel()
         
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = false
@@ -90,7 +91,6 @@ extension WriteViewController {
         let input = WriteViewModel.Input(postButtonTapped: postButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
-        
         output.popViewController
             .sink { _ in
                 DispatchQueue.main.async {

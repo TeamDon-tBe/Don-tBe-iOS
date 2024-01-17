@@ -9,6 +9,8 @@ import UIKit
 
 final class DontBeTabBarController: UITabBarController {
     
+    private let networkProvider = NetworkService()
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -17,13 +19,14 @@ final class DontBeTabBarController: UITabBarController {
         self.setUI()
         self.setTabBarController()
         self.setInitialFont()
-        self.getTabBarBadgeAPI()
+        self.setTabBarBadge()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
+        self.delegate = self
     }
     
     // MARK: - TabBar Height
@@ -40,7 +43,6 @@ final class DontBeTabBarController: UITabBarController {
     // MARK: - Set UI
     
     private func setUI() {
-        self.delegate = self
         self.tabBar.backgroundColor = UIColor.donWhite // 탭바 배경색 설정
         self.tabBar.isTranslucent = false // 배경이 투명하지 않도록 설정
         self.tabBar.clipsToBounds = true // 탭바 위쪽에 선 생기는 거 없앰
@@ -78,7 +80,7 @@ final class DontBeTabBarController: UITabBarController {
         
         // title을 위로 올리기 위한 UIEdgeInsets 설정
         tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -13)
-    
+        
         applyFontColorAttributes(to: UITabBarItem.appearance(), isSelected: false)
         
         tabNavigationController.tabBarItem = tabBarItem
@@ -97,7 +99,7 @@ final class DontBeTabBarController: UITabBarController {
         }
     }
     
-    private func applyFontColorAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
+    func applyFontColorAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
         let attributes: [NSAttributedString.Key: Any]
         
         if isSelected {
@@ -114,10 +116,31 @@ final class DontBeTabBarController: UITabBarController {
         tabBarItem.setTitleTextAttributes(attributes, for: .normal)
     }
     
-    private func getTabBarBadgeAPI() {
-        // 서버통신 -> 알림이 있으면 아래코드 처리
-        // 현재는 앱 처음 시작할 때만 badge가 보임 -> 알림 탭 누르면 아예 기본으로 변경됨
-        self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationUnread
+    private func setTabBarBadge() {
+        Task {
+            let data = try await getNotificationCheckAPI()
+            if data?.data?.notificationNumber ?? 0 > 0 {
+                self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationUnread
+            } else {
+                self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationRead
+            }
+        }
+    }
+    
+    private func getNotificationCheckAPI() async throws -> BaseResponse<NotificationNotCheckResponseDTO>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<NotificationNotCheckResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/notification/number",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["": ""])
+            print ("👻👻👻👻👻안읽은 노티 개수 체크👻👻👻👻👻")
+            return data
+        } catch {
+            return nil
+        }
     }
 }
 
@@ -150,6 +173,27 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
         if index == 1 {
             let destinationViewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
             self.navigationController?.pushViewController(destinationViewController, animated: true)
+        }
+        
+        guard let selectedViewController = tabBarController.selectedViewController else {
+            return true
+        }
+        
+        // 탭바 인덱스 선택 후 탭바 클릭시 최상단으로 가도록 구현
+        if selectedViewController == viewController {
+            if tabBarController.selectedIndex == 0 {
+                if let navigationController = viewController as? UINavigationController {
+                    if let topViewController = navigationController.topViewController as? HomeViewController {
+                        topViewController.homeCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                    }
+                }
+            } else if tabBarController.selectedIndex == 2 {
+                if let navigationController = viewController as? UINavigationController {
+                    if let topViewController = navigationController.topViewController as? NotificationViewController {
+                        topViewController.notificationTableView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+                    }
+                }
+            }
         }
         return true
     }

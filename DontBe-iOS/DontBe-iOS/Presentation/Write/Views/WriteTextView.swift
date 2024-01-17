@@ -198,7 +198,6 @@ extension WriteTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let textLength = contentTextView.text.count
         textView.text = String(textView.text.prefix(maxLength))
-        
         if textLength == 0 {
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
