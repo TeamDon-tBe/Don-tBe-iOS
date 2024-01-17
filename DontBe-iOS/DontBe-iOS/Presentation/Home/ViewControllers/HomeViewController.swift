@@ -33,7 +33,7 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private let myView = HomeView()
-    private lazy var homeCollectionView = HomeCollectionView().collectionView
+    lazy var homeCollectionView = HomeCollectionView().collectionView
     private var uploadToastView: DontBeToastView?
     
     // MARK: - Life Cycles
