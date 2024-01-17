@@ -66,4 +66,22 @@ extension PostViewModel {
             return nil
         }
     }
+    
+    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            let result: BaseResponse<EmptyResponse>? = try await
+            self.networkProvider.donNetwork(type: .post,
+                                            baseURL: Config.baseURL + "/ghost",
+                                            accessToken: accessToken,
+                                            body: PostTransparencyRequestDTO(
+                                                alarmTriggerType: alarmTriggerType,
+                                                targetMemberId: targetMemberId,
+                                                alarmTriggerId: alarmTriggerId
+                                            ),
+                                            pathVariables: ["":""])
+            return result
+        } catch {
+            return nil
+        }
+    }
 }
