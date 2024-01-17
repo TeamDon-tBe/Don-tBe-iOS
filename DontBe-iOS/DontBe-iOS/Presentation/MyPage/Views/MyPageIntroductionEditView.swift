@@ -49,14 +49,14 @@ final class MyPageIntroductionEditView: UIView {
     }()
     
     let postButton: UIButton = {
-        let finishButton = CustomButton(title: StringLiterals.Button.finish, backColor: .donGray4, titleColor: .donGray9)
+        let finishButton = CustomButton(title: StringLiterals.Button.editFinish, backColor: .donGray4, titleColor: .donGray9)
         finishButton.isEnabled = false
         return finishButton
     }()
     
     let postActiveButton: UIButton = {
-        let finishActiveButton = CustomButton(title: StringLiterals.Button.finish, backColor: .donBlack, titleColor: .donWhite)
-        finishActiveButton.isHidden = true
+        let finishActiveButton = CustomButton(title: StringLiterals.Button.editFinish, backColor: .donBlack, titleColor: .donWhite)
+        finishActiveButton.isEnabled = true
         return finishActiveButton
     }()
     
@@ -87,7 +87,8 @@ extension MyPageIntroductionEditView {
         self.addSubviews(introduction,
                          contentTextView,
                          numOfLetters,
-                         postButton)
+                         postButton,
+                         postActiveButton)
     }
     
     func setLayout() {
@@ -108,6 +109,13 @@ extension MyPageIntroductionEditView {
         }
     
         postButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(342.adjusted)
+            $0.height.equalTo(50.adjusted)
+            $0.bottom.equalToSuperview().inset(29.adjusted)
+        }
+        
+        postActiveButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.width.equalTo(342.adjusted)
             $0.height.equalTo(50.adjusted)

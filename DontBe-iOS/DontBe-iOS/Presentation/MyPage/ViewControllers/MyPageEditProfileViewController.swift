@@ -13,6 +13,8 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
     
     // MARK: - Properties
     
+    static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
+    
     private var cancelBag = CancelBag()
     private let viewModel: MyPageProfileViewModel
     
@@ -20,7 +22,7 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
     private lazy var duplicationCheckButtonTapped = self.nicknameEditView.duplicationCheckButton.publisher(for: .touchUpInside).map { _ in
         return self.nicknameEditView.nickNameTextField.text ?? ""
     }.eraseToAnyPublisher()
-    private lazy var postButtonTapped = self.introductionEditView.postButton.publisher(for: .touchUpInside).map { _ in
+    private lazy var postButtonTapped = self.introductionEditView.postActiveButton.publisher(for: .touchUpInside).map { _ in
         return UserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
                                      is_alarm_allowed: true,
                                      member_intro: self.introductionEditView.contentTextView.text ?? "",
@@ -143,9 +145,8 @@ extension MyPageEditProfileViewController {
     
     @objc
     private func textFieldTisEmpty() {
-        self.introductionEditView.postButton.setTitleColor(.donGray9, for: .normal)
-        self.introductionEditView.postButton.backgroundColor = .donGray4
-        self.introductionEditView.postButton.isEnabled = false
+        self.introductionEditView.postButton.isHidden = false
+        self.introductionEditView.postActiveButton.isHidden = true
     }
     
     @objc
