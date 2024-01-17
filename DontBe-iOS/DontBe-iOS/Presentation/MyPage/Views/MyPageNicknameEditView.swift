@@ -13,6 +13,8 @@ final class MyPageNicknameEditView: UIView {
 
     // MARK: - Properties
     
+    static let postButtonisEnabled = Notification.Name("PostButtonisEnabled")
+    
     // MARK: - UI Components
     
     private let topDivisionLine = UIView().makeDivisionLine()
@@ -239,6 +241,7 @@ extension MyPageNicknameEditView: UITextFieldDelegate {
             duplicationCheckButton.isEnabled = false
             duplicationCheckButton.setTitleColor(.donGray9, for: .normal)
             duplicationCheckButton.backgroundColor = .donGray4
+            NotificationCenter.default.post(name: MyPageNicknameEditView.postButtonisEnabled, object: nil, userInfo: ["isEnabled": true])
         }
         
         duplicationCheckDescription.isHidden = !isValid

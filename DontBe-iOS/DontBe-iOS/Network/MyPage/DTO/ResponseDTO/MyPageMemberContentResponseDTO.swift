@@ -1,15 +1,15 @@
 //
-//  PostDataResponseDTO.swift
+//  MyPageMemberContentResponseDTO.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/16/24.
+//  Created by 변상우 on 1/17/24.
 //
 
 import Foundation
 
-// MARK: - PostDataResponseDTO
+// MARK: - MyPageMemberContentResponseDTO
 
-struct PostDataResponseDTO: Decodable {
+struct MyPageMemberContentResponseDTO: Decodable {
     let memberId: Int
     let memberProfileUrl: String
     let memberNickname: String

@@ -25,14 +25,13 @@ final class MyPageIntroductionEditView: UIView {
         return introduction
     }()
     
-    private let contentTextView: UITextView = {
+    let contentTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.font(.body4)
         textView.textColor = .donGray12
         textView.tintColor = .donPrimary
         textView.backgroundColor = .donGray2
         textView.textContainerInset = UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted)
-        textView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
         textView.layer.cornerRadius = 4.adjusted
         textView.layer.masksToBounds = true
         textView.textContainer.lineFragmentPadding = 0
@@ -50,14 +49,15 @@ final class MyPageIntroductionEditView: UIView {
     }()
     
     let postButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(StringLiterals.Button.editFinish, for: .normal)
-        button.setTitleColor(.donGray9, for: .normal)
-        button.titleLabel?.font = UIFont.font(.body3)
-        button.backgroundColor = .donGray4
-        button.layer.cornerRadius = 4.adjusted
-        button.isEnabled = false
-        return button
+        let finishButton = CustomButton(title: StringLiterals.Button.editFinish, backColor: .donGray4, titleColor: .donGray9)
+        finishButton.isEnabled = false
+        return finishButton
+    }()
+    
+    let postActiveButton: UIButton = {
+        let finishActiveButton = CustomButton(title: StringLiterals.Button.editFinish, backColor: .donBlack, titleColor: .donWhite)
+        finishActiveButton.isEnabled = true
+        return finishActiveButton
     }()
     
     // MARK: - Life Cycles
@@ -87,7 +87,8 @@ extension MyPageIntroductionEditView {
         self.addSubviews(introduction,
                          contentTextView,
                          numOfLetters,
-                         postButton)
+                         postButton,
+                         postActiveButton)
     }
     
     func setLayout() {
@@ -113,6 +114,13 @@ extension MyPageIntroductionEditView {
             $0.height.equalTo(50.adjusted)
             $0.bottom.equalToSuperview().inset(29.adjusted)
         }
+        
+        postActiveButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(342.adjusted)
+            $0.height.equalTo(50.adjusted)
+            $0.bottom.equalToSuperview().inset(29.adjusted)
+        }
     }
 }
 
@@ -128,6 +136,7 @@ extension MyPageIntroductionEditView: UITextViewDelegate {
         postButton.isEnabled = true
         
         if textLength == 0 {
+            self.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray4
             postButton.isEnabled = false

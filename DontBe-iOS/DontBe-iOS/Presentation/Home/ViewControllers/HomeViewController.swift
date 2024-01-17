@@ -5,10 +5,10 @@
 //  Created by yeonsu on 1/8/24.
 //
 
+import Combine
 import UIKit
 
 import SnapKit
-import Combine
 
 final class HomeViewController: UIViewController {
     
@@ -23,6 +23,12 @@ final class HomeViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: HomeViewModel
+    let postViewModel = PostViewModel(networkProvider: NetworkService())
+    
+    
+    let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+    
+    var contentId: Int = 0
     
     // MARK: - UI Components
     
@@ -228,11 +234,11 @@ extension HomeViewController: UICollectionViewDelegate { }
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postData.sorted {
-                $0.time.compare($1.time, options: .numeric) == .orderedDescending
-            }
-            
-            // Replace the viewModel.postData array with the sortedData
-            viewModel.postData = sortedData
+            $0.time.compare($1.time, options: .numeric) == .orderedDescending
+        }
+        
+        // Replace the viewModel.postData array with the sortedData
+        viewModel.postData = sortedData
         
         return viewModel.postData.count
     }
@@ -240,8 +246,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-        cell.KebabButtonAction = {
-            self.deleteBottomsheet.showSettings()
+        if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
+            cell.ghostButton.isHidden = true
+            cell.verticalTextBarView.isHidden = true
+            cell.KebabButtonAction = {
+                self.deleteBottomsheet.showSettings()
+            }
+        } else {
+            cell.ghostButton.isHidden = false
+            cell.verticalTextBarView.isHidden = false
+            cell.KebabButtonAction = {
+                self.deleteBottomsheet.showSettings()
+            }
         }
         cell.LikeButtonAction = {
             cell.isLiked.toggle()
@@ -256,13 +272,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
         cell.likeNumLabel.text = "\(viewModel.postData[indexPath.row].likedNumber)"
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
-        cell.timeLabel.text = "\(viewModel.postData[indexPath.row].formatTime)"
+        cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController()
+
+        self.destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
+        
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
