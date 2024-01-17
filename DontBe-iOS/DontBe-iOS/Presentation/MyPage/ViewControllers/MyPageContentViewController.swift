@@ -145,7 +145,7 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController()
+        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     

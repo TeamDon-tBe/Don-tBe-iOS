@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Combine
 
 final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
     
@@ -18,6 +19,11 @@ final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = CancelReplyPopupViewController()
 
+    let viewModel: PostViewModel
+    private var cancelBag = CancelBag()
+    
+    var contentId: Int = 0
+    
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
@@ -46,7 +52,6 @@ final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAPI()
         setUI()
         setHierarchy()
         setLayout()
@@ -55,6 +60,16 @@ final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
         setNotification()
         setAddTarget()
         
+    }
+    
+    
+    init(viewModel: PostViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - TabBar Height
@@ -72,6 +87,8 @@ final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
+        
+        getAPI()
     }
 }
 
@@ -252,7 +269,25 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher())
         
+        let output = viewModel.transform(from: input, cancelBag: cancelBag)
+        
+        output.getPostData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.bindPostData(data: data)
+            }
+            .store(in: self.cancelBag)
+    }
+    
+    private func bindPostData(data: PostDetailResponseDTO) {
+        self.postView.postNicknameLabel.text = data.memberNickname
+        self.postView.contentTextLabel.text = data.contentText
+        self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
+        self.postView.timeLabel.text = data.time.formattedTime()
+        self.postView.likeNumLabel.text = "\(data.likedNumber)"
+        self.postView.commentNumLabel.text = "\(data.commentNumber)"
     }
 }
 

@@ -6,9 +6,9 @@
 //
 
 import UIKit
+import Combine
 
 import SnapKit
-import Combine
 
 final class HomeViewController: UIViewController {
     
@@ -23,6 +23,12 @@ final class HomeViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: HomeViewModel
+    let postViewModel = PostViewModel(networkProvider: NetworkService())
+    
+    
+    let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+    
+    var contentId: Int = 0
     
     // MARK: - UI Components
     
@@ -228,11 +234,11 @@ extension HomeViewController: UICollectionViewDelegate { }
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postData.sorted {
-                $0.time.compare($1.time, options: .numeric) == .orderedDescending
-            }
-            
-            // Replace the viewModel.postData array with the sortedData
-            viewModel.postData = sortedData
+            $0.time.compare($1.time, options: .numeric) == .orderedDescending
+        }
+        
+        // Replace the viewModel.postData array with the sortedData
+        viewModel.postData = sortedData
         
         return viewModel.postData.count
     }
@@ -258,11 +264,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController()
+
+        self.destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
+        
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
