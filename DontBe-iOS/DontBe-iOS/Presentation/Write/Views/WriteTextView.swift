@@ -18,15 +18,14 @@ final class WriteTextView: UIView {
     
     // MARK: - UI Components
     
-    private let userProfileImage: UIImageView = {
+    let userProfileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.load(url: StringLiterals.Network.baseImageURL)
         return imageView
     }()
     
-    private let userNickname: UILabel = {
+    let userNickname: UILabel = {
         let label = UILabel()
-        label.text = "뚜비요"
         label.font = UIFont.font(.body1)
         label.textColor = .donBlack
         return label

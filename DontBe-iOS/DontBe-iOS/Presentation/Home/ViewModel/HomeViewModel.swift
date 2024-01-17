@@ -62,10 +62,13 @@ final class HomeViewModel: ViewModelType {
 
 extension HomeViewModel {
     private func getPostDataAPI(accessToken: String) async throws -> BaseResponse<[PostDataResponseDTO]>? {
-        let accessToken = accessToken
         do {
-            let result: BaseResponse<[PostDataResponseDTO]>? = try
-            await self.networkProvider.donNetwork(type: .get, baseURL: Config.baseURL + "/content/all", accessToken: accessToken, body: EmptyBody(), pathVariables: ["":""])
+            let result: BaseResponse<[PostDataResponseDTO]>? = try await
+            self.networkProvider.donNetwork(type: .get,
+                                            baseURL: Config.baseURL + "/content/all",
+                                            accessToken: accessToken,
+                                            body: EmptyBody(),
+                                            pathVariables: ["":""])
             
             if let data = result?.data {
                 var tempArrayData: [PostDataResponseDTO] = []
@@ -75,6 +78,24 @@ extension HomeViewModel {
                 }
                 self.postData = tempArrayData
             }
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
+    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            let result: BaseResponse<EmptyResponse>? = try await
+            self.networkProvider.donNetwork(type: .post,
+                                            baseURL: Config.baseURL + "/ghost",
+                                            accessToken: accessToken,
+                                            body: PostTransparencyRequestDTO(
+                                                alarmTriggerType: alarmTriggerType,
+                                                targetMemberId: targetMemberId,
+                                                alarmTriggerId: alarmTriggerId
+                                            ),
+                                            pathVariables: ["":""])
             return result
         } catch {
             return nil

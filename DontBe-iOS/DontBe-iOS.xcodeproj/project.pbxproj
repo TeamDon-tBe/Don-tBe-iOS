@@ -105,6 +105,7 @@
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
+		3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -138,6 +139,7 @@
 		3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */; };
 		3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CC2B4EEC1900816D5F /* MyPageView.swift */; };
 		3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */; };
+		3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -238,6 +240,7 @@
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
+		3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyResponseDTO.swift; sourceTree = "<group>"; };
 		3C6192E92B3A719A00220CEB /* DontBe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontBe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C6192EC2B3A719A00220CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -273,6 +276,7 @@
 		3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3CF184CC2B4EEC1900816D5F /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileView.swift; sourceTree = "<group>"; };
+		3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTransparencyRequestDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -580,6 +584,7 @@
 			isa = PBXGroup;
 			children = (
 				2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */,
+				3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -732,6 +737,7 @@
 				2FBBADFB2B564471002D6286 /* Home */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
 				3C70BE2A2B53EB81001AA5A6 /* MyPage */,
+				3CF465182B58393800997FCA /* Transparency */,
 				3C61930E2B3A787000220CEB /* Foundation */,
 			);
 			path = Network;
@@ -1042,6 +1048,22 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		3CF465182B58393800997FCA /* Transparency */ = {
+			isa = PBXGroup;
+			children = (
+				3CF465192B58394E00997FCA /* RequestDTO */,
+			);
+			path = Transparency;
+			sourceTree = "<group>";
+		};
+		3CF465192B58394E00997FCA /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1136,6 +1158,7 @@
 				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
 				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
+				3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
@@ -1155,6 +1178,7 @@
 				2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */,
 				3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */,
 				3CE9C1352B4C4BC20086E4A3 /* CircleProgressbar.swift in Sources */,
+				3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */,
 				2AF069B22B518F8E00CA3E48 /* MyPageNicknameEditView.swift in Sources */,
 				2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */,
 				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
