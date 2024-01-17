@@ -138,6 +138,7 @@
 		3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */; };
 		3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CC2B4EEC1900816D5F /* MyPageView.swift */; };
 		3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */; };
+		3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -273,6 +274,7 @@
 		3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3CF184CC2B4EEC1900816D5F /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileView.swift; sourceTree = "<group>"; };
+		3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTransparencyRequestDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -732,6 +734,7 @@
 				2FBBADFB2B564471002D6286 /* Home */,
 				2A28453C2B531DAD0023F9B5 /* SocialLogin */,
 				3C70BE2A2B53EB81001AA5A6 /* MyPage */,
+				3CF465182B58393800997FCA /* Transparency */,
 				3C61930E2B3A787000220CEB /* Foundation */,
 			);
 			path = Network;
@@ -1042,6 +1045,22 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		3CF465182B58393800997FCA /* Transparency */ = {
+			isa = PBXGroup;
+			children = (
+				3CF465192B58394E00997FCA /* RequestDTO */,
+			);
+			path = Transparency;
+			sourceTree = "<group>";
+		};
+		3CF465192B58394E00997FCA /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1136,6 +1155,7 @@
 				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
 				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
+				3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
