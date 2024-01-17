@@ -15,8 +15,8 @@ final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
     
-    let customerCenterURL = URL(string: "https://joyous-ghost-8c7.notion.site/Don-t-be-e949f7751de94ba682f4bd6792cbe36e")
-    let feedbackURL = URL(string: "https://forms.gle/DqnypURRBDks7WqJ6")
+    let customerCenterURL = URL(string: StringLiterals.MyPage.myPageCustomerURL)
+    let feedbackURL = URL(string: StringLiterals.MyPage.myPageFeedbackURL)
     
     private var cancelBag = CancelBag()
     var viewModel: MyPageViewModel
