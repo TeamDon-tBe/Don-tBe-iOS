@@ -24,7 +24,7 @@ final class PostView: UIView {
         return view
     }()
     
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -41,7 +41,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private let transparentLabel: UILabel = {
+    let transparentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
         label.text = "투명도 0%"
@@ -49,7 +49,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private let dotLabel: UILabel = {
+    let dotLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
         label.text = "·"
@@ -57,7 +57,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private let timeLabel: UILabel = {
+    let timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
         label.text = "3분 전"
@@ -65,13 +65,13 @@ final class PostView: UIView {
         return label
     }()
     
-    private let kebabButton: UIButton = {
+    let kebabButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnKebab, for: .normal)
         return button
     }()
     
-    private let contentTextLabel: UILabel = {
+    let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다.돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
@@ -81,7 +81,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private lazy var likeStackView: UIStackView = {
+    lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
@@ -95,7 +95,7 @@ final class PostView: UIView {
         return button
     }()
     
-    private let likeNumLabel: UILabel = {
+    let likeNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
         label.text = "54"
@@ -103,7 +103,7 @@ final class PostView: UIView {
         return label
     }()
     
-    private lazy var commentStackView: UIStackView = {
+    lazy var commentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.addArrangedSubviews(commentButton, commentNumLabel)
         stackView.distribution = .equalSpacing
@@ -112,13 +112,13 @@ final class PostView: UIView {
         return stackView
     }()
     
-    private let commentButton: UIButton = {
+    let commentButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnComment, for: .normal)
         return button
     }()
     
-    private let commentNumLabel: UILabel = {
+    let commentNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
         label.text = "54"
@@ -132,7 +132,7 @@ final class PostView: UIView {
         return button
     }()
     
-    private let verticalTextBarView: UIView = {
+    let verticalTextBarView: UIView = {
         let view = UIView()
         view.backgroundColor = .donPale
         return view
