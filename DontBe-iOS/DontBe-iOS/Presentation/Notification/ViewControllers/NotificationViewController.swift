@@ -68,6 +68,7 @@ final class NotificationViewController: UIViewController {
 
 extension NotificationViewController {
     private func setUI() {
+        self.notificationTableView.contentInset = UIEdgeInsets(top: -20.adjustedH, left: 0, bottom: 0, right: 0)
         self.view.backgroundColor = .donWhite
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
