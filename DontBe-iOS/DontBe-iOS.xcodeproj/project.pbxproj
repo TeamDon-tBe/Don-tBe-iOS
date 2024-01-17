@@ -112,6 +112,8 @@
 		3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */; };
 		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
 		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
+		3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */; };
+		3CBCA3CC2B573F9000D348D3 /* MyPageProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */; };
 		3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */; };
 		3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */; };
 		3CBF99292B56BD210015FE4B /* MypageProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */; };
@@ -238,6 +240,8 @@
 		3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
 		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
+		3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberCommentResponseDTO.swift; sourceTree = "<group>"; };
+		3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileViewModel.swift; sourceTree = "<group>"; };
 		3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteContentRequestDTO.swift; sourceTree = "<group>"; };
 		3CBF99262B549C7D0015FE4B /* WriteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewModel.swift; sourceTree = "<group>"; };
 		3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileResponseDTO.swift; sourceTree = "<group>"; };
@@ -799,6 +803,7 @@
 				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
 				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
 				3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */,
+				3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */,
 			);
 			path = ResponseDTO;
 			sourceTree = "<group>";
@@ -839,6 +844,7 @@
 			isa = PBXGroup;
 			children = (
 				3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */,
+				3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1057,6 +1063,7 @@
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
+				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
 				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
@@ -1106,6 +1113,7 @@
 				2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */,
 				2A84465C2B4EEC6C00F98F2A /* JoinProfileViewModel.swift in Sources */,
 				2A5220F82B508177001510B7 /* NotificationDummy.swift in Sources */,
+				3CBCA3CC2B573F9000D348D3 /* MyPageProfileViewModel.swift in Sources */,
 				2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */,
 				3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */,
 				3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */,
