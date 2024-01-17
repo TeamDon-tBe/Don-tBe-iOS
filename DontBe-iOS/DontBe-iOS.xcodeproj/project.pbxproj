@@ -107,11 +107,13 @@
 		3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193162B3A7A7B00220CEB /* UIStackView+.swift */; };
 		3C6193192B3A7AC700220CEB /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6193182B3A7AC700220CEB /* Config.swift */; };
 		3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61931A2B3A7AD000220CEB /* NetworkError.swift */; };
-		3C61C9FC2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */; };
-		3C70BE302B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */; };
+		3C61C9FC2B56EE50006F1D24 /* MyPageMemberContentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C61C9FB2B56EE50006F1D24 /* MyPageMemberContentResponseDTO.swift */; };
+		3C70BE302B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE2F2B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift */; };
 		3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */; };
 		3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */; };
 		3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7741532B531AC80069E694 /* AccountInfoDummy.swift */; };
+		3C88A5742B57B0C7004F6237 /* MyPageContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C88A5732B57B0C7004F6237 /* MyPageContentViewModel.swift */; };
+		3C88A5762B57B0DB004F6237 /* MyPageCommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C88A5752B57B0DB004F6237 /* MyPageCommentViewModel.swift */; };
 		3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */; };
 		3CBCA3CC2B573F9000D348D3 /* MyPageProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */; };
 		3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */; };
@@ -235,11 +237,13 @@
 		3C6193162B3A7A7B00220CEB /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		3C6193182B3A7AC700220CEB /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		3C61931A2B3A7AD000220CEB /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUserContentResponseDTO.swift; sourceTree = "<group>"; };
-		3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberDataResponseDTO.swift; sourceTree = "<group>"; };
+		3C61C9FB2B56EE50006F1D24 /* MyPageMemberContentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberContentResponseDTO.swift; sourceTree = "<group>"; };
+		3C70BE2F2B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoResponseDTO.swift; sourceTree = "<group>"; };
 		3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
 		3C7741512B5311750069E694 /* MyPageAccountInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoTableViewCell.swift; sourceTree = "<group>"; };
 		3C7741532B531AC80069E694 /* AccountInfoDummy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoDummy.swift; sourceTree = "<group>"; };
+		3C88A5732B57B0C7004F6237 /* MyPageContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewModel.swift; sourceTree = "<group>"; };
+		3C88A5752B57B0DB004F6237 /* MyPageCommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewModel.swift; sourceTree = "<group>"; };
 		3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberCommentResponseDTO.swift; sourceTree = "<group>"; };
 		3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileViewModel.swift; sourceTree = "<group>"; };
 		3CBF99212B549B8C0015FE4B /* WriteContentRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteContentRequestDTO.swift; sourceTree = "<group>"; };
@@ -800,9 +804,9 @@
 		3C61C9F82B56E6E3006F1D24 /* ResponseDTO */ = {
 			isa = PBXGroup;
 			children = (
-				3C70BE2F2B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift */,
+				3C70BE2F2B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift */,
 				3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */,
-				3C61C9FB2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift */,
+				3C61C9FB2B56EE50006F1D24 /* MyPageMemberContentResponseDTO.swift */,
 				3CBCA3C92B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift */,
 			);
 			path = ResponseDTO;
@@ -844,6 +848,8 @@
 			isa = PBXGroup;
 			children = (
 				3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */,
+				3C88A5732B57B0C7004F6237 /* MyPageContentViewModel.swift */,
+				3C88A5752B57B0DB004F6237 /* MyPageCommentViewModel.swift */,
 				3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */,
 			);
 			path = ViewModels;
@@ -1134,7 +1140,7 @@
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
-				3C70BE302B53EC06001AA5A6 /* MyPageMemberDataResponseDTO.swift in Sources */,
+				3C70BE302B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift in Sources */,
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
 				2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
@@ -1145,6 +1151,7 @@
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
+				3C88A5742B57B0C7004F6237 /* MyPageContentViewModel.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
@@ -1160,6 +1167,7 @@
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
+				3C88A5762B57B0DB004F6237 /* MyPageCommentViewModel.swift in Sources */,
 				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
 				2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */,
 				2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */,
@@ -1172,7 +1180,7 @@
 				3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */,
 				3CEE4CC22B503F9E00F506AF /* DontBeCustomInfoView.swift in Sources */,
 				2A2845402B531F0A0023F9B5 /* BaseResponse.swift in Sources */,
-				3C61C9FC2B56EE50006F1D24 /* MyPageUserContentResponseDTO.swift in Sources */,
+				3C61C9FC2B56EE50006F1D24 /* MyPageMemberContentResponseDTO.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
