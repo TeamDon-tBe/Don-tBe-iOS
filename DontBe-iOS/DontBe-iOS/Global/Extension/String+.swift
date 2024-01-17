@@ -35,12 +35,8 @@ extension String {
                 return "\(hour)시간 전"
             } else if let minute = components.minute, minute >= 1 {
                 return "\(minute)분 전"
-            } else {
-                return "방금"
             } else if let minute = components.minute, minute == 0 {
                 return "지금"
-            } else if let minute = components.minute, minute > 0 {
-                return "\(minute)분 전"
             } else {
                 return "시간을 불러올 수 없습니다."
             }
