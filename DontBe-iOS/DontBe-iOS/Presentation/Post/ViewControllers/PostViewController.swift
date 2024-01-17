@@ -8,7 +8,7 @@
 import UIKit
 import Combine
 
-final class PostViewController: UIViewController, UIGestureRecognizerDelegate {
+final class PostViewController: UIViewController {
     
     // MARK: - Properties
     var tabBarHeight: CGFloat = 0
@@ -147,7 +147,7 @@ extension PostViewController {
     }
     
     private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
     }
     
     @objc func showToast(_ notification: Notification) {
@@ -254,7 +254,9 @@ extension PostViewController {
     }
     
     private func showReplyVC() {
-        let navigationController = UINavigationController(rootViewController: WriteReplyViewController())
+        let viewController = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
+        let navigationController = UINavigationController(rootViewController: viewController)
+        viewController.contentId = self.contentId
         present(navigationController, animated: true, completion: nil)
     }
     

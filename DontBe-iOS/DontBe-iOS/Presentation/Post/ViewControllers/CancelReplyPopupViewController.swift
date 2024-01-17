@@ -20,7 +20,7 @@ final class CancelReplyPopupViewController: UIViewController {
                                                   rightButtonTitle: StringLiterals.Post.popupReplyConfirmButtonTitle)
     
     private let myView = PostPopupView()
-    private let writeReplyVC = WriteReplyViewController()
+    private let writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     
     // MARK: - Life Cycles
     
