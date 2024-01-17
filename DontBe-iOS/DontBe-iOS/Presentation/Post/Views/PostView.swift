@@ -36,7 +36,7 @@ final class PostView: UIView {
     public let postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "Don't be야 사랑해~"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -44,7 +44,7 @@ final class PostView: UIView {
     let transparentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "투명도 0%"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -60,7 +60,7 @@ final class PostView: UIView {
     let timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "3분 전"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -74,7 +74,7 @@ final class PostView: UIView {
     let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다.돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -98,7 +98,7 @@ final class PostView: UIView {
     let likeNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
-        label.text = "54"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -121,7 +121,7 @@ final class PostView: UIView {
     let commentNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
-        label.text = "54"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
