@@ -167,7 +167,7 @@ extension NotificationViewController: UITableViewDelegate {
                     self.navigationController?.pushViewController(viewController, animated: true)
                 } else {
                     let viewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-                    viewController.contentId = selectedNotification?.notificationTriggerId
+                    viewController.contentId = selectedNotification?.notificationTriggerId ?? 0
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
