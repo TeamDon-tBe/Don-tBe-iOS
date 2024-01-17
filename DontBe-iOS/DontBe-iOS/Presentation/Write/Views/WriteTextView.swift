@@ -215,11 +215,11 @@ extension WriteTextView: UITextViewDelegate {
             
             let value = Double(textLength) / 500
             circleProgressBar.value = value
-            postButton.isEnabled = false
+            postButton.isEnabled = true
         } else {
             limitedCircleProgressBar.alpha = 1
             circleProgressBar.alpha = 0
-            postButton.isEnabled = true
+            postButton.isEnabled = false
             
             impactFeedbackGenerator.impactOccurred()
         }
