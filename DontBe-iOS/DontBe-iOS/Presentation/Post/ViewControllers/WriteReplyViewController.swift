@@ -22,7 +22,7 @@ final class WriteReplyViewController: UIViewController {
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0
-
+    
     
     // MARK: - UI Components
     
@@ -56,9 +56,6 @@ final class WriteReplyViewController: UIViewController {
         setDelegate()
         setBottomSheet()
         setNavigationBarButtonItem()
-        // setAddTarget()
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -86,21 +83,10 @@ extension WriteReplyViewController {
     private func setDelegate() {
         
     }
-//    
-//    private func setAddTarget() {
-//        writeView.writeReplyView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-//    }
-    
     private func sendData() {
         NotificationCenter.default.post(name: WriteReplyViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
     }
-//    
-//    @objc
-//    func postButtonTapped() {
-//        print("클릭클릭")
-//
-//    }
-//    
+    
     private func bindViewModel() {
         let input = WriteReplyViewModel.Input(postButtonTapped: postButtonTapped)
         
@@ -115,7 +101,7 @@ extension WriteReplyViewController {
             }
             .store(in: self.cancelBag)
     }
-
+    
     private func popupNavigation() {
         self.dismiss(animated: true)
     }
@@ -141,7 +127,7 @@ extension WriteReplyViewController {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.donGray11,
             .font: UIFont.font(.caption4)
-            ]
+        ]
         cancelButton.setTitleTextAttributes(attributes, for: .normal)
         cancelButton.setTitleTextAttributes(attributes, for: .highlighted)
     }

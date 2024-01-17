@@ -26,14 +26,10 @@ final class WriteReplyViewModel: ViewModelType {
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.postButtonTapped
             .sink { value in
-                print("postButtonTapped")
-                print("\(value)")
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            print("\(accessToken)")
                             if let resultStatus = try await self.postWriteReplyContentAPI(accessToken: "\(accessToken)", commentText: value.0, contentId: value.1) {
-                                print("\(value.1)")
                                 self.popViewController.send(true)
                             }
                         }
@@ -58,7 +54,6 @@ final class WriteReplyViewModel: ViewModelType {
 
 extension WriteReplyViewModel {
     private func postWriteReplyContentAPI(accessToken: String, commentText: String, contentId: Int) async throws -> BaseResponse<EmptyResponse>? {
-        print("\(postWriteReplyContentAPI)")
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
