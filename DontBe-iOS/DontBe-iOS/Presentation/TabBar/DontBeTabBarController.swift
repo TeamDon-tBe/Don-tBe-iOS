@@ -11,6 +11,8 @@ final class DontBeTabBarController: UITabBarController {
     
     private let networkProvider = NetworkService()
     
+    var beforeIndex: Int = 0
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -148,7 +150,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if selectedIndex == 1 {
-            self.selectedIndex = 0
+            self.selectedIndex = beforeIndex
         }
         
         if selectedIndex == 2 {
@@ -166,6 +168,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
                 }
             }
         }
+        beforeIndex = self.selectedIndex
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {

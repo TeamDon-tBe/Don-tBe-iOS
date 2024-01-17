@@ -13,7 +13,7 @@ final class TransparentPopupViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
+    let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
                                                              popupTitle: StringLiterals.Home.transparentPopupTitleLabel,
                                                              popupContent: StringLiterals.Home.transparentPopupContentLabel,
                                                              leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle,
@@ -58,7 +58,7 @@ extension TransparentPopupViewController {
     }
     
     private func setDelegate() {
-        transparentButtonPopupView.delegate = self
+        
     }
 }
 
@@ -67,16 +67,5 @@ extension TransparentPopupViewController {
 extension TransparentPopupViewController {
     private func getAPI() {
         
-    }
-}
-
-extension TransparentPopupViewController: DontBePopupDelegate {
-    func cancleButtonTapped() {
-        self.dismiss(animated: false)
-    }
-    
-    func confirmButtonTapped() {
-        self.dismiss(animated: false)
-        // ✅ 투명도 주기 버튼 클릭 시 액션 추가
     }
 }

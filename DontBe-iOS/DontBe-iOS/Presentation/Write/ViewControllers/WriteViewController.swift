@@ -57,6 +57,13 @@ final class WriteViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = false
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationItem.hidesBackButton = true
+    }
 }
 
 // MARK: - Extensions
@@ -81,6 +88,8 @@ extension WriteViewController {
         ], for: .normal)
 
         navigationItem.leftBarButtonItem = backButton
+        
+        self.rootView.writeTextView.userNickname.text = loadUserData()?.userNickname
     }
     
     private func setDelegate() {

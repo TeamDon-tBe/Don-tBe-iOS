@@ -30,7 +30,9 @@ final class HomeViewController: UIViewController {
     let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
     
     var contentId: Int = 0
-    var isUser: Bool = true
+    var alarmTriggerType: String = ""
+    var targetMemberId: Int = 0
+    var alarmTriggerdId: Int = 0
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     // MARK: - UI Components
@@ -38,6 +40,7 @@ final class HomeViewController: UIViewController {
     private let myView = HomeView()
     lazy var homeCollectionView = HomeCollectionView().collectionView
     private var uploadToastView: DontBeToastView?
+    private var alreadyTransparencyToastView: DontBeToastView?
     
     // MARK: - Life Cycles
     
@@ -147,13 +150,12 @@ extension HomeViewController {
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(popViewController), name: DeletePopupViewController.popViewController, object: nil)
+        transparentPopupVC.transparentButtonPopupView.delegate = self
     }
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(popViewController), name: DeletePopupViewController.popViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPopupNotification(_:)), name: NSNotification.Name("DismissDetailView"), object: nil)
     }
     
@@ -232,6 +234,33 @@ extension HomeViewController {
             }
         }
     }
+    
+    func showAlreadyTransparencyToast() {
+        DispatchQueue.main.async {
+            self.alreadyTransparencyToastView = DontBeToastView()
+            self.alreadyTransparencyToastView?.toastLabel.text = StringLiterals.Toast.alreadyTransparency
+            self.alreadyTransparencyToastView?.circleProgressBar.alpha = 0
+            self.alreadyTransparencyToastView?.checkImageView.alpha = 1
+            self.alreadyTransparencyToastView?.checkImageView.image = ImageLiterals.Home.icnNotice
+            self.alreadyTransparencyToastView?.container.backgroundColor = .donPrimary
+            
+            self.view.addSubviews(self.alreadyTransparencyToastView ?? DontBeToastView())
+            
+            self.alreadyTransparencyToastView?.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                $0.height.equalTo(44.adjusted)
+            }
+            
+            UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
+                self.alreadyTransparencyToastView?.alpha = 0
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                self.alreadyTransparencyToastView?.removeFromSuperview()
+            }
+        }
+    }
 }
 
 // MARK: - Network
@@ -268,6 +297,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+        cell.alarmTriggerType = "contentGhost"
+        cell.targetMemberId = viewModel.postData[indexPath.row].memberId
+        cell.alarmTriggerdId = viewModel.postData[indexPath.row].contentId
         if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
@@ -293,7 +325,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         }
         cell.TransparentButtonAction = {
-            // present
+            self.alarmTriggerType = cell.alarmTriggerType
+            self.targetMemberId = cell.targetMemberId
+            self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
@@ -324,5 +358,31 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+    }
+}
+
+extension HomeViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.dismiss(animated: false)
+    }
+    
+    func confirmButtonTapped() {
+        self.dismiss(animated: false)
+        Task {
+            do {
+                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                    let result = try await self.viewModel.postDownTransparency(accessToken: accessToken,
+                                                                               alarmTriggerType: self.alarmTriggerType,
+                                                                               targetMemberId: self.targetMemberId,
+                                                                               alarmTriggerId: self.alarmTriggerdId)
+                    if result?.status == 400 {
+                        // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
+                        showAlreadyTransparencyToast()
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }

@@ -64,6 +64,7 @@ enum StringLiterals {
     enum Toast {
         static let uploading = "게시 중..."
         static let uploaded = "게시 완료!"
+        static let alreadyTransparency = "이미 투명도를 적용한 유저예요."
     }
     
     enum Notification {
