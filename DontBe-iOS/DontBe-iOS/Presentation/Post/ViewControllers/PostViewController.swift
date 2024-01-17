@@ -333,6 +333,7 @@ extension PostViewController {
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         self.memberId = data.memberId
+        self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
         
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
