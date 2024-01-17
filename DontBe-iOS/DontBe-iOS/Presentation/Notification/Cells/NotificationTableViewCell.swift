@@ -102,7 +102,7 @@ extension NotificationTableViewCell {
                 lineHeight: 21.adjusted,
                 targetString: list.triggerMemberNickname,
                 font: .font(.body3))
-        case .actingContinue, .beGhost, .contentGhost, .conmmentGhost:
+        case .actingContinue, .beGhost, .contentGhost, .commentGhost:
             notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
@@ -110,7 +110,7 @@ extension NotificationTableViewCell {
                 targetString: list.memberNickname,
                 font: .font(.body3))
         case .userBan:
-            notificationLabel.text = list.triggerMemberNickname + " " + list.notificationType.description
+            notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
                 lineHeight: 21.adjusted,

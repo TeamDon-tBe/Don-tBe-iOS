@@ -15,7 +15,7 @@ enum NotificaitonType: String {
     case actingContinue = "actingContinue"
     case beGhost = "beGhost"
     case contentGhost = "contentGhost"
-    case conmmentGhost = "conmmentGhost"
+    case commentGhost = "commentGhost"
     case userBan = "userBan"
     
     var description: String {
@@ -32,7 +32,7 @@ enum NotificaitonType: String {
             return StringLiterals.Notification.transparency
         case .contentGhost:
             return StringLiterals.Notification.contentTransparency
-        case .conmmentGhost:
+        case .commentGhost:
             return StringLiterals.Notification.commentTransparency
         case .userBan:
             return StringLiterals.Notification.violation

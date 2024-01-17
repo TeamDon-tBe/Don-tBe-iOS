@@ -145,6 +145,14 @@ extension NotificationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 59.adjusted
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !viewModel.notificationList.isEmpty {
+            // 선택한 셀에 해당하는 데이터
+            let selectedNotification = viewModel.notificationList[indexPath.row]
+            print(selectedNotification ?? 100)
+        }
+    }
 }
 
 extension NotificationViewController: UITableViewDataSource {
