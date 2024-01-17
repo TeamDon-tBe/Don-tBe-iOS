@@ -88,8 +88,8 @@ extension DontBeBottomSheetView {
         self.addSubviews(dimView,
                          bottomsheetView)
         bottomsheetView.addSubviews(dragIndicatorView,
-                                    deleteButton,
-                                    warnButton)
+                                    warnButton,
+                                    deleteButton)
     }
     
     private func setLayout() {

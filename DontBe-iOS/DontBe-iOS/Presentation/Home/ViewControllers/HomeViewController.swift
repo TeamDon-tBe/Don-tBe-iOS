@@ -269,18 +269,20 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
-            self.deleteBottomsheet.warnButton.removeFromSuperview()
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
+            self.deleteBottomsheet.warnButton.removeFromSuperview()
+            
             cell.KebabButtonAction = {
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
                 self.contentId = self.viewModel.postData[indexPath.row].contentId
             }
         } else {
-            deleteBottomsheet.isUser = false
             cell.ghostButton.isHidden = false
             cell.verticalTextBarView.isHidden = false
+            self.warnBottomsheet.deleteButton.removeFromSuperview()
+            
             cell.KebabButtonAction = {
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
