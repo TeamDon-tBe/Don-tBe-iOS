@@ -17,6 +17,9 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var isLiked: Bool = false
+    var alarmTriggerType: String = ""
+    var targetMemberId: Int = 0
+    var alarmTriggerdId: Int = 0
     
     // MARK: - UI Components
     
@@ -106,13 +109,13 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return label
     }()
     
-    private let ghostButton: UIButton = {
+    let ghostButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Posting.btnTransparent, for: .normal)
         return button
     }()
     
-    private let verticalTextBarView: UIView = {
+    let verticalTextBarView: UIView = {
         let view = UIView()
         view.backgroundColor = .donPale
         return view
