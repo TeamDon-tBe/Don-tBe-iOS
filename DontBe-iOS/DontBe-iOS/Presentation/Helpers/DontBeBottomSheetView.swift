@@ -87,7 +87,8 @@ extension DontBeBottomSheetView {
         self.addSubviews(dimView,
                          bottomsheetView)
         bottomsheetView.addSubviews(dragIndicatorView,
-                                    deleteButton)
+                                    deleteButton,
+                                    warnButton)
     }
     
     private func setLayout() {
@@ -103,6 +104,12 @@ extension DontBeBottomSheetView {
         }
         
         deleteButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
+            $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
+        }
+        
+        warnButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(dragIndicatorView).offset(30.adjusted)

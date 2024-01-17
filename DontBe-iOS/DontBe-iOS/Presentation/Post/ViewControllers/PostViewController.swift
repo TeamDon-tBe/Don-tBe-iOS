@@ -17,7 +17,7 @@ final class PostViewController: UIViewController {
     private lazy var ghostButton = postView.ghostButton
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = CancelReplyPopupViewController()
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
 
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
@@ -206,7 +206,6 @@ extension PostViewController {
     
     private func setAddTarget() {
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         postView.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
     }
     
@@ -234,6 +233,7 @@ extension PostViewController {
     }
     
     func presentView() {
+        deletePostPopupVC.contentId = self.contentId
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
@@ -321,7 +321,6 @@ extension PostViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
-        footer.backgroundColor = .red
         return footer
     }
     

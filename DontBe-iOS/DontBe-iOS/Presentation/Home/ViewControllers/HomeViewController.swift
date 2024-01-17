@@ -17,14 +17,14 @@ final class HomeViewController: UIViewController {
     var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    private let refreshControl = UIRefreshControl()
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
+    let refreshControl = UIRefreshControl()
     var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = CancelReplyPopupViewController()
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     
     private var cancelBag = CancelBag()
     private let viewModel: HomeViewModel
     let postViewModel = PostViewModel(networkProvider: NetworkService())
-    
     
     let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
     
@@ -61,9 +61,9 @@ final class HomeViewController: UIViewController {
         setLayout()
         setDelegate()
         setNotification()
-        setRefreshControll()
         setAddTarget()
         bindViewModel()
+        setRefreshControll()
     }
     
     // MARK: - TabBar Height
@@ -76,6 +76,8 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+
+        refreshPost()
     }
 }
 
@@ -110,6 +112,11 @@ extension HomeViewController {
         presentView()
     }
     
+    @objc
+    func warnUser() {
+        print("너 신고요")
+    }
+    
     func popView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -123,23 +130,34 @@ extension HomeViewController {
         }
     }
     
-    func presentView() {
+     func presentView() {
+        deletePostPopupVC.contentId = self.contentId
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     @objc
-    private func dismissViewController() {
-        self.dismiss(animated: false)
+    private func popViewController() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(popViewController), name: DeletePopupViewController.popViewController, object: nil)
     }
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPopupNotification(_:)), name: NSNotification.Name("DismissDetailView"), object: nil)
     }
+    
+    @objc func didDismissPopupNotification(_ notification: Notification) {
+          DispatchQueue.main.async {
+              self.refreshPost()
+          }
+      }
     
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
@@ -250,13 +268,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             cell.KebabButtonAction = {
+                print("나임\(self.viewModel.postData[indexPath.row].memberId)")
                 self.deleteBottomsheet.showSettings()
+                self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
+                self.contentId = self.viewModel.postData[indexPath.row].contentId
             }
         } else {
             cell.ghostButton.isHidden = false
             cell.verticalTextBarView.isHidden = false
             cell.KebabButtonAction = {
-                self.deleteBottomsheet.showSettings()
+                print("나 아님\(self.viewModel.postData[indexPath.row].memberId)")
+                self.warnBottomsheet.showSettings()
+                self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
             }
         }
         cell.LikeButtonAction = {
@@ -274,6 +297,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        
+        self.contentId = viewModel.postData[indexPath.row].contentId
         
         return cell
     }
