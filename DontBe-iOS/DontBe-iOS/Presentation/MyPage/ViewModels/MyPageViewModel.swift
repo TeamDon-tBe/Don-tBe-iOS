@@ -15,9 +15,11 @@ final class MyPageViewModel: ViewModelType {
     private var getData = PassthroughSubject<Void, Never>()
     private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
     private var getContentData = PassthroughSubject<[MyPageUserContentResponseDTO], Never>()
+    private var getCommentData = PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>()
     
     var myPageMemberData: [String] = []
     var myPageContentData: [MyPageUserContentResponseDTO] = []
+    var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
     private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
@@ -28,6 +30,7 @@ final class MyPageViewModel: ViewModelType {
         let getData: PassthroughSubject<Void, Never>
         let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
         let getContentData: PassthroughSubject<[MyPageUserContentResponseDTO], Never>
+        let getCommentData: PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
@@ -57,12 +60,6 @@ final class MyPageViewModel: ViewModelType {
                                 if let data = profileResult?.data {
                                     self.getProfileData.send(data)
                                 }
-                                
-                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
-                                if let data = contentResult?.data {
-                                    self.myPageContentData = data
-                                    self.getContentData.send(data)
-                                }
                             }
                         } catch {
                             print(error)
@@ -83,11 +80,26 @@ final class MyPageViewModel: ViewModelType {
                             print(error)
                         }
                     }
+                } else if value == 3 {
+                    // 유저에 해당하는 답글 리스트 조회
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = commentResult?.data {
+                                    self.myPageCommentData = data
+                                    self.getCommentData.send(data)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
                 }
             }
             .store(in: self.cancelBag)
         
-        return Output(getData: getData, getProfileData: getProfileData, getContentData: getContentData)
+        return Output(getData: getData, getProfileData: getProfileData, getContentData: getContentData, getCommentData: getCommentData)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -133,6 +145,20 @@ extension MyPageViewModel {
             let result: BaseResponse<[MyPageUserContentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
                 baseURL: Config.baseURL + "/member/\(memberId)/contents",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables:["":""])
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
+    func getMemberCommentAPI(accessToken: String, memberId: String) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
+        do {
+            let result: BaseResponse<[MyPageMemberCommentResponseDTO]>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/member/\(memberId)/comments",
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables:["":""])
