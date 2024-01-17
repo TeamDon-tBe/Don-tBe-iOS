@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SafariServices
 import UIKit
 
 import SnapKit
@@ -13,6 +14,9 @@ import SnapKit
 final class MyPageViewController: UIViewController {
     
     // MARK: - Properties
+    
+    let customerCenterURL = URL(string: "https://joyous-ghost-8c7.notion.site/Don-t-be-e949f7751de94ba682f4bd6792cbe36e")
+    let feedbackURL = URL(string: "https://forms.gle/DqnypURRBDks7WqJ6")
     
     private var cancelBag = CancelBag()
     var viewModel: MyPageViewModel
@@ -174,7 +178,9 @@ extension MyPageViewController {
     @objc
     private func profileEditButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
-        let vc = MyPageEditProfileViewController()
+        let vc = MyPageEditProfileViewController(viewModel: MyPageProfileViewModel(networkProvider: NetworkService()))
+        vc.nickname = viewModel.myPageProfileData[0].nickname
+        vc.introText = viewModel.myPageProfileData[0].memberIntro
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -186,13 +192,21 @@ extension MyPageViewController {
     }
     
     @objc
-    private func feedbackButtonTapped() {
-        
+    private func customerCenterButtonTapped() {
+        let customerCenterView: SFSafariViewController
+        if let customerCenterURL = self.customerCenterURL {
+            customerCenterView = SFSafariViewController(url: customerCenterURL)
+            self.present(customerCenterView, animated: true, completion: nil)
+        }
     }
     
     @objc
-    private func customerCenterButtonTapped() {
-        
+    private func feedbackButtonTapped() {
+        let feedbackView: SFSafariViewController
+        if let feedbackURL = self.feedbackURL {
+            feedbackView = SFSafariViewController(url: feedbackURL)
+            self.present(feedbackView, animated: true, completion: nil)
+        }
     }
     
     private func moveTop() {
