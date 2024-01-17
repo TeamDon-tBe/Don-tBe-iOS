@@ -70,11 +70,12 @@ final class MyPageViewController: UIViewController {
         setLayout()
         setDelegate()
         setAddTarget()
-        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        bindViewModel()
         
         self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
@@ -210,8 +211,8 @@ extension MyPageViewController {
     private func profileEditButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
         let vc = MyPageEditProfileViewController(viewModel: MyPageProfileViewModel(networkProvider: NetworkService()))
-        vc.nickname = viewModel.myPageProfileData[0].nickname
-        vc.introText = viewModel.myPageProfileData[0].memberIntro
+        vc.nickname = self.rootView.myPageProfileView.userNickname.text ?? ""
+        vc.introText = self.rootView.myPageProfileView.userIntroduction.text ?? ""
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
