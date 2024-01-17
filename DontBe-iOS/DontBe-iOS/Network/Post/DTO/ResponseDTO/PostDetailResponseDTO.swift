@@ -1,24 +1,21 @@
 //
-//  PostDataResponseDTO.swift
+//  PostDetailResponseDTO.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/16/24.
+//  Created by yeonsu on 1/17/24.
 //
 
 import Foundation
 
-// MARK: - PostDataResponseDTO
-
-struct PostDataResponseDTO: Decodable {
+struct PostDetailResponseDTO: Decodable {
     let memberId: Int
     let memberProfileUrl: String
     let memberNickname: String
-    let contentId: Int
-    let contentText: String
-    let time: String
     let isGhost: Bool
     let memberGhost: Int
     let isLiked: Bool
+    let time: String
     let likedNumber: Int
     let commentNumber: Int
+    let contentText: String
 }
