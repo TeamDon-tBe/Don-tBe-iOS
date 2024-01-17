@@ -230,7 +230,7 @@ extension HomeViewController {
             self.alreadyTransparencyToastView?.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(16.adjusted)
                 $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
-                $0.height.equalTo(44)
+                $0.height.equalTo(44.adjusted)
             }
             
             UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
