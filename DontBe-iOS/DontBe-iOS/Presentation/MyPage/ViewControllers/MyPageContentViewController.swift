@@ -19,11 +19,34 @@ final class MyPageContentViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     private var cancelBag = CancelBag()
-    let viewModel: MyPageViewModel
+    
+    var profileData: [MypageProfileResponseDTO] = []
+    var contentData: [MyPageMemberContentResponseDTO] = []
     
     // MARK: - UI Components
     
     lazy var homeCollectionView = HomeCollectionView().collectionView
+    var noContentLabel: UILabel = {
+        let label = UILabel()
+        label.text = StringLiterals.MyPage.myPageNoContentLabel
+        label.textColor = .donGray7
+        label.font = .font(.body2)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let firstContentButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(StringLiterals.MyPage.myPageNoContentButton, for: .normal)
+        button.setTitleColor(.donSecondary, for: .normal)
+        button.titleLabel?.font = .font(.body2)
+        button.backgroundColor = .donPale
+        button.layer.cornerRadius = 4.adjusted
+        button.layer.borderWidth = 1.adjusted
+        button.layer.borderColor = UIColor.donSecondary.cgColor
+        return button
+    }()
     
     // MARK: - Life Cycles
     
@@ -38,19 +61,10 @@ final class MyPageContentViewController: UIViewController {
         setRefreshControll()
     }
     
-    init(viewModel: MyPageViewModel) {
-        self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        bindViewModel()
+        
     }
 }
 
@@ -63,13 +77,24 @@ extension MyPageContentViewController {
     }
     
     private func setHierarchy() {
-        view.addSubviews(homeCollectionView)
+        view.addSubviews(homeCollectionView, noContentLabel, firstContentButton)
     }
     
     private func setLayout() {
         homeCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
             $0.width.equalToSuperview()
+        }
+
+        noContentLabel.snp.makeConstraints {
+            $0.top.equalToSuperview().inset(44.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(20.adjusted)
+        }
+        
+        firstContentButton.snp.makeConstraints {
+            $0.top.equalTo(noContentLabel.snp.bottom).offset(20.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(112.adjusted)
+            $0.height.equalTo(44.adjusted)
         }
     }
     
@@ -87,9 +112,8 @@ extension MyPageContentViewController {
     @objc
     func refreshPost() {
         DispatchQueue.main.async {
-            self.bindViewModel()
+            self.homeCollectionView.reloadData()
         }
-        self.homeCollectionView.reloadData()
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
     }
     
@@ -97,20 +121,6 @@ extension MyPageContentViewController {
     func finishedRefreshing() {
         refreshControl.endRefreshing()
     }
-    
-    private func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just((2)).eraseToAnyPublisher())
-        
-        let output = viewModel.transform(from: input, cancelBag: cancelBag)
-        
-        output.getContentData
-            .receive(on: RunLoop.main)
-            .sink { _ in
-                self.homeCollectionView.reloadData()
-            }
-            .store(in: self.cancelBag)
-    }
-    
 }
 
 // MARK: - Network
@@ -125,22 +135,30 @@ extension MyPageContentViewController: UICollectionViewDelegate { }
 
 extension MyPageContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = viewModel.myPageContentData.sorted { $0.time.compare($1.time, options: .numeric) == .orderedDescending }
+        let sortedData = contentData.sorted { $0.time.compare($1.time, options: .numeric) == .orderedDescending }
         
-        viewModel.myPageContentData = sortedData
-        return viewModel.myPageContentData.count
+        self.contentData = sortedData
+        return self.contentData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-        cell.nicknameLabel.text = viewModel.myPageContentData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(viewModel.myPageContentData[indexPath.row].memberGhost)%"
-        cell.timeLabel.text = "\(viewModel.myPageContentData[indexPath.row].time.formattedTime())"
-        cell.contentTextLabel.text = viewModel.myPageContentData[indexPath.row].contentText
-        cell.likeNumLabel.text = "\(viewModel.myPageContentData[indexPath.row].likedNumber)"
-        cell.commentNumLabel.text = "\(viewModel.myPageContentData[indexPath.row].commentNumber)"
-        cell.profileImageView.load(url: "\(viewModel.myPageContentData[indexPath.row].memberProfileUrl)")
+        
+        if contentData[indexPath.row].memberId == loadUserData()?.memberId {
+            cell.ghostButton.isHidden = true
+            cell.verticalTextBarView.isHidden = true
+        } else {
+            cell.ghostButton.isHidden = false
+            cell.verticalTextBarView.isHidden = false
+        }
+        cell.nicknameLabel.text = contentData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(contentData[indexPath.row].memberGhost)%"
+        cell.timeLabel.text = "\(contentData[indexPath.row].time.formattedTime())"
+        cell.contentTextLabel.text = contentData[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(contentData[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(contentData[indexPath.row].commentNumber)"
+        cell.profileImageView.load(url: "\(contentData[indexPath.row].memberProfileUrl)")
         return cell
     }
     
@@ -153,10 +171,10 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         return CGSize(width: 343.adjusted, height: 210.adjusted)
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let footer = homeCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
-        return footer
-    }
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        guard let footer = homeCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
+//        return footer
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
