@@ -23,6 +23,7 @@ final class MyPageViewController: UIViewController {
     
     var currentPage: Int = 0 {
         didSet {
+            rootView.myPageScrollView.isScrollEnabled = true
             let direction: UIPageViewController.NavigationDirection = oldValue <= self.currentPage ? .forward : .reverse
             rootView.pageViewController.setViewControllers(
                 [rootView.dataViewControllers[self.currentPage]],
@@ -77,7 +78,6 @@ final class MyPageViewController: UIViewController {
         
         self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-//        self.navigationController?.navigationBar.backgroundColor = .donBlack
         tabBarController?.tabBar.isHidden = false
     }
     
@@ -153,7 +153,29 @@ extension MyPageViewController {
         output.getProfileData
             .receive(on: RunLoop.main)
             .sink { data in
+                self.rootView.myPageContentViewController.profileData = self.viewModel.myPageProfileData
+                self.rootView.myPageCommentViewController.profileData = self.viewModel.myPageProfileData
                 self.bindProfileData(data: data)
+            }
+            .store(in: self.cancelBag)
+        
+        output.getContentData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.rootView.myPageContentViewController.contentData = data
+                if !data.isEmpty {
+                    self.rootView.myPageContentViewController.noContentLabel.isHidden = true
+                    self.rootView.myPageContentViewController.firstContentButton.isHidden = true
+                }
+                self.rootView.myPageContentViewController.homeCollectionView.reloadData()
+            }
+            .store(in: self.cancelBag)
+        
+        output.getCommentData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.rootView.myPageCommentViewController.commentData = data
+                self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
     }
@@ -163,6 +185,15 @@ extension MyPageViewController {
         self.rootView.myPageProfileView.userNickname.text = data.nickname
         self.rootView.myPageProfileView.userIntroduction.text = data.memberIntro
         self.rootView.myPageProfileView.transparencyValue = data.memberGhost
+        
+        if data.memberId != loadUserData()?.memberId ?? 0 {
+            self.rootView.myPageContentViewController.noContentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoContentOtherLabel
+            self.rootView.myPageContentViewController.firstContentButton.isHidden = true
+            self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
+        } else {
+            self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
+            self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+        }
     }
     
     @objc
@@ -269,11 +300,14 @@ extension MyPageViewController: UICollectionViewDelegate {
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
         rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
+        rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
+        rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
         
         if yOffset <= -(navigationBarHeight + statusBarHeight) {
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
             rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
-            
+            rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
+            rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
             yOffset = -(navigationBarHeight + statusBarHeight)
             rootView.segmentedControl.frame.origin.y = yOffset + statusBarHeight + navigationBarHeight
             rootView.segmentedControl.snp.remakeConstraints {
@@ -309,6 +343,8 @@ extension MyPageViewController: UICollectionViewDelegate {
             
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = true
             rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = true
+            rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = true
+            rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = true
         }
     }
 }
