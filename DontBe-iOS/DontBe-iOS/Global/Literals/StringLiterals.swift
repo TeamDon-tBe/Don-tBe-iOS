@@ -87,6 +87,13 @@ enum StringLiterals {
         static let MyPageAccountInfoNavigationTitle = "계정 정보"
         static let myPageEditIntroduction = "한줄 소개"
         static let myPageEditIntroductionPlease = "한 줄로 자신을 소개해주세요."
+        static let myPageNoContentLabel = "님, 아직 글을 작성하지 않았네요!\n왠지 텅 빈 게시글이 허전하게 느껴져요."
+        static let myPageNoContentOtherLabel = "님이 글을 작성하지 않았어요."
+        static let myPageNoContentButton = "첫 게시글 남기기"
+        static let myPageNoCommentLabel = "아직 작성한 답글이 없어요"
+        static let myPageNoCommentOtherLabel = "님이 답글을 작성하지 않았어요."
+        static let myPageCustomerURL = "https://joyous-ghost-8c7.notion.site/Don-t-be-e949f7751de94ba682f4bd6792cbe36e"
+        static let myPageFeedbackURL = "https://forms.gle/DqnypURRBDks7WqJ6"
     }
     
     enum TransparencyInfo {

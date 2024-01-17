@@ -77,6 +77,7 @@ final class MyPageProfileView: UIView {
         let imageView = UIImageView()
         imageView.image = ImageLiterals.MyPage.emptyPercentage
         imageView.contentMode = .left
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5.adjusted
         imageView.layer.masksToBounds = true
@@ -87,6 +88,7 @@ final class MyPageProfileView: UIView {
         let imageView = UIImageView()
         imageView.image = ImageLiterals.MyPage.fullPercentage
         imageView.contentMode = .left
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5.adjusted
         imageView.layer.masksToBounds = true

@@ -14,10 +14,13 @@ final class MyPageViewModel: ViewModelType {
     private let networkProvider: NetworkServiceType
     private var getData = PassthroughSubject<Void, Never>()
     private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
-    private var getContentData = PassthroughSubject<[MyPageUserContentResponseDTO], Never>()
+    private var getContentData = PassthroughSubject<[MyPageMemberContentResponseDTO], Never>()
+    private var getCommentData = PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>()
     
     var myPageMemberData: [String] = []
-    var myPageContentData: [MyPageUserContentResponseDTO] = []
+    var myPageProfileData: [MypageProfileResponseDTO] = []
+    var myPageContentData: [MyPageMemberContentResponseDTO] = []
+    var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
     private var memberId: Int = loadUserData()?.memberId ?? 0
     
     struct Input {
@@ -27,7 +30,8 @@ final class MyPageViewModel: ViewModelType {
     struct Output {
         let getData: PassthroughSubject<Void, Never>
         let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
-        let getContentData: PassthroughSubject<[MyPageUserContentResponseDTO], Never>
+        let getContentData: PassthroughSubject<[MyPageMemberContentResponseDTO], Never>
+        let getCommentData: PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
@@ -55,20 +59,15 @@ final class MyPageViewModel: ViewModelType {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                                 let profileResult = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: "\(self.memberId)")
                                 if let data = profileResult?.data {
+                                    self.myPageProfileData.append(data)
                                     self.getProfileData.send(data)
-                                }
-                                
-                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
-                                if let data = contentResult?.data {
-                                    self.myPageContentData = data
-                                    self.getContentData.send(data)
                                 }
                             }
                         } catch {
                             print(error)
                         }
                     }
-                } else if value == 2 {
+                    
                     // 유저에 해당하는 게시글 리스트 조회
                     Task {
                         do {
@@ -83,11 +82,26 @@ final class MyPageViewModel: ViewModelType {
                             print(error)
                         }
                     }
+                    
+                    // 유저에 해당하는 답글 리스트 조회
+                    Task {
+                        do {
+                            if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: "\(self.memberId)")
+                                if let data = commentResult?.data {
+                                    self.myPageCommentData = data
+                                    self.getCommentData.send(data)
+                                }
+                            }
+                        } catch {
+                            print(error)
+                        }
+                    }
                 }
             }
             .store(in: self.cancelBag)
         
-        return Output(getData: getData, getProfileData: getProfileData, getContentData: getContentData)
+        return Output(getData: getData, getProfileData: getProfileData, getContentData: getContentData, getCommentData: getCommentData)
     }
     
     init(networkProvider: NetworkServiceType) {
@@ -100,9 +114,9 @@ final class MyPageViewModel: ViewModelType {
 }
 
 extension MyPageViewModel {
-    private func getMyPageMemberDataAPI(accessToken: String) async throws -> BaseResponse<MyPageMemberDataResponseDTO>? {
+    private func getMyPageMemberDataAPI(accessToken: String) async throws -> BaseResponse<MyPageAccountInfoResponseDTO>? {
         do {
-            let result: BaseResponse<MyPageMemberDataResponseDTO>? = try await self.networkProvider.donNetwork(
+            let result: BaseResponse<MyPageAccountInfoResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .get,
                 baseURL: Config.baseURL + "/member-data",
                 accessToken: accessToken,
@@ -128,9 +142,9 @@ extension MyPageViewModel {
         }
     }
     
-    func getMemberContentAPI(accessToken: String, memberId: String) async throws -> BaseResponse<[MyPageUserContentResponseDTO]>? {
+    private func getMemberContentAPI(accessToken: String, memberId: String) async throws -> BaseResponse<[MyPageMemberContentResponseDTO]>? {
         do {
-            let result: BaseResponse<[MyPageUserContentResponseDTO]>? = try await self.networkProvider.donNetwork(
+            let result: BaseResponse<[MyPageMemberContentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
                 baseURL: Config.baseURL + "/member/\(memberId)/contents",
                 accessToken: accessToken,
@@ -142,4 +156,17 @@ extension MyPageViewModel {
         }
     }
     
+    private func getMemberCommentAPI(accessToken: String, memberId: String) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
+        do {
+            let result: BaseResponse<[MyPageMemberCommentResponseDTO]>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/member/\(memberId)/comments",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables:["":""])
+            return result
+        } catch {
+            return nil
+        }
+    }
 }

@@ -1,5 +1,5 @@
 //
-//  MyPageMemberDataResponseDTO.swift
+//  MyPageAccountInfoResponseDTO.swift
 //  DontBe-iOS
 //
 //  Created by 변상우 on 1/14/24.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-// MARK: - MyPageMemberDataResponseDTO
+// MARK: - MyPageAccountInfoResponseDTO
 
-struct MyPageMemberDataResponseDTO: Decodable {
+struct MyPageAccountInfoResponseDTO: Decodable {
     let memberId: Int
     let joinDate: String
     let showMemberId: String?
