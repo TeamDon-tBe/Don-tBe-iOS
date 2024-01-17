@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SafariServices
 import UIKit
 
 import SnapKit
@@ -29,7 +30,9 @@ final class HomeViewController: UIViewController {
     let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
     
     var contentId: Int = 0
+    var isUser: Bool = true
     
+    let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     // MARK: - UI Components
     
     private let myView = HomeView()
@@ -114,7 +117,8 @@ extension HomeViewController {
     
     @objc
     func warnUser() {
-        print("너 신고요")
+        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
+        self.present(safariView, animated: true, completion: nil)
     }
     
     func popView() {
@@ -265,19 +269,19 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
+            self.deleteBottomsheet.warnButton.removeFromSuperview()
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             cell.KebabButtonAction = {
-                print("나임\(self.viewModel.postData[indexPath.row].memberId)")
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
                 self.contentId = self.viewModel.postData[indexPath.row].contentId
             }
         } else {
+            deleteBottomsheet.isUser = false
             cell.ghostButton.isHidden = false
             cell.verticalTextBarView.isHidden = false
             cell.KebabButtonAction = {
-                print("나 아님\(self.viewModel.postData[indexPath.row].memberId)")
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
             }

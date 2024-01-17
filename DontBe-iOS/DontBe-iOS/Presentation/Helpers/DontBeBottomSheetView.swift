@@ -14,6 +14,7 @@ final class DontBeBottomSheetView: UIView {
     // MARK: - Properties
     
     var initialPosition: CGPoint = CGPoint(x: 0, y: 0)
+    var isUser: Bool = true
     
     // MARK: - UI Components
     
