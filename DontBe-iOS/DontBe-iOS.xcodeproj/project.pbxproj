@@ -66,6 +66,8 @@
 		2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */; };
 		2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */; };
 		2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostViewModel.swift */; };
+		2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */; };
+		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
@@ -197,6 +199,8 @@
 		2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailResponseDTO.swift; sourceTree = "<group>"; };
 		2F05B1A92B579DED00AC368D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewModel.swift; sourceTree = "<group>"; };
+		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -566,6 +570,7 @@
 		2F05B1A42B57998500AC368D /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				2F05B1B52B57F1E500AC368D /* RequestDTO */,
 				2F05B1A52B57999A00AC368D /* ResponseDTO */,
 			);
 			path = DTO;
@@ -583,8 +588,17 @@
 			isa = PBXGroup;
 			children = (
 				2F05B1A92B579DED00AC368D /* PostViewModel.swift */,
+				2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2F05B1B52B57F1E500AC368D /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		2FB818CD2B5168C400B7498F /* Post */ = {
@@ -1118,6 +1132,7 @@
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
+				2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */,
 				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
 				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
@@ -1147,6 +1162,7 @@
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
+				2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */,
 				3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */,
 				3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */,
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,

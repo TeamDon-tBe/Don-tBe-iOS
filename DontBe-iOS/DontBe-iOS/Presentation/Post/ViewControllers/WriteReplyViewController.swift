@@ -13,12 +13,32 @@ final class WriteReplyViewController: UIViewController {
     
     static let showUploadToastNotification = Notification.Name("ShowUploadToastNotification")
     
+    private var cancelBag = CancelBag()
+    private let viewModel: WriteReplyViewModel
+    
+    private lazy var postButtonTapped =
+    writeView.writeReplyView.postButton.publisher(for: .touchUpInside).map { _ in
+        return (self.writeView.writeReplyView.contentTextView.text ?? "", self.contentId)
+    }.eraseToAnyPublisher()
+    
+    var contentId: Int = 0
+    
+    
     // MARK: - UI Components
     
     private let writeView = WriteReplyView()
     private lazy var cancelReplyPopupVC = CancelReplyPopupViewController()
     
     // MARK: - Life Cycles
+    
+    init(viewModel: WriteReplyViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -36,7 +56,10 @@ final class WriteReplyViewController: UIViewController {
         setDelegate()
         setBottomSheet()
         setNavigationBarButtonItem()
-        setAddTarget()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        bindViewModel()
     }
 }
 
@@ -60,21 +83,25 @@ extension WriteReplyViewController {
     private func setDelegate() {
         
     }
-    
-    private func setAddTarget() {
-        writeView.writeReplyView.postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-    }
-    
     private func sendData() {
         NotificationCenter.default.post(name: WriteReplyViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
     }
     
-    @objc
-    func postButtonTapped() {
-        popupNavigation()
-        sendData()
+    private func bindViewModel() {
+        let input = WriteReplyViewModel.Input(postButtonTapped: postButtonTapped)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.popViewController
+            .sink { _ in
+                DispatchQueue.main.async {
+                    self.popupNavigation()
+                    self.sendData()
+                }
+            }
+            .store(in: self.cancelBag)
     }
-
+    
     private func popupNavigation() {
         self.dismiss(animated: true)
     }
@@ -100,7 +127,7 @@ extension WriteReplyViewController {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.donGray11,
             .font: UIFont.font(.caption4)
-            ]
+        ]
         cancelButton.setTitleTextAttributes(attributes, for: .normal)
         cancelButton.setTitleTextAttributes(attributes, for: .highlighted)
     }
