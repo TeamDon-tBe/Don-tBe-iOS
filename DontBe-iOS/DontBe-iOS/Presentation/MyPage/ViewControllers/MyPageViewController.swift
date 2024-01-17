@@ -176,6 +176,9 @@ extension MyPageViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.rootView.myPageCommentViewController.commentData = data
+                if !data.isEmpty {
+                    self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
+                }
                 self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
