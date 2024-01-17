@@ -23,7 +23,7 @@ final class NotificationViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     
     private lazy var refreshControlClicked = refreshControl.refreshControlPublisher.map { _ in
-         }.eraseToAnyPublisher()
+    }.eraseToAnyPublisher()
     
     let notificationTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -112,19 +112,19 @@ extension NotificationViewController {
         let input = NotificationViewModel.Input(viewLoad: Just(()).eraseToAnyPublisher(), refreshControlClicked: refreshControlClicked)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
-
+        
         output.reloadTableView
             .receive(on: RunLoop.main)
             .sink { value in
-                   self.notificationTableView.reloadData()
-
-                   if value == 1 {
-                       self.refreshControl.endRefreshing()
-                   }
-               }
-               .store(in: self.cancelBag)
+                self.notificationTableView.reloadData()
+                
+                if value == 1 {
+                    self.refreshControl.endRefreshing()
+                }
+            }
+            .store(in: self.cancelBag)
     }
-
+    
 }
 
 extension NotificationViewController: UITableViewDelegate {
@@ -150,7 +150,26 @@ extension NotificationViewController: UITableViewDelegate {
         if !viewModel.notificationList.isEmpty {
             // 선택한 셀에 해당하는 데이터
             let selectedNotification = viewModel.notificationList[indexPath.row]
-            print(selectedNotification ?? 100)
+            if selectedNotification?.notificationType != .userBan {
+                if selectedNotification?.notificationType == .beGhost {
+                    if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                        DispatchQueue.main.async {
+                            let viewController = DontBeTabBarController()
+                            viewController.selectedIndex = 3
+                            if let selectedViewController = viewController.selectedViewController {
+                                viewController.applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                            }
+                            sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: viewController)
+                        }
+                    }
+                } else if selectedNotification?.notificationType == .actingContinue {
+                    let viewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                } else {
+                    let viewController = PostViewController()
+                    self.navigationController?.pushViewController(viewController, animated: true)
+                }
+            }
         }
     }
 }

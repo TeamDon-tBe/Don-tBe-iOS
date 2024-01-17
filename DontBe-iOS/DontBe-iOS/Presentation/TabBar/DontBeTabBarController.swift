@@ -26,6 +26,7 @@ final class DontBeTabBarController: UITabBarController {
         super.viewWillAppear(animated)
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
+        self.delegate = self
     }
     
     // MARK: - TabBar Height
@@ -42,7 +43,6 @@ final class DontBeTabBarController: UITabBarController {
     // MARK: - Set UI
     
     private func setUI() {
-        self.delegate = self
         self.tabBar.backgroundColor = UIColor.donWhite // 탭바 배경색 설정
         self.tabBar.isTranslucent = false // 배경이 투명하지 않도록 설정
         self.tabBar.clipsToBounds = true // 탭바 위쪽에 선 생기는 거 없앰
@@ -99,7 +99,7 @@ final class DontBeTabBarController: UITabBarController {
         }
     }
     
-    private func applyFontColorAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
+    func applyFontColorAttributes(to tabBarItem: UITabBarItem, isSelected: Bool) {
         let attributes: [NSAttributedString.Key: Any]
         
         if isSelected {
