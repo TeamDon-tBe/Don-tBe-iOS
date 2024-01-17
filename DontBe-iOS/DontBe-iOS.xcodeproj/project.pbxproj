@@ -70,6 +70,7 @@
 		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
+		2F40D5822B58364500AF68BC /* DeletePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
 		2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735412B4BE66500E55552 /* HomeViewController.swift */; };
 		2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735432B4BE67300E55552 /* HomeViewModel.swift */; };
@@ -205,6 +206,7 @@
 		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
+		2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePostViewModel.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2F8735412B4BE66500E55552 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2F8735432B4BE67300E55552 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -594,6 +596,7 @@
 			children = (
 				2F05B1A92B579DED00AC368D /* PostViewModel.swift */,
 				2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */,
+				2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1235,6 +1238,7 @@
 				3C70BE302B53EC06001AA5A6 /* MyPageAccountInfoResponseDTO.swift in Sources */,
 				2A8D70C32B4D7FF5009F4C6C /* BackButton.swift in Sources */,
 				2A8D70D32B4DD360009F4C6C /* JoinAgreeViewModel.swift in Sources */,
+				2F40D5822B58364500AF68BC /* DeletePostViewModel.swift in Sources */,
 				2A51831C2B571CDA00B43BA8 /* NotificaitonType.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
