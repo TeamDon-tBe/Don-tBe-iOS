@@ -138,7 +138,7 @@ extension MyPageViewController {
         self.navigationController?.navigationBar.addSubviews(navigationBackButton)
         navigationBackButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().inset(23.adjusted)
+            $0.leading.equalToSuperview().inset(16.adjusted)
         }
         rootView.pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
