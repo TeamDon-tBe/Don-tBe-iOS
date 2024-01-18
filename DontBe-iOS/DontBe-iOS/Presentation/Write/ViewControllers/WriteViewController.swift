@@ -60,6 +60,7 @@ final class WriteViewController: UIViewController {
         
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = false
+        self.tabBarController?.tabBar.isTranslucent = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,6 +68,7 @@ final class WriteViewController: UIViewController {
         
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
+        self.tabBarController?.tabBar.isTranslucent = false
     }
 }
 
@@ -128,6 +130,10 @@ extension WriteViewController {
     private func popupNavigation() {
         self.navigationController?.popViewController(animated: true)
         self.tabBarController?.selectedIndex = 0
+        
+        if let selectedViewController = self.tabBarController?.selectedViewController {
+            self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+        }
     }
     
     @objc
