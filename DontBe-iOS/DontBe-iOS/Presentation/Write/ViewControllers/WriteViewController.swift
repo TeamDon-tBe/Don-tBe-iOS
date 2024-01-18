@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class WriteViewController: UIViewController {
     
     // MARK: - Properties
@@ -15,6 +17,7 @@ final class WriteViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: WriteViewModel
+    private var transparency: Int = 0
     
     private lazy var postButtonTapped = rootView.writeTextView.postButton.publisher(for: .touchUpInside).map { _ in
         return self.rootView.writeTextView.contentTextView.text ?? ""
@@ -23,6 +26,7 @@ final class WriteViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = WriteView()
+    private let banView = WriteBanView()
     
     // MARK: - Life Cycles
     
@@ -44,7 +48,6 @@ final class WriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAPI()
         setUI()
         setDelegate()
     }
@@ -52,6 +55,7 @@ final class WriteViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        getAPI()
         bindViewModel()
         
         self.navigationController?.navigationBar.isHidden = false
@@ -90,6 +94,12 @@ extension WriteViewController {
         navigationItem.leftBarButtonItem = backButton
         
         self.rootView.writeTextView.userNickname.text = loadUserData()?.userNickname
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubview(banView)
+        }
+        
+        banView.promiseButton.addTarget(self, action: #selector(promiseButtonTapped), for: .touchUpInside)
     }
     
     private func setDelegate() {
@@ -129,13 +139,24 @@ extension WriteViewController {
             self.rootView.writeCanclePopupView.alpha = 1
         }
     }
+    
+    @objc
+    private func promiseButtonTapped() {
+        self.banView.removeFromSuperview()
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - Network
 
 extension WriteViewController {
     private func getAPI() {
-        
+        if UserDefaults.standard.integer(forKey: "memberGhost") <= -85 {
+            self.banView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+
+        }
     }
 }
 
