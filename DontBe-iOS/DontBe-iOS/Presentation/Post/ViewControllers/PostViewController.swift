@@ -589,7 +589,9 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.contentTextLabel.text = self.postView.contentTextLabel.text
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
-            self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
+            DispatchQueue.main.async {
+                self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
+            }
             return header
             
         } else {
