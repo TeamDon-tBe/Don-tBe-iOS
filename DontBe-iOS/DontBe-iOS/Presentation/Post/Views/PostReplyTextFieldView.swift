@@ -28,11 +28,11 @@ final class PostReplyTextFieldView: UIView {
         return view
     }()
     
-    private let profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.image = ImageLiterals.Onboarding.imgTwo
+        image.image = ImageLiterals.Common.imgProfile
         image.backgroundColor = .lightGray
         image.layer.cornerRadius = 20.adjusted
         return image
