@@ -60,7 +60,6 @@ final class HomeViewController: UIViewController {
         setNotification()
         setRefreshControll()
         setAddTarget()
-        bindViewModel()
     }
     
     // MARK: - TabBar Height
@@ -73,6 +72,7 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
