@@ -287,7 +287,7 @@ extension HomeViewController {
     
     private func postLikeButtonAPI(isClicked: Bool, contentId: Int) {
         // 최초 한 번만 publisher 생성
-        var likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
                 .map { _ in return (!isClicked, contentId) }
                 .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
                 .eraseToAnyPublisher()
