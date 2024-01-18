@@ -70,10 +70,12 @@ final class PostViewModel: ViewModelType {
                             }
                         }
                     } catch {
-                      print(error)
+                        print(error)
                     }
                 }
-                   
+            }
+            .store(in: self.cancelBag)
+        
         input.collectionViewUpdata
             .sink { value in
                 Task {
@@ -93,8 +95,9 @@ final class PostViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(getPostData: getPostData, getPostReplyData: getPostReplyData, toggleLikeButton: toggleLikeButton)
+        return Output(getPostData: getPostData, toggleLikeButton: toggleLikeButton, getPostReplyData: getPostReplyData)
     }
+    
     
     init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
@@ -104,6 +107,8 @@ final class PostViewModel: ViewModelType {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+// MARK: - Network
 
 extension PostViewModel {
     private func getPostDetailDataAPI(accessToken: String, contentId: Int) async throws -> BaseResponse<PostDetailResponseDTO>? {

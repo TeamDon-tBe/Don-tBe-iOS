@@ -18,7 +18,7 @@ final class PostViewController: UIViewController {
     private lazy var ghostButton = postView.ghostButton
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = CancelReplyPopupViewController()
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     private var likeButtonTapped: AnyPublisher<Int, Never> {
         return postView.likeButton.publisher(for: .touchUpInside)
             .map { _ in return self.contentId }
@@ -26,7 +26,6 @@ final class PostViewController: UIViewController {
             .eraseToAnyPublisher()
     }
     
-    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
 
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
@@ -319,7 +318,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped)
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
