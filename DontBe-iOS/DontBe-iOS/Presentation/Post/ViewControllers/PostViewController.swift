@@ -26,7 +26,6 @@ final class PostViewController: UIViewController {
             .eraseToAnyPublisher()
     }
     
-
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -39,7 +38,7 @@ final class PostViewController: UIViewController {
     // MARK: - UI Components
     
     private lazy var myView = PostDetailView()
-    private lazy var postView = PostView()
+    lazy var postView = PostView()
     private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
@@ -325,7 +324,6 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print(data)
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)
@@ -372,19 +370,17 @@ extension PostViewController {
     
     private func postCommentLikeButtonAPI(isClicked: Bool, commentId: Int, commentText: String) {
         // 최초 한 번만 publisher 생성
-        let commentLikedButtonTapped: AnyPublisher<(Bool, Int, String), Never>?  = Just(())
-                .map { _ in return (!isClicked, commentId, commentText) }
-                .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
-                .eraseToAnyPublisher()
+        let commentLikedButtonTapped: AnyPublisher<(Bool, Int, String), Never>? = Just(())
+            .map { _ in return (!isClicked, commentId, commentText) }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
 
         let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
 
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
 
         output.toggleLikeButton
-            .sink { value in
-                print(value)
-            }
+            .sink { _ in }
             .store(in: self.cancelBag)
     }
 }

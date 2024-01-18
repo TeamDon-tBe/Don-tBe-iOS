@@ -9,6 +9,5 @@ import Foundation
 
 struct CommentLikeRequestDTO: Encodable {
     let notificationTriggerType: String
-    let targetMemberId: Int
-    let alarmText: String
+    let notificationText: String
 }

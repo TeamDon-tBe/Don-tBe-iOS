@@ -297,9 +297,7 @@ extension HomeViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
 
         output.toggleLikeButton
-            .sink { value in
-                print(value)
-            }
+            .sink { _ in }
             .store(in: self.cancelBag)
     }
 }
@@ -362,6 +360,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.profileImageView.load(url: viewModel.postData[indexPath.row].memberProfileUrl)
         cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
