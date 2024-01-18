@@ -32,9 +32,9 @@ final class WriteReplyEditorView: UIView {
         return imageView
     }()
     
-    private let userNickname: UILabel = {
+    var userNickname: UILabel = {
         let label = UILabel()
-        label.text = "뚜비요"
+        label.text = "\(loadUserData()?.userNickname ?? "")"
         label.font = UIFont.font(.body1)
         label.textColor = .donBlack
         return label
@@ -173,7 +173,7 @@ extension WriteReplyEditorView {
         keyboardToolbarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
         circleProgressBar.snp.makeConstraints {
