@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 final class WriteReplyView: UIView {
-
+    
     // MARK: - Properties
     
     // MARK: - UI Components
@@ -57,7 +57,7 @@ extension WriteReplyView {
         writeReplyView.snp.makeConstraints {
             $0.top.equalTo(writeReplyPostview.contentTextLabel.snp.bottom).offset(24)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalToSuperview()
         }
     }
     
