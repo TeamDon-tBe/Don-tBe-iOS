@@ -104,16 +104,13 @@ final class PostViewModel: ViewModelType {
             .sink {  value in
                 Task {
                     do {
-                        print(value.1)
                         if value.0 == true {
                             let statusCode = try await self.deleteCommentLikeButtonAPI(commentId: value.1)?.status
-                            print(statusCode)
                             if statusCode == 201 {
                                 self.toggleLikeButton.send(!value.0)
                             }
                         } else {
                             let statusCode = try await self.postCommentLikeButtonAPI(commentId: value.1, alarmText: value.2)?.status
-                            print(statusCode)
                             if statusCode == 201 {
                                 self.toggleLikeButton.send(value.0)
                             }

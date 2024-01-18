@@ -5,8 +5,10 @@
 //  Created by yeonsu on 1/12/24.
 //
 
-import UIKit
 import Combine
+import UIKit
+
+import SnapKit
 
 final class PostViewController: UIViewController {
     
@@ -37,7 +39,6 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var myView = PostDetailView()
     lazy var postView = PostView()
     private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
@@ -52,12 +53,6 @@ final class PostViewController: UIViewController {
     }()
     
     // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
