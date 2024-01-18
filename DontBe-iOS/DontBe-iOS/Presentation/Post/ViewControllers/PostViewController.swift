@@ -26,15 +26,9 @@ final class PostViewController: UIViewController {
     var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     var writeReplyView = WriteReplyView()
     
-    lazy var collectionHeaderView = PostCollectionViewHeader()
+    var collectionHeaderView: PostCollectionViewHeader?
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
-    private var likeButtonTapped: AnyPublisher<Int, Never> {
-        return postView.likeButton.publisher(for: .touchUpInside)
-            .map { _ in return self.contentId }
-            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
-            .eraseToAnyPublisher()
-    }
 
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
@@ -134,6 +128,7 @@ final class PostViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
     }
 }
 
@@ -292,7 +287,7 @@ extension PostViewController {
     }
     
     private func setAddTarget() {
-        self.collectionHeaderView.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        self.collectionHeaderView?.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         self.postView.kebabButton.addTarget(self, action: #selector(self.deleteOrWarn), for: .touchUpInside)
     }
     
@@ -310,7 +305,7 @@ extension PostViewController {
     @objc
     func likeButtonAction() {
         let likeButtonTapped: AnyPublisher<(Bool, Int), Never>? = Just(())
-            .map { _ in return (!self.postView.isLiked, self.contentId) }
+            .map { _ in return (self.postView.isLiked, self.contentId) }
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
@@ -321,7 +316,8 @@ extension PostViewController {
         output.toggleLikeButton
             .sink { _ in }
             .store(in: self.cancelBag)
-
+        
+        self.postView.isLiked.toggle()
     }
     
     @objc
@@ -483,7 +479,7 @@ extension PostViewController {
         self.postView.isGhost = data.isGhost
         self.postView.memberGhost = data.memberGhost
         
-        self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
+        self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
         self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
         self.postView
             .postNicknameLabel.text = data.memberNickname
@@ -498,6 +494,7 @@ extension PostViewController {
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
         self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
+        self.postView.isLiked = data.isLiked
         
         self.userNickName = "\(data.memberNickname)"
         self.contentText = "\(data.contentText)"
@@ -634,7 +631,11 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
             header.isLiked = self.postView.isLiked
+            print(header.isLiked)
+            print("DSFAFSDFA")
+            header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
@@ -649,8 +650,6 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let alpha = self.postView.memberGhost
                 header.grayView.alpha = CGFloat(Double(-alpha) / 100)
             }
-            
-            
             
             return header
             
