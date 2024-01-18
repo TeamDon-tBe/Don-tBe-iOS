@@ -22,6 +22,7 @@ final class PostViewController: UIViewController {
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
     lazy var collectionHeaderView = PostCollectionViewHeader()
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     private var likeButtonTapped: AnyPublisher<Int, Never> {
@@ -54,7 +55,7 @@ final class PostViewController: UIViewController {
     }()
     
     private lazy var textFieldView = PostReplyTextFieldView()
-    lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
+    var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
@@ -138,6 +139,7 @@ extension PostViewController {
         textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
+        deleteReplyPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -308,7 +310,14 @@ extension PostViewController {
     @objc
     func deletePost() {
         popView()
-        presentView()
+        deleteReplyPopupView()
+    }
+    
+    @objc
+    func deleteReplyPost() {
+        print("답글 삭제")
+        popView()
+        deleteReplyPopupView()
     }
     
     @objc
@@ -354,6 +363,11 @@ extension PostViewController {
         deletePostPopupVC.contentId = self.contentId
         
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
+    }
+    
+    func deleteReplyPopupView() {
+        deleteReplyPopupVC.commentId = self.commentId
+        self.present(self.deleteReplyPopupVC, animated: false, completion: nil)
     }
     
     @objc
@@ -447,8 +461,7 @@ extension PostViewController {
     
     private func bindPostData(data: PostDetailResponseDTO) {
         self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
-        print("0\(data.memberNickname)")
-        
+
         self.postView
             .postNicknameLabel.text = data.memberNickname
         
@@ -519,6 +532,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.deleteBottomsheet.warnButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
+                print("나야")
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
@@ -529,6 +543,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.warnBottomsheet.deleteButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
+                print("너야")
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
