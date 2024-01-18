@@ -253,7 +253,16 @@ extension PostViewController {
     
     private func setAddTarget() {
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-        postView.kebabButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        postView.kebabButton.addTarget(self, action: #selector(deleteOrWarn), for: .touchUpInside)
+    }
+    
+    @objc
+    func deleteOrWarn() {
+        if self.memberId == loadUserData()?.memberId ?? 0 {
+            deletePost()
+        } else {
+            warnUser()
+        }
     }
     
     @objc
@@ -358,7 +367,7 @@ extension PostViewController {
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
-            self.postView.deleteBottomsheet
+            print("멤버 아이디 \(self.memberId)")
         } else {
             self.postView.ghostButton.isHidden = false
             self.postView.verticalTextBarView.isHidden = false
