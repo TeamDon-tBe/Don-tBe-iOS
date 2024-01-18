@@ -77,7 +77,10 @@ final class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
     
     override func viewWillAppear(_ animated: Bool) {

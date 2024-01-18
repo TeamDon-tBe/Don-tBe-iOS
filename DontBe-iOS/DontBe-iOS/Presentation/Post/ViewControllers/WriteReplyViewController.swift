@@ -22,7 +22,7 @@ final class WriteReplyViewController: UIViewController {
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0
-    
+    var tabBarHeight: CGFloat = 0
     
     // MARK: - UI Components
     
@@ -60,6 +60,15 @@ final class WriteReplyViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         bindViewModel()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
 }
 

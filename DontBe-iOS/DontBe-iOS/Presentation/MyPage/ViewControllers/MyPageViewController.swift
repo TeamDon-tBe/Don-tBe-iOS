@@ -93,7 +93,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0.adjusted
+        let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
         
