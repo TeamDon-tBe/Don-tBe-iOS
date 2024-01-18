@@ -29,7 +29,9 @@ final class WriteReplyViewModel: ViewModelType {
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            if let resultStatus = try await self.postWriteReplyContentAPI(accessToken: "\(accessToken)", commentText: value.0, contentId: value.1) {
+                            
+                            if let resultStatus = try await self.postWriteReplyContentAPI(accessToken: "\(accessToken)", commentText: value.0, contentId: value.1, notificationTriggerType: "comment") {
+                                print(resultStatus.status)
                                 self.popViewController.send(true)
                             }
                         }
@@ -53,14 +55,14 @@ final class WriteReplyViewModel: ViewModelType {
 }
 
 extension WriteReplyViewModel {
-    private func postWriteReplyContentAPI(accessToken: String, commentText: String, contentId: Int) async throws -> BaseResponse<EmptyResponse>? {
+    private func postWriteReplyContentAPI(accessToken: String, commentText: String, contentId: Int, notificationTriggerType: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
                 type: .post,
                 baseURL: Config.baseURL + "/content/\(contentId)/comment",
                 accessToken: accessToken,
-                body: WriteReplyRequestDTO(commentText: commentText),
+                body: WriteReplyRequestDTO(commentText: commentText, notificationTriggerType: notificationTriggerType),
                 pathVariables: ["":""]
             )
             return result

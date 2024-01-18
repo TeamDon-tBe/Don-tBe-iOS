@@ -14,6 +14,9 @@ final class PostView: UIView {
     // MARK: - Properties
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
+    )
     var isLiked: Bool = false
     
     // MARK: - UI Components
@@ -170,7 +173,8 @@ extension PostView {
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView)
+        addSubviews(PostbackgroundUIView, horizontalDivierView
+        )
         
         PostbackgroundUIView.addSubviews(profileImageView,
                                      postNicknameLabel,
@@ -268,13 +272,7 @@ extension PostView {
     }
     
     func setAddTarget() {
-        kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
-    }
-    
-    @objc
-    func showButtons() {
-        self.deleteBottomsheet.showSettings()
     }
     
     @objc

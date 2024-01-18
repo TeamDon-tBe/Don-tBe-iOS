@@ -62,6 +62,10 @@ final class WriteReplyViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
+    }
+  
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -69,6 +73,7 @@ final class WriteReplyViewController: UIViewController {
         let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
+
     }
 }
 

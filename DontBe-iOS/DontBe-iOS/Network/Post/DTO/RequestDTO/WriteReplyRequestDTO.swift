@@ -9,4 +9,5 @@ import Foundation
 
 struct WriteReplyRequestDTO: Encodable {
     let commentText: String
+    let notificationTriggerType: String
 }
