@@ -62,24 +62,17 @@ final class NotificationViewController: UIViewController {
         setRefreshControll()
         bindViewModel()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.hidesBackButton = false
-    }
 }
 
 // MARK: - Extensions
 
 extension NotificationViewController {
     private func setUI() {
+        self.notificationTableView.contentInset = UIEdgeInsets(top: -20.adjustedH, left: 0, bottom: 0, right: 0)
         self.view.backgroundColor = .donWhite
+        self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         self.navigationItem.title = StringLiterals.Notification.alarm
-        self.navigationController?.navigationBar.barTintColor = .donWhite
-        self.navigationController?.navigationBar.tintColor = .donWhite
-        self.navigationController?.navigationBar.backgroundColor = .donWhite
     }
     
     private func setHierarchy() {
@@ -88,7 +81,7 @@ extension NotificationViewController {
     
     private func setLayout() {
         notificationTableView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(statusBarHeight + 15.adjusted)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

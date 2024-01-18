@@ -15,7 +15,11 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     
     // MARK: - UI Components
     
-    private let profileImage = UIImageView()
+    private let profileImage: UIImageView = {
+        let profileImage = UIImageView()
+        profileImage.contentMode = .scaleAspectFit
+        return profileImage
+    }()
     
     let notificationLabel: UILabel = {
         let notificationLabel = UILabel()

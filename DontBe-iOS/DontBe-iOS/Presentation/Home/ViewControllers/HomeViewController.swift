@@ -27,8 +27,6 @@ final class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
     let postViewModel = PostViewModel(networkProvider: NetworkService())
     
-    let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-    
     var contentId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -85,6 +83,11 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        bindViewModel()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
 
         refreshPost()
     }
@@ -270,7 +273,7 @@ extension HomeViewController {
 
 extension HomeViewController {
     private func bindViewModel() {
-        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
+        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher(), likeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -278,6 +281,24 @@ extension HomeViewController {
             .receive(on: RunLoop.main)
             .sink { _ in
                 self.homeCollectionView.reloadData()
+            }
+            .store(in: self.cancelBag)
+    }
+    
+    private func postLikeButtonAPI(isClicked: Bool, contentId: Int) {
+        // 최초 한 번만 publisher 생성
+        var likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
+                .map { _ in return (!isClicked, contentId) }
+                .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+                .eraseToAnyPublisher()
+
+        let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
+
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+
+        output.toggleLikeButton
+            .sink { value in
+                print(value)
             }
             .store(in: self.cancelBag)
     }
@@ -323,10 +344,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
             }
         }
+        
         cell.LikeButtonAction = {
+            if cell.isLiked == true {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) - 1)
+            } else {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) + 1)
+            }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
         }
+
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
@@ -340,6 +369,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
         
         self.contentId = viewModel.postData[indexPath.row].contentId
         
@@ -347,9 +378,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        self.destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
-        
+        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+        destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     

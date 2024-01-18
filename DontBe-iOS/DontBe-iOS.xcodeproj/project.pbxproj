@@ -37,6 +37,7 @@
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
 		2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */; };
+		2A73415C2B58534400F65FD0 /* ContentLikeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A73415B2B58534400F65FD0 /* ContentLikeRequestDTO.swift */; };
 		2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */; };
 		2A84465C2B4EEC6C00F98F2A /* JoinProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A84465B2B4EEC6C00F98F2A /* JoinProfileViewModel.swift */; };
 		2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A84465D2B4EF41900F98F2A /* JoinProfileView.swift */; };
@@ -175,6 +176,7 @@
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		2A6D54C52B493E3F00F9891E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		2A73415B2B58534400F65FD0 /* ContentLikeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentLikeRequestDTO.swift; sourceTree = "<group>"; };
 		2A8446592B4EE8B400F98F2A /* JoinProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileViewController.swift; sourceTree = "<group>"; };
 		2A84465B2B4EEC6C00F98F2A /* JoinProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileViewModel.swift; sourceTree = "<group>"; };
 		2A84465D2B4EF41900F98F2A /* JoinProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinProfileView.swift; sourceTree = "<group>"; };
@@ -412,8 +414,7 @@
 		2A5183142B57132B00B43BA8 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */,
-				2A5183172B57196D00B43BA8 /* NotificationListResponseDTO.swift */,
+				2A73415D2B58536800F65FD0 /* ResponseDTO */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -450,6 +451,39 @@
 				2A51831B2B571CDA00B43BA8 /* NotificaitonType.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2A7341592B58532A00F65FD0 /* ContentLike */ = {
+			isa = PBXGroup;
+			children = (
+				2A73415A2B58533200F65FD0 /* DTO */,
+			);
+			path = ContentLike;
+			sourceTree = "<group>";
+		};
+		2A73415A2B58533200F65FD0 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A73415E2B58537B00F65FD0 /* RequestDTO */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		2A73415D2B58536800F65FD0 /* ResponseDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A5183152B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift */,
+				2A5183172B57196D00B43BA8 /* NotificationListResponseDTO.swift */,
+			);
+			path = ResponseDTO;
+			sourceTree = "<group>";
+		};
+		2A73415E2B58537B00F65FD0 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				2A73415B2B58534400F65FD0 /* ContentLikeRequestDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		2A8868D72B506D3B0017513A /* Notification */ = {
@@ -732,6 +766,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				2A7341592B58532A00F65FD0 /* ContentLike */,
 				2A5183132B57131F00B43BA8 /* Notification */,
 				2F05B1A32B57993200AC368D /* Post */,
 				2A5182FD2B569B8600B43BA8 /* UserProfile */,
@@ -1150,6 +1185,7 @@
 				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
 				2A8D70CA2B4D9787009F4C6C /* IntroductionView.swift in Sources */,
 				3C6193172B3A7A7B00220CEB /* UIStackView+.swift in Sources */,
+				2A73415C2B58534400F65FD0 /* ContentLikeRequestDTO.swift in Sources */,
 				2AF069B02B518B3F00CA3E48 /* UICollectionViewRegisterable.swift in Sources */,
 				2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */,
 				3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */,
