@@ -59,6 +59,7 @@ enum StringLiterals {
         static let later = "한 줄 소개 나중에 작성하기"
         static let finish = "완료하기"
         static let editFinish = "수정완료"
+        static let goHome = "홈으로 가기"
     }
     
     enum Toast {
@@ -143,5 +144,6 @@ enum StringLiterals {
         static let baseImageURL = "https://github.com/TeamDon-tBe/SERVER/assets/97835512/fb3ea04c-661e-4221-a837-854d66cdb77e"
         static let notificationImageURL = "https://github.com/TeamDon-tBe/SERVER/assets/128011308/327d416e-ef1f-4c10-961d-4d9b85632d87"
         static let warnUserGoogleFormURL = "https://forms.gle/FTgZKkajwtzFvAk99"
+        static let errorMessage = "이런!\n현재 요청하신 페이지를 찾을 수 없어요!"
     }
 }

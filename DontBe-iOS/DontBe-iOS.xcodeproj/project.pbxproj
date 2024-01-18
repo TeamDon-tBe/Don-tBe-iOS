@@ -34,6 +34,7 @@
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
 		2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */; };
 		2A5D68F82B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */; };
+		2A5D68FC2B5938BD000AE1B7 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68FB2B5938BD000AE1B7 /* ErrorViewController.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
@@ -177,6 +178,7 @@
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLikeRequestDTO.swift; sourceTree = "<group>"; };
+		2A5D68FB2B5938BD000AE1B7 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -459,6 +461,14 @@
 				2A51831B2B571CDA00B43BA8 /* NotificaitonType.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		2A5D68FA2B593864000AE1B7 /* 404 */ = {
+			isa = PBXGroup;
+			children = (
+				2A5D68FB2B5938BD000AE1B7 /* ErrorViewController.swift */,
+			);
+			path = 404;
 			sourceTree = "<group>";
 		};
 		2A7341592B58532A00F65FD0 /* ContentLike */ = {
@@ -795,6 +805,7 @@
 		3C6193032B3A773800220CEB /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				2A5D68FA2B593864000AE1B7 /* 404 */,
 				3CE9C1332B4C4BA90086E4A3 /* Helpers */,
 				2AAEFC952B4A9BF100C2D323 /* TabBar */,
 				2A51AE832B4B05AA00FF770A /* Splash */,
@@ -1254,6 +1265,7 @@
 				2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				2F8735402B4BE65300E55552 /* HomeView.swift in Sources */,
+				2A5D68FC2B5938BD000AE1B7 /* ErrorViewController.swift in Sources */,
 				2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */,
 				2F87354C2B4D28D700E55552 /* HomeCollectionFooterView.swift in Sources */,
 				2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */,
