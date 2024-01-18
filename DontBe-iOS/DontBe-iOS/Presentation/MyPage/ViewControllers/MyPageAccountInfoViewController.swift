@@ -99,8 +99,6 @@ final class MyPageAccountInfoViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
-        self.tabBarController?.tabBar.isHidden = true
-        self.tabBarController?.tabBar.isTranslucent = true
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton

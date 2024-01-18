@@ -64,12 +64,10 @@ final class WriteReplyViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         bindViewModel()
-        self.tabBarController?.tabBar.isTranslucent = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
-        self.tabBarController?.tabBar.isTranslucent = false
     }
   
     override func viewDidLayoutSubviews() {

@@ -136,11 +136,10 @@ final class MyPageViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
-        self.tabBarController?.tabBar.isTranslucent = true
+        self.tabBarController?.tabBar.isTranslucent = false
         navigationBackButton.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
-//        navigationBackButton.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {
@@ -204,7 +203,8 @@ extension MyPageViewController {
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         rootView.myPageScrollView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .donGray1
+        refreshControl.tintColor = .donGray1
+        refreshControl.backgroundColor = .donBlack
     }
     
     @objc
