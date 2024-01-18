@@ -173,7 +173,8 @@ extension PostView {
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView)
+        addSubviews(PostbackgroundUIView, horizontalDivierView
+        )
         
         PostbackgroundUIView.addSubviews(profileImageView,
                                      postNicknameLabel,
@@ -277,8 +278,9 @@ extension PostView {
     
     @objc
     func showButtons() {
-        self.deleteBottomsheet.showSettings()
-        self.warnBottomsheet.showSettings()
+        print("뭐냐")
+//        self.warnBottomsheet.showSettings()
+//        self.deleteBottomsheet.showSettings()
     }
     
     @objc

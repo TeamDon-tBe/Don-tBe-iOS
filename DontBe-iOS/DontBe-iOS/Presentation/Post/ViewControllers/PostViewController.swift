@@ -19,7 +19,7 @@ final class PostViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
@@ -253,7 +253,7 @@ extension PostViewController {
     
     private func setAddTarget() {
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-        postView.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        postView.kebabButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
     }
     
     @objc
@@ -280,7 +280,8 @@ extension PostViewController {
     }
     
     func presentView() {
-        deletePostPopupVC.commentId = self.commentId
+        deletePostPopupVC.contentId = self.contentId
+        
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
@@ -357,6 +358,7 @@ extension PostViewController {
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
+            self.postView.deleteBottomsheet
         } else {
             self.postView.ghostButton.isHidden = false
             self.postView.verticalTextBarView.isHidden = false
