@@ -479,6 +479,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
         cell.alarmTriggerdId = self.contentId
+        
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true

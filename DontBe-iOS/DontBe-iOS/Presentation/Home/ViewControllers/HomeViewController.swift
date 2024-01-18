@@ -32,6 +32,7 @@ final class HomeViewController: UIViewController {
     var alarmTriggerdId: Int = 0
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
+    
     // MARK: - UI Components
     
     private let myView = HomeView()
@@ -166,10 +167,10 @@ extension HomeViewController {
     }
     
     @objc func didDismissPopupNotification(_ notification: Notification) {
-          DispatchQueue.main.async {
-              self.refreshPost()
-          }
-      }
+        DispatchQueue.main.async {
+            self.refreshPost()
+        }
+    }
     
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
@@ -319,9 +320,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+        
         cell.alarmTriggerType = "contentGhost"
         cell.targetMemberId = viewModel.postData[indexPath.row].memberId
         cell.alarmTriggerdId = viewModel.postData[indexPath.row].contentId
+        
         if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
@@ -383,6 +386,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        
         cell.profileImageView.load(url: viewModel.postData[indexPath.row].memberProfileUrl)
         cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
