@@ -12,6 +12,7 @@ enum ImageLiterals {
         static var btnBack: UIImage { .load(name: "btn_back") }
         static var logoSymbol: UIImage { .load(name: "logo_symbol") }
         static var imgProfile: UIImage { .load(name: "img_profile") }
+        static var btnBackGray: UIImage { .load(name: "btn_back_gray") }
     }
     
     enum TabBar {

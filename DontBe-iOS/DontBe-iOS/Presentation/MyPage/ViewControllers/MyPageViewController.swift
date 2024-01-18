@@ -44,9 +44,13 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     
     let rootView = MyPageView()
-    
     let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
-    
+    private var navigationBackButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Common.btnBackGray, for: .normal)
+        return button
+    }()
+
     // MARK: - Life Cycles
     
     override func loadView() {
@@ -78,15 +82,27 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(true)
         
         bindViewModel()
+        let image = ImageLiterals.MyPage.icnMenu
+        let renderedImage = image.withRenderingMode(.alwaysOriginal)
+        let hambergerButton = UIBarButtonItem(image: renderedImage,
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(hambergerButtonTapped))
+        navigationItem.rightBarButtonItem = hambergerButton
         
         if memberId == loadUserData()?.memberId ?? 0 {
             self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
             self.tabBarController?.tabBar.isHidden = false
+            hambergerButton.isHidden = false
+            navigationBackButton.isHidden = true
         } else {
             self.navigationItem.title = ""
             self.tabBarController?.tabBar.isHidden = true
+            hambergerButton.isHidden = true
+            navigationBackButton.isHidden = false
         }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
+        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -94,6 +110,7 @@ final class MyPageViewController: UIViewController {
         
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
+        navigationBackButton.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {
@@ -121,18 +138,14 @@ extension MyPageViewController {
         self.tabBarController?.tabBar.isTranslucent = true
         self.navigationController?.navigationBar.backgroundColor = .donBlack
         self.navigationController?.navigationBar.barTintColor = .donBlack
-
-        let image = ImageLiterals.MyPage.icnMenu
-        let renderedImage = image.withRenderingMode(.alwaysOriginal)
-        let hambergerButton = UIBarButtonItem(image: renderedImage,
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(hambergerButtonTapped))
-        
-        navigationItem.rightBarButtonItem = hambergerButton
     }
     
     private func setLayout() {
+        self.navigationController?.navigationBar.addSubviews(navigationBackButton)
+        navigationBackButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(23.adjusted)
+        }
         rootView.pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
             $0.leading.trailing.equalToSuperview()
@@ -150,6 +163,7 @@ extension MyPageViewController {
     }
     
     private func setAddTarget() {
+        navigationBackButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
@@ -267,6 +281,11 @@ extension MyPageViewController {
     private func moveTop() {
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         rootView.myPageScrollView.setContentOffset(CGPoint(x: 0, y: -rootView.myPageScrollView.contentInset.top - navigationBarHeight - statusBarHeight), animated: true)
+    }
+    
+    @objc
+    private func backButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 

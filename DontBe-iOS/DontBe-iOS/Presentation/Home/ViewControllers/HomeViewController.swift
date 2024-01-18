@@ -83,12 +83,13 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-
+        self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
     }
 }
@@ -356,9 +357,25 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.ProfileButtonAction = {
             let memberId = self.viewModel.postData[indexPath.row].memberId
-            let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
-            viewController.memberId = memberId
-            self.navigationController?.pushViewController(viewController, animated: true)
+
+            if memberId == loadUserData()?.memberId ?? 0  {
+                self.tabBarController?.selectedIndex = 3
+                if let selectedViewController = self.tabBarController?.selectedViewController {
+                    self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                }
+                let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+                for (index, controller) in myViewController.enumerated() {
+                    if let tabBarItem = controller.tabBarItem {
+                        if index != self.tabBarController?.selectedIndex {
+                            self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                        }
+                    }
+                }
+            } else {
+                let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+                viewController.memberId = memberId
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
         }
 
         cell.TransparentButtonAction = {
