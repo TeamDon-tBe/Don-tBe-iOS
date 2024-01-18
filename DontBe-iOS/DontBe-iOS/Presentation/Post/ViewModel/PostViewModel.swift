@@ -107,12 +107,12 @@ final class PostViewModel: ViewModelType {
                         if value.0 == true {
                             let statusCode = try await self.deleteCommentLikeButtonAPI(commentId: value.1)?.status
                             if statusCode == 201 {
-                                self.toggleLikeButton.send(!value.0)
+                                self.toggleCommentLikeButton.send(!value.0)
                             }
                         } else {
                             let statusCode = try await self.postCommentLikeButtonAPI(commentId: value.1, alarmText: value.2)?.status
                             if statusCode == 201 {
-                                self.toggleLikeButton.send(value.0)
+                                self.toggleCommentLikeButton.send(value.0)
                             }
                         }
                     } catch {
