@@ -467,6 +467,7 @@ extension PostViewController {
     
     private func bindPostData(data: PostDetailResponseDTO) {
         self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
+        self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
         self.postView
             .postNicknameLabel.text = data.memberNickname
         self.postUserNickname = "\(data.memberNickname)"
