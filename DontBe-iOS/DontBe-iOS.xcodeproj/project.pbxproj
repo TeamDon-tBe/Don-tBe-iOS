@@ -68,6 +68,8 @@
 		2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostViewModel.swift */; };
 		2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */; };
 		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
+		2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */; };
+		2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F40D5822B58364500AF68BC /* DeletePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */; };
@@ -204,6 +206,8 @@
 		2F05B1A92B579DED00AC368D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
+		2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewModel.swift; sourceTree = "<group>"; };
+		2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewController.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePostViewModel.swift; sourceTree = "<group>"; };
@@ -597,6 +601,7 @@
 				2F05B1A92B579DED00AC368D /* PostViewModel.swift */,
 				2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */,
 				2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */,
+				2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -627,6 +632,7 @@
 				2FB818D02B51693400B7498F /* PostViewController.swift */,
 				2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */,
 				2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */,
+				2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1247,6 +1253,7 @@
 				2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
+				2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
@@ -1266,6 +1273,7 @@
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
 				2AF069AE2B514B0100CA3E48 /* NotificationEmptyViewCell.swift in Sources */,
 				2A28453E2B531DDE0023F9B5 /* NetworkService.swift in Sources */,
+				2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */,
 				2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,

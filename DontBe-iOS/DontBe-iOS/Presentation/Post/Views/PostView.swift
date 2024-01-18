@@ -14,6 +14,9 @@ final class PostView: UIView {
     // MARK: - Properties
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
+    )
     var isLiked: Bool = false
     
     // MARK: - UI Components
@@ -275,6 +278,7 @@ extension PostView {
     @objc
     func showButtons() {
         self.deleteBottomsheet.showSettings()
+        self.warnBottomsheet.showSettings()
     }
     
     @objc

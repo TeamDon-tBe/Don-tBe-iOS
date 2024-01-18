@@ -22,7 +22,6 @@ final class HomeViewController: UIViewController {
     let refreshControl = UIRefreshControl()
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
-    
     private var cancelBag = CancelBag()
     private let viewModel: HomeViewModel
     let postViewModel = PostViewModel(networkProvider: NetworkService())

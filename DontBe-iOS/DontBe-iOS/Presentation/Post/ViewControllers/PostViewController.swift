@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SafariServices
 
 final class PostViewController: UIViewController {
     
@@ -16,13 +17,15 @@ final class PostViewController: UIViewController {
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
-
+    var deletePostPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
     var contentId: Int = 0
+    var commentId: Int = 0
     var memberId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -33,7 +36,7 @@ final class PostViewController: UIViewController {
     private lazy var myView = PostDetailView()
     private lazy var postView = PostView()
     private lazy var textFieldView = PostReplyTextFieldView()
-    private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
+    var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
@@ -277,7 +280,7 @@ extension PostViewController {
     }
     
     func presentView() {
-        deletePostPopupVC.contentId = self.contentId
+        deletePostPopupVC.commentId = self.commentId
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
@@ -312,6 +315,10 @@ extension PostViewController {
         self.dismiss(animated: false)
     }
     
+    @objc private func warnUser() {
+        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
+        self.present(safariView, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Network
@@ -378,12 +385,23 @@ extension PostViewController: UICollectionViewDataSource {
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
+            self.deleteBottomsheet.warnButton.removeFromSuperview()
+            
+            cell.KebabButtonAction = {
+                self.deleteBottomsheet.showSettings()
+                self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
+                self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
+            }
         } else {
             cell.ghostButton.isHidden = false
             cell.verticalTextBarView.isHidden = false
-        }
-        cell.KebabButtonAction = {
-            self.deleteBottomsheet.showSettings()
+            self.warnBottomsheet.deleteButton.removeFromSuperview()
+            
+            cell.KebabButtonAction = {
+                self.warnBottomsheet.showSettings()
+                self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
+                self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
+            }
         }
         cell.LikeButtonAction = {
             cell.isLiked.toggle()
@@ -402,6 +420,7 @@ extension PostViewController: UICollectionViewDataSource {
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
         
+        self.commentId = viewModel.postReplyData[indexPath.row].commentId
         
         return cell
     }
