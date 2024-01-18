@@ -11,6 +11,7 @@ import Combine
 final class PostViewController: UIViewController {
     
     // MARK: - Properties
+    
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
@@ -80,7 +81,10 @@ final class PostViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,7 +96,11 @@ final class PostViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
-        
+//        self.textFieldView.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
+//            $0.height.equalTo(56.adjusted)
+//        }
         getAPI()
     }
 }
@@ -136,7 +144,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(tabBarHeight.adjusted)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }

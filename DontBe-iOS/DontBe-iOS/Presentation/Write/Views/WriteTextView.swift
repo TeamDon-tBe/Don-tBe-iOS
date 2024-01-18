@@ -149,7 +149,7 @@ extension WriteTextView {
         keyboardToolbarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
         circleProgressBar.snp.makeConstraints {

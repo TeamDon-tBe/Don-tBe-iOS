@@ -69,6 +69,7 @@ final class MyPageViewController: UIViewController {
         setUI()
         setLayout()
         setDelegate()
+        setNotification()
         setAddTarget()
     }
     
@@ -93,7 +94,7 @@ final class MyPageViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0.adjusted
+        let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
         
@@ -138,6 +139,10 @@ extension MyPageViewController {
         rootView.pageViewController.dataSource = self
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
+    }
+    
     private func setAddTarget() {
         rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
@@ -176,6 +181,9 @@ extension MyPageViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.rootView.myPageCommentViewController.commentData = data
+                if !data.isEmpty {
+                    self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
+                }
                 self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
@@ -194,6 +202,15 @@ extension MyPageViewController {
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+        }
+    }
+    
+    @objc
+    private func pushViewController(_ notification: Notification) {
+        if let contentId = notification.userInfo?["contentId"] as? Int {
+            let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+            destinationViewController.contentId = contentId
+            self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
     }
     
@@ -300,15 +317,11 @@ extension MyPageViewController: UICollectionViewDelegate {
         
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
-        rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
         rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
-        rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
         
         if yOffset <= -(navigationBarHeight + statusBarHeight) {
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
-            rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
             rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
-            rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
             yOffset = -(navigationBarHeight + statusBarHeight)
             rootView.segmentedControl.frame.origin.y = yOffset + statusBarHeight + navigationBarHeight
             rootView.segmentedControl.snp.remakeConstraints {

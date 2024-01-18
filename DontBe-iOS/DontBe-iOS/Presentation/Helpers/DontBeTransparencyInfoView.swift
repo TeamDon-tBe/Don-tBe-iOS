@@ -85,7 +85,7 @@ extension DontBeTransparencyInfoView {
     
     private func setLayout() {
         container.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(67.adjusted)
+            $0.centerY.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(18.adjusted)
             $0.height.equalTo(392.adjusted)
         }
