@@ -17,10 +17,17 @@ final class MyPageViewController: UIViewController {
     
     let customerCenterURL = URL(string: StringLiterals.MyPage.myPageCustomerURL)
     let feedbackURL = URL(string: StringLiterals.MyPage.myPageFeedbackURL)
+    let warnUserURL = URL(string: StringLiterals.Network.warnUserGoogleFormURL)
     
     private var cancelBag = CancelBag()
     var viewModel: MyPageViewModel
+    let homeViewModel = HomeViewModel(networkProvider: NetworkService())
+    
     var memberId: Int = loadUserData()?.memberId ?? 0
+    var contentId: Int = 0
+    var alarmTriggerType: String = ""
+    var targetMemberId: Int = 0
+    var alarmTriggerdId: Int = 0
     
     var currentPage: Int = 0 {
         didSet {
@@ -44,6 +51,16 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     
     let rootView = MyPageView()
+    
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
+    
+    var transparentPopupVC = TransparentPopupViewController()
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    
+    private var uploadToastView: DontBeToastView?
+    private var alreadyTransparencyToastView: DontBeToastView?
+    
     let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
     private var navigationBackButton: UIButton = {
         let button = UIButton()
@@ -55,6 +72,7 @@ final class MyPageViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
+        
         view = rootView
     }
     
@@ -95,12 +113,10 @@ final class MyPageViewController: UIViewController {
         if memberId == loadUserData()?.memberId ?? 0 {
             self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
             self.tabBarController?.tabBar.isHidden = false
-            hambergerButton.isHidden = false
             navigationBackButton.isHidden = true
         } else {
             self.navigationItem.title = ""
             self.tabBarController?.tabBar.isHidden = true
-            hambergerButton.isHidden = true
             navigationBackButton.isHidden = false
         }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
@@ -132,6 +148,9 @@ extension MyPageViewController {
         self.view.backgroundColor = .donBlack
         self.navigationController?.navigationBar.backgroundColor = .donBlack
         self.navigationController?.navigationBar.barTintColor = .donBlack
+        
+        transparentPopupVC.modalPresentationStyle = .overFullScreen
+        deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setLayout() {
@@ -150,10 +169,13 @@ extension MyPageViewController {
         rootView.myPageScrollView.delegate = self
         rootView.pageViewController.delegate = self
         rootView.pageViewController.dataSource = self
+        transparentPopupVC.transparentButtonPopupView.delegate = self
     }
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(warnUserButtonTapped), name: MyPageContentViewController.reloadData, object: nil)
     }
     
     private func setAddTarget() {
@@ -163,6 +185,33 @@ extension MyPageViewController {
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
+    }
+    
+    func showAlreadyTransparencyToast() {
+        DispatchQueue.main.async {
+            self.alreadyTransparencyToastView = DontBeToastView()
+            self.alreadyTransparencyToastView?.toastLabel.text = StringLiterals.Toast.alreadyTransparency
+            self.alreadyTransparencyToastView?.circleProgressBar.alpha = 0
+            self.alreadyTransparencyToastView?.checkImageView.alpha = 1
+            self.alreadyTransparencyToastView?.checkImageView.image = ImageLiterals.Home.icnNotice
+            self.alreadyTransparencyToastView?.container.backgroundColor = .donPrimary
+            
+            self.view.addSubviews(self.alreadyTransparencyToastView ?? DontBeToastView())
+            
+            self.alreadyTransparencyToastView?.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                $0.height.equalTo(44.adjusted)
+            }
+            
+            UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
+                self.alreadyTransparencyToastView?.alpha = 0
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                self.alreadyTransparencyToastView?.removeFromSuperview()
+            }
+        }
     }
     
     private func bindViewModel() {
@@ -229,6 +278,11 @@ extension MyPageViewController {
     }
     
     @objc
+    func reloadData(_ notification: Notification) {
+        bindViewModel()
+    }
+    
+    @objc
     private func changeValue(control: UISegmentedControl) {
         self.currentPage = control.selectedSegmentIndex
     }
@@ -270,6 +324,21 @@ extension MyPageViewController {
             feedbackView = SFSafariViewController(url: feedbackURL)
             self.present(feedbackView, animated: true, completion: nil)
         }
+    }
+    
+    @objc
+    private func warnUserButtonTapped(_ notification: Notification) {
+        print("warnUserButtonTapped")
+    }
+    
+    @objc
+    private func deleteButtonTapped() {
+        print("deleteButtonTapped")
+    }
+    
+    @objc
+    private func transparencyButtonTapped(_ notification: Notification) {
+        self.present(self.transparentPopupVC, animated: false, completion: nil)
     }
     
     private func moveTop() {
@@ -353,7 +422,6 @@ extension MyPageViewController: UICollectionViewDelegate {
                 $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
                 $0.leading.trailing.equalToSuperview()
                 let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
-                print("\(tabBarHeight)")
                 $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
             }
         } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {
@@ -381,4 +449,34 @@ extension MyPageViewController: UICollectionViewDelegate {
             rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = true
         }
     }
+}
+
+
+extension MyPageViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.dismiss(animated: false)
+    }
+    
+    func confirmButtonTapped() {
+        self.dismiss(animated: false)
+        Task {
+            do {
+                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                    let result = try await homeViewModel.postDownTransparency(accessToken: accessToken,
+                                                                               alarmTriggerType: self.alarmTriggerType,
+                                                                               targetMemberId: self.targetMemberId,
+                                                                               alarmTriggerId: self.alarmTriggerdId)
+                    self.bindViewModel()
+                    if result?.status == 400 {
+                        // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
+                        showAlreadyTransparencyToast()
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
 }
