@@ -30,6 +30,14 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return view
     }()
     
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.layer.cornerRadius = 8.adjusted
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -169,7 +177,7 @@ extension HomeCollectionViewCell {
     }
     
     func setHierarchy() {
-        contentView.addSubviews(backgroundUIView)
+        contentView.addSubviews(backgroundUIView, grayView)
         
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
@@ -192,6 +200,10 @@ extension HomeCollectionViewCell {
         backgroundUIView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
+        }
+        
+        grayView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {

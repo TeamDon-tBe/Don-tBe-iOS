@@ -372,6 +372,14 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
         
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if self.viewModel.postData[indexPath.row].isGhost {
+            cell.grayView.alpha = 0.85
+        } else {
+            let alpha = self.viewModel.postData[indexPath.row].memberGhost
+            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
+        
         self.contentId = viewModel.postData[indexPath.row].contentId
         
         return cell
@@ -408,6 +416,7 @@ extension HomeViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
+                    refreshPost()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()
