@@ -30,7 +30,7 @@ final class PostViewController: UIViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
     }
-    
+
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -44,7 +44,7 @@ final class PostViewController: UIViewController {
     // MARK: - UI Components
     
     lazy var postView = PostView()
-
+    
     let grayView: DontBeTransparencyGrayView = {
         let view = DontBeTransparencyGrayView()
         view.alpha = 0
@@ -94,11 +94,11 @@ final class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         NotificationCenter.default.addObserver(
-                  self,
-                  selector: #selector(self.didDismissDetailNotification(_:)),
-                  name: NSNotification.Name("DismissReplyView"),
-                  object: nil
-              )
+            self,
+            selector: #selector(self.didDismissDetailNotification(_:)),
+            name: NSNotification.Name("DismissReplyView"),
+            object: nil
+        )
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
@@ -186,11 +186,11 @@ extension PostViewController {
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
-         DispatchQueue.main.async {
-             self.getAPI()
-             self.postReplyCollectionView.reloadData()
-         }
-     }
+        DispatchQueue.main.async {
+            self.getAPI()
+            self.postReplyCollectionView.reloadData()
+        }
+    }
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
         postReplyCollectionView.refreshControl = refreshControl
@@ -432,9 +432,9 @@ extension PostViewController {
                     self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
                     self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
                 }
-             }
-             .store(in: self.cancelBag)
-
+            }
+            .store(in: self.cancelBag)
+        
         output.getPostReplyData
             .receive(on: RunLoop.main)
             .sink { data in
@@ -479,11 +479,11 @@ extension PostViewController {
             .map { _ in return (!isClicked, commentId, commentText) }
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
-
+        
         let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
-
+        
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
-
+        
         output.toggleLikeButton
             .sink { _ in }
             .store(in: self.cancelBag)
@@ -558,7 +558,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
         self.commentId = viewModel.postReplyData[indexPath.row].commentId
         cell.likeButton.setImage(viewModel.postReplyData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked        
+        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postReplyData[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85

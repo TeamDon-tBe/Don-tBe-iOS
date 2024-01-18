@@ -81,6 +81,8 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
+        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isTranslucent = false
         bindViewModel()
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
@@ -120,13 +122,6 @@ final class MyPageViewController: UIViewController {
         let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
-        
-        rootView.pageViewController.view.snp.remakeConstraints {
-            $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
-            $0.leading.trailing.equalToSuperview()
-            let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
-            $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
-        }
     }
 }
 
@@ -135,7 +130,6 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
-        self.tabBarController?.tabBar.isTranslucent = true
         self.navigationController?.navigationBar.backgroundColor = .donBlack
         self.navigationController?.navigationBar.barTintColor = .donBlack
     }
@@ -250,14 +244,14 @@ extension MyPageViewController {
         let vc = MyPageEditProfileViewController(viewModel: MyPageProfileViewModel(networkProvider: NetworkService()))
         vc.nickname = self.rootView.myPageProfileView.userNickname.text ?? ""
         vc.introText = self.rootView.myPageProfileView.userIntroduction.text ?? ""
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     @objc
     private func accountInfoButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
         let vc = MyPageAccountInfoViewController(viewModel: self.viewModel)
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(vc, animated: false)
     }
     
     @objc
@@ -359,6 +353,7 @@ extension MyPageViewController: UICollectionViewDelegate {
                 $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
                 $0.leading.trailing.equalToSuperview()
                 let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
+                print("\(tabBarHeight)")
                 $0.height.equalTo(UIScreen.main.bounds.height - statusBarHeight - navigationBarHeight - self.tabBarHeight)
             }
         } else if yOffset >= (rootView.myPageProfileView.frame.height - statusBarHeight - navigationBarHeight) {

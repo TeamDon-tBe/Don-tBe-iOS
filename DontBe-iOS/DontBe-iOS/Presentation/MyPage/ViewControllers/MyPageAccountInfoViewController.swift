@@ -10,7 +10,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageAccountInfoViewController: UIViewController, UIGestureRecognizerDelegate {
+final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -99,6 +99,8 @@ final class MyPageAccountInfoViewController: UIViewController, UIGestureRecogniz
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        self.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isTranslucent = true
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
@@ -109,7 +111,7 @@ final class MyPageAccountInfoViewController: UIViewController, UIGestureRecogniz
 
 extension MyPageAccountInfoViewController {
     private func setUI() {
-        self.title = "계정 정보"
+        self.title = StringLiterals.MyPage.MyPageAccountInfoNavigationTitle
         self.view.backgroundColor = .donWhite
         
         self.navigationController?.navigationBar.backgroundColor = .donWhite
