@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class MyPageEditProfileViewController: UIViewController, UIGestureRecognizerDelegate {
+final class MyPageEditProfileViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -66,7 +66,12 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        self.tabBarController?.tabBar.isHidden = true
+        self.tabBarController?.tabBar.isTranslucent = true
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(navBackButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
@@ -84,9 +89,8 @@ final class MyPageEditProfileViewController: UIViewController, UIGestureRecogniz
 
 extension MyPageEditProfileViewController {
     private func setUI() {
+        self.title = StringLiterals.MyPage.MyPageEditNavigationTitle
         self.view.backgroundColor = .donWhite
-        self.tabBarController?.tabBar.isHidden = true
-        self.tabBarController?.tabBar.isTranslucent = true
         self.title = StringLiterals.MyPage.MyPageEditNavigationTitle
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
