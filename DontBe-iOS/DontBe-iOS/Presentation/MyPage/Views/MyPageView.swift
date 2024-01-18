@@ -71,13 +71,16 @@ final class MyPageView: UIView {
         return vc
     }()
     
-    let myPageContentViewController = MyPageContentViewController()
-    let myPageCommentViewController = MyPageCommentViewController()
+    let myPageContentViewController = MyPageContentViewController(viewModel: HomeViewModel(networkProvider: NetworkService()))
+    let myPageCommentViewController = MyPageCommentViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
     
     var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,
                                                   accountInfoImage: ImageLiterals.MyPage.btnAccount,
                                                   feedbackImage: ImageLiterals.MyPage.btnFeedback,
                                                   customerCenterImage: ImageLiterals.MyPage.btnCustomerCenter)
+    
+    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - Life Cycles
     
