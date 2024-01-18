@@ -194,6 +194,8 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector( self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector( self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -320,6 +322,11 @@ extension PostViewController {
             .sink { _ in }
             .store(in: self.cancelBag)
 
+    }
+    
+    @objc
+    func profileButtonAction() {
+        self.pushToMypage()
     }
     
     private func addDeleteButtonAction() {

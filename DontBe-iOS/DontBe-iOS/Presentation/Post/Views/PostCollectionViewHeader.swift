@@ -46,6 +46,7 @@ final class PostCollectionViewHeader: UICollectionReusableView {
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted
         image.image = ImageLiterals.Common.imgProfile
+        image.isUserInteractionEnabled = true
         return image
     }()
     
@@ -288,6 +289,7 @@ extension PostCollectionViewHeader {
     
     func setAddTarget() {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageCliked)))
     }
     
     @objc
@@ -300,5 +302,10 @@ extension PostCollectionViewHeader {
         isLiked.toggle()
         likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         NotificationCenter.default.post(name: NSNotification.Name("likeButtonTapped"), object: nil, userInfo: nil)
+    }
+    
+    @objc
+    func profileImageCliked() {
+        NotificationCenter.default.post(name: NSNotification.Name("profileButtonTapped"), object: nil, userInfo: nil)
     }
 }
