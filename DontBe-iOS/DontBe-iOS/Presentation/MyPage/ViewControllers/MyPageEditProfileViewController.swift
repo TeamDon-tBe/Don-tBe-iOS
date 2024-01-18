@@ -70,8 +70,6 @@ final class MyPageEditProfileViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
-        self.tabBarController?.tabBar.isHidden = true
-        self.tabBarController?.tabBar.isTranslucent = true
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(navBackButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
@@ -134,14 +132,21 @@ extension MyPageEditProfileViewController {
         output.isEnable
             .receive(on: RunLoop.main)
             .sink { isEnable in
+                print("\(isEnable)")
                 self.nicknameEditView.nickNameTextField.resignFirstResponder()
                 self.introductionEditView.postActiveButton.isHidden = !isEnable
                 if isEnable {
+                    // 닉네임 사용 가능
                     self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationPass
                     self.nicknameEditView.duplicationCheckDescription.textColor = .donSecondary
+                    self.introductionEditView.postButton.isHidden = true
+                    self.introductionEditView.postActiveButton.isHidden = false
                 } else {
+                    // 닉네임 중복
                     self.nicknameEditView.duplicationCheckDescription.text = StringLiterals.Join.duplicationNotPass
                     self.nicknameEditView.duplicationCheckDescription.textColor = .donError
+                    self.introductionEditView.postButton.isHidden = false
+                    self.introductionEditView.postActiveButton.isHidden = true
                 }
             }
             .store(in: self.cancelBag)

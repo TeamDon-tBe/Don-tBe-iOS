@@ -118,6 +118,7 @@ final class PostViewController: UIViewController {
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
+        self.tabBarController?.tabBar.isHidden = false
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton

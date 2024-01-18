@@ -66,8 +66,6 @@ final class NotificationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.tabBar.isTranslucent = false
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = true
     }
