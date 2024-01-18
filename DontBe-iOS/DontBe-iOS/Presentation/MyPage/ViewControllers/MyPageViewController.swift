@@ -51,6 +51,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     
     let rootView = MyPageView()
+    let refreshControl = UIRefreshControl()
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
@@ -94,30 +95,39 @@ final class MyPageViewController: UIViewController {
         setDelegate()
         setNotification()
         setAddTarget()
+        setRefreshControll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.tabBar.isTranslucent = false
         bindViewModel()
+        
+        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isTranslucent = true
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
-        let hambergerButton = UIBarButtonItem(image: renderedImage,
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(hambergerButtonTapped))
-        navigationItem.rightBarButtonItem = hambergerButton
         
+        // 본인 프로필 화면
         if memberId == loadUserData()?.memberId ?? 0 {
             self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
             self.tabBarController?.tabBar.isHidden = false
             navigationBackButton.isHidden = true
+            let hambergerButton = UIBarButtonItem(image: renderedImage,
+                                                  style: .plain,
+                                                  target: self,
+                                                  action: #selector(myPageHambergerButtonTapped))
+            navigationItem.rightBarButtonItem = hambergerButton
         } else {
+            // 타 유저 프로필 화면
             self.navigationItem.title = ""
             self.tabBarController?.tabBar.isHidden = true
             navigationBackButton.isHidden = false
+            let hambergerButton = UIBarButtonItem(image: renderedImage,
+                                                  style: .plain,
+                                                  target: self,
+                                                  action: #selector(otherPageHambergerButtonTapped))
+            navigationItem.rightBarButtonItem = hambergerButton
         }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         self.navigationItem.hidesBackButton = true
@@ -126,9 +136,11 @@ final class MyPageViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
+        self.tabBarController?.tabBar.isTranslucent = true
+        navigationBackButton.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
-        navigationBackButton.removeFromSuperview()
+//        navigationBackButton.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {
@@ -175,16 +187,37 @@ extension MyPageViewController {
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(warnUserButtonTapped), name: MyPageContentViewController.reloadData, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(warnUserButtonTapped), name: MyPageContentViewController.reloadData, object: nil)
     }
     
     private func setAddTarget() {
         navigationBackButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
+        rootView.myPageContentViewController.firstContentButton.addTarget(self, action: #selector(goToWriteViewController), for: .touchUpInside)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
+        rootView.warnBottomsheet.warnButton.addTarget(self, action: #selector(warnButtonTapped), for: .touchUpInside)
+    }
+    
+    private func setRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
+        rootView.myPageScrollView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .donGray1
+    }
+    
+    @objc
+    func refreshData() {
+        DispatchQueue.main.async {
+            self.bindViewModel()
+        }
+        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc
+    func finishedRefreshing() {
+        refreshControl.endRefreshing()
     }
     
     func showAlreadyTransparencyToast() {
@@ -235,6 +268,8 @@ extension MyPageViewController {
                 if !data.isEmpty {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = true
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
+                } else {
+                    self.rootView.myPageContentViewController.noContentLabel.isHidden = false
                 }
                 self.rootView.myPageContentViewController.homeCollectionView.reloadData()
             }
@@ -246,6 +281,8 @@ extension MyPageViewController {
                 self.rootView.myPageCommentViewController.commentData = data
                 if !data.isEmpty {
                     self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
+                } else {
+                    self.rootView.myPageCommentViewController.noCommentLabel.isHidden = false
                 }
                 self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
             }
@@ -264,6 +301,7 @@ extension MyPageViewController {
             self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
+            self.rootView.myPageContentViewController.firstContentButton.isHidden = false
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
         }
     }
@@ -288,8 +326,20 @@ extension MyPageViewController {
     }
     
     @objc
-    private func hambergerButtonTapped() {
+    private func myPageHambergerButtonTapped() {
         rootView.myPageBottomsheet.showSettings()
+    }
+    
+    @objc
+    private func otherPageHambergerButtonTapped() {
+        rootView.warnBottomsheet.deleteButton.removeFromSuperview()
+        rootView.warnBottomsheet.showSettings()
+    }
+    
+    @objc
+    private func goToWriteViewController() {
+        let viewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     @objc
@@ -310,6 +360,7 @@ extension MyPageViewController {
     
     @objc
     private func customerCenterButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
         let customerCenterView: SFSafariViewController
         if let customerCenterURL = self.customerCenterURL {
             customerCenterView = SFSafariViewController(url: customerCenterURL)
@@ -319,6 +370,7 @@ extension MyPageViewController {
     
     @objc
     private func feedbackButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
         let feedbackView: SFSafariViewController
         if let feedbackURL = self.feedbackURL {
             feedbackView = SFSafariViewController(url: feedbackURL)
@@ -327,8 +379,14 @@ extension MyPageViewController {
     }
     
     @objc
-    private func warnUserButtonTapped(_ notification: Notification) {
-        print("warnUserButtonTapped")
+    private func warnButtonTapped() {
+        print("ddd")
+        rootView.warnBottomsheet.handleDismiss()
+        let warnView: SFSafariViewController
+        if let warnURL = self.warnUserURL {
+            warnView = SFSafariViewController(url: warnURL)
+            self.present(warnView, animated: true, completion: nil)
+        }
     }
     
     @objc
