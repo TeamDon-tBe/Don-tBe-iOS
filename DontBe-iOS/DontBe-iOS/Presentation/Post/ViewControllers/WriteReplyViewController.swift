@@ -22,7 +22,7 @@ final class WriteReplyViewController: UIViewController {
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0
-    
+    var tabBarHeight: CGFloat = 0
     
     // MARK: - UI Components
     
@@ -64,6 +64,16 @@ final class WriteReplyViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
+    }
+  
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
+
     }
 }
 

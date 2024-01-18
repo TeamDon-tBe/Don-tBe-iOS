@@ -114,7 +114,7 @@ extension OnboardingEndingViewModel {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
 
-            let result: BaseResponse<EmptyResponse>? = try await
+            let data: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
                 type: .post,
                 baseURL: Config.baseURL + "/content",
@@ -122,7 +122,8 @@ extension OnboardingEndingViewModel {
                 body: WriteContentRequestDTO(contentText: inroduction),
                 pathVariables: ["":""]
             )
-            return result
+            print ("👻👻👻👻👻한 줄 소개 포스팅 완료👻👻👻👻👻")
+            return data
         } catch {
             return nil
         }

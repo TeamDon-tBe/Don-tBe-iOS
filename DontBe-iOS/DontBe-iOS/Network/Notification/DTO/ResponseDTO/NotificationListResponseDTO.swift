@@ -17,6 +17,7 @@ struct NotificationListResponseDTO: Decodable {
 }
 
 // MARK: - Datum
+
 struct Datum: Decodable {
     let memberId: Int
     let memberNickname, triggerMemberNickname: String

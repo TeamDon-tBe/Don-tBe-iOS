@@ -16,6 +16,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     var KebabButtonAction: (() -> Void) = {}
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
+    var ProfileButtonAction: (() -> Void) = {}
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -30,14 +31,23 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return view
     }()
     
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.layer.cornerRadius = 8.adjusted
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.borderWidth = 1.adjusted
         image.layer.borderColor = UIColor.clear.cgColor
-        image.image = UIImage.checkmark
+        image.image = ImageLiterals.Common.imgProfile
         image.layer.cornerRadius = 22.adjusted
+        image.isUserInteractionEnabled = true
         return image
     }()
     
@@ -169,7 +179,7 @@ extension HomeCollectionViewCell {
     }
     
     func setHierarchy() {
-        contentView.addSubviews(backgroundUIView)
+        contentView.addSubviews(backgroundUIView, grayView)
         
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
@@ -192,6 +202,10 @@ extension HomeCollectionViewCell {
         backgroundUIView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
+        }
+        
+        grayView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {
@@ -264,6 +278,7 @@ extension HomeCollectionViewCell {
         kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
     }
     
     @objc
@@ -278,5 +293,10 @@ extension HomeCollectionViewCell {
     @objc
     func transparentShowPopupButton() {
         TransparentButtonAction()
+    }
+    
+    @objc
+    func profileButton() {
+        ProfileButtonAction()
     }
 }

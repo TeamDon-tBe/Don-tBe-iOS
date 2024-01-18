@@ -26,8 +26,6 @@ final class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
     let postViewModel = PostViewModel(networkProvider: NetworkService())
     
-    let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-    
     var contentId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -76,12 +74,21 @@ final class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
-
+        self.tabBarController?.tabBar.isHidden = false
+        bindViewModel()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
     }
 }
@@ -266,7 +273,7 @@ extension HomeViewController {
 
 extension HomeViewController {
     private func bindViewModel() {
-        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
+        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher(), likeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -275,6 +282,22 @@ extension HomeViewController {
             .sink { _ in
                 self.homeCollectionView.reloadData()
             }
+            .store(in: self.cancelBag)
+    }
+    
+    private func postLikeButtonAPI(isClicked: Bool, contentId: Int) {
+        // 최초 한 번만 publisher 생성
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
+                .map { _ in return (!isClicked, contentId) }
+                .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+                .eraseToAnyPublisher()
+
+        let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
+
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+
+        output.toggleLikeButton
+            .sink { _ in }
             .store(in: self.cancelBag)
     }
 }
@@ -319,16 +342,48 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
             }
         }
+        
         cell.LikeButtonAction = {
+            if cell.isLiked == true {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) - 1)
+            } else {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) + 1)
+            }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
         }
+        
+        cell.ProfileButtonAction = {
+            let memberId = self.viewModel.postData[indexPath.row].memberId
+
+            if memberId == loadUserData()?.memberId ?? 0  {
+                self.tabBarController?.selectedIndex = 3
+                if let selectedViewController = self.tabBarController?.selectedViewController {
+                    self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                }
+                let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+                for (index, controller) in myViewController.enumerated() {
+                    if let tabBarItem = controller.tabBarItem {
+                        if index != self.tabBarController?.selectedIndex {
+                            self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                        }
+                    }
+                }
+            } else {
+                let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+                viewController.memberId = memberId
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
+
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.profileImageView.load(url: viewModel.postData[indexPath.row].memberProfileUrl)
         cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
@@ -336,6 +391,16 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
+        
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if self.viewModel.postData[indexPath.row].isGhost {
+            cell.grayView.alpha = 0.85
+        } else {
+            let alpha = self.viewModel.postData[indexPath.row].memberGhost
+            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         self.contentId = viewModel.postData[indexPath.row].contentId
         
@@ -343,9 +408,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        self.destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
-        
+        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+        destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
@@ -374,6 +438,7 @@ extension HomeViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
+                    refreshPost()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()

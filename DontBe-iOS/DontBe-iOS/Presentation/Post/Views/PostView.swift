@@ -32,7 +32,7 @@ final class PostView: UIView {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted
-        image.image = ImageLiterals.Onboarding.imgOne
+        image.image = ImageLiterals.Common.imgProfile
         return image
     }()
     
@@ -278,7 +278,7 @@ extension PostView {
     @objc
     func likeToggleButton() {
         isLiked.toggle()
-                likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
 
     }
     

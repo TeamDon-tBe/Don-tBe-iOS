@@ -5,22 +5,31 @@
 //  Created by yeonsu on 1/12/24.
 //
 
-import UIKit
 import Combine
 import SafariServices
+import UIKit
+
+import SnapKit
 
 final class PostViewController: UIViewController {
     
     // MARK: - Properties
-    var tabBarHeight: CGFloat = 0
+    
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
+    let refreshControl = UIRefreshControl()
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
+    private var likeButtonTapped: AnyPublisher<Int, Never> {
+        return postView.likeButton.publisher(for: .touchUpInside)
+            .map { _ in return self.contentId }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+    }    
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -33,8 +42,15 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var myView = PostDetailView()
-    private lazy var postView = PostView()
+    lazy var postView = PostView()
+
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var textFieldView = PostReplyTextFieldView()
     var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
@@ -49,12 +65,6 @@ final class PostViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -66,7 +76,8 @@ final class PostViewController: UIViewController {
         setDelegate()
         setTextFieldGesture()
         setNotification()
-        
+        setAddTarget()
+        setRefreshControll()
     }
     
     init(viewModel: PostViewModel) {
@@ -76,14 +87,6 @@ final class PostViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: - TabBar Height
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -104,6 +107,11 @@ final class PostViewController: UIViewController {
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
         
+        self.textFieldView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(56.adjusted)
+        }
         getAPI()
     }
 }
@@ -121,6 +129,7 @@ extension PostViewController {
     
     private func setHierarchy() {
         view.addSubviews(postView,
+                         grayView,
                          verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
@@ -128,6 +137,11 @@ extension PostViewController {
     
     private func setLayout() {
         postView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        grayView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -147,7 +161,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(tabBarHeight.adjusted)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(70.adjusted)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
@@ -171,6 +185,11 @@ extension PostViewController {
              self.postReplyCollectionView.reloadData()
          }
      }
+    private func setRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        postReplyCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .donGray1
+    }
     
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
@@ -182,7 +201,7 @@ extension PostViewController {
                 
                 uploadToastView?.snp.makeConstraints {
                     $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                    $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
+                    $0.bottom.equalTo(70).inset(6.adjusted)
                     $0.height.equalTo(48.adjusted)
                 }
                 
@@ -234,8 +253,8 @@ extension PostViewController {
             
             self.alreadyTransparencyToastView?.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
-                $0.height.equalTo(44)
+                $0.bottom.equalTo(70).inset(6.adjusted)
+                $0.height.equalTo(44.adjusted)
             }
             
             UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
@@ -335,6 +354,20 @@ extension PostViewController {
     }
     
     @objc
+    func refreshPost() {
+        DispatchQueue.main.async {
+            self.getAPI()
+        }
+        self.postReplyCollectionView.reloadData()
+        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc
+    func finishedRefreshing() {
+        refreshControl.endRefreshing()
+    }
+    
+    @objc
     private func dismissViewController() {
         self.dismiss(animated: false)
     }
@@ -349,7 +382,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), collectionViewUpdata: Just((contentId)).eraseToAnyPublisher())
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -361,6 +394,19 @@ extension PostViewController {
             }
             .store(in: self.cancelBag)
         
+        output.toggleLikeButton
+            .receive(on: RunLoop.main)
+            .sink { value in
+                if value {
+                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) + 1)
+                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteActive, for: .normal)
+                } else {
+                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
+                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+                }
+             }
+             .store(in: self.cancelBag)
+
         output.getPostReplyData
             .receive(on: RunLoop.main)
             .sink { data in
@@ -370,6 +416,7 @@ extension PostViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
+        self.postView.profileImageView.load(url: data.memberProfileUrl)
         self.postView.postNicknameLabel.text = data.memberNickname
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
@@ -377,6 +424,16 @@ extension PostViewController {
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
+        postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        self.memberId = data.memberId
+        
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if data.isGhost {
+            self.grayView.alpha = 0.85
+        } else {
+            let alpha = data.memberGhost
+            self.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
@@ -386,11 +443,27 @@ extension PostViewController {
             self.postView.verticalTextBarView.isHidden = false
         }
     }
+    
+    private func postCommentLikeButtonAPI(isClicked: Bool, commentId: Int, commentText: String) {
+        // 최초 한 번만 publisher 생성
+        let commentLikedButtonTapped: AnyPublisher<(Bool, Int, String), Never>? = Just(())
+            .map { _ in return (!isClicked, commentId, commentText) }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+
+        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+
+        output.toggleLikeButton
+            .sink { _ in }
+            .store(in: self.cancelBag)
+    }
 }
 
 extension PostViewController: UICollectionViewDelegate { }
 
-extension PostViewController: UICollectionViewDataSource {
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postReplyData.sorted {
             $0.time.compare($1.time, options: .numeric) == .orderedDescending
@@ -428,8 +501,15 @@ extension PostViewController: UICollectionViewDataSource {
             }
         }
         cell.LikeButtonAction = {
+            if cell.isLiked == true {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) - 1)
+            } else {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) + 1)
+            }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+            
+            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyData[indexPath.row].commentId, commentText: self.viewModel.postReplyData[indexPath.row].commentText)
         }
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -443,8 +523,16 @@ extension PostViewController: UICollectionViewDataSource {
         cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
-        
         self.commentId = viewModel.postReplyData[indexPath.row].commentId
+        cell.likeButton.setImage(viewModel.postReplyData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked        
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if self.viewModel.postReplyData[indexPath.row].isGhost {
+            cell.grayView.alpha = 0.85
+        } else {
+            let alpha = self.viewModel.postReplyData[indexPath.row].memberGhost
+            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         return cell
     }
@@ -456,7 +544,7 @@ extension PostViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
     }
 }
 
@@ -474,6 +562,7 @@ extension PostViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
+                    refreshPost()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()

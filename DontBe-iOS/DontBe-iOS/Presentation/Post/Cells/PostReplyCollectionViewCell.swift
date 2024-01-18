@@ -30,11 +30,19 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return view
     }()
     
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.layer.cornerRadius = 8.adjusted
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.image = ImageLiterals.Onboarding.imgTwo
+        image.image = ImageLiterals.Common.imgProfile
         image.layer.cornerRadius = 22.adjusted
         return image
     }()
@@ -160,7 +168,8 @@ extension PostReplyCollectionViewCell {
     func setHierarchy() {
         contentView.addSubviews(horizontalCellBarCircleView,
                                 backgroundUIView,
-                                horizontalCellBarView)
+                                horizontalCellBarView,
+                                grayView)
         
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
@@ -179,6 +188,13 @@ extension PostReplyCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().inset(14.adjusted)
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(UIScreen.main.bounds.width - 64.adjusted)
+        }
+        
+        grayView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(14.adjusted)
             $0.trailing.equalToSuperview()

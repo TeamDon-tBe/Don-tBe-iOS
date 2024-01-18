@@ -20,6 +20,7 @@ final class MyPageViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     var viewModel: MyPageViewModel
+    var memberId: Int = loadUserData()?.memberId ?? 0
     
     var currentPage: Int = 0 {
         didSet {
@@ -43,10 +44,14 @@ final class MyPageViewController: UIViewController {
     // MARK: - UI Components
     
     let rootView = MyPageView()
-    
     let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
-    
-    // MARK: - Life Cycles
+    private var navigationBackButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Common.btnBackGray, for: .normal)
+        return button
+    }()
+
+   // MARK: - Life Cycles
     
     override func loadView() {
         super.loadView()
@@ -69,6 +74,7 @@ final class MyPageViewController: UIViewController {
         setUI()
         setLayout()
         setDelegate()
+        setNotification()
         setAddTarget()
     }
     
@@ -76,10 +82,27 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(true)
         
         bindViewModel()
+        let image = ImageLiterals.MyPage.icnMenu
+        let renderedImage = image.withRenderingMode(.alwaysOriginal)
+        let hambergerButton = UIBarButtonItem(image: renderedImage,
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(hambergerButtonTapped))
+        navigationItem.rightBarButtonItem = hambergerButton
         
-        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+        if memberId == loadUserData()?.memberId ?? 0 {
+            self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+            self.tabBarController?.tabBar.isHidden = false
+            hambergerButton.isHidden = false
+            navigationBackButton.isHidden = true
+        } else {
+            self.navigationItem.title = ""
+            self.tabBarController?.tabBar.isHidden = true
+            hambergerButton.isHidden = true
+            navigationBackButton.isHidden = false
+        }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        tabBarController?.tabBar.isHidden = false
+        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -87,13 +110,14 @@ final class MyPageViewController: UIViewController {
         
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
+        navigationBackButton.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0.adjusted
+        let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
         
@@ -114,18 +138,14 @@ extension MyPageViewController {
         self.tabBarController?.tabBar.isTranslucent = true
         self.navigationController?.navigationBar.backgroundColor = .donBlack
         self.navigationController?.navigationBar.barTintColor = .donBlack
-
-        let image = ImageLiterals.MyPage.icnMenu
-        let renderedImage = image.withRenderingMode(.alwaysOriginal)
-        let hambergerButton = UIBarButtonItem(image: renderedImage,
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(hambergerButtonTapped))
-        
-        navigationItem.rightBarButtonItem = hambergerButton
     }
     
     private func setLayout() {
+        self.navigationController?.navigationBar.addSubviews(navigationBackButton)
+        navigationBackButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(23.adjusted)
+        }
         rootView.pageViewController.view.snp.makeConstraints {
             $0.top.equalTo(rootView.segmentedControl.snp.bottom).offset(2.adjusted)
             $0.leading.trailing.equalToSuperview()
@@ -138,7 +158,12 @@ extension MyPageViewController {
         rootView.pageViewController.dataSource = self
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
+    }
+    
     private func setAddTarget() {
+        navigationBackButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         rootView.segmentedControl.addTarget(self, action: #selector(changeValue(control:)), for: .valueChanged)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
@@ -147,7 +172,7 @@ extension MyPageViewController {
     }
     
     private func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just((1)).eraseToAnyPublisher())
+        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -176,6 +201,9 @@ extension MyPageViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.rootView.myPageCommentViewController.commentData = data
+                if !data.isEmpty {
+                    self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
+                }
                 self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
@@ -194,6 +222,15 @@ extension MyPageViewController {
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+        }
+    }
+    
+    @objc
+    private func pushViewController(_ notification: Notification) {
+        if let contentId = notification.userInfo?["contentId"] as? Int {
+            let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+            destinationViewController.contentId = contentId
+            self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
     }
     
@@ -244,6 +281,11 @@ extension MyPageViewController {
     private func moveTop() {
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
         rootView.myPageScrollView.setContentOffset(CGPoint(x: 0, y: -rootView.myPageScrollView.contentInset.top - navigationBarHeight - statusBarHeight), animated: true)
+    }
+    
+    @objc
+    private func backButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -300,15 +342,11 @@ extension MyPageViewController: UICollectionViewDelegate {
         
         scrollView.isScrollEnabled = true
         rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
-        rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
         rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
-        rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
         
         if yOffset <= -(navigationBarHeight + statusBarHeight) {
             rootView.myPageContentViewController.homeCollectionView.isScrollEnabled = false
-            rootView.myPageContentViewController.homeCollectionView.isUserInteractionEnabled = false
             rootView.myPageCommentViewController.homeCollectionView.isScrollEnabled = false
-            rootView.myPageCommentViewController.homeCollectionView.isUserInteractionEnabled = false
             yOffset = -(navigationBarHeight + statusBarHeight)
             rootView.segmentedControl.frame.origin.y = yOffset + statusBarHeight + navigationBarHeight
             rootView.segmentedControl.snp.remakeConstraints {
