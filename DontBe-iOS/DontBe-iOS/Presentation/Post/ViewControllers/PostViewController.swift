@@ -12,10 +12,10 @@ final class PostViewController: UIViewController {
     
     // MARK: - Properties
     
-    var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
+    let refreshControl = UIRefreshControl()
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
@@ -40,6 +40,14 @@ final class PostViewController: UIViewController {
     
     private lazy var myView = PostDetailView()
     private lazy var postView = PostView()
+    
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
@@ -70,6 +78,7 @@ final class PostViewController: UIViewController {
         setTextFieldGesture()
         setNotification()
         setAddTarget()
+        setRefreshControll()
     }
     
     init(viewModel: PostViewModel) {
@@ -81,17 +90,6 @@ final class PostViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - TabBar Height
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0
-        
-        self.tabBarHeight = tabBarHeight + safeAreaHeight
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
@@ -101,11 +99,12 @@ final class PostViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
-//        self.textFieldView.snp.remakeConstraints {
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
-//            $0.height.equalTo(56.adjusted)
-//        }
+        
+        self.textFieldView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(56.adjusted)
+        }
         getAPI()
     }
 }
@@ -123,6 +122,7 @@ extension PostViewController {
     
     private func setHierarchy() {
         view.addSubviews(postView,
+                         grayView,
                          verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
@@ -130,6 +130,11 @@ extension PostViewController {
     
     private func setLayout() {
         postView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        grayView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -149,7 +154,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(70.adjusted)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
@@ -167,6 +172,12 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
     }
     
+    private func setRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        postReplyCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .donGray1
+    }
+    
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
             if showToast == true {
@@ -177,7 +188,7 @@ extension PostViewController {
                 
                 uploadToastView?.snp.makeConstraints {
                     $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                    $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
+                    $0.bottom.equalTo(70).inset(6.adjusted)
                     $0.height.equalTo(48.adjusted)
                 }
                 
@@ -229,8 +240,8 @@ extension PostViewController {
             
             self.alreadyTransparencyToastView?.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
-                $0.height.equalTo(44)
+                $0.bottom.equalTo(70).inset(6.adjusted)
+                $0.height.equalTo(44.adjusted)
             }
             
             UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
@@ -308,6 +319,20 @@ extension PostViewController {
     }
     
     @objc
+    func refreshPost() {
+        DispatchQueue.main.async {
+            self.getAPI()
+        }
+        self.postReplyCollectionView.reloadData()
+        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc
+    func finishedRefreshing() {
+        refreshControl.endRefreshing()
+    }
+    
+    @objc
     private func dismissViewController() {
         self.dismiss(animated: false)
     }
@@ -325,7 +350,6 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print(data)
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)
@@ -361,6 +385,14 @@ extension PostViewController {
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
         
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if data.isGhost {
+            self.grayView.alpha = 0.85
+        } else {
+            let alpha = data.memberGhost
+            self.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
+        
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
@@ -373,7 +405,7 @@ extension PostViewController {
 
 extension PostViewController: UICollectionViewDelegate { }
 
-extension PostViewController: UICollectionViewDataSource {
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postReplyData.sorted {
             $0.time.compare($1.time, options: .numeric) == .orderedDescending
@@ -416,6 +448,13 @@ extension PostViewController: UICollectionViewDataSource {
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
         
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if self.viewModel.postReplyData[indexPath.row].isGhost {
+            cell.grayView.alpha = 0.85
+        } else {
+            let alpha = self.viewModel.postReplyData[indexPath.row].memberGhost
+            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         return cell
     }
@@ -445,6 +484,7 @@ extension PostViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
+                    refreshPost()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()
