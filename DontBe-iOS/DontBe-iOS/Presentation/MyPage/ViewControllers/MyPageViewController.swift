@@ -44,8 +44,6 @@ final class MyPageViewController: UIViewController {
     
     let rootView = MyPageView()
     
-    let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
-    
     // MARK: - Life Cycles
     
     override func loadView() {
@@ -80,14 +78,12 @@ final class MyPageViewController: UIViewController {
         
         self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
         self.navigationController?.navigationBar.backgroundColor = .clear
-        statusBarView.removeFromSuperview()
     }
     
     override func viewDidLayoutSubviews() {

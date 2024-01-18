@@ -12,7 +12,6 @@ final class PostViewController: UIViewController {
     
     // MARK: - Properties
     
-    var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
@@ -91,19 +90,9 @@ final class PostViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - TabBar Height
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        let safeAreaHeight = view.safeAreaInsets.bottom
-        let tabBarHeight: CGFloat = 70.0
-        
-        self.tabBarHeight = tabBarHeight + safeAreaHeight
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        print("viewWillAppear")
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         self.navigationController?.navigationBar.isHidden = false
@@ -111,11 +100,14 @@ final class PostViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
-//        self.textFieldView.snp.remakeConstraints {
-//            $0.leading.trailing.equalToSuperview()
-//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
-//            $0.height.equalTo(56.adjusted)
-//        }
+        
+        self.textFieldView.backgroundColor = .red
+        
+        self.textFieldView.snp.remakeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+            $0.height.equalTo(56.adjusted)
+        }
         getAPI()
     }
 }
@@ -165,7 +157,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(70.adjusted)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
@@ -199,7 +191,7 @@ extension PostViewController {
                 
                 uploadToastView?.snp.makeConstraints {
                     $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                    $0.bottom.equalTo(tabBarHeight.adjusted).inset(6.adjusted)
+                    $0.bottom.equalTo(70).inset(6.adjusted)
                     $0.height.equalTo(48.adjusted)
                 }
                 
@@ -251,7 +243,7 @@ extension PostViewController {
             
             self.alreadyTransparencyToastView?.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                $0.bottom.equalTo(70).inset(6.adjusted)
                 $0.height.equalTo(44)
             }
             
@@ -361,7 +353,6 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print(data)
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)
@@ -417,7 +408,7 @@ extension PostViewController {
 
 extension PostViewController: UICollectionViewDelegate { }
 
-extension PostViewController: UICollectionViewDataSource {
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postReplyData.sorted {
             $0.time.compare($1.time, options: .numeric) == .orderedDescending
@@ -465,8 +456,6 @@ extension PostViewController: UICollectionViewDataSource {
             cell.grayView.alpha = 0.85
         } else {
             let alpha = self.viewModel.postReplyData[indexPath.row].memberGhost
-            print("\(self.viewModel.postReplyData[indexPath.row].isGhost)")
-            print("postReplyData: \(alpha)")
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
