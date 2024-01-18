@@ -42,7 +42,7 @@ final class MyPageProfileView: UIView {
     
     let userNickname: UILabel = {
         let label = UILabel()
-        label.text = "안녕하세요반가와요우히히"
+        label.text = loadUserData()?.userNickname
         label.textColor = .donWhite
         label.textAlignment = .center
         label.font = .font(.head3)
@@ -51,7 +51,7 @@ final class MyPageProfileView: UIView {
     
     let userIntroduction: UILabel = {
         let label = UILabel()
-        label.setTextWithLineHeight(text: "안녕하세요히안우히히안녕하세요반가와요우히히히히안녕하세요히안우히히안녕하세요반가와요우히히히히", lineHeight: 20.adjusted, alignment: .center)
+        label.setTextWithLineHeight(text: "", lineHeight: 20.adjusted, alignment: .center)
         label.textColor = .donGray7
         label.textAlignment = .center
         label.font = .font(.caption2)

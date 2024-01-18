@@ -13,6 +13,7 @@ enum ImageLiterals {
         static var logoSymbol: UIImage { .load(name: "logo_symbol") }
         static var imgProfile: UIImage { .load(name: "img_profile") }
         static var btnBackGray: UIImage { .load(name: "btn_back_gray") }
+        static var img404: UIImage { .load(name: "img_404") }
     }
     
     enum TabBar {
@@ -71,6 +72,11 @@ enum ImageLiterals {
         static var btnFavoriteInActive: UIImage { .load(name: "favorite=btn_favorite_default") }
         static var icnDelete: UIImage { .load(name: "icn_delete") }
         static var btnTransparent: UIImage { .load(name: "status=btn_ghost_default") }
+    }
+    
+    enum Write {
+        static var imgWritingRestriction: UIImage { .load(name: "img_writing_restriction") }
+        static var imgBanText: UIImage { .load(name: "img_ban_text") }
     }
     
     enum Toast {
