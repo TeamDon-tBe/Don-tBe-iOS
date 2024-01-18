@@ -22,7 +22,8 @@ final class MyPageCommentViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     
-    private let viewModel: PostViewModel
+    private let postViewModel: PostViewModel
+    let deleteViewModel = DeleteReplyViewModel(networkProvider: NetworkService())
     private var cancelBag = CancelBag()
     
     var profileData: [MypageProfileResponseDTO] = []
@@ -47,13 +48,13 @@ final class MyPageCommentViewController: UIViewController {
         return label
     }()
     
-    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - Life Cycles
     
     init(viewModel: PostViewModel) {
-        self.viewModel = viewModel
+        self.postViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -70,6 +71,12 @@ final class MyPageCommentViewController: UIViewController {
         setDelegate()
         setRefreshControll()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        refreshPost()
+    }
 }
 
 // MARK: - Extensions
@@ -79,7 +86,7 @@ extension MyPageCommentViewController {
         self.view.backgroundColor = UIColor.donGray1
         self.navigationController?.navigationBar.isHidden = true
         
-        deletePostPopupVC.modalPresentationStyle = .overFullScreen
+        deleteReplyPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -109,12 +116,21 @@ extension MyPageCommentViewController {
         refreshControl.backgroundColor = .donGray1
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageCommentViewController.reloadData, object: nil)
+    }
+    
     @objc
     func refreshPost() {
         DispatchQueue.main.async {
             self.homeCollectionView.reloadData()
         }
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc
+    func reloadData(_ notification: Notification) {
+        refreshPost()
     }
     
     @objc
@@ -125,7 +141,7 @@ extension MyPageCommentViewController {
     @objc
     private func deleteButtonTapped() {
         popView()
-        presentView()
+        deleteReplyPopupView()
     }
     
     @objc
@@ -148,8 +164,8 @@ extension MyPageCommentViewController {
     }
     
     func presentView() {
-        deletePostPopupVC.contentId = self.contentId
-        self.present(self.deletePostPopupVC, animated: false, completion: nil)
+        deleteReplyPopupVC.commentId = self.commentId
+        self.present(self.deleteReplyPopupVC, animated: false, completion: nil)
     }
     
     private func postCommentLikeButtonAPI(isClicked: Bool, commentId: Int, commentText: String) {
@@ -161,11 +177,16 @@ extension MyPageCommentViewController {
         
         let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
         
-        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        let output = self.postViewModel.transform(from: input, cancelBag: self.cancelBag)
         
         output.toggleLikeButton
             .sink { _ in }
             .store(in: self.cancelBag)
+    }
+    
+    func deleteReplyPopupView() {
+        deleteReplyPopupVC.commentId = self.commentId
+        self.present(self.deleteReplyPopupVC, animated: false, completion: nil)
     }
 }
 
