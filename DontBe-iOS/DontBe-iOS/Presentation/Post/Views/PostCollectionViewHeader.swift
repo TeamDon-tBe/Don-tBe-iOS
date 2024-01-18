@@ -282,8 +282,13 @@ extension PostCollectionViewHeader {
     
     @objc
     func likeToggleButton() {
+        if isLiked == true {
+            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) - 1)
+        } else {
+            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) + 1)
+        }
         isLiked.toggle()
         likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-
+        NotificationCenter.default.post(name: NSNotification.Name("likeButtonTapped"), object: nil, userInfo: nil)
     }
 }

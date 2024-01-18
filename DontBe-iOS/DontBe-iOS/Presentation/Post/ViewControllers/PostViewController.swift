@@ -184,6 +184,8 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector( self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -293,6 +295,23 @@ extension PostViewController {
             self.warnBottomsheet.showSettings()
             addWarnUserButtonAction()
         }
+    }
+    
+    @objc
+    func likeButtonAction() {
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>? = Just(())
+            .map { _ in return (!self.postView.isLiked, self.contentId) }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+        
+        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped, collectionViewUpdata: nil, commentLikeButtonTapped: nil)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.toggleLikeButton
+            .sink { _ in }
+            .store(in: self.cancelBag)
+
     }
     
     private func addDeleteButtonAction() {
@@ -411,7 +430,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: nil, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -421,19 +440,6 @@ extension PostViewController {
                 print("데이티티티티프라자 \(data)")
                 self.memberId = data.memberId
                 self.bindPostData(data: data)
-            }
-            .store(in: self.cancelBag)
-        
-        output.toggleLikeButton
-            .receive(on: RunLoop.main)
-            .sink { value in
-                if value {
-                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) + 1)
-                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteActive, for: .normal)
-                } else {
-                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
-                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-                }
             }
             .store(in: self.cancelBag)
         
@@ -589,6 +595,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.contentTextLabel.text = self.postView.contentTextLabel.text
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
+            header.isLiked = self.postView.isLiked
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
