@@ -272,7 +272,6 @@ extension PostView {
     }
     
     func setAddTarget() {
-        kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
     }
     
