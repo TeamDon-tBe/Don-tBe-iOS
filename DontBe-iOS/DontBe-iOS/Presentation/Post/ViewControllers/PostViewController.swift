@@ -467,38 +467,6 @@ extension PostViewController {
     }
 }
 
-extension PostViewController: UICollectionViewDelegate {
-    func resizeCollectionView(height : CGFloat){
-
-            if let layout = self.postReplyCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-
-                //
-
-                layout.headerReferenceSize = CGSize(width: view.frame.width, height: max(height, 400))
-
-                self.postReplyCollectionView.layoutIfNeeded()
-            }
-
-        }
-    func textViewDidChange(_ textView: UITextView) {
-
-            print(textView.text)
-
-            let size = CGSize(width: view.frame.width, height: CGFloat.infinity)
-
-            let estimatedSize = textView.sizeThatFits(size)
-
-            if let layout = self.postReplyCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-
-                layout.headerReferenceSize = CGSize(width: view.frame.width, height: max(estimatedSize.height, 400))
-
-                self.postReplyCollectionView.layoutIfNeeded()
-
-            }
-
-        }
-}
-
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postReplyData.sorted {
