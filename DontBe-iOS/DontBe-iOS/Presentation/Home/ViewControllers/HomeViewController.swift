@@ -25,9 +25,6 @@ final class HomeViewController: UIViewController {
     private let viewModel: HomeViewModel
     let postViewModel = PostViewModel(networkProvider: NetworkService())
     
-    
-    let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-    
     var contentId: Int = 0
     
     // MARK: - UI Components
@@ -283,9 +280,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        self.destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
-        
+        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+        destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     

@@ -18,7 +18,14 @@ final class PostViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = CancelReplyPopupViewController()
-
+    private var likeButtonTappedPublisher: AnyPublisher<Int, Never> {
+        return postView.likeButton.publisher(for: .touchUpInside)
+            .map { _ in return self.contentId }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+    }
+    
+    
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -59,9 +66,7 @@ final class PostViewController: UIViewController {
         setTextFieldGesture()
         setNotification()
         setAddTarget()
-        
     }
-    
     
     init(viewModel: PostViewModel) {
         self.viewModel = viewModel
@@ -271,7 +276,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher())
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTappedPublisher)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -279,6 +284,19 @@ extension PostViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.bindPostData(data: data)
+            }
+            .store(in: self.cancelBag)
+        
+        output.toggleLikeButton
+            .receive(on: RunLoop.main)
+            .sink { value in
+                if value {
+                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) + 1)
+                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteActive, for: .normal)
+                } else {
+                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
+                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+                }
             }
             .store(in: self.cancelBag)
     }
@@ -290,6 +308,7 @@ extension PostViewController {
         self.postView.timeLabel.text = data.time.formattedTime()
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
+        postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
     }
 }
 

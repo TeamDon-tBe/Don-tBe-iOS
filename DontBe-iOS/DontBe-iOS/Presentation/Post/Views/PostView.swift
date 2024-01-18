@@ -280,7 +280,7 @@ extension PostView {
     @objc
     func likeToggleButton() {
         isLiked.toggle()
-                likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
 
     }
     
