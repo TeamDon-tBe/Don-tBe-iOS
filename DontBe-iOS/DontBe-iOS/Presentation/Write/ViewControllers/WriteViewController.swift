@@ -152,8 +152,6 @@ extension WriteViewController {
 extension WriteViewController {
     private func getAPI() {
         if UserDefaults.standard.integer(forKey: "memberGhost") <= -85 {
-            self.view.addSubviews(banView)
-
             self.banView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
