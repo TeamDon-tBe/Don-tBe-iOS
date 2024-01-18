@@ -23,10 +23,12 @@ final class WriteReplyViewController: UIViewController {
     
     var contentId: Int = 0
     var tabBarHeight: CGFloat = 0
+    var userNickname: String = ""
+    var userContent: String = ""
     
     // MARK: - UI Components
     
-    private let writeView = WriteReplyView()
+    let writeView = WriteReplyView()
     private lazy var cancelReplyPopupVC = CancelReplyPopupViewController()
     
     // MARK: - Life Cycles
@@ -48,7 +50,6 @@ final class WriteReplyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getAPI()
         setUI()
         setHierarchy()
@@ -56,6 +57,9 @@ final class WriteReplyViewController: UIViewController {
         setDelegate()
         setBottomSheet()
         setNavigationBarButtonItem()
+        
+        writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
+        writeView.writeReplyPostview.contentTextLabel.text = self.userContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,9 +140,12 @@ extension WriteReplyViewController {
     }
     
     private func setNavigationBarButtonItem() {
-        let cancelButton = UIBarButtonItem(title: "취소", primaryAction: .init(handler: { _Arg in
-            self.present(self.cancelReplyPopupVC, animated: false, completion: nil)
-        }))
+        let cancelButton = UIBarButtonItem(
+            title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
+            style: .plain,
+            target: self,
+            action: #selector(cancleNavigationBarButtonTapped)
+        )
         navigationItem.leftBarButtonItem = cancelButton
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.donGray11,
@@ -150,6 +157,16 @@ extension WriteReplyViewController {
     
     public func dismissView() {
         self.dismiss(animated: true)
+    }
+    
+    @objc
+    private func cancleNavigationBarButtonTapped() {
+        // 텍스트가 비어있는 경우 POP
+        if self.writeView.writeReplyView.contentTextView.text == "" {
+            popupNavigation()
+        } else {
+            self.present(self.cancelReplyPopupVC, animated: false, completion: nil)
+        }
     }
 }
 

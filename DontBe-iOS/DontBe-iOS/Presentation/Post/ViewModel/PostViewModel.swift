@@ -25,7 +25,7 @@ final class PostViewModel: ViewModelType {
     
     struct Input {
         let viewUpdate: AnyPublisher<Int, Never>?
-        let likeButtonTapped: AnyPublisher<Int, Never>?
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>?
         let collectionViewUpdata: AnyPublisher<Int, Never>?
         let commentLikeButtonTapped: AnyPublisher<(Bool, Int, String), Never>?
     }
@@ -62,14 +62,14 @@ final class PostViewModel: ViewModelType {
             .sink {  value in
                 Task {
                     do {
-                        if self.isLikeButtonClicked {
-                            let statusCode = try await self.deleteLikeButtonAPI(contentId: value)?.status
+                        if value.0 {
+                            let statusCode = try await self.deleteLikeButtonAPI(contentId: value.1)?.status
                             if statusCode == 200 {
                                 self.isLikeButtonClicked.toggle()
                                 self.toggleLikeButton.send(self.isLikeButtonClicked)
                             }
                         } else {
-                            let statusCode = try await self.postLikeButtonAPI(contentId: value)?.status
+                            let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
                             if statusCode == 201 {
                                 self.isLikeButtonClicked.toggle()
                                 self.toggleLikeButton.send(self.isLikeButtonClicked)

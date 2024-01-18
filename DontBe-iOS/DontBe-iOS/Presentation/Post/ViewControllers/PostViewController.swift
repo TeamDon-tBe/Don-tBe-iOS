@@ -22,7 +22,12 @@ final class PostViewController: UIViewController {
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
+    var writeReplyView = WriteReplyView()
+    
     lazy var collectionHeaderView = PostCollectionViewHeader()
+    
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     private var likeButtonTapped: AnyPublisher<Int, Never> {
         return postView.likeButton.publisher(for: .touchUpInside)
@@ -41,6 +46,8 @@ final class PostViewController: UIViewController {
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
     var postViewHeight = 0
+    var userNickName: String = ""
+    var contentText: String = ""
     
     // MARK: - UI Components
     
@@ -54,7 +61,7 @@ final class PostViewController: UIViewController {
     }()
     
     private lazy var textFieldView = PostReplyTextFieldView()
-    lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
+    var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
@@ -99,7 +106,7 @@ final class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         refreshPost()
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didDismissDetailNotification(_:)),
@@ -135,9 +142,9 @@ extension PostViewController {
     private func setUI() {
         self.view.backgroundColor = .donWhite
         textFieldView.isUserInteractionEnabled = true
-        textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
+        deleteReplyPopupVC.modalPresentationStyle = .overFullScreen
     }
     
     private func setHierarchy() {
@@ -184,6 +191,8 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector( self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -295,6 +304,23 @@ extension PostViewController {
         }
     }
     
+    @objc
+    func likeButtonAction() {
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>? = Just(())
+            .map { _ in return (!self.postView.isLiked, self.contentId) }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+        
+        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped, collectionViewUpdata: nil, commentLikeButtonTapped: nil)
+        
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.toggleLikeButton
+            .sink { _ in }
+            .store(in: self.cancelBag)
+
+    }
+    
     private func addDeleteButtonAction() {
         self.deleteBottomsheet.warnButton.removeFromSuperview()
         self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
@@ -308,7 +334,14 @@ extension PostViewController {
     @objc
     func deletePost() {
         popView()
-        presentView()
+        deleteReplyPopupView()
+    }
+    
+    @objc
+    func deleteReplyPost() {
+        print("답글 삭제")
+        popView()
+        deleteReplyPopupView()
     }
     
     @objc
@@ -356,6 +389,11 @@ extension PostViewController {
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
+    func deleteReplyPopupView() {
+        deleteReplyPopupVC.commentId = self.commentId
+        self.present(self.deleteReplyPopupVC, animated: false, completion: nil)
+    }
+    
     @objc
     func transparentShowPopupButton() {
         self.alarmTriggerType = "contentGhost"
@@ -379,6 +417,8 @@ extension PostViewController {
         let viewController = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
         let navigationController = UINavigationController(rootViewController: viewController)
         viewController.contentId = self.contentId
+        viewController.userNickname = self.userNickName
+        viewController.userContent = self.contentText
         present(navigationController, animated: true, completion: nil)
     }
     
@@ -411,29 +451,15 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: nil, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print("데이티티티티프라자 \(data)")
                 self.memberId = data.memberId
                 self.bindPostData(data: data)
-            }
-            .store(in: self.cancelBag)
-        
-        output.toggleLikeButton
-            .receive(on: RunLoop.main)
-            .sink { value in
-                if value {
-                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) + 1)
-                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteActive, for: .normal)
-                } else {
-                    self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
-                    self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-                }
             }
             .store(in: self.cancelBag)
         
@@ -447,11 +473,11 @@ extension PostViewController {
     
     private func bindPostData(data: PostDetailResponseDTO) {
         self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
-        print("0\(data.memberNickname)")
-        
+        self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
         self.postView
             .postNicknameLabel.text = data.memberNickname
-        
+        self.postUserNickname = "\(data.memberNickname)"
+        self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
         self.postView.timeLabel.text = data.time.formattedTime()
@@ -461,7 +487,10 @@ extension PostViewController {
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
         self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
-
+        
+        self.userNickName = "\(data.memberNickname)"
+        self.contentText = "\(data.contentText)"
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
             self.grayView.alpha = 0.85
@@ -509,9 +538,11 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
         cell.alarmTriggerdId = self.contentId
+        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
@@ -519,6 +550,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.deleteBottomsheet.warnButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
+                print("나야")
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
@@ -529,6 +561,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.warnBottomsheet.deleteButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
+                print("너야")
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
@@ -589,6 +622,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.contentTextLabel.text = self.postView.contentTextLabel.text
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
+            header.isLiked = self.postView.isLiked
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
