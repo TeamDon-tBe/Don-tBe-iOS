@@ -261,24 +261,20 @@ extension PostViewController {
     @objc
     func deleteOrWarn() {
         if self.memberId == loadUserData()?.memberId ?? 0 {
-            print("나야")
             self.deleteBottomsheet.showSettings()
             addDeleteButtonAction()
         } else {
-            print("나 아니야")
             self.warnBottomsheet.showSettings()
             addWarnUserButtonAction()
         }
     }
     
     private func addDeleteButtonAction() {
-        print("삭제")
         self.deleteBottomsheet.warnButton.removeFromSuperview()
         self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
     }
     
     private func addWarnUserButtonAction() {
-        print("신고")
         self.warnBottomsheet.deleteButton.removeFromSuperview()
         self.warnBottomsheet.warnButton.addTarget(self, action: #selector(warnUser), for: .touchUpInside)
     }
@@ -385,11 +381,9 @@ extension PostViewController {
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
-            print("내 아이디 \(self.memberId)")
         } else {
             self.postView.ghostButton.isHidden = false
             self.postView.verticalTextBarView.isHidden = false
-            print("멤버 아이디 \(self.memberId)")
         }
     }
 }

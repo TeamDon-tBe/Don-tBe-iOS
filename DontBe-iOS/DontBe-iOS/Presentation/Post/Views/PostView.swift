@@ -277,13 +277,6 @@ extension PostView {
     }
     
     @objc
-    func showButtons() {
-        print("뭐냐")
-//        self.warnBottomsheet.showSettings()
-//        self.deleteBottomsheet.showSettings()
-    }
-    
-    @objc
     func likeToggleButton() {
         isLiked.toggle()
                 likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
