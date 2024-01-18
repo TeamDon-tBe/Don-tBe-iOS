@@ -64,6 +64,7 @@ enum StringLiterals {
     enum Toast {
         static let uploading = "게시 중..."
         static let uploaded = "게시 완료!"
+        static let alreadyTransparency = "이미 투명도를 적용한 유저예요."
     }
     
     enum Notification {
@@ -141,5 +142,6 @@ enum StringLiterals {
         static let expired = "access, refreshToken 모두 만료되었습니다. 재로그인이 필요합니다."
         static let baseImageURL = "https://github.com/TeamDon-tBe/SERVER/assets/97835512/fb3ea04c-661e-4221-a837-854d66cdb77e"
         static let notificationImageURL = "https://github.com/TeamDon-tBe/SERVER/assets/128011308/327d416e-ef1f-4c10-961d-4d9b85632d87"
+        static let warnUserGoogleFormURL = "https://forms.gle/FTgZKkajwtzFvAk99"
     }
 }

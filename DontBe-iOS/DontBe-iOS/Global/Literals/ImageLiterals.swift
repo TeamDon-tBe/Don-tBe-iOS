@@ -58,6 +58,7 @@ enum ImageLiterals {
     
     enum Home {
         static var textLogo: UIImage { .load(name: "Logo") }
+        static var icnNotice: UIImage { .load(name: "icn_notice") }
     }
     
     enum Posting {

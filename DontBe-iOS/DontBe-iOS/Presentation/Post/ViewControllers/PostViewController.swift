@@ -11,6 +11,7 @@ import Combine
 final class PostViewController: UIViewController {
     
     // MARK: - Properties
+    
     var tabBarHeight: CGFloat = 0
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
@@ -25,10 +26,16 @@ final class PostViewController: UIViewController {
             .eraseToAnyPublisher()
     }
     
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
     var contentId: Int = 0
+    var memberId: Int = 0
+    var alarmTriggerType: String = ""
+    var targetMemberId: Int = 0
+    var alarmTriggerdId: Int = 0
     
     // MARK: - UI Components
     
@@ -38,6 +45,7 @@ final class PostViewController: UIViewController {
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
+    private var alreadyTransparencyToastView: DontBeToastView?
     
     private let verticalBarView: UIView = {
         let view = UIView()
@@ -51,8 +59,6 @@ final class PostViewController: UIViewController {
         super.loadView()
         
         view = myView
-        self.navigationController?.navigationBar.isHidden = false
-        textFieldView.isUserInteractionEnabled = true
     }
     
     override func viewDidLoad() {
@@ -81,17 +87,26 @@ final class PostViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tabBarHeight = tabBarController?.tabBar.frame.size.height ?? 0
+        let safeAreaHeight = view.safeAreaInsets.bottom
+        let tabBarHeight: CGFloat = 70.0
+        
+        self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.hidesBackButton = true
+        self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
-        
+//        self.textFieldView.snp.remakeConstraints {
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
+//            $0.height.equalTo(56.adjusted)
+//        }
         getAPI()
     }
 }
@@ -100,11 +115,9 @@ final class PostViewController: UIViewController {
 
 extension PostViewController {
     private func setUI() {
-        self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
-        textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
-        
         self.view.backgroundColor = .donWhite
-        
+        textFieldView.isUserInteractionEnabled = true
+        textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
@@ -137,7 +150,7 @@ extension PostViewController {
         }
         
         textFieldView.snp.makeConstraints {
-            $0.bottom.equalTo(tabBarHeight.adjusted)
+            $0.bottom.equalTo(self.view.safeAreaLayoutGuide).offset(-tabBarHeight)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
@@ -146,6 +159,7 @@ extension PostViewController {
     private func setDelegate() {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
+        transparentPopupVC.transparentButtonPopupView.delegate = self
         
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
     }
@@ -203,6 +217,33 @@ extension PostViewController {
         }
     }
     
+    func showAlreadyTransparencyToast() {
+        DispatchQueue.main.async {
+            self.alreadyTransparencyToastView = DontBeToastView()
+            self.alreadyTransparencyToastView?.toastLabel.text = StringLiterals.Toast.alreadyTransparency
+            self.alreadyTransparencyToastView?.circleProgressBar.alpha = 0
+            self.alreadyTransparencyToastView?.checkImageView.alpha = 1
+            self.alreadyTransparencyToastView?.checkImageView.image = ImageLiterals.Home.icnNotice
+            self.alreadyTransparencyToastView?.container.backgroundColor = .donPrimary
+            
+            self.view.addSubviews(self.alreadyTransparencyToastView ?? DontBeToastView())
+            
+            self.alreadyTransparencyToastView?.snp.makeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                $0.bottom.equalTo(self.tabBarHeight.adjusted).inset(6.adjusted)
+                $0.height.equalTo(44)
+            }
+            
+            UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
+                self.alreadyTransparencyToastView?.alpha = 0
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                self.alreadyTransparencyToastView?.removeFromSuperview()
+            }
+        }
+    }
+    
     @objc
     private func backButtonPressed() {
         self.navigationController?.popViewController(animated: true)
@@ -210,7 +251,6 @@ extension PostViewController {
     
     private func setAddTarget() {
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
         postView.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
     }
     
@@ -238,11 +278,15 @@ extension PostViewController {
     }
     
     func presentView() {
+        deletePostPopupVC.contentId = self.contentId
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     @objc
     func transparentShowPopupButton() {
+        self.alarmTriggerType = "contentGhost"
+        self.targetMemberId = self.memberId
+        self.alarmTriggerdId = self.contentId
         self.present(self.transparentPopupVC, animated: false, completion: nil)
     }
     
@@ -275,13 +319,14 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped)
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
+                print(data)
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)
@@ -296,6 +341,13 @@ extension PostViewController {
                     self.postView.likeNumLabel.text = String((Int(self.postView.likeNumLabel.text ?? "") ?? 0) - 1)
                     self.postView.likeButton.setImage(ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
                 }
+             }
+             .store(in: self.cancelBag)
+
+        output.getPostReplyData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.postReplyCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
     }
@@ -308,6 +360,15 @@ extension PostViewController {
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        self.memberId = data.memberId
+        
+        if self.memberId == loadUserData()?.memberId {
+            self.postView.ghostButton.isHidden = true
+            self.postView.verticalTextBarView.isHidden = true
+        } else {
+            self.postView.ghostButton.isHidden = false
+            self.postView.verticalTextBarView.isHidden = false
+        }
     }
 }
 
@@ -315,36 +376,84 @@ extension PostViewController: UICollectionViewDelegate { }
 
 extension PostViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        let sortedData = viewModel.postReplyData.sorted {
+            $0.time.compare($1.time, options: .numeric) == .orderedDescending
+        }
+        
+        viewModel.postReplyData = sortedData
+        return viewModel.postReplyData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-        
+        cell.alarmTriggerType = "commentGhost"
+        cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
+        cell.alarmTriggerdId = self.contentId
+        if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
+            cell.ghostButton.isHidden = true
+            cell.verticalTextBarView.isHidden = true
+        } else {
+            cell.ghostButton.isHidden = false
+            cell.verticalTextBarView.isHidden = false
+        }
         cell.KebabButtonAction = {
-                    self.deleteBottomsheet.showSettings()
-                }
-                cell.LikeButtonAction = {
-                    cell.isLiked.toggle()
-                    cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-                }
-                cell.TransparentButtonAction = {
-                    // present
-                    self.present(self.transparentPopupVC, animated: false, completion: nil)
-                }
+            self.deleteBottomsheet.showSettings()
+        }
+        cell.LikeButtonAction = {
+            cell.isLiked.toggle()
+            cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        }
+        cell.TransparentButtonAction = {
+            self.alarmTriggerType = cell.alarmTriggerType
+            self.targetMemberId = cell.targetMemberId
+            self.alarmTriggerdId = cell.alarmTriggerdId
+            self.present(self.transparentPopupVC, animated: false, completion: nil)
+        }
+        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(viewModel.postReplyData[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = viewModel.postReplyData[indexPath.row].commentText
+        cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
+        cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
+        cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
+        
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
-        footer.backgroundColor = .red
         return footer
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+    }
+}
+
+extension PostViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.dismiss(animated: false)
+    }
+    
+    func confirmButtonTapped() {
+        self.dismiss(animated: false)
+        Task {
+            do {
+                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                    let result = try await self.viewModel.postDownTransparency(accessToken: accessToken,
+                                                                               alarmTriggerType: self.alarmTriggerType,
+                                                                               targetMemberId: self.targetMemberId,
+                                                                               alarmTriggerId: self.alarmTriggerdId)
+                    if result?.status == 400 {
+                        // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
+                        showAlreadyTransparencyToast()
+                    }
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }

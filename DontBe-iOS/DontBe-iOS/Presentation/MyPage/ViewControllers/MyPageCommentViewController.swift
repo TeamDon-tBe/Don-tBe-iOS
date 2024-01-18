@@ -132,21 +132,26 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         cell.likeNumLabel.text = "\(commentData[indexPath.row].commentLikedNumber)"
         cell.commentNumLabel.text = "\(commentData[indexPath.row].commentLikedNumber)"
         cell.profileImageView.load(url: "\(commentData[indexPath.row].memberProfileUrl)")
+        
+        cell.likeStackView.snp.remakeConstraints {
+            $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+            $0.height.equalTo(cell.commentStackView)
+            $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+            $0.bottom.equalToSuperview().inset(16)
+        }
+        
+        cell.commentStackView.isHidden = true
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-        self.navigationController?.pushViewController(destinationViewController, animated: true)
+        let contentId = commentData[indexPath.row].contentId
+        NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId])
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 343.adjusted, height: 210.adjusted)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let footer = homeCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }
-        return footer
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {

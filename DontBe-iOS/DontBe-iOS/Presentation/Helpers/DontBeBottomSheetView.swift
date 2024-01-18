@@ -14,6 +14,7 @@ final class DontBeBottomSheetView: UIView {
     // MARK: - Properties
     
     var initialPosition: CGPoint = CGPoint(x: 0, y: 0)
+    var isUser: Bool = true
     
     // MARK: - UI Components
     
@@ -87,6 +88,7 @@ extension DontBeBottomSheetView {
         self.addSubviews(dimView,
                          bottomsheetView)
         bottomsheetView.addSubviews(dragIndicatorView,
+                                    warnButton,
                                     deleteButton)
     }
     
@@ -103,6 +105,12 @@ extension DontBeBottomSheetView {
         }
         
         deleteButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
+            $0.top.equalTo(dragIndicatorView).offset(30.adjusted)
+        }
+        
+        warnButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(dragIndicatorView).offset(30.adjusted)

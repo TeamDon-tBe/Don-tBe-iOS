@@ -17,6 +17,9 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var isLiked: Bool = false
+    var alarmTriggerType: String = ""
+    var targetMemberId: Int = 0
+    var alarmTriggerdId: Int = 0
     
     // MARK: - UI Components
     
@@ -187,7 +190,7 @@ extension HomeCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.top.bottom.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
         }
         

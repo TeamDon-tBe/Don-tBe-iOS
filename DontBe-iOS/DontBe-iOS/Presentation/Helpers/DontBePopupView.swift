@@ -67,7 +67,7 @@ final class DontBePopupView: UIView {
         return button
     }()
     
-    private let confirmButton: UIButton = {
+    let confirmButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.donWhite, for: .normal)
         button.titleLabel?.font = UIFont.font(.body3)

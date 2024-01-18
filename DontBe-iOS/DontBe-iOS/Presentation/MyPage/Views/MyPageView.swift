@@ -158,16 +158,20 @@ extension MyPageView {
     private func infoButtonTapped() {
         self.myPageScrollView.isScrollEnabled = false
         
-        transparencyInfoView = DontBeTransparencyInfoView()
-        self.addSubview(transparencyInfoView ?? DontBeTransparencyInfoView())
+        self.transparencyInfoView = DontBeTransparencyInfoView()
         
-        transparencyInfoView?.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubview(transparencyInfoView ?? DontBeTransparencyInfoView())
         }
         
-        transparencyInfoView?.bringSubviewToFront(self)
-        transparencyInfoView?.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
-        transparencyInfoView?.infoScrollView.delegate = self
+        self.transparencyInfoView?.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(UIScreen.main.bounds.height)
+        }
+        
+        self.transparencyInfoView?.bringSubviewToFront(self)
+        self.transparencyInfoView?.closeButton.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        self.transparencyInfoView?.infoScrollView.delegate = self
     }
     
     @objc
