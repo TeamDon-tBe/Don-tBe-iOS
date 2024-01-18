@@ -11,6 +11,7 @@ import UIKit
 final class DeletePopupViewController: UIViewController {
     
     static let popViewController = NSNotification.Name("popVC")
+    static let reloadData = NSNotification.Name("reloadData")
     
     // MARK: - Properties
     var contentId: Int = 0
@@ -108,6 +109,7 @@ extension DeletePopupViewController {
                 self.dismiss(animated: true)
                 // postVC pop
                 NotificationCenter.default.post(name: DeletePopupViewController.popViewController, object: nil)
+                NotificationCenter.default.post(name: DeletePopupViewController.reloadData, object: nil)
                 self.homeVC.homeCollectionView.reloadData()
             }
             .store(in: self.cancelBag)

@@ -80,6 +80,12 @@ final class MyPageContentViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
+        setNotification()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
         setRefreshControll()
     }
 }
@@ -121,10 +127,19 @@ extension MyPageContentViewController {
         homeCollectionView.delegate = self
     }
     
+    private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
+    }
+    
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
         homeCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donGray1
+    }
+    
+    @objc
+    func reloadData(_ notification: Notification) {
+        refreshPost()
     }
     
     @objc
