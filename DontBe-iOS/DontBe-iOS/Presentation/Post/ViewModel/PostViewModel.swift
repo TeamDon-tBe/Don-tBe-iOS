@@ -27,7 +27,7 @@ final class PostViewModel: ViewModelType {
         let viewUpdate: AnyPublisher<Int, Never>?
         let likeButtonTapped: AnyPublisher<Int, Never>?
         let collectionViewUpdata: AnyPublisher<Int, Never>?
-        let commentLikeButtonTapped: AnyPublisher<(Bool, Int), Never>?
+        let commentLikeButtonTapped: AnyPublisher<(Bool, Int, String), Never>?
     }
     
     struct Output {
@@ -63,7 +63,7 @@ final class PostViewModel: ViewModelType {
                 Task {
                     do {
                         if self.isLikeButtonClicked {
-                            let statusCode = try await self.postUnlikeButtonAPI(contentId: value)?.status
+                            let statusCode = try await self.deleteLikeButtonAPI(contentId: value)?.status
                             if statusCode == 200 {
                                 self.isLikeButtonClicked.toggle()
                                 self.toggleLikeButton.send(self.isLikeButtonClicked)
@@ -105,13 +105,13 @@ final class PostViewModel: ViewModelType {
                 Task {
                     do {
                         if value.0 == true {
-                            let statusCode = try await self.postUnlikeButtonAPI(contentId: value.1)?.status
+                            let statusCode = try await self.deleteCommentLikeButtonAPI(commentId: value.1)?.status
                             if statusCode == 200 {
                                 self.toggleLikeButton.send(!value.0)
                             }
                         } else {
-                            let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
-                            if statusCode == 201 {
+                            let statusCode = try await self.postCommentUnlikeButtonAPI(commentId: value.1, alarmText: value.2)?.status
+                            if statusCode == 200 {
                                 self.toggleLikeButton.send(value.0)
                             }
                         }
@@ -199,7 +199,7 @@ extension PostViewModel {
         }
     }
     
-    private func postUnlikeButtonAPI(contentId: Int) async throws -> BaseResponse<EmptyResponse>? {
+    private func deleteLikeButtonAPI(contentId: Int) async throws -> BaseResponse<EmptyResponse>? {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: BaseResponse<EmptyResponse>? = try await
@@ -211,6 +211,42 @@ extension PostViewModel {
                 pathVariables: ["":""]
             )
             print ("👻👻👻👻👻게시물 좋아요 취소 버튼 클릭👻👻👻👻👻")
+            return data
+        } catch {
+            return nil
+        }
+    }
+    
+    private func postCommentUnlikeButtonAPI(commentId: Int, alarmText: String)  async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponse>? = try await
+            self.networkProvider.donNetwork(
+                type: .post,
+                baseURL: Config.baseURL + "/comment/\(commentId)/liked",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["":""]
+            )
+            print ("👻👻👻👻👻답글 좋아요 버튼 클릭👻👻👻👻👻")
+            return data
+        } catch {
+            return nil
+        }
+    }
+    
+    private func deleteCommentLikeButtonAPI(commentId: Int)  async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let data: BaseResponse<EmptyResponse>? = try await
+            self.networkProvider.donNetwork(
+                type: .delete,
+                baseURL: Config.baseURL + "/comment/\(commentId)",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["":""]
+            )
+            print ("👻👻👻👻👻답글 좋아요 취소 버튼 클릭👻👻👻👻👻")
             return data
         } catch {
             return nil

@@ -370,10 +370,10 @@ extension PostViewController {
         }
     }
     
-    private func postLikeButtonAPI(isClicked: Bool, commentId: Int) {
+    private func postCommentLikeButtonAPI(isClicked: Bool, commentId: Int, commentText: String) {
         // 최초 한 번만 publisher 생성
-        let commentLikedButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
-                .map { _ in return (!isClicked, commentId) }
+        let commentLikedButtonTapped: AnyPublisher<(Bool, Int, String), Never>?  = Just(())
+                .map { _ in return (!isClicked, commentId, commentText) }
                 .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
                 .eraseToAnyPublisher()
 
@@ -426,7 +426,7 @@ extension PostViewController: UICollectionViewDataSource {
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             
-            self.postLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyData[indexPath.row].commentId)
+            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyData[indexPath.row].commentId, commentText: self.viewModel.postReplyData[indexPath.row].commentText)
         }
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -440,7 +440,8 @@ extension PostViewController: UICollectionViewDataSource {
         cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
-        
+        cell.likeButton.setImage(viewModel.postReplyData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked
         
         return cell
     }
