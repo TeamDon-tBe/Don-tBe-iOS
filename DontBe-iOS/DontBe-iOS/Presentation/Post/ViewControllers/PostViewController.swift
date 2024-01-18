@@ -18,13 +18,12 @@ final class PostViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = CancelReplyPopupViewController()
-    private var likeButtonTappedPublisher: AnyPublisher<Int, Never> {
+    private var likeButtonTapped: AnyPublisher<Int, Never> {
         return postView.likeButton.publisher(for: .touchUpInside)
             .map { _ in return self.contentId }
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
     }
-    
     
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
@@ -276,7 +275,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTappedPublisher)
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         

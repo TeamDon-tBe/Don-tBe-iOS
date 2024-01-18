@@ -217,7 +217,7 @@ extension HomeViewController {
 
 extension HomeViewController {
     private func bindViewModel() {
-        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher())
+        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher(), likeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -225,6 +225,24 @@ extension HomeViewController {
             .receive(on: RunLoop.main)
             .sink { _ in
                 self.homeCollectionView.reloadData()
+            }
+            .store(in: self.cancelBag)
+    }
+    
+    private func postLikeButtonAPI(isClicked: Bool, contentId: Int) {
+        // 최초 한 번만 publisher 생성
+        var likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
+                .map { _ in return (!isClicked, contentId) }
+                .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+                .eraseToAnyPublisher()
+
+        let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
+
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+
+        output.toggleLikeButton
+            .sink { value in
+                print(value)
             }
             .store(in: self.cancelBag)
     }
@@ -260,10 +278,18 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.deleteBottomsheet.showSettings()
             }
         }
+        
         cell.LikeButtonAction = {
+            if cell.isLiked == true {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) - 1)
+            } else {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) + 1)
+            }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
         }
+
         cell.TransparentButtonAction = {
             // present
             self.present(self.transparentPopupVC, animated: false, completion: nil)
@@ -275,6 +301,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
         
         return cell
     }
