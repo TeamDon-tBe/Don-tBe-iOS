@@ -350,6 +350,7 @@ extension PostViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
+        self.postView.profileImageView.load(url: data.memberProfileUrl)
         self.postView.postNicknameLabel.text = data.memberNickname
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
@@ -387,7 +388,7 @@ extension PostViewController {
 
 extension PostViewController: UICollectionViewDelegate { }
 
-extension PostViewController: UICollectionViewDataSource {
+extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let sortedData = viewModel.postReplyData.sorted {
             $0.time.compare($1.time, options: .numeric) == .orderedDescending
@@ -449,7 +450,7 @@ extension PostViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
     }
 }
 
