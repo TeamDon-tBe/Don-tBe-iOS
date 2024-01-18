@@ -16,6 +16,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     var KebabButtonAction: (() -> Void) = {}
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
+    var ProfileButtonAction: (() -> Void) = {}
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -38,6 +39,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         image.layer.borderColor = UIColor.clear.cgColor
         image.image = ImageLiterals.Common.imgProfile
         image.layer.cornerRadius = 22.adjusted
+        image.isUserInteractionEnabled = true
         return image
     }()
     
@@ -264,6 +266,7 @@ extension HomeCollectionViewCell {
         kebabButton.addTarget(self, action: #selector(showButtons), for: .touchUpInside)
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
     }
     
     @objc
@@ -278,5 +281,10 @@ extension HomeCollectionViewCell {
     @objc
     func transparentShowPopupButton() {
         TransparentButtonAction()
+    }
+    
+    @objc
+    func profileButton() {
+        ProfileButtonAction()
     }
 }

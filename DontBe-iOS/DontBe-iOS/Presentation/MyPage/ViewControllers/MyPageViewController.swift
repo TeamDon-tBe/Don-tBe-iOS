@@ -20,6 +20,7 @@ final class MyPageViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     var viewModel: MyPageViewModel
+    var memberId: Int = loadUserData()?.memberId ?? 0
     
     var currentPage: Int = 0 {
         didSet {
@@ -78,9 +79,14 @@ final class MyPageViewController: UIViewController {
         
         bindViewModel()
         
-        self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+        if memberId == loadUserData()?.memberId ?? 0 {
+            self.navigationItem.title = StringLiterals.MyPage.MyPageNavigationTitle
+            self.tabBarController?.tabBar.isHidden = false
+        } else {
+            self.navigationItem.title = ""
+            self.tabBarController?.tabBar.isHidden = true
+        }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        tabBarController?.tabBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -152,7 +158,7 @@ extension MyPageViewController {
     }
     
     private func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just((1)).eraseToAnyPublisher())
+        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         

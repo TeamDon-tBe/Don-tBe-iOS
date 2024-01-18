@@ -353,6 +353,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
         }
+        
+        cell.ProfileButtonAction = {
+            let memberId = self.viewModel.postData[indexPath.row].memberId
+            let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+            viewController.memberId = memberId
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
 
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
