@@ -23,7 +23,11 @@ final class PostViewController: UIViewController {
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
+    var writeReplyView = WriteReplyView()
+    
     lazy var collectionHeaderView = PostCollectionViewHeader()
+    
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     private var likeButtonTapped: AnyPublisher<Int, Never> {
         return postView.likeButton.publisher(for: .touchUpInside)
@@ -42,6 +46,8 @@ final class PostViewController: UIViewController {
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
     var postViewHeight = 0
+    var userNickName: String = ""
+    var contentText: String = ""
     
     // MARK: - UI Components
     
@@ -100,7 +106,7 @@ final class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         refreshPost()
-        
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didDismissDetailNotification(_:)),
@@ -136,7 +142,6 @@ extension PostViewController {
     private func setUI() {
         self.view.backgroundColor = .donWhite
         textFieldView.isUserInteractionEnabled = true
-        textFieldView.replyTextFieldLabel.text = (postUserNickname ?? "") + StringLiterals.Post.textFieldLabel
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
         deleteReplyPopupVC.modalPresentationStyle = .overFullScreen
@@ -393,6 +398,8 @@ extension PostViewController {
         let viewController = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
         let navigationController = UINavigationController(rootViewController: viewController)
         viewController.contentId = self.contentId
+        viewController.userNickname = self.userNickName
+        viewController.userContent = self.contentText
         present(navigationController, animated: true, completion: nil)
     }
     
@@ -432,7 +439,6 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print("데이티티티티프라자 \(data)")
                 self.memberId = data.memberId
                 self.bindPostData(data: data)
             }
@@ -461,10 +467,10 @@ extension PostViewController {
     
     private func bindPostData(data: PostDetailResponseDTO) {
         self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
-
         self.postView
             .postNicknameLabel.text = data.memberNickname
-        
+        self.postUserNickname = "\(data.memberNickname)"
+        self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
         self.postView.timeLabel.text = data.time.formattedTime()
@@ -474,7 +480,10 @@ extension PostViewController {
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
         self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
-
+        
+        self.userNickName = "\(data.memberNickname)"
+        self.contentText = "\(data.contentText)"
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
             self.grayView.alpha = 0.85
@@ -522,9 +531,11 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
+
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
         cell.alarmTriggerdId = self.contentId
+        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true

@@ -30,7 +30,7 @@ final class WriteReplyPostView: UIView {
         return image
     }()
     
-    public let postNicknameLabel: UILabel = {
+    var postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
         label.text = "Don't be야 사랑해~"
