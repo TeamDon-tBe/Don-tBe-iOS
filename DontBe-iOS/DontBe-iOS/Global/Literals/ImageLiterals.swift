@@ -74,6 +74,11 @@ enum ImageLiterals {
         static var btnTransparent: UIImage { .load(name: "status=btn_ghost_default") }
     }
     
+    enum Write {
+        static var imgWritingRestriction: UIImage { .load(name: "img_writing_restriction") }
+        static var imgBanText: UIImage { .load(name: "img_ban_text") }
+    }
+    
     enum Toast {
         static var icnCheck: UIImage { .load(name: "icn_check") }
     }

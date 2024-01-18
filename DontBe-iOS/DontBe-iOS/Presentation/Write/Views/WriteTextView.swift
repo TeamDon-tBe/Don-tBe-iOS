@@ -108,9 +108,12 @@ extension WriteTextView {
     func setUI() {
         contentTextView.becomeFirstResponder()
         limitedCircleProgressBar.alpha = 0
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
+                
+        if UserDefaults.standard.integer(forKey: "memberGhost") <= -85 {
+            // 키보드 내림
+        } else {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        }
         // 햅틱 피드백 생성
         impactFeedbackGenerator.prepare()
     }

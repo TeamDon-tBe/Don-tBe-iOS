@@ -35,6 +35,7 @@
 		2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */; };
 		2A5D68F82B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */; };
 		2A5D68FC2B5938BD000AE1B7 /* ErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68FB2B5938BD000AE1B7 /* ErrorViewController.swift */; };
+		2A5D68FE2B596640000AE1B7 /* WriteBanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68FD2B596640000AE1B7 /* WriteBanView.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
@@ -179,6 +180,7 @@
 		2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLikeRequestDTO.swift; sourceTree = "<group>"; };
 		2A5D68FB2B5938BD000AE1B7 /* ErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewController.swift; sourceTree = "<group>"; };
+		2A5D68FD2B596640000AE1B7 /* WriteBanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteBanView.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -1031,6 +1033,7 @@
 			children = (
 				3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */,
 				3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */,
+				2A5D68FD2B596640000AE1B7 /* WriteBanView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1262,6 +1265,7 @@
 				2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */,
 				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
 				2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */,
+				2A5D68FE2B596640000AE1B7 /* WriteBanView.swift in Sources */,
 				2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				2F8735402B4BE65300E55552 /* HomeView.swift in Sources */,

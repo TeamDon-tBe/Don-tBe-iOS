@@ -136,6 +136,7 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["":""])
+            UserDefaults.standard.set(result?.data?.memberGhost ?? 0, forKey: "memberGhost")
             return result
         } catch {
             return nil
