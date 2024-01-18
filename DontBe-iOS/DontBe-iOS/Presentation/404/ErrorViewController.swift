@@ -27,6 +27,7 @@ final class ErrorViewController: UIViewController {
         emptyTitle.textColor = .donBlack
         emptyTitle.font = .font(.body1)
         emptyTitle.setTextWithLineHeight(text: emptyTitle.text, lineHeight: 22.adjusted, alignment: .center)
+        emptyTitle.numberOfLines = 2
         return emptyTitle
     }()
     

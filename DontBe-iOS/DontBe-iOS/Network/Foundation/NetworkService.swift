@@ -92,7 +92,13 @@ final class NetworkService: NetworkServiceType {
                 
                 print("👻👻👻👻👻 토큰 재발급 👻👻👻👻👻")
                 return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
-            case 404 :
+            case 404:
+                if let sceneDelegate = await UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                    DispatchQueue.main.async {
+                        let viewController = ErrorViewController()
+                        sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: viewController)
+                    }
+                }
                 throw NetworkError.notFoundError
             case 500:
                 throw NetworkError.internalServerError
