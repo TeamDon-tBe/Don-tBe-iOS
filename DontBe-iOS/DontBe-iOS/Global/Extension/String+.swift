@@ -38,10 +38,10 @@ extension String {
             } else if let minute = components.minute, minute == 0 {
                 return "지금"
             } else {
-                return "시간을 불러올 수 없습니다."
+                return "알 수 없음"
             }
         } else {
-            return "날짜 변환 실패"
+            return "알 수 없음"
         }
     }
 }

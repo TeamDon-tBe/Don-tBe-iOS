@@ -83,12 +83,13 @@ final class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
         bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
-
+        self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
     }
 }
@@ -287,7 +288,7 @@ extension HomeViewController {
     
     private func postLikeButtonAPI(isClicked: Bool, contentId: Int) {
         // 최초 한 번만 publisher 생성
-        var likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
+        let likeButtonTapped: AnyPublisher<(Bool, Int), Never>?  = Just(())
                 .map { _ in return (!isClicked, contentId) }
                 .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
                 .eraseToAnyPublisher()
@@ -297,9 +298,7 @@ extension HomeViewController {
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
 
         output.toggleLikeButton
-            .sink { value in
-                print(value)
-            }
+            .sink { _ in }
             .store(in: self.cancelBag)
     }
 }
@@ -355,6 +354,29 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
         }
+        
+        cell.ProfileButtonAction = {
+            let memberId = self.viewModel.postData[indexPath.row].memberId
+
+            if memberId == loadUserData()?.memberId ?? 0  {
+                self.tabBarController?.selectedIndex = 3
+                if let selectedViewController = self.tabBarController?.selectedViewController {
+                    self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                }
+                let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+                for (index, controller) in myViewController.enumerated() {
+                    if let tabBarItem = controller.tabBarItem {
+                        if index != self.tabBarController?.selectedIndex {
+                            self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                        }
+                    }
+                }
+            } else {
+                let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+                viewController.memberId = memberId
+                self.navigationController?.pushViewController(viewController, animated: true)
+            }
+        }
 
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -362,6 +384,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
+        cell.profileImageView.load(url: viewModel.postData[indexPath.row].memberProfileUrl)
         cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText

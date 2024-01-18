@@ -5,8 +5,10 @@
 //  Created by yeonsu on 1/12/24.
 //
 
-import UIKit
 import Combine
+import UIKit
+
+import SnapKit
 
 final class PostViewController: UIViewController {
     
@@ -26,7 +28,6 @@ final class PostViewController: UIViewController {
             .eraseToAnyPublisher()
     }
     
-
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -38,9 +39,8 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private lazy var myView = PostDetailView()
-    private lazy var postView = PostView()
-    
+    lazy var postView = PostView()
+
     let grayView: DontBeTransparencyGrayView = {
         let view = DontBeTransparencyGrayView()
         view.alpha = 0
@@ -61,12 +61,6 @@ final class PostViewController: UIViewController {
     }()
     
     // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -343,7 +337,7 @@ extension PostViewController {
 
 extension PostViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher())
+        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: likeButtonTapped, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -376,6 +370,7 @@ extension PostViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
+        self.postView.profileImageView.load(url: data.memberProfileUrl)
         self.postView.postNicknameLabel.text = data.memberNickname
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
@@ -400,6 +395,22 @@ extension PostViewController {
             self.postView.ghostButton.isHidden = false
             self.postView.verticalTextBarView.isHidden = false
         }
+    }
+    
+    private func postCommentLikeButtonAPI(isClicked: Bool, commentId: Int, commentText: String) {
+        // 최초 한 번만 publisher 생성
+        let commentLikedButtonTapped: AnyPublisher<(Bool, Int, String), Never>? = Just(())
+            .map { _ in return (!isClicked, commentId, commentText) }
+            .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
+            .eraseToAnyPublisher()
+
+        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+
+        output.toggleLikeButton
+            .sink { _ in }
+            .store(in: self.cancelBag)
     }
 }
 
@@ -432,8 +443,15 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.deleteBottomsheet.showSettings()
         }
         cell.LikeButtonAction = {
+            if cell.isLiked == true {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) - 1)
+            } else {
+                cell.likeNumLabel.text = String((Int(cell.likeNumLabel.text ?? "") ?? 0) + 1)
+            }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+            
+            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyData[indexPath.row].commentId, commentText: self.viewModel.postReplyData[indexPath.row].commentText)
         }
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -447,7 +465,8 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
-        
+        cell.likeButton.setImage(viewModel.postReplyData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postReplyData[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
@@ -466,7 +485,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
+        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
     }
 }
 
