@@ -18,8 +18,7 @@ final class HomeCollectionView: UIView {
         flowLayout.scrollDirection = .vertical
         flowLayout.estimatedItemSize = CGSize(width: 343.adjusted, height: 160.adjusted)
         
-        let collectionView = UICollectionView(frame: .zero, 
-                                              collectionViewLayout: flowLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.clipsToBounds = true
         collectionView.contentInsetAdjustmentBehavior = .never
@@ -62,5 +61,8 @@ private extension HomeCollectionView {
     func setRegisterCell() {
         HomeCollectionViewCell.register(collectionView: collectionView)
         collectionView.register(HomeCollectionFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView")
+        
+        HomeCollectionViewCell.register(collectionView: collectionView)
+        collectionView.register(PostCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader")
     }
 }

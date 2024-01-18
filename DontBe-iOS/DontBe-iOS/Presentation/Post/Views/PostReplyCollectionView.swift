@@ -17,7 +17,7 @@ final class PostReplyCollectionView: UIView {
         flowLayout.minimumInteritemSpacing = 10.adjusted
         flowLayout.scrollDirection = .vertical
         flowLayout.estimatedItemSize = CGSize(width: 200.adjusted, height: 160.adjusted)
-        
+
         let collectionView = UICollectionView(frame: .zero,
                                               collectionViewLayout: flowLayout)
         collectionView.showsVerticalScrollIndicator = false
@@ -62,5 +62,6 @@ private extension PostReplyCollectionView {
     func setRegisterCell() {
         PostReplyCollectionViewCell.register(collectionView: collectionView)
         collectionView.register(PostReplyCollectionFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView")
+        collectionView.register(PostCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader")
     }
 }

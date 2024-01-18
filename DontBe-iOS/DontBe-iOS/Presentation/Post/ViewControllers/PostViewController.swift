@@ -14,7 +14,6 @@ import SnapKit
 final class PostViewController: UIViewController {
     
     // MARK: - Properties
-    
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
@@ -23,6 +22,7 @@ final class PostViewController: UIViewController {
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    lazy var collectionHeaderView = PostCollectionViewHeader()
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     private var likeButtonTapped: AnyPublisher<Int, Never> {
         return postView.likeButton.publisher(for: .touchUpInside)
@@ -40,6 +40,7 @@ final class PostViewController: UIViewController {
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
+    var postViewHeight = 0
     
     // MARK: - UI Components
     
@@ -53,7 +54,7 @@ final class PostViewController: UIViewController {
     }()
     
     private lazy var textFieldView = PostReplyTextFieldView()
-    var postReplyCollectionView = PostReplyCollectionView().collectionView
+    lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
@@ -77,13 +78,17 @@ final class PostViewController: UIViewController {
         setDelegate()
         setTextFieldGesture()
         setNotification()
-        setAddTarget()
         setRefreshControll()
+        setRegister()
     }
     
     init(viewModel: PostViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+    }
+    
+    private func setRegister() {
+        
     }
     
     required init?(coder: NSCoder) {
@@ -92,6 +97,8 @@ final class PostViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        refreshPost()
         
         NotificationCenter.default.addObserver(
             self,
@@ -134,29 +141,23 @@ extension PostViewController {
     }
     
     private func setHierarchy() {
-        view.addSubviews(postView,
-                         grayView,
+        view.addSubviews(grayView,
                          verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
     }
     
     private func setLayout() {
-        postView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
         
         grayView.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.top.equalTo(500)
             $0.leading.trailing.bottom.equalToSuperview()
         }
         
         postReplyCollectionView.snp.makeConstraints {
-            $0.top.equalTo(postView.horizontalDivierView.snp.bottom).offset(10)
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.bottom.equalTo(textFieldView.snp.bottom).offset(-56.adjusted)
-            $0.leading.equalTo(verticalBarView.snp.trailing)
-            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.leading.trailing.equalToSuperview()
         }
         
         verticalBarView.snp.makeConstraints {
@@ -194,7 +195,7 @@ extension PostViewController {
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
         postReplyCollectionView.refreshControl = refreshControl
-        refreshControl.backgroundColor = .donGray1
+        refreshControl.backgroundColor = .donWhite
     }
     
     @objc func showToast(_ notification: Notification) {
@@ -417,6 +418,7 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
+                print("데이티티티티프라자 \(data)")
                 self.memberId = data.memberId
                 self.bindPostData(data: data)
             }
@@ -444,8 +446,12 @@ extension PostViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
-        self.postView.profileImageView.load(url: data.memberProfileUrl)
-        self.postView.postNicknameLabel.text = data.memberNickname
+        self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
+        print("0\(data.memberNickname)")
+        
+        self.postView
+            .postNicknameLabel.text = data.memberNickname
+        
         self.postView.contentTextLabel.text = data.contentText
         self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
         self.postView.timeLabel.text = data.time.formattedTime()
@@ -489,8 +495,6 @@ extension PostViewController {
             .store(in: self.cancelBag)
     }
 }
-
-extension PostViewController: UICollectionViewDelegate { }
 
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -569,16 +573,40 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         
         return cell
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
-        return footer
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader", for: indexPath) as? PostCollectionViewHeader
+            else { return UICollectionReusableView()
+            }
+            
+            header.transparentLabel.text = self.postView.transparentLabel.text
+            header.postNicknameLabel.text = self.postView.postNicknameLabel.text
+            header.timeLabel.text = self.postView.timeLabel.text
+            header.contentTextLabel.text = self.postView.contentTextLabel.text
+            header.likeNumLabel.text = self.postView.likeNumLabel.text
+            header.commentNumLabel.text = self.postView.commentNumLabel.text
+            self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
+            return header
+            
+        } else {
+            guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
+            return footer
+            
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        return CGSize(width: UIScreen.main.bounds.width, height: 8 + postViewHeight.adjusted)
     }
 }
 
