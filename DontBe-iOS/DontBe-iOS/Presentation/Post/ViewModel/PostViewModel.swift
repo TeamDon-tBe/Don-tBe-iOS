@@ -17,23 +17,29 @@ final class PostViewModel: ViewModelType {
     var isLikeButtonClicked: Bool = false
     private var getPostReplyData = PassthroughSubject<[PostReplyResponseDTO], Never>()
     
+    private let toggleCommentLikeButton = PassthroughSubject<Bool, Never>()
+    var isCommentLikeButtonClicked: Bool = false
+    
     var postDetailData: [String] = []
     var postReplyData: [PostReplyResponseDTO] = []
     
     struct Input {
-        let viewUpdate: AnyPublisher<Int, Never>
-        let likeButtonTapped: AnyPublisher<Int, Never>
-        let collectionViewUpdata: AnyPublisher<Int, Never>
+        let viewUpdate: AnyPublisher<Int, Never>?
+        let likeButtonTapped: AnyPublisher<Int, Never>?
+        let collectionViewUpdata: AnyPublisher<Int, Never>?
+        let commentLikeButtonTapped: AnyPublisher<(Bool, Int), Never>?
     }
     
     struct Output {
         let getPostData: PassthroughSubject<PostDetailResponseDTO, Never>
         let toggleLikeButton: PassthroughSubject<Bool, Never>
         let getPostReplyData: PassthroughSubject<[PostReplyResponseDTO], Never>
+        let toggleCommentLikeButton: PassthroughSubject<Bool, Never>
+
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
-        input.viewUpdate
+        input.viewUpdate?
             .sink { value in
                 Task {
                     do {
@@ -52,7 +58,7 @@ final class PostViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        input.likeButtonTapped
+        input.likeButtonTapped?
             .sink {  value in
                 Task {
                     do {
@@ -76,7 +82,7 @@ final class PostViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        input.collectionViewUpdata
+        input.collectionViewUpdata?
             .sink { value in
                 Task {
                     do {
@@ -94,8 +100,29 @@ final class PostViewModel: ViewModelType {
                 }
             }
             .store(in: self.cancelBag)
+        input.commentLikeButtonTapped?
+            .sink {  value in
+                Task {
+                    do {
+                        if value.0 == true {
+                            let statusCode = try await self.postUnlikeButtonAPI(contentId: value.1)?.status
+                            if statusCode == 200 {
+                                self.toggleLikeButton.send(!value.0)
+                            }
+                        } else {
+                            let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
+                            if statusCode == 201 {
+                                self.toggleLikeButton.send(value.0)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+            .store(in: self.cancelBag)
         
-        return Output(getPostData: getPostData, toggleLikeButton: toggleLikeButton, getPostReplyData: getPostReplyData)
+        return Output(getPostData: getPostData, toggleLikeButton: toggleLikeButton, getPostReplyData: getPostReplyData, toggleCommentLikeButton: toggleCommentLikeButton)
     }
     
     

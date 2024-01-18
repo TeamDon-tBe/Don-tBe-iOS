@@ -33,7 +33,7 @@
 		2A5220EC2B507F2A001510B7 /* UITableViewCellRegisterable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */; };
 		2A5220EF2B507F97001510B7 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */; };
 		2A5220F22B507FAE001510B7 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */; };
-		2A5D68F62B58D773000AE1B7 /* CommentListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68F52B58D773000AE1B7 /* CommentListResponseDTO.swift */; };
+		2A5D68F82B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */; };
 		2A6D54C12B479B4300F9891E /* adjusted+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C02B479B4300F9891E /* adjusted+.swift */; };
 		2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6D54C22B493A8400F9891E /* UIFont+.swift */; };
 		2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */; };
@@ -173,7 +173,7 @@
 		2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellRegisterable.swift; sourceTree = "<group>"; };
 		2A5220EE2B507F97001510B7 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		2A5220F12B507FAE001510B7 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationTableViewCell.swift; sourceTree = "<group>"; };
-		2A5D68F52B58D773000AE1B7 /* CommentListResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListResponseDTO.swift; sourceTree = "<group>"; };
+		2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentLikeRequestDTO.swift; sourceTree = "<group>"; };
 		2A6D54C02B479B4300F9891E /* adjusted+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "adjusted+.swift"; sourceTree = "<group>"; };
 		2A6D54C22B493A8400F9891E /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		2A6D54C42B493E3F00F9891E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
@@ -455,22 +455,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		2A5D68F32B58D75D000AE1B7 /* Comment */ = {
-			isa = PBXGroup;
-			children = (
-				2A5D68F42B58D763000AE1B7 /* DTO */,
-			);
-			path = Comment;
-			sourceTree = "<group>";
-		};
-		2A5D68F42B58D763000AE1B7 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				2A5D68F52B58D773000AE1B7 /* CommentListResponseDTO.swift */,
-			);
-			path = DTO;
-			sourceTree = "<group>";
-		};
 		2A7341592B58532A00F65FD0 /* ContentLike */ = {
 			isa = PBXGroup;
 			children = (
@@ -657,6 +641,7 @@
 			isa = PBXGroup;
 			children = (
 				2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */,
+				2A5D68F72B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift */,
 			);
 			path = RequestDTO;
 			sourceTree = "<group>";
@@ -784,7 +769,6 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				2A5D68F32B58D75D000AE1B7 /* Comment */,
 				2A7341592B58532A00F65FD0 /* ContentLike */,
 				2A5183132B57131F00B43BA8 /* Notification */,
 				2F05B1A32B57993200AC368D /* Post */,
@@ -1244,6 +1228,7 @@
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
+				2A5D68F82B58E9C0000AE1B7 /* CommentLikeRequestDTO.swift in Sources */,
 				2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */,
 				3CBF99272B549C7D0015FE4B /* WriteViewModel.swift in Sources */,
 				3C70BE332B53EF92001AA5A6 /* MyPageViewModel.swift in Sources */,
@@ -1257,7 +1242,6 @@
 				2A8D70C72B4D8C1C009F4C6C /* OnboardingEndingViewModel.swift in Sources */,
 				2A2671F92B4C0819009D214F /* UILabel+.swift in Sources */,
 				2A8D70B82B4C9A59009F4C6C /* OnboardingViewController.swift in Sources */,
-				2A5D68F62B58D773000AE1B7 /* CommentListResponseDTO.swift in Sources */,
 				2A2672022B4C3B44009D214F /* ViewModelType.swift in Sources */,
 				3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */,
 				2F8735402B4BE65300E55552 /* HomeView.swift in Sources */,
