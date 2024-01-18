@@ -16,6 +16,7 @@ final class PostViewController: UIViewController {
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
+    let refreshControl = UIRefreshControl()
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
@@ -40,6 +41,14 @@ final class PostViewController: UIViewController {
     
     private lazy var myView = PostDetailView()
     private lazy var postView = PostView()
+    
+    let grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     private lazy var textFieldView = PostReplyTextFieldView()
     private lazy var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
@@ -70,6 +79,7 @@ final class PostViewController: UIViewController {
         setTextFieldGesture()
         setNotification()
         setAddTarget()
+        setRefreshControll()
     }
     
     init(viewModel: PostViewModel) {
@@ -123,6 +133,7 @@ extension PostViewController {
     
     private func setHierarchy() {
         view.addSubviews(postView,
+                         grayView,
                          verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
@@ -130,6 +141,11 @@ extension PostViewController {
     
     private func setLayout() {
         postView.snp.makeConstraints {
+            $0.top.equalTo(self.view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        grayView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalToSuperview()
         }
@@ -165,6 +181,12 @@ extension PostViewController {
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
+    }
+    
+    private func setRefreshControll() {
+        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        postReplyCollectionView.refreshControl = refreshControl
+        refreshControl.backgroundColor = .donGray1
     }
     
     @objc func showToast(_ notification: Notification) {
@@ -308,6 +330,20 @@ extension PostViewController {
     }
     
     @objc
+    func refreshPost() {
+        DispatchQueue.main.async {
+            self.getAPI()
+        }
+        self.postReplyCollectionView.reloadData()
+        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
+    }
+    
+    @objc
+    func finishedRefreshing() {
+        refreshControl.endRefreshing()
+    }
+    
+    @objc
     private func dismissViewController() {
         self.dismiss(animated: false)
     }
@@ -360,6 +396,14 @@ extension PostViewController {
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
+        
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if data.isGhost {
+            self.grayView.alpha = 0.85
+        } else {
+            let alpha = data.memberGhost
+            self.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
@@ -416,6 +460,15 @@ extension PostViewController: UICollectionViewDataSource {
         cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
         cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
         
+        // 내가 투명도를 누른 유저인 경우 -85% 적용
+        if self.viewModel.postReplyData[indexPath.row].isGhost {
+            cell.grayView.alpha = 0.85
+        } else {
+            let alpha = self.viewModel.postReplyData[indexPath.row].memberGhost
+            print("\(self.viewModel.postReplyData[indexPath.row].isGhost)")
+            print("postReplyData: \(alpha)")
+            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+        }
         
         return cell
     }
@@ -445,6 +498,7 @@ extension PostViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
+                    refreshPost()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()
