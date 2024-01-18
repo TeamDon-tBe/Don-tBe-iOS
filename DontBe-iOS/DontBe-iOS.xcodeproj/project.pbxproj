@@ -81,6 +81,7 @@
 		2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735452B4C34A500E55552 /* HomeCollectionView.swift */; };
 		2F8735482B4C355100E55552 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */; };
 		2F87354C2B4D28D700E55552 /* HomeCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */; };
+		2F8FFA8D2B5942490060FB46 /* PostCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */; };
 		2FB64FF02B5310DD0082A414 /* WriteReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */; };
 		2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */; };
 		2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */; };
@@ -222,6 +223,7 @@
 		2F8735452B4C34A500E55552 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
 		2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionFooterView.swift; sourceTree = "<group>"; };
+		2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewHeader.swift; sourceTree = "<group>"; };
 		2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewController.swift; sourceTree = "<group>"; };
 		2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyPostView.swift; sourceTree = "<group>"; };
 		2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyView.swift; sourceTree = "<group>"; };
@@ -688,6 +690,7 @@
 				2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */,
 				2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */,
 				2FB64FF52B531E4F0082A414 /* WriteReplyEditorView.swift */,
+				2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1298,6 +1301,7 @@
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
 				2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
+				2F8FFA8D2B5942490060FB46 /* PostCollectionViewHeader.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
