@@ -58,13 +58,14 @@ final class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        setAddTarget()
         setUI()
         setHierarchy()
         setLayout()
         setDelegate()
         setTextFieldGesture()
         setNotification()
-        setAddTarget()
         
     }
     
@@ -160,6 +161,7 @@ extension PostViewController {
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
     }
     
@@ -253,16 +255,32 @@ extension PostViewController {
     
     private func setAddTarget() {
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-        postView.kebabButton.addTarget(self, action: #selector(deleteOrWarn), for: .touchUpInside)
+        self.postView.kebabButton.addTarget(self, action: #selector(self.deleteOrWarn), for: .touchUpInside)
     }
     
     @objc
     func deleteOrWarn() {
         if self.memberId == loadUserData()?.memberId ?? 0 {
-            deletePost()
+            print("나야")
+            self.deleteBottomsheet.showSettings()
+            addDeleteButtonAction()
         } else {
-            warnUser()
+            print("나 아니야")
+            self.warnBottomsheet.showSettings()
+            addWarnUserButtonAction()
         }
+    }
+    
+    private func addDeleteButtonAction() {
+        print("삭제")
+        self.deleteBottomsheet.warnButton.removeFromSuperview()
+        self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    }
+    
+    private func addWarnUserButtonAction() {
+        print("신고")
+        self.warnBottomsheet.deleteButton.removeFromSuperview()
+        self.warnBottomsheet.warnButton.addTarget(self, action: #selector(warnUser), for: .touchUpInside)
     }
     
     @objc
@@ -342,6 +360,7 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
+                self.memberId = data.memberId
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)
@@ -361,16 +380,16 @@ extension PostViewController {
         self.postView.timeLabel.text = data.time.formattedTime()
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
-        self.memberId = data.memberId
         self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
         
         if self.memberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
-            print("멤버 아이디 \(self.memberId)")
+            print("내 아이디 \(self.memberId)")
         } else {
             self.postView.ghostButton.isHidden = false
             self.postView.verticalTextBarView.isHidden = false
+            print("멤버 아이디 \(self.memberId)")
         }
     }
 }
