@@ -10,6 +10,8 @@ import UIKit
 
 final class DeleteReplyViewController: UIViewController {
     
+    static let reloadData = NSNotification.Name("reloadData")
+    
     // MARK: - Properties
     var commentId: Int = 0
     var viewModel: DeleteReplyViewModel
@@ -108,6 +110,7 @@ extension DeleteReplyViewController {
             .sink { _ in
                 self.dismiss(animated: true)
                 // postVC pop
+                NotificationCenter.default.post(name: DeleteReplyViewController.reloadData, object: nil)
                 self.postVC.postReplyCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
