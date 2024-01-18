@@ -33,6 +33,13 @@ final class PostCollectionViewHeader: UICollectionReusableView {
         return view
     }()
     
+    var grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
     var profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -178,20 +185,19 @@ extension PostCollectionViewHeader {
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView
-        )
+        addSubviews(PostbackgroundUIView, horizontalDivierView, grayView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
-                                     postNicknameLabel,
-                                     transparentLabel,
-                                     dotLabel,
-                                     timeLabel,
-                                     kebabButton,
-                                     contentTextLabel,
-                                     commentStackView,
-                                     likeStackView,
-                                     ghostButton,
-                                     verticalTextBarView)
+                                         postNicknameLabel,
+                                         transparentLabel,
+                                         dotLabel,
+                                         timeLabel,
+                                         kebabButton,
+                                         contentTextLabel,
+                                         commentStackView,
+                                         likeStackView,
+                                         ghostButton,
+                                         verticalTextBarView)
         
         commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
         likeStackView.addArrangedSubviews(likeButton,
@@ -202,6 +208,10 @@ extension PostCollectionViewHeader {
         PostbackgroundUIView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        grayView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
         
         profileImageView.snp.makeConstraints {

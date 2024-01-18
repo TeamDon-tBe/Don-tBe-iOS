@@ -289,7 +289,7 @@ extension PostViewController {
     }
     
     private func setAddTarget() {
-        ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+        self.collectionHeaderView.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         self.postView.kebabButton.addTarget(self, action: #selector(self.deleteOrWarn), for: .touchUpInside)
     }
     
@@ -472,6 +472,9 @@ extension PostViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
+        self.postView.isGhost = data.isGhost
+        self.postView.memberGhost = data.memberGhost
+        
         self.collectionHeaderView.profileImageView.load(url: data.memberProfileUrl)
         self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
         self.postView
@@ -623,9 +626,24 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
             header.isLiked = self.postView.isLiked
+            header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
+            // 내가 투명도를 누른 유저인 경우 -85% 적용
+            print("\(self.postView.isGhost)")
+            print("\(self.postView.memberGhost)")
+            
+            if self.postView.isGhost {
+                print("header == \(header.grayView.alpha)")
+                header.grayView.alpha = 0.85
+            } else {
+                let alpha = self.postView.memberGhost
+                header.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            }
+            
+            
+            
             return header
             
         } else {

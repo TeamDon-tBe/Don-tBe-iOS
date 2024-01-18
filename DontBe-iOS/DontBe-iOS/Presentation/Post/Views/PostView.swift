@@ -18,6 +18,8 @@ final class PostView: UIView {
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
     )
     var isLiked: Bool = false
+    var isGhost: Bool = true
+    var memberGhost: Int = 0
     
     // MARK: - UI Components
     
