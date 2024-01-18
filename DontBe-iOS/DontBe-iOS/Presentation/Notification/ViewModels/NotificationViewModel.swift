@@ -89,7 +89,7 @@ extension NotificationViewModel {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: NotificationListResponseDTO? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/notification-allaaa",
+                baseURL: Config.baseURL + "/notification-all",
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["": ""])

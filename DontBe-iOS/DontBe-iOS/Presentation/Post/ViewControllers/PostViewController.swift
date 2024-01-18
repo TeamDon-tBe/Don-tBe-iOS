@@ -29,7 +29,8 @@ final class PostViewController: UIViewController {
             .map { _ in return self.contentId }
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
-    }    
+    }
+    
     let viewModel: PostViewModel
     private var cancelBag = CancelBag()
     
@@ -113,6 +114,11 @@ final class PostViewController: UIViewController {
             $0.height.equalTo(56.adjusted)
         }
         getAPI()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }
 }
 
@@ -304,6 +310,28 @@ extension PostViewController {
         presentView()
     }
     
+    @objc
+    private func pushToMypage() {
+        if self.memberId == loadUserData()?.memberId ?? 0  {
+            self.tabBarController?.selectedIndex = 3
+            if let selectedViewController = self.tabBarController?.selectedViewController {
+                self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+            }
+            let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+            for (index, controller) in myViewController.enumerated() {
+                if let tabBarItem = controller.tabBarItem {
+                    if index != self.tabBarController?.selectedIndex {
+                        self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                    }
+                }
+            }
+        } else {
+            let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+            viewController.memberId = memberId
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
+    }
+    
     func popView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -426,7 +454,8 @@ extension PostViewController {
         self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.memberId = data.memberId
-        
+        self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
+
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
             self.grayView.alpha = 0.85
@@ -516,6 +545,10 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
             self.present(self.transparentPopupVC, animated: false, completion: nil)
+        }
+        cell.ProfileButtonAction = {
+            self.memberId = self.viewModel.postReplyData[indexPath.row].memberId
+            self.pushToMypage()
         }
         cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postReplyData[indexPath.row].memberGhost)%"
