@@ -155,7 +155,8 @@ extension WriteViewController {
             self.banView.snp.makeConstraints {
                 $0.edges.equalToSuperview()
             }
-
+        } else {
+            self.banView.removeFromSuperview()
         }
     }
 }
