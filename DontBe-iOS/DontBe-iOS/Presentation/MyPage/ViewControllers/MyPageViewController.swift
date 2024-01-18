@@ -51,7 +51,7 @@ final class MyPageViewController: UIViewController {
         return button
     }()
 
-    // MARK: - Life Cycles
+   // MARK: - Life Cycles
     
     override func loadView() {
         super.loadView()
