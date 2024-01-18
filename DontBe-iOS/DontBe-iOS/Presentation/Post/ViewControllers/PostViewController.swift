@@ -65,7 +65,6 @@ final class PostViewController: UIViewController {
         
     }
     
-    
     init(viewModel: PostViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -85,6 +84,14 @@ final class PostViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(
+                  self,
+                  selector: #selector(self.didDismissDetailNotification(_:)),
+                  name: NSNotification.Name("DismissReplyView"),
+                  object: nil
+              )
+        
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         self.navigationController?.navigationBar.isHidden = false
@@ -146,13 +153,19 @@ extension PostViewController {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
         transparentPopupVC.transparentButtonPopupView.delegate = self
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
     }
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
     }
+    
+    @objc func didDismissDetailNotification(_ notification: Notification) {
+         DispatchQueue.main.async {
+             self.getAPI()
+             self.postReplyCollectionView.reloadData()
+         }
+     }
     
     @objc func showToast(_ notification: Notification) {
         if let showToast = notification.userInfo?["showToast"] as? Bool {
@@ -312,7 +325,6 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                print(data)
                 self.bindPostData(data: data)
             }
             .store(in: self.cancelBag)

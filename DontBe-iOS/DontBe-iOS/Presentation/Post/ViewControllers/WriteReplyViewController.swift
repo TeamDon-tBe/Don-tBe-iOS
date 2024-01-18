@@ -61,6 +61,10 @@ final class WriteReplyViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         bindViewModel()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
+    }
 }
 
 // MARK: - Extensions
