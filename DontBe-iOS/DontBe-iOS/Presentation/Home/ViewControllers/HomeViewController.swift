@@ -376,7 +376,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             } else {
                 let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
                 viewController.memberId = memberId
-                self.navigationController?.pushViewController(viewController, animated: true)
+                self.navigationController?.pushViewController(viewController, animated: false)
             }
         }
 
@@ -397,6 +397,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
         cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
+        cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postData[indexPath.row].isGhost {
