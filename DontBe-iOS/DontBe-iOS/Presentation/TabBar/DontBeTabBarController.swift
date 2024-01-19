@@ -138,7 +138,6 @@ final class DontBeTabBarController: UITabBarController {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["": ""])
-            print ("👻👻👻👻👻안읽은 노티 개수 체크👻👻👻👻👻")
             return data
         } catch {
             return nil
