@@ -187,7 +187,7 @@ extension MyPageViewController {
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(warnUserButtonTapped), name: MyPageContentViewController.reloadData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
     }
     
     private func setAddTarget() {
@@ -271,6 +271,7 @@ extension MyPageViewController {
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
                 } else {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                    self.rootView.myPageContentViewController.firstContentButton.isHidden = false
                 }
                 self.rootView.myPageContentViewController.homeCollectionView.reloadData()
             }
@@ -298,11 +299,9 @@ extension MyPageViewController {
         
         if data.memberId != loadUserData()?.memberId ?? 0 {
             self.rootView.myPageContentViewController.noContentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoContentOtherLabel
-            self.rootView.myPageContentViewController.firstContentButton.isHidden = true
             self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
-            self.rootView.myPageContentViewController.firstContentButton.isHidden = false
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
         }
     }
@@ -381,7 +380,6 @@ extension MyPageViewController {
     
     @objc
     private func warnButtonTapped() {
-        print("ddd")
         rootView.warnBottomsheet.handleDismiss()
         let warnView: SFSafariViewController
         if let warnURL = self.warnUserURL {
