@@ -93,7 +93,6 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
-        NotificationCenter.default.removeObserver(self, name: WriteViewController.showWriteToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.popViewController, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissDetailView"), object: nil)
@@ -259,6 +258,8 @@ extension HomeViewController {
                         self.uploadToastView?.checkImageView.alpha = 0
                         self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
                         self.uploadToastView?.container.backgroundColor = .donGray3
+                        
+                        NotificationCenter.default.removeObserver(self, name: WriteViewController.showWriteToastNotification, object: nil)
                     }
                 }
             }
