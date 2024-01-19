@@ -56,6 +56,7 @@ final class MyPageContentViewController: UIViewController {
         button.layer.cornerRadius = 4.adjusted
         button.layer.borderWidth = 1.adjusted
         button.layer.borderColor = UIColor.donSecondary.cgColor
+        button.isHidden = true
         return button
     }()
     
@@ -80,13 +81,13 @@ final class MyPageContentViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
-        setNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         setRefreshControll()
+        setNotification()
     }
 }
 
