@@ -17,6 +17,7 @@ final class MyPageCommentViewController: UIViewController {
     static let pushViewController = NSNotification.Name("pushViewController")
     static let reloadData = NSNotification.Name("reloadData")
     static let warnUserButtonTapped = NSNotification.Name("warnUserButtonTapped")
+    static let ghostButtonTapped = NSNotification.Name("ghostButtonCommentTapped")
     
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
@@ -283,7 +284,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
-            NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
+            NotificationCenter.default.post(name: MyPageCommentViewController.ghostButtonTapped, object: nil)
         }
         
         cell.nicknameLabel.text = commentData[indexPath.row].memberNickname

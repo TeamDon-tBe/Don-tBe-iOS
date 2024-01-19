@@ -60,6 +60,7 @@ final class MyPageViewController: UIViewController {
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     
     private var uploadToastView: DontBeToastView?
+    private var deleteToastView: DontBeDeletePopupView?
     private var alreadyTransparencyToastView: DontBeToastView?
     
     let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
@@ -188,7 +189,9 @@ extension MyPageViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ghostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(contentGhostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(commentGhostButtonTapped), name: MyPageCommentViewController.ghostButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
     }
     
     private func setAddTarget() {
@@ -222,6 +225,28 @@ extension MyPageViewController {
         refreshControl.endRefreshing()
     }
     
+    @objc func showDeleteToast(_ notification: Notification) {
+        if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+            if showToast == true {
+                DispatchQueue.main.async {
+                    self.deleteToastView = DontBeDeletePopupView()
+                    
+                    self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                    
+                    self.deleteToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                        $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                        $0.height.equalTo(75.adjusted)
+                    }
+                    
+                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                        self.deleteToastView?.alpha = 0
+                    }
+                }
+            }
+        }
+    }
+    
     func showAlreadyTransparencyToast() {
         DispatchQueue.main.async {
             self.alreadyTransparencyToastView = DontBeToastView()
@@ -232,6 +257,11 @@ extension MyPageViewController {
             self.alreadyTransparencyToastView?.container.backgroundColor = .donPrimary
             
             self.view.addSubviews(self.alreadyTransparencyToastView ?? DontBeToastView())
+            
+            self.alreadyTransparencyToastView?.snp.remakeConstraints {
+                $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+                $0.bottom.equalToSuperview().inset(20.adjusted)
+            }
             
             self.alreadyTransparencyToastView?.snp.makeConstraints {
                 $0.leading.trailing.equalToSuperview().inset(16.adjusted)
@@ -390,7 +420,18 @@ extension MyPageViewController {
     }
     
     @objc
-    private func ghostButtonTapped() {
+    private func contentGhostButtonTapped() {
+        self.alarmTriggerType = rootView.myPageContentViewController.alarmTriggerType
+        self.targetMemberId = rootView.myPageContentViewController.targetMemberId
+        self.alarmTriggerdId = rootView.myPageContentViewController.alarmTriggerdId
+        self.present(self.transparentPopupVC, animated: false, completion: nil)
+    }
+    
+    @objc
+    private func commentGhostButtonTapped() {
+        self.alarmTriggerType = rootView.myPageCommentViewController.alarmTriggerType
+        self.targetMemberId = rootView.myPageCommentViewController.targetMemberId
+        self.alarmTriggerdId = rootView.myPageCommentViewController.alarmTriggerdId
         self.present(self.transparentPopupVC, animated: false, completion: nil)
     }
     

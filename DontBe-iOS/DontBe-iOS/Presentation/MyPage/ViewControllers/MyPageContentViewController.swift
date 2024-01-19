@@ -18,7 +18,7 @@ final class MyPageContentViewController: UIViewController {
     static let pushViewController = NSNotification.Name("pushViewController")
     static let reloadData = NSNotification.Name("reloadData")
     static let warnUserButtonTapped = NSNotification.Name("warnUserButtonTapped")
-    static let ghostButtonTapped = NSNotification.Name("ghostButtonTapped")
+    static let ghostButtonTapped = NSNotification.Name("ghostButtonContentTapped")
     
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
