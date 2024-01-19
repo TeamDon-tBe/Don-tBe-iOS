@@ -18,6 +18,7 @@ final class MyPageContentViewController: UIViewController {
     static let pushViewController = NSNotification.Name("pushViewController")
     static let reloadData = NSNotification.Name("reloadData")
     static let warnUserButtonTapped = NSNotification.Name("warnUserButtonTapped")
+    static let ghostButtonTapped = NSNotification.Name("ghostButtonTapped")
     
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
@@ -56,6 +57,7 @@ final class MyPageContentViewController: UIViewController {
         button.layer.cornerRadius = 4.adjusted
         button.layer.borderWidth = 1.adjusted
         button.layer.borderColor = UIColor.donSecondary.cgColor
+        button.isHidden = true
         return button
     }()
     
@@ -80,13 +82,13 @@ final class MyPageContentViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
-        setNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         setRefreshControll()
+        setNotification()
     }
 }
 
@@ -157,16 +159,17 @@ extension MyPageContentViewController {
     
     @objc
     private func deleteButtonTapped() {
-        popView()
+        popDeleteView()
         presentView()
     }
     
     @objc
     private func warnButtonTapped() {
+        popWarnView()
         NotificationCenter.default.post(name: MyPageContentViewController.warnUserButtonTapped, object: nil)
     }
     
-    func popView() {
+    func popDeleteView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteBottomsheet.dimView.alpha = 0
@@ -176,6 +179,20 @@ extension MyPageContentViewController {
             })
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+        refreshPost()
+    }
+    
+    func popWarnView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.warnBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.warnBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.warnBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            warnBottomsheet.dimView.removeFromSuperview()
+            warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
         refreshPost()
     }
@@ -280,6 +297,7 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
+            NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
         }
         
         cell.nicknameLabel.text = contentData[indexPath.row].memberNickname
