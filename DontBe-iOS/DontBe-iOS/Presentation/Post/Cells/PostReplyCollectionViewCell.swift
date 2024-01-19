@@ -143,6 +143,18 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         view.layer.cornerRadius = 6.adjusted
         return view
     }()
+    
+    private let verticalBarView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray3
+        return view
+    }()
+    
+    private let cellSpacingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray1
+        return view
+    }()
 
     // MARK: - Life Cycles
     
@@ -171,6 +183,7 @@ extension PostReplyCollectionViewCell {
         contentView.addSubviews(horizontalCellBarCircleView,
                                 backgroundUIView,
                                 horizontalCellBarView,
+                                verticalBarView,
                                 grayView)
         
         backgroundUIView.addSubviews(profileImageView,
@@ -182,7 +195,8 @@ extension PostReplyCollectionViewCell {
                                      contentTextLabel,
                                      likeStackView,
                                      ghostButton,
-                                     verticalTextBarView)
+                                     verticalTextBarView,
+                                     cellSpacingView)
         
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
@@ -207,7 +221,8 @@ extension PostReplyCollectionViewCell {
             $0.centerY.equalTo(backgroundUIView)
             $0.trailing.equalTo(backgroundUIView.snp.leading)
             $0.height.equalTo(1.adjusted)
-            $0.leading.equalToSuperview().inset(-18.adjusted)
+            $0.width.equalTo(22.adjusted)
+            $0.leading.equalToSuperview()
         }
         
         horizontalCellBarCircleView.snp.makeConstraints {
@@ -272,6 +287,18 @@ extension PostReplyCollectionViewCell {
             $0.bottom.equalTo(ghostButton.snp.top)
             $0.width.equalTo(1.adjusted)
             $0.centerX.equalTo(profileImageView)
+        }
+        
+        verticalBarView.snp.makeConstraints {
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalTo(horizontalCellBarView.snp.leading)
+            $0.width.equalTo(1)
+        }
+        
+        cellSpacingView.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.width.equalTo(backgroundUIView)
+            $0.height.equalTo(8)
         }
     }
     

@@ -64,27 +64,21 @@ final class PostViewController: UIViewController {
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
-    
-    private let verticalBarView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .donGray3
-        return view
-    }()
+    private var deleteToastView: DontBeDeletePopupView?
     
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setAddTarget()
         setUI()
         setHierarchy()
-        setLayout()
         setDelegate()
         setTextFieldGesture()
         setRefreshControll()
         setRegister()
+        setLayout()
         refreshPost()
     }
     
@@ -127,7 +121,9 @@ final class PostViewController: UIViewController {
             $0.bottom.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
+        
         getAPI()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -135,6 +131,7 @@ final class PostViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
     }
 }
 
@@ -151,7 +148,6 @@ extension PostViewController {
     
     private func setHierarchy() {
         view.addSubviews(grayView,
-                         verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
     }
@@ -167,13 +163,6 @@ extension PostViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.bottom.equalTo(textFieldView.snp.bottom).offset(-56.adjusted)
             $0.leading.trailing.equalToSuperview()
-        }
-        
-        verticalBarView.snp.makeConstraints {
-            $0.top.equalTo(postReplyCollectionView)
-            $0.leading.equalToSuperview().inset(16.adjusted)
-            $0.width.equalTo(1.adjusted)
-            $0.bottom.equalTo(postReplyCollectionView.snp.bottom)
         }
         
         textFieldView.snp.makeConstraints {
@@ -197,6 +186,7 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
@@ -398,6 +388,29 @@ extension PostViewController {
             self.navigationController?.pushViewController(viewController, animated: false)
         }
     }
+    
+    @objc 
+    func showDeleteToast(_ notification: Notification) {
+            if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+                if showToast == true {
+                    DispatchQueue.main.async {
+                        self.deleteToastView = DontBeDeletePopupView()
+                        
+                        self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                        
+                        self.deleteToastView?.snp.makeConstraints {
+                            $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                            $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                            $0.height.equalTo(75.adjusted)
+                        }
+                        
+                        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                            self.deleteToastView?.alpha = 0
+                        }
+                    }
+                }
+            }
+        }
     
     func popPostView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
@@ -700,7 +713,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.isLiked = self.postView.isLiked
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-
+            
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
@@ -729,7 +742,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        return CGSize(width: UIScreen.main.bounds.width, height: 8 + postViewHeight.adjusted)
+        return CGSize(width: UIScreen.main.bounds.width, height: 1 + postViewHeight.adjusted)
     }
 }
 

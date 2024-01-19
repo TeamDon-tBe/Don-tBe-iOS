@@ -12,6 +12,7 @@ import SnapKit
 final class WriteReplyPostView: UIView {
 
     // MARK: - Properties
+    var detailViewHeight: Int = 0
     
     // MARK: - UI Components
     
@@ -58,6 +59,7 @@ final class WriteReplyPostView: UIView {
         setLayout()
         setAddTarget()
         setRegisterCell()
+        saveHeight()
     }
     
     @available(*, unavailable)
@@ -112,8 +114,8 @@ extension WriteReplyPostView {
         
     }
     
-    private func setDataBind() {
-        
+    private func saveHeight() {
+        detailViewHeight = Int(self.backgroundUIView.frame.height)
     }
 }
 
