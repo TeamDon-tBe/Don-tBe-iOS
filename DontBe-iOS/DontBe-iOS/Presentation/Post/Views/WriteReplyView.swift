@@ -107,7 +107,7 @@ extension WriteReplyView {
         
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(750.adjusted)
+            $0.height.equalTo(900.adjusted)
             $0.width.equalTo(UIScreen.main.bounds.width)
         }
         
@@ -198,21 +198,21 @@ extension WriteReplyView: UITextViewDelegate {
             postButton.setTitleColor(.donBlack, for: .normal)
             postButton.backgroundColor = .donPrimary
             postButton.isEnabled = true
-        }
-        
-        if textLength < 500 {
-            limitedCircleProgressBar.alpha = 0
-            circleProgressBar.alpha = 1
             
-            let value = Double(textLength) / 500
-            circleProgressBar.value = value
-            postButton.isEnabled = true
-        } else {
-            limitedCircleProgressBar.alpha = 1
-            circleProgressBar.alpha = 0
-            postButton.isEnabled = false
-            
-            impactFeedbackGenerator.impactOccurred()
+            if textLength < 500 {
+                limitedCircleProgressBar.alpha = 0
+                circleProgressBar.alpha = 1
+                
+                let value = Double(textLength) / 500
+                circleProgressBar.value = value
+                postButton.isEnabled = true
+            } else {
+                limitedCircleProgressBar.alpha = 1
+                circleProgressBar.alpha = 0
+                postButton.isEnabled = false
+                
+                impactFeedbackGenerator.impactOccurred()
+            }
         }
     }
 }

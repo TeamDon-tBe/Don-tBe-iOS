@@ -212,7 +212,7 @@ extension PostCollectionViewHeader {
         }
         
         grayView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(PostbackgroundUIView)
         }
         
         profileImageView.snp.makeConstraints {
