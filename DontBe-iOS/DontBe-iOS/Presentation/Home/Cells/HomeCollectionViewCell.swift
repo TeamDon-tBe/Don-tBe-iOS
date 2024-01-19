@@ -186,15 +186,16 @@ extension HomeCollectionViewCell {
     }
     
     func setHierarchy() {
-        contentView.addSubviews(backgroundUIView, grayView)
+        contentView.addSubviews(backgroundUIView)
         
         backgroundUIView.addSubviews(profileImageView,
                                      nicknameLabel,
                                      transparentLabel,
                                      dotLabel,
                                      timeLabel,
-                                     kebabButton,
                                      contentTextLabel,
+                                     grayView,
+                                     kebabButton,
                                      commentStackView,
                                      likeStackView,
                                      ghostButton,
@@ -204,6 +205,11 @@ extension HomeCollectionViewCell {
         commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
+        
+        kebabButton.bringSubviewToFront(contentView)
+        ghostButton.bringSubviewToFront(contentView)
+        likeStackView.bringSubviewToFront(contentView)
+        commentStackView.bringSubviewToFront(contentView)
     }
     
     func setLayout() {
@@ -214,7 +220,7 @@ extension HomeCollectionViewCell {
         }
         
         grayView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.edges.equalTo(backgroundUIView)
         }
         
         profileImageView.snp.makeConstraints {
