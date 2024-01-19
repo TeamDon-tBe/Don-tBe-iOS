@@ -366,7 +366,7 @@ extension PostViewController {
         } else {
             let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
             viewController.memberId = memberId
-            self.navigationController?.pushViewController(viewController, animated: true)
+            self.navigationController?.pushViewController(viewController, animated: false)
         }
     }
     
