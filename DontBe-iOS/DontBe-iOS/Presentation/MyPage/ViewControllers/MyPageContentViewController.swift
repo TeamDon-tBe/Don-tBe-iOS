@@ -158,16 +158,17 @@ extension MyPageContentViewController {
     
     @objc
     private func deleteButtonTapped() {
-        popView()
+        popDeleteView()
         presentView()
     }
     
     @objc
     private func warnButtonTapped() {
+        popWarnView()
         NotificationCenter.default.post(name: MyPageContentViewController.warnUserButtonTapped, object: nil)
     }
     
-    func popView() {
+    func popDeleteView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteBottomsheet.dimView.alpha = 0
@@ -177,6 +178,20 @@ extension MyPageContentViewController {
             })
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+        refreshPost()
+    }
+    
+    func popWarnView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.warnBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.warnBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.warnBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            warnBottomsheet.dimView.removeFromSuperview()
+            warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
         refreshPost()
     }
