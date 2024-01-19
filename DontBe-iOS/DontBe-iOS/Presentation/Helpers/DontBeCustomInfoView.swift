@@ -85,7 +85,7 @@ extension DontBeCustomInfoView {
         
         content.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(28.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(10.adjusted)
             $0.bottom.equalToSuperview().inset(44.adjusted)
         }
     }
