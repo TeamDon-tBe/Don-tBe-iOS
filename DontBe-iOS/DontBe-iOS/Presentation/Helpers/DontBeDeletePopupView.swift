@@ -17,7 +17,7 @@ final class DontBeDeletePopupView: UIView {
     
     let container: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(red: 100, green: 100, blue: 100, alpha: 0.6)
+        view.backgroundColor = .donGray3
         view.layer.cornerRadius = 10.adjusted
         return view
     }()
