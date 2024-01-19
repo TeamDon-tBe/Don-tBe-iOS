@@ -13,6 +13,7 @@ final class DeleteReplyViewController: UIViewController {
     // MARK: - Properties
     
     static let reloadData = NSNotification.Name("reloadData")
+    static let showDeleteToastNotification = Notification.Name("ShowDeleteToastNotification")
     var commentId: Int = 0
     var viewModel: DeleteReplyViewModel
     private var cancelBag = CancelBag()
@@ -54,10 +55,11 @@ final class DeleteReplyViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("안녀어엉")
 
         NotificationCenter.default.post(name: NSNotification.Name("DismissDetailView"), object: nil, userInfo: nil)
-
         NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
+        NotificationCenter.default.post(name: DeleteReplyViewController.showDeleteToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 
     init(viewModel: DeleteReplyViewModel) {

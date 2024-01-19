@@ -180,6 +180,7 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
