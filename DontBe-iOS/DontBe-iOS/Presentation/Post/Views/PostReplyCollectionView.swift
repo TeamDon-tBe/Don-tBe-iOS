@@ -13,8 +13,8 @@ final class PostReplyCollectionView: UIView {
     
     lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.minimumLineSpacing = 10.adjusted
-        flowLayout.minimumInteritemSpacing = 10.adjusted
+        flowLayout.minimumLineSpacing = 0.adjusted
+        flowLayout.minimumInteritemSpacing = 0.adjusted
         flowLayout.scrollDirection = .vertical
         flowLayout.estimatedItemSize = CGSize(width: 200.adjusted, height: 160.adjusted)
 

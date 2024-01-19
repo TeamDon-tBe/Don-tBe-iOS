@@ -65,26 +65,19 @@ final class PostViewController: UIViewController {
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
     
-    private let verticalBarView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .donGray3
-        return view
-    }()
-    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setAddTarget()
         setUI()
         setHierarchy()
-        setLayout()
         setDelegate()
         setTextFieldGesture()
         setRefreshControll()
         setRegister()
+        setLayout()
     }
     
     init(viewModel: PostViewModel) {
@@ -121,7 +114,9 @@ final class PostViewController: UIViewController {
             $0.bottom.equalToSuperview()
             $0.height.equalTo(56.adjusted)
         }
+        
         getAPI()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -145,7 +140,6 @@ extension PostViewController {
     
     private func setHierarchy() {
         view.addSubviews(grayView,
-                         verticalBarView,
                          postReplyCollectionView,
                          textFieldView)
     }
@@ -161,13 +155,6 @@ extension PostViewController {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
             $0.bottom.equalTo(textFieldView.snp.bottom).offset(-56.adjusted)
             $0.leading.trailing.equalToSuperview()
-        }
-        
-        verticalBarView.snp.makeConstraints {
-            $0.top.equalTo(postReplyCollectionView)
-            $0.leading.equalToSuperview().inset(16.adjusted)
-            $0.width.equalTo(1.adjusted)
-            $0.bottom.equalTo(postReplyCollectionView.snp.bottom)
         }
         
         textFieldView.snp.makeConstraints {
@@ -528,6 +515,8 @@ extension PostViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.postReplyCollectionView.reloadData()
+                
+                print("\(self.collectionHeaderView.frame.height)")
             }
             .store(in: self.cancelBag)
     }
@@ -694,7 +683,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.isLiked = self.postView.isLiked
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-
+            
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
@@ -723,7 +712,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        return CGSize(width: UIScreen.main.bounds.width, height: 8 + postViewHeight.adjusted)
+        return CGSize(width: UIScreen.main.bounds.width, height: 1 + postViewHeight.adjusted)
     }
 }
 
