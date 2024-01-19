@@ -56,7 +56,6 @@ final class JoinProfileViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
-        setDelegate()
         bindViewModel()
     }
     
@@ -65,6 +64,12 @@ final class JoinProfileViewController: UIViewController {
         
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.hidesBackButton = true
+        setDelegate()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UITextField.textDidChangeNotification, object: nil)
     }
 }
 

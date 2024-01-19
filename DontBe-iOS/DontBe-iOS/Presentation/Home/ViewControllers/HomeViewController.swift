@@ -66,7 +66,6 @@ final class HomeViewController: UIViewController {
         setHierarchy()
         setLayout()
         setDelegate()
-        setNotification()
         setAddTarget()
         bindViewModel()
         setRefreshControll()
@@ -87,12 +86,17 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
         bindViewModel()
+        setNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
+        NotificationCenter.default.removeObserver(self, name: WriteViewController.showWriteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.popViewController, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissDetailView"), object: nil)
     }
 }
 
