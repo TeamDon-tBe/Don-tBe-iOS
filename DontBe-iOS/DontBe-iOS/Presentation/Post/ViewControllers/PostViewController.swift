@@ -81,6 +81,7 @@ final class PostViewController: UIViewController {
         setNotification()
         setRefreshControll()
         setRegister()
+        refreshPost()
     }
     
     init(viewModel: PostViewModel) {
@@ -99,8 +100,6 @@ final class PostViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        refreshPost()
-
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didDismissDetailNotification(_:)),

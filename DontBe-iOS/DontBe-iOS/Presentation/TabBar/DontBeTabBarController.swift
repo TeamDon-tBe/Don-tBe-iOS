@@ -150,7 +150,7 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         if selectedIndex == 1 {
-            self.selectedIndex = beforeIndex
+            self.selectedIndex = 0
         }
         
         if selectedIndex == 2 {

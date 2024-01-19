@@ -26,7 +26,7 @@ final class WriteReplyPostView: UIView {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted
-        image.image = ImageLiterals.Onboarding.imgOne
+        image.image = ImageLiterals.Common.imgProfile
         return image
     }()
     
