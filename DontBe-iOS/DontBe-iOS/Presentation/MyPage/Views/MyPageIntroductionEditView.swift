@@ -40,7 +40,7 @@ final class MyPageIntroductionEditView: UIView {
         return textView
     }()
     
-    private let numOfLetters: UILabel = {
+    let numOfLetters: UILabel = {
         let numOfLetters = UILabel()
         numOfLetters.text = "(0/50)"
         numOfLetters.textColor = .donGray7

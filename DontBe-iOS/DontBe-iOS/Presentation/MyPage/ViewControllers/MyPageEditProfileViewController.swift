@@ -80,6 +80,8 @@ final class MyPageEditProfileViewController: UIViewController {
         } else {
             self.nicknameEditView.nickNameTextField.text = nickname
             self.introductionEditView.contentTextView.text = introText
+            self.nicknameEditView.numOfLetters.text = "(\(nickname.count)/12)"
+            self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
         }
         setDelegate()
     }
