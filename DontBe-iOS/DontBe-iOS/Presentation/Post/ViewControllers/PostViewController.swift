@@ -81,6 +81,7 @@ final class PostViewController: UIViewController {
         setLayout()
         refreshPost()
         setNotification()
+        getAPI()
     }
     
     init(viewModel: PostViewModel) {
@@ -120,16 +121,18 @@ final class PostViewController: UIViewController {
             $0.height.equalTo(56.adjusted)
         }
         
-        getAPI()
         setAppearNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
+        
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
     }
 }
 

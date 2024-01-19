@@ -94,7 +94,6 @@ final class MyPageViewController: UIViewController {
         setUI()
         setLayout()
         setDelegate()
-        setNotification()
         setAddTarget()
         setRefreshControll()
     }
@@ -102,10 +101,12 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        bindViewModel()
-        
         self.tabBarController?.tabBar.isHidden = false
         self.tabBarController?.tabBar.isTranslucent = true
+        
+        bindViewModel()
+        setNotification()
+        
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
         
@@ -143,7 +144,7 @@ final class MyPageViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+        removeNotification()
     }
     
     override func viewDidLayoutSubviews() {
@@ -193,7 +194,16 @@ extension MyPageViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contentGhostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(commentGhostButtonTapped), name: MyPageCommentViewController.ghostButtonTapped, object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+    }
+    
+    private func removeNotification() {
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.pushViewController, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.reloadData, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.warnUserButtonTapped, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.ghostButtonTapped, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.ghostButtonTapped, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
     }
     
     private func setAddTarget() {
