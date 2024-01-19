@@ -136,7 +136,7 @@ extension MyPageProfileView {
     
     private func setHierarchy() {
         self.addSubviews(profileImageView,
-                         editButton,
+//                         editButton,
                          userNickname,
                          userIntroduction,
                          percentageBox,
@@ -155,11 +155,11 @@ extension MyPageProfileView {
             $0.size.equalTo(70.adjusted)
         }
         
-        editButton.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.top).offset(41.adjusted)
-            $0.leading.equalTo(profileImageView.snp.leading).offset(50.adjusted)
-            $0.size.equalTo(28.adjusted)
-        }
+//        editButton.snp.makeConstraints {
+//            $0.top.equalTo(profileImageView.snp.top).offset(41.adjusted)
+//            $0.leading.equalTo(profileImageView.snp.leading).offset(50.adjusted)
+//            $0.size.equalTo(28.adjusted)
+//        }
         
         userNickname.snp.makeConstraints {
             $0.centerX.equalToSuperview()
