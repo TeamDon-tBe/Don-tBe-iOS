@@ -18,11 +18,16 @@ final class PostViewController: UIViewController {
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
     let refreshControl = UIRefreshControl()
-    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
+    var deletePostBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var deleteReplyBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
+    
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    
     var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     var writeReplyView = WriteReplyView()
     
@@ -194,6 +199,7 @@ extension PostViewController {
             self.postReplyCollectionView.reloadData()
         }
     }
+    
     private func setRefreshControll() {
         refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
         postReplyCollectionView.refreshControl = refreshControl
@@ -289,8 +295,8 @@ extension PostViewController {
     @objc
     func deleteOrWarn() {
         if self.memberId == loadUserData()?.memberId ?? 0 {
-            self.deleteBottomsheet.showSettings()
-            addDeleteButtonAction()
+            self.deleteReplyBottomsheet.showSettings()
+            addDeleteReplyButtonAction()
         } else {
             self.warnBottomsheet.showSettings()
             addWarnUserButtonAction()
@@ -320,9 +326,25 @@ extension PostViewController {
         self.pushToMypage()
     }
     
-    private func addDeleteButtonAction() {
-        self.deleteBottomsheet.warnButton.removeFromSuperview()
-        self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    @objc
+    func headerKebabButtonAction() {
+        if self.memberId == loadUserData()?.memberId ?? 0 {
+            self.deletePostBottomsheet.showSettings()
+            addDeletePostButtonAction()
+        } else {
+            self.warnBottomsheet.showSettings()
+            addWarnUserButtonAction()
+        }
+    }
+    
+    private func addDeletePostButtonAction() {
+        self.deletePostBottomsheet.warnButton.removeFromSuperview()
+        self.deletePostBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+    }
+    
+    private func addDeleteReplyButtonAction() {
+        self.deleteReplyBottomsheet.warnButton.removeFromSuperview()
+        self.deleteReplyBottomsheet.deleteButton.addTarget(self, action: #selector(deleteReply), for: .touchUpInside)
     }
     
     private func addWarnUserButtonAction() {
@@ -332,15 +354,21 @@ extension PostViewController {
     
     @objc
     func deletePost() {
-        popView()
+        popPostView()
+        deletePostPopupView()
+    }
+    
+    @objc
+    func deleteReply() {
+        popReplyView()
         deleteReplyPopupView()
     }
     
     @objc
-    func deleteReplyPost() {
-        print("답글 삭제")
-        popView()
-        deleteReplyPopupView()
+    private func warnUser() {
+        popWarnView()
+        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
+        self.present(safariView, animated: true, completion: nil)
     }
     
     @objc
@@ -365,26 +393,65 @@ extension PostViewController {
         }
     }
     
-    func popView() {
+    func popPostView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.deleteBottomsheet.dimView.alpha = 0
+                self.deletePostBottomsheet.dimView.alpha = 0
                 self.postView.deleteBottomsheet.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
-                    self.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.deletePostBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deletePostBottomsheet.bottomsheetView.frame.height)
                     self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
                 }
             })
-            deleteBottomsheet.dimView.removeFromSuperview()
-            deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            deletePostBottomsheet.dimView.removeFromSuperview()
+            deletePostBottomsheet.bottomsheetView.removeFromSuperview()
             postView.deleteBottomsheet.dimView.removeFromSuperview()
             postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+    }
+    
+    func popReplyView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deleteReplyBottomsheet.dimView.alpha = 0
+                self.postView.deleteBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            deleteReplyBottomsheet.dimView.removeFromSuperview()
+            deleteReplyBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deleteBottomsheet.dimView.removeFromSuperview()
+            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+    }
+    
+    func popWarnView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deleteReplyBottomsheet.dimView.alpha = 0
+                self.postView.deleteBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            warnBottomsheet.dimView.removeFromSuperview()
+            warnBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.warnBottomsheet.dimView.removeFromSuperview()
+            postView.warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
     }
     
     func presentView() {
         deletePostPopupVC.contentId = self.contentId
         
+        self.present(self.deletePostPopupVC, animated: false, completion: nil)
+    }
+    
+    func deletePostPopupView() {
+        deletePostPopupVC.contentId = self.contentId
         self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
@@ -438,11 +505,6 @@ extension PostViewController {
     @objc
     private func dismissViewController() {
         self.dismiss(animated: false)
-    }
-    
-    @objc private func warnUser() {
-        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
-        self.present(safariView, animated: true, completion: nil)
     }
 }
 
@@ -550,12 +612,11 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
-            self.deleteBottomsheet.warnButton.removeFromSuperview()
+            self.deleteReplyBottomsheet.warnButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
-                print("나야")
-                self.deleteBottomsheet.showSettings()
-                self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
+                self.deleteReplyBottomsheet.showSettings()
+                self.deleteReplyBottomsheet.deleteButton.addTarget(self, action: #selector(self.deleteReply), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
             }
         } else {
@@ -564,7 +625,6 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.warnBottomsheet.deleteButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
-                print("너야")
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
@@ -632,12 +692,9 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)
             }
-            // 내가 투명도를 누른 유저인 경우 -85% 적용
-            print("\(self.postView.isGhost)")
-            print("\(self.postView.memberGhost)")
             
+            // 내가 투명도를 누른 유저인 경우 -85% 적용
             if self.postView.isGhost {
-                print("header == \(header.grayView.alpha)")
                 header.grayView.alpha = 0.85
             } else {
                 let alpha = self.postView.memberGhost
