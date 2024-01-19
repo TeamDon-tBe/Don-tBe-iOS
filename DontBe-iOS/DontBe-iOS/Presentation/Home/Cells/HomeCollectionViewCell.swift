@@ -182,6 +182,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
 extension HomeCollectionViewCell {
     func setUI() {
         kebabButton.contentMode = .scaleAspectFill
+        commentStackView.isUserInteractionEnabled = false
     }
     
     func setHierarchy() {
