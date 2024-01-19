@@ -150,12 +150,6 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return view
     }()
     
-    private let cellBottomSpacingView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .donGray1
-        return view
-    }()
-    
     private let cellTopSpacingView: UIView = {
         let view = UIView()
         view.backgroundColor = .donGray1
@@ -302,13 +296,6 @@ extension PostReplyCollectionViewCell {
             $0.width.equalTo(1)
         }
         
-//        cellBottomSpacingView.snp.makeConstraints {
-//            $0.top.equalTo(backgroundUIView.snp.bottom)
-//            $0.width.equalTo(backgroundUIView.snp.width)
-//            $0.bottom.equalToSuperview()
-//            $0.leading.equalTo(backgroundUIView.snp.leading)
-//        }
-        
         cellTopSpacingView.snp.makeConstraints {
             $0.bottom.equalTo(backgroundUIView.snp.top)
             $0.width.equalTo(backgroundUIView.snp.width)
@@ -322,7 +309,6 @@ extension PostReplyCollectionViewCell {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
-
     }
     
     @objc
