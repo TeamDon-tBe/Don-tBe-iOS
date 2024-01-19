@@ -123,17 +123,18 @@ extension HomeViewController {
     
     @objc
     func deletePost() {
-        popView()
+        popDeleteView()
         presentView()
     }
     
     @objc
     func warnUser() {
+        popWarnView()
         let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
         self.present(safariView, animated: true, completion: nil)
     }
     
-    func popView() {
+    func popDeleteView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteBottomsheet.dimView.alpha = 0
@@ -144,6 +145,21 @@ extension HomeViewController {
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
         }
+        refreshPost()
+    }
+    
+    func popWarnView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.warnBottomsheet.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.warnBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.warnBottomsheet.bottomsheetView.frame.height)
+                }
+            })
+            warnBottomsheet.dimView.removeFromSuperview()
+            warnBottomsheet.bottomsheetView.removeFromSuperview()
+        }
+        refreshPost()
     }
     
      func presentView() {
