@@ -52,13 +52,6 @@ final class PostViewController: UIViewController {
     
     lazy var postView = PostView()
     
-    let grayView: DontBeTransparencyGrayView = {
-        let view = DontBeTransparencyGrayView()
-        view.alpha = 0
-        view.isUserInteractionEnabled = false
-        return view
-    }()
-    
     private lazy var textFieldView = PostReplyTextFieldView()
     var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
@@ -82,6 +75,7 @@ final class PostViewController: UIViewController {
         refreshPost()
 //        setNotification()
         getAPI()
+        refreshControl.beginRefreshing()
     }
     
     init(viewModel: PostViewModel) {
@@ -108,6 +102,7 @@ final class PostViewController: UIViewController {
         
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(backButtonPressed))
         self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.navigationBar.backgroundColor = .clear
         
         self.textFieldView.snp.remakeConstraints {
             $0.leading.trailing.equalToSuperview()
@@ -145,17 +140,11 @@ extension PostViewController {
     }
     
     private func setHierarchy() {
-        view.addSubviews(grayView,
-                         postReplyCollectionView,
+        view.addSubviews(postReplyCollectionView,
                          textFieldView)
     }
     
     private func setLayout() {
-        
-        grayView.snp.makeConstraints {
-            $0.top.equalTo(500)
-            $0.leading.trailing.bottom.equalToSuperview()
-        }
         
         postReplyCollectionView.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide)
@@ -175,14 +164,6 @@ extension PostViewController {
         postReplyCollectionView.delegate = self
         transparentPopupVC.transparentButtonPopupView.delegate = self
     }
-    
-//    private func setNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil
-//        )
-//        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
-//    }
-//
         
     private func setAppearNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil)
@@ -518,8 +499,6 @@ extension PostViewController {
         DispatchQueue.main.async {
             self.getAPI()
         }
-        self.postReplyCollectionView.reloadData()
-        self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
     }
     
     @objc
@@ -546,6 +525,8 @@ extension PostViewController {
             .sink { data in
                 self.memberId = data.memberId
                 self.bindPostData(data: data)
+                self.postReplyCollectionView.reloadData()
+                self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
             }
             .store(in: self.cancelBag)
         
@@ -583,10 +564,10 @@ extension PostViewController {
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
-            self.grayView.alpha = 0.85
+            self.collectionHeaderView?.grayView.alpha = 0.85
         } else {
             let alpha = data.memberGhost
-            self.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
         if self.memberId == loadUserData()?.memberId {

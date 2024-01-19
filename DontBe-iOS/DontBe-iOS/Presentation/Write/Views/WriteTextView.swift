@@ -206,22 +206,22 @@ extension WriteTextView: UITextViewDelegate {
             postButton.setTitleColor(.donBlack, for: .normal)
             postButton.backgroundColor = .donPrimary
             postButton.isEnabled = true
-        }
-        
-        if textLength < 500 {
-            limitedCircleProgressBar.alpha = 0
-            circleProgressBar.alpha = 1
             
-            let value = Double(textLength) / 500
-            circleProgressBar.value = value
-            postButton.isEnabled = true
-            postButton.backgroundColor = .donPrimary
-        } else {
-            limitedCircleProgressBar.alpha = 1
-            circleProgressBar.alpha = 0
-            postButton.isEnabled = false
-            postButton.backgroundColor = .donGray3
-            impactFeedbackGenerator.impactOccurred()
+            if textLength < 500 {
+                limitedCircleProgressBar.alpha = 0
+                circleProgressBar.alpha = 1
+                
+                let value = Double(textLength) / 500
+                circleProgressBar.value = value
+                postButton.isEnabled = true
+                postButton.backgroundColor = .donPrimary
+            } else {
+                limitedCircleProgressBar.alpha = 1
+                circleProgressBar.alpha = 0
+                postButton.isEnabled = false
+                postButton.backgroundColor = .donGray3
+                impactFeedbackGenerator.impactOccurred()
+            }
         }
     }
 }
