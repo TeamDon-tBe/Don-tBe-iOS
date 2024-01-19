@@ -679,6 +679,12 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             else { return UICollectionReusableView()
             }
             
+            if self.memberId == loadUserData()?.memberId {
+                header.ghostButton.isHidden = true
+            } else {
+                header.ghostButton.isHidden = false
+            }
+            
             header.transparentLabel.text = self.postView.transparentLabel.text
             header.postNicknameLabel.text = self.postView.postNicknameLabel.text
             header.timeLabel.text = self.postView.timeLabel.text
