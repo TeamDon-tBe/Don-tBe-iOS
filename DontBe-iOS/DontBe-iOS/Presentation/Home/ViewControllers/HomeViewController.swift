@@ -37,8 +37,10 @@ final class HomeViewController: UIViewController {
     
     private let myView = HomeView()
     lazy var homeCollectionView = HomeCollectionView().collectionView
+    private var deleteToastView: DontBeDeletePopupView?
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
+    
     
     // MARK: - Life Cycles
     
@@ -162,6 +164,7 @@ extension HomeViewController {
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(popViewController), name: DeletePopupViewController.popViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPopupNotification(_:)), name: NSNotification.Name("DismissDetailView"), object: nil)
     }
@@ -236,6 +239,28 @@ extension HomeViewController {
                         self.uploadToastView?.checkImageView.alpha = 0
                         self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
                         self.uploadToastView?.container.backgroundColor = .donGray3
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func showDeleteToast(_ notification: Notification) {
+        if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+            if showToast == true {
+                DispatchQueue.main.async {
+                    self.deleteToastView = DontBeDeletePopupView()
+                    
+                    self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                    
+                    self.deleteToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                        $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                        $0.height.equalTo(75.adjusted)
+                    }
+                    
+                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                        self.deleteToastView?.alpha = 0
                     }
                 }
             }
