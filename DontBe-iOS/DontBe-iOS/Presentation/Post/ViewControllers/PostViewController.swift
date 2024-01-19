@@ -701,8 +701,10 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             if self.memberId == loadUserData()?.memberId {
                 header.ghostButton.isHidden = true
+                header.verticalTextBarView.isHidden = true
             } else {
                 header.ghostButton.isHidden = false
+                header.verticalTextBarView.isHidden = true
             }
             
             header.transparentLabel.text = self.postView.transparentLabel.text
