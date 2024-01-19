@@ -131,6 +131,7 @@ final class MyPageViewController: UIViewController {
         }
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.navigationBar.isHidden = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {

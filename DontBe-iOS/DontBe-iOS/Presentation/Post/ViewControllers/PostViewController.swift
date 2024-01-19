@@ -631,8 +631,6 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             header.likeNumLabel.text = self.postView.likeNumLabel.text
             header.commentNumLabel.text = self.postView.commentNumLabel.text
             header.isLiked = self.postView.isLiked
-            print(header.isLiked)
-            print("DSFAFSDFA")
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
 
