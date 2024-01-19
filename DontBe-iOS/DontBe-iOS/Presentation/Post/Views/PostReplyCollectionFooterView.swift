@@ -15,12 +15,6 @@ final class PostReplyCollectionFooterView: UICollectionReusableView {
     
     // MARK: - UI Components
     
-    private let footerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .orange
-        return view
-    }()
-    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -45,14 +39,9 @@ extension PostReplyCollectionFooterView {
     }
     
     func setHierarchy() {
-        self.addSubviews(footerView)
     }
     
     func setLayout() {
-        footerView.snp.makeConstraints {
-            $0.height.equalTo(2.adjusted)
-            
-        }
     }
 }
 
