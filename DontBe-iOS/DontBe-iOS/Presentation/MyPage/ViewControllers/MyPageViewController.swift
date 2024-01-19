@@ -142,6 +142,8 @@ final class MyPageViewController: UIViewController {
         navigationBackButton.isHidden = true
         self.navigationController?.navigationBar.backgroundColor = .clear
         statusBarView.removeFromSuperview()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -191,7 +193,7 @@ extension MyPageViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contentGhostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(commentGhostButtonTapped), name: MyPageCommentViewController.ghostButtonTapped, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+
     }
     
     private func setAddTarget() {
