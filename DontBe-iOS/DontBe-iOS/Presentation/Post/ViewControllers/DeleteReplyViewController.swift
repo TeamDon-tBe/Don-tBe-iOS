@@ -21,7 +21,7 @@ final class DeleteReplyViewController: UIViewController {
     // MARK: - UI Components
 
     private let deleteReplyPopupView = DontBePopupView(popupTitle: "답글 삭제",
-                                                      popupContent: StringLiterals.Home.deletePopupContentLabel,
+                                                      popupContent: StringLiterals.Home.deletePopupCommentLabel,
                                                       leftButtonTitle: StringLiterals.Home.deletePopupLefteftButtonTitle,
                                                       rightButtonTitle: StringLiterals.Home.deletePopupRightButtonTitle)
 

@@ -121,6 +121,7 @@ enum StringLiterals {
         static let transparentPopupRightButtonTitle = "네, 맞아요"
         static let deletePopupTitleLabel = "게시글을 삭제하시겠어요?"
         static let deletePopupContentLabel = "삭제한 게시글은 영구히 사라져요."
+        static let deletePopupCommentLabel = "삭제한 답글은 영구히 사라져요."
         static let deletePopupLefteftButtonTitle = "취소"
         static let deletePopupRightButtonTitle = "삭제"
     }
