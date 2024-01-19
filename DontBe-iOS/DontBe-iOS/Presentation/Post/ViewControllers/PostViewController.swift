@@ -80,6 +80,7 @@ final class PostViewController: UIViewController {
         setRegister()
         setLayout()
         refreshPost()
+        setNotification()
     }
     
     init(viewModel: PostViewModel) {
@@ -104,9 +105,6 @@ final class PostViewController: UIViewController {
             name: NSNotification.Name("DismissReplyView"),
             object: nil
         )
-        
-        setNotification()
-        
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         self.navigationController?.navigationBar.isHidden = false
@@ -123,7 +121,7 @@ final class PostViewController: UIViewController {
         }
         
         getAPI()
-        
+        setAppearNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -183,6 +181,9 @@ extension PostViewController {
         )
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
+    }
+    
+    private func setAppearNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
