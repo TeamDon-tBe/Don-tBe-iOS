@@ -290,6 +290,7 @@ extension PostCollectionViewHeader {
     func setAddTarget() {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageCliked)))
+        kebabButton.addTarget(self, action: #selector(headerKebabButtonCliked), for: .touchUpInside)
     }
     
     @objc
@@ -307,5 +308,10 @@ extension PostCollectionViewHeader {
     @objc
     func profileImageCliked() {
         NotificationCenter.default.post(name: NSNotification.Name("profileButtonTapped"), object: nil, userInfo: nil)
+    }
+    
+    @objc
+    func headerKebabButtonCliked() {
+        NotificationCenter.default.post(name: NSNotification.Name("headerKebabButtonTapped"), object: nil, userInfo: nil)
     }
 }
