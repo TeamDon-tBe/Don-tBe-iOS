@@ -150,7 +150,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return view
     }()
     
-    private let cellSpacingView: UIView = {
+    private let cellTopSpacingView: UIView = {
         let view = UIView()
         view.backgroundColor = .donGray1
         return view
@@ -184,6 +184,7 @@ extension PostReplyCollectionViewCell {
                                 backgroundUIView,
                                 horizontalCellBarView,
                                 verticalBarView,
+                                cellTopSpacingView,
                                 grayView)
         
         backgroundUIView.addSubviews(profileImageView,
@@ -195,8 +196,7 @@ extension PostReplyCollectionViewCell {
                                      contentTextLabel,
                                      likeStackView,
                                      ghostButton,
-                                     verticalTextBarView,
-                                     cellSpacingView)
+                                     verticalTextBarView)
         
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
@@ -204,7 +204,8 @@ extension PostReplyCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(14.adjusted)
             $0.trailing.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width - 64.adjusted)
@@ -295,10 +296,11 @@ extension PostReplyCollectionViewCell {
             $0.width.equalTo(1)
         }
         
-        cellSpacingView.snp.makeConstraints {
-            $0.bottom.equalToSuperview()
-            $0.width.equalTo(backgroundUIView)
-            $0.height.equalTo(8)
+        cellTopSpacingView.snp.makeConstraints {
+            $0.bottom.equalTo(backgroundUIView.snp.top)
+            $0.width.equalTo(backgroundUIView.snp.width)
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(backgroundUIView.snp.leading)
         }
     }
     
@@ -307,7 +309,6 @@ extension PostReplyCollectionViewCell {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
-
     }
     
     @objc

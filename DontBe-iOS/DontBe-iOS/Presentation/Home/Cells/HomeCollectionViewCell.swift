@@ -155,6 +155,12 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return view
     }()
     
+    private let cellTopSpacingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray1
+        return view
+    }()
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -191,7 +197,8 @@ extension HomeCollectionViewCell {
                                      commentStackView,
                                      likeStackView,
                                      ghostButton,
-                                     verticalTextBarView)
+                                     verticalTextBarView,
+                                     cellTopSpacingView)
         
         commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
         likeStackView.addArrangedSubviews(likeButton,
@@ -200,7 +207,8 @@ extension HomeCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
+            $0.top.equalToSuperview().inset(8)
+            $0.bottom.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width - 32)
         }
         
@@ -271,6 +279,13 @@ extension HomeCollectionViewCell {
             $0.bottom.equalTo(ghostButton.snp.top)
             $0.width.equalTo(1.adjusted)
             $0.centerX.equalTo(profileImageView)
+        }
+        
+        cellTopSpacingView.snp.makeConstraints {
+            $0.bottom.equalTo(backgroundUIView.snp.top)
+            $0.width.equalTo(backgroundUIView.snp.width)
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(backgroundUIView.snp.leading)
         }
     }
     
