@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SafariServices
 import UIKit
 
 import SnapKit
@@ -13,6 +14,8 @@ import SnapKit
 final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - Properties
+    
+    let userTermURL = URL(string: StringLiterals.MyPage.myPageUseTermURL)
     
     private var cancelBag = CancelBag()
     private let viewModel: MyPageViewModel
@@ -166,7 +169,7 @@ extension MyPageAccountInfoViewController {
     }
     
     private func setAddTarget() {
-
+        moreInfoButton.addTarget(self, action: #selector(useTermButtonTapped), for: .touchUpInside)
     }
     
     private func setDelegate() {
@@ -210,6 +213,15 @@ extension MyPageAccountInfoViewController {
     @objc
     private func backButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func useTermButtonTapped() {
+        let useTermView: SFSafariViewController
+        if let useTermURL = self.userTermURL {
+            useTermView = SFSafariViewController(url: useTermURL)
+            self.present(useTermView, animated: true, completion: nil)
+        }
     }
 }
 

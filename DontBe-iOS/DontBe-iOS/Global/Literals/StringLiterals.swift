@@ -98,6 +98,7 @@ enum StringLiterals {
         static let myPageNoCommentOtherLabel = "님이 답글을 작성하지 않았어요."
         static let myPageCustomerURL = "https://joyous-ghost-8c7.notion.site/Don-t-be-e949f7751de94ba682f4bd6792cbe36e"
         static let myPageFeedbackURL = "https://forms.gle/DqnypURRBDks7WqJ6"
+        static let myPageUseTermURL = "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0"
     }
     
     enum TransparencyInfo {
