@@ -15,7 +15,9 @@ final class JoinAgreementViewController: UIViewController {
     
     // MARK: - Properties
     
-    let useAgreementURL = URL(string: "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0")
+    let useAgreementURL = URL(string: "https://www.notion.so/93625ba2f93547ff88984d3bb82a2f32")
+    let privacyURL = URL(string: "https://www.notion.so/1681f9cae9de47858ee0997b4cea9c03")
+    let advertisementURL = URL(string: "https://www.notion.so/0c70bf474acb487ab2b2ae957d975e51")
     
     private var cancelBag = CancelBag()
     private let viewModel: JoinAgreeViewModel
@@ -89,7 +91,9 @@ extension JoinAgreementViewController {
     }
     
     private func setAddTarget() {
-        self.originView.firstCheckView.moreButton.addTarget(self, action: #selector(moreButtonTapped), for: .touchUpInside)
+        self.originView.firstCheckView.moreButton.addTarget(self, action: #selector(firstMoreButtonTapped), for: .touchUpInside)
+        self.originView.secondCheckView.moreButton.addTarget(self, action: #selector(secondMoreButtonTapped), for: .touchUpInside)
+        self.originView.fourthCheckView.moreButton.addTarget(self, action: #selector(fourthMoreButtonTapped), for: .touchUpInside)
     }
     
     private func bindViewModel() {
@@ -178,9 +182,31 @@ extension JoinAgreementViewController {
     }
     
     @objc
-    private func moreButtonTapped() {
+    private func firstMoreButtonTapped() {
         let useAgreementView: SFSafariViewController
         if let useAgreementURL = self.useAgreementURL {
+            useAgreementView = SFSafariViewController(url: useAgreementURL)
+            self.present(useAgreementView, animated: true, completion: nil)
+        } else {
+            print("👻👻👻 유효하지 않은 URL 입니다 👻👻👻")
+        }
+    }
+    
+    @objc
+    private func secondMoreButtonTapped() {
+        let useAgreementView: SFSafariViewController
+        if let useAgreementURL = self.privacyURL {
+            useAgreementView = SFSafariViewController(url: useAgreementURL)
+            self.present(useAgreementView, animated: true, completion: nil)
+        } else {
+            print("👻👻👻 유효하지 않은 URL 입니다 👻👻👻")
+        }
+    }
+    
+    @objc
+    private func fourthMoreButtonTapped() {
+        let useAgreementView: SFSafariViewController
+        if let useAgreementURL = self.advertisementURL {
             useAgreementView = SFSafariViewController(url: useAgreementURL)
             self.present(useAgreementView, animated: true, completion: nil)
         } else {
