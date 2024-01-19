@@ -93,7 +93,6 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         refreshPost()
-        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.popViewController, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissDetailView"), object: nil)
     }
@@ -183,7 +182,7 @@ extension HomeViewController {
     
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteViewController.showWriteToastNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeletePostToastNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(popViewController), name: DeletePopupViewController.popViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissPopupNotification(_:)), name: NSNotification.Name("DismissDetailView"), object: nil)
     }
@@ -282,6 +281,8 @@ extension HomeViewController {
                     
                     UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
                         self.deleteToastView?.alpha = 0
+                        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeletePostToastNotification, object: nil)
+                        NotificationCenter.default.addObserver(self, selector: #selector(self.showDeleteToast(_:)), name: DeletePopupViewController.showDeletePostToastNotification, object: nil)
                     }
                 }
             }

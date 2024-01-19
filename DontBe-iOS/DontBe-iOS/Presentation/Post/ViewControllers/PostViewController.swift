@@ -125,7 +125,7 @@ final class PostViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.removeObserver(self, name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissReplyView"), object: nil
         )
         NotificationCenter.default.removeObserver(self, name: WriteReplyViewController.showUploadToastNotification, object: nil)
@@ -191,7 +191,8 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(backButtonPressed), name: DeletePopupViewController.showDeletePostToastNotification, object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {

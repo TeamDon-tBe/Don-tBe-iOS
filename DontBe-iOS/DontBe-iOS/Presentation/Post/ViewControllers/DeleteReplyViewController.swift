@@ -13,7 +13,7 @@ final class DeleteReplyViewController: UIViewController {
     // MARK: - Properties
     
     static let reloadData = NSNotification.Name("reloadData")
-    static let showDeleteToastNotification = Notification.Name("ShowDeleteToastNotification")
+    static let showDeleteReplyToastNotification = Notification.Name("ShowDeleteReplyToastNotification")
     var commentId: Int = 0
     var viewModel: DeleteReplyViewModel
     private var cancelBag = CancelBag()
@@ -58,7 +58,6 @@ final class DeleteReplyViewController: UIViewController {
 
         NotificationCenter.default.post(name: NSNotification.Name("DismissDetailView"), object: nil, userInfo: nil)
         NotificationCenter.default.post(name: NSNotification.Name("DismissReplyView"), object: nil, userInfo: nil)
-        NotificationCenter.default.post(name: DeleteReplyViewController.showDeleteToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 
     init(viewModel: DeleteReplyViewModel) {
@@ -125,6 +124,7 @@ extension DeleteReplyViewController: DontBePopupDelegate {
 
     func confirmButtonTapped() {
         self.postVC.postReplyCollectionView.reloadData()
+        NotificationCenter.default.post(name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 }
 

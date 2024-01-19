@@ -13,7 +13,7 @@ final class DeletePopupViewController: UIViewController {
     static let popViewController = NSNotification.Name("popVC")
     static let reloadData = NSNotification.Name("reloadData")
     static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
-    static let showDeleteToastNotification = Notification.Name("ShowDeleteToastNotification")
+    static let showDeletePostToastNotification = Notification.Name("ShowDeletePostToastNotification")
     
     // MARK: - Properties
     var contentId: Int = 0
@@ -58,8 +58,6 @@ final class DeletePopupViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.post(name: NSNotification.Name("DismissDetailView"), object: nil, userInfo: nil)
-        
-        NotificationCenter.default.post(name: DeletePopupViewController.showDeleteToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
     
     init(viewModel: DeletePostViewModel) {
@@ -127,7 +125,7 @@ extension DeletePopupViewController: DontBePopupDelegate {
     
     func confirmButtonTapped() {
         self.homeVC.refreshPost()
-        
+        NotificationCenter.default.post(name: DeletePopupViewController.showDeletePostToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 }
 
