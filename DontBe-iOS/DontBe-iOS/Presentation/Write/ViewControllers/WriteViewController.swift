@@ -115,8 +115,7 @@ extension WriteViewController {
         output.popViewController
             .sink { _ in
                 DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                    self.tabBarController?.selectedIndex = 0
+                    self.popupNavigation()
                     self.sendData()
                 }
             }
@@ -128,12 +127,19 @@ extension WriteViewController {
     }
     
     private func popupNavigation() {
-        self.navigationController?.popViewController(animated: true)
         self.tabBarController?.selectedIndex = 0
-        
         if let selectedViewController = self.tabBarController?.selectedViewController {
             self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
+        let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+        for (index, controller) in myViewController.enumerated() {
+            if let tabBarItem = controller.tabBarItem {
+                if index != self.tabBarController?.selectedIndex {
+                    self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                }
+            }
+        }
+        self.navigationController?.popViewController(animated: false)
     }
     
     @objc
