@@ -78,7 +78,6 @@ final class PostViewController: UIViewController {
         setLayout()
         setDelegate()
         setTextFieldGesture()
-        setNotification()
         setRefreshControll()
         setRegister()
     }
@@ -100,13 +99,8 @@ final class PostViewController: UIViewController {
         super.viewWillAppear(animated)
         
         refreshPost()
-
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didDismissDetailNotification(_:)),
-            name: NSNotification.Name("DismissReplyView"),
-            object: nil
-        )
+        
+        setNotification()
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
@@ -129,6 +123,7 @@ final class PostViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
     }
 }
 
@@ -184,13 +179,13 @@ extension PostViewController {
     }
     
     private func setNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil
+        )
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector( self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector( self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
     }
     
     @objc func didDismissDetailNotification(_ notification: Notification) {
