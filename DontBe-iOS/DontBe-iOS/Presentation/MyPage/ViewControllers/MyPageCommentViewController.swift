@@ -283,6 +283,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
+            NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
         }
         
         cell.nicknameLabel.text = commentData[indexPath.row].memberNickname

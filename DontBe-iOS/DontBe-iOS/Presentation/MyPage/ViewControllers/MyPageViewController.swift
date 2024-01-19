@@ -188,6 +188,7 @@ extension MyPageViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ghostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
     }
     
     private func setAddTarget() {
@@ -389,12 +390,7 @@ extension MyPageViewController {
     }
     
     @objc
-    private func deleteButtonTapped() {
-        print("deleteButtonTapped")
-    }
-    
-    @objc
-    private func transparencyButtonTapped(_ notification: Notification) {
+    private func ghostButtonTapped() {
         self.present(self.transparentPopupVC, animated: false, completion: nil)
     }
     
