@@ -17,7 +17,7 @@ final class WriteReplyViewController: UIViewController {
     private let viewModel: WriteReplyViewModel
     
     private lazy var postButtonTapped =
-    writeView.writeReplyView.postButton.publisher(for: .touchUpInside).map { _ in
+    writeView.postButton.publisher(for: .touchUpInside).map { _ in
         return (self.writeView.writeReplyView.contentTextView.text ?? "", self.contentId)
     }.eraseToAnyPublisher()
     
