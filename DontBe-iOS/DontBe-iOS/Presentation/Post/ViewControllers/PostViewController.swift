@@ -64,6 +64,7 @@ final class PostViewController: UIViewController {
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
+    private var deleteToastView: DontBeDeletePopupView?
     
     // MARK: - Life Cycles
     
@@ -124,6 +125,7 @@ final class PostViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeletePopupViewController.showDeleteToastNotification, object: nil)
     }
 }
 
@@ -380,6 +382,29 @@ extension PostViewController {
         }
     }
     
+    @objc 
+    func showDeleteToast(_ notification: Notification) {
+            if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+                if showToast == true {
+                    DispatchQueue.main.async {
+                        self.deleteToastView = DontBeDeletePopupView()
+                        
+                        self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                        
+                        self.deleteToastView?.snp.makeConstraints {
+                            $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                            $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                            $0.height.equalTo(75.adjusted)
+                        }
+                        
+                        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                            self.deleteToastView?.alpha = 0
+                        }
+                    }
+                }
+            }
+        }
+    
     func popPostView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
@@ -515,8 +540,6 @@ extension PostViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.postReplyCollectionView.reloadData()
-                
-                print("\(self.collectionHeaderView.frame.height)")
             }
             .store(in: self.cancelBag)
     }
