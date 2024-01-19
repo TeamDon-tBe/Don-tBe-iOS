@@ -134,6 +134,7 @@ final class MyPageViewController: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.barTintColor = .clear
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -141,7 +142,7 @@ final class MyPageViewController: UIViewController {
         
         self.tabBarController?.tabBar.isTranslucent = false
         navigationBackButton.isHidden = true
-        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.navigationController?.navigationBar.barTintColor = .donWhite
         statusBarView.removeFromSuperview()
         
         removeNotification()
