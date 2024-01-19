@@ -90,6 +90,11 @@ final class MyPageContentViewController: UIViewController {
         setRefreshControll()
         setNotification()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.reloadData, object: nil)
+    }
 }
 
 // MARK: - Extensions

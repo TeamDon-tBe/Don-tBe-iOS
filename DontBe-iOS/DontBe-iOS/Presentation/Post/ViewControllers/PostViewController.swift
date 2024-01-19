@@ -80,7 +80,7 @@ final class PostViewController: UIViewController {
         setRegister()
         setLayout()
         refreshPost()
-        setNotification()
+//        setNotification()
         getAPI()
     }
     
@@ -100,12 +100,6 @@ final class PostViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didDismissDetailNotification(_:)),
-            name: NSNotification.Name("DismissReplyView"),
-            object: nil
-        )
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
         self.navigationController?.navigationBar.isHidden = false
@@ -131,8 +125,11 @@ final class PostViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.showDeleteToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: DeleteReplyViewController.showDeleteToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissReplyView"), object: nil
+        )
+        NotificationCenter.default.removeObserver(self, name: WriteReplyViewController.showUploadToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: CancelReplyPopupViewController.popViewController, object: nil)
     }
 }
 
@@ -179,14 +176,18 @@ extension PostViewController {
         transparentPopupVC.transparentButtonPopupView.delegate = self
     }
     
-    private func setNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil
-        )
+//    private func setNotification() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil
+//        )
+//        NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
+//    }
+//
+        
+    private func setAppearNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(dismissViewController), name: CancelReplyPopupViewController.popViewController, object: nil)
-    }
-    
-    private func setAppearNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)

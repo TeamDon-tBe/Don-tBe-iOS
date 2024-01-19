@@ -51,7 +51,6 @@ final class MyPageEditProfileViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
-        setDelegate()
         bindViewModel()
     }
     
@@ -82,6 +81,12 @@ final class MyPageEditProfileViewController: UIViewController {
             self.nicknameEditView.nickNameTextField.text = nickname
             self.introductionEditView.contentTextView.text = introText
         }
+        setDelegate()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: UITextField.textDidChangeNotification, object: nil)
     }
 }
 

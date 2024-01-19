@@ -69,6 +69,8 @@ final class WriteViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.navigationItem.hidesBackButton = true
         self.tabBarController?.tabBar.isTranslucent = false
+        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: nil)
+
     }
 }
 

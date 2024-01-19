@@ -77,6 +77,13 @@ final class MyPageCommentViewController: UIViewController {
         super.viewWillAppear(true)
         
         refreshPost()
+        setNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.reloadData, object: nil)
     }
 }
 
