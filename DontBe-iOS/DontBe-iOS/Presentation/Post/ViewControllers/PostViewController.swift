@@ -241,11 +241,11 @@ extension PostViewController {
                     self.uploadToastView?.container.backgroundColor = .donPrimary
                 }
                 
-                UIView.animate(withDuration: 1.0, delay: 3, options: .curveEaseIn) {
+                UIView.animate(withDuration: 1.0, delay: 2, options: .curveEaseIn) {
                     self.uploadToastView?.alpha = 0
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     self.uploadToastView?.circleProgressBar.alpha = 1
                     self.uploadToastView?.checkImageView.alpha = 0
                     self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploading
@@ -272,11 +272,11 @@ extension PostViewController {
                 $0.height.equalTo(44.adjusted)
             }
             
-            UIView.animate(withDuration: 1.5, delay: 1, options: .curveEaseIn) {
+            UIView.animate(withDuration: 1.0, delay: 1, options: .curveEaseIn) {
                 self.alreadyTransparencyToastView?.alpha = 0
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.alreadyTransparencyToastView?.removeFromSuperview()
             }
         }
