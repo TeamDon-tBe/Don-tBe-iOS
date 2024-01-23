@@ -15,6 +15,7 @@ import KakaoSDKUser
 final class LoginViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
+    
     private let networkProvider: NetworkServiceType
     private let userInfoPublisher = PassthroughSubject<Bool, Never>()
     
