@@ -11,6 +11,7 @@ import Foundation
 final class JoinProfileViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
+    
     private let networkProvider: NetworkServiceType
     private let pushOrPopViewController = PassthroughSubject<Int, Never>()
     private let isNotDuplicated = PassthroughSubject<Bool, Never>()
@@ -22,7 +23,7 @@ final class JoinProfileViewModel: ViewModelType {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     struct Input {
         let backButtonTapped: AnyPublisher<Void, Never>
         let duplicationCheckButtonTapped: AnyPublisher<String, Never>
@@ -101,14 +102,14 @@ extension JoinProfileViewModel {
             print ("👻👻👻👻👻닉네임 중복 체크👻👻👻👻👻")
             return data
         } catch {
-           return nil
-       }
+            return nil
+        }
     }
     
     private func patchUserInfoAPI(nickname: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let requestDTO = UserProfileRequestDTO(nickname: nickname, is_alarm_allowed: true, member_intro: "", profile_url: StringLiterals.Network.baseImageURL)
-
+            
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
                 type: .patch,
@@ -120,8 +121,8 @@ extension JoinProfileViewModel {
             print ("👻👻👻👻👻회원가입 완료👻👻👻👻👻")
             return data
         } catch {
-           return nil
-       }
+            return nil
+        }
     }
 }
 
