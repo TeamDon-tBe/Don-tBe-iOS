@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 
 final class OnboardingEndingView: UIView {
-    
-    // MARK: - Properties
-    
+        
     // MARK: - UI Components
     private let progressImage: UIImageView = {
         let progress = UIImageView()
