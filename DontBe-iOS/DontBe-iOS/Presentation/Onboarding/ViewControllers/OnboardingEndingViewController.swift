@@ -21,7 +21,10 @@ final class OnboardingEndingViewController: UIViewController {
         return self.originView.introductionView.introduction.text ?? ""
     }.eraseToAnyPublisher()
     private lazy var skipButtonTapped = self.originView.laterButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in
+        OnboardingViewController.pushCount -= 1
+        print(OnboardingViewController.pushCount)
+    }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
