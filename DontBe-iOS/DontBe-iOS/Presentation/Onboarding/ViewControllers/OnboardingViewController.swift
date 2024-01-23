@@ -81,7 +81,6 @@ extension OnboardingViewController {
     
     @objc
     private func backButtonTapped() {
-        print(OnboardingViewController.pushCount)
         OnboardingViewController.pushCount -= 1
         self.navigationController?.popViewController(animated: true)
     }
