@@ -16,7 +16,7 @@ final class OnboardingEndingViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
-
+    
     private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _ in
         return self.originView.introductionView.introduction.text ?? ""
     }.eraseToAnyPublisher()
