@@ -12,7 +12,7 @@ import SnapKit
 final class OnboardingViewController: UIViewController {
     
     // MARK: - Properties
-
+    
     static var pushCount: Int = 0
     private let dummy = OnboardingDummy.dummy()
     
@@ -64,7 +64,7 @@ extension OnboardingViewController {
         viewController.originView.mainImage.image = self.dummy[OnboardingViewController.pushCount].mainImage
     }
     
-    @objc 
+    @objc
     private func nextButtonTapped() {
         OnboardingViewController.pushCount += 1
         if OnboardingViewController.pushCount < 3 {

@@ -10,14 +10,12 @@ import UIKit
 import SnapKit
 
 final class JoinAgreeView: UIView {
-
-    // MARK: - Properties
     
     // MARK: - UI Components
-
+    
     private let topDivisionLine = UIView().makeDivisionLine()
     private let middleDivisionLine = UIView().makeDivisionLine()
-
+    
     private let titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.text = StringLiterals.Join.agreement

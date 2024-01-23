@@ -17,5 +17,10 @@ struct NotificationList {
 }
 
 extension NotificationList {
-    static let baseList = NotificationList(memberNickname: "", triggerMemberNickname: "", triggerMemberProfileUrl: "", notificationTriggerId: 0, notificationType: .contentLiked, time: "")
+    static let baseList = NotificationList(memberNickname: "", 
+                                           triggerMemberNickname: "",
+                                           triggerMemberProfileUrl: "",
+                                           notificationTriggerId: 0,
+                                           notificationType: .contentLiked, 
+                                           time: "")
 }

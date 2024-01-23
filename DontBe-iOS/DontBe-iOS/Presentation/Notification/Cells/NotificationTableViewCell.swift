@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 
 final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegisterable {
-    
-    // MARK: - Properties
-    
+        
     // MARK: - UI Components
     
     private let profileImage: UIImageView = {
@@ -39,7 +37,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         self.contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 13.adjusted, bottom: 4.adjustedH, right: 13.adjusted))
     }
     
@@ -47,7 +45,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         setUI()
         setHierarchy()
         setLayout()
@@ -71,7 +69,7 @@ extension NotificationTableViewCell {
     }
     
     private func setHierarchy() {
-        self.contentView.addSubviews(profileImage, 
+        self.contentView.addSubviews(profileImage,
                                      notificationLabel,
                                      minutes)
     }

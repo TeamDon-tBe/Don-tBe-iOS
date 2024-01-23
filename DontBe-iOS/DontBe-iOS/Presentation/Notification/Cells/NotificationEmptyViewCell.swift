@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 
 final class NotificationEmptyViewCell: UITableViewCell, UITableViewCellRegisterable {
-    
-    // MARK: - Properties
-    
+        
     // MARK: - UI Components
     
     private let emptyImage: UIImageView = {
@@ -41,7 +39,7 @@ final class NotificationEmptyViewCell: UITableViewCell, UITableViewCellRegistera
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         setUI()
         setHierarchy()
         setLayout()

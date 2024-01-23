@@ -16,12 +16,14 @@ final class OnboardingEndingViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: OnboardingEndingViewModel
-
+    
     private lazy var startButtonTapped = self.originView.startButton.publisher(for: .touchUpInside).map { _ in
         return self.originView.introductionView.introduction.text ?? ""
     }.eraseToAnyPublisher()
     private lazy var skipButtonTapped = self.originView.laterButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var backButtonTapped = self.originView.backButton.publisher(for: .touchUpInside).map { _ in
+        OnboardingViewController.pushCount -= 1
+    }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     

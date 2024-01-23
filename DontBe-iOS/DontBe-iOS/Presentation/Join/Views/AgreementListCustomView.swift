@@ -31,7 +31,7 @@ final class AgreementListCustomView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
-
+    
     init(title: String, subImage: UIImage? = nil, moreImage: UIImage? = ImageLiterals.Join.btnView) {
         super.init(frame: .zero)
         
@@ -68,7 +68,7 @@ final class AgreementListCustomView: UIView {
             $0.height.equalTo(24.adjusted)
         }
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -10,9 +10,7 @@ import UIKit
 import SnapKit
 
 final class ErrorViewController: UIViewController {
-    
-    // MARK: - Properties
-    
+        
     // MARK: - UI Components
     
     private let errorImage: UIImageView = {
@@ -34,7 +32,7 @@ final class ErrorViewController: UIViewController {
     private let homeButton = CustomButton(title: StringLiterals.Button.goHome, backColor: .donBlack, titleColor: .donWhite)
     
     // MARK: - Life Cycles
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +42,6 @@ final class ErrorViewController: UIViewController {
         setAddTarget()
     }
 }
-
 
 // MARK: - Extensions
 

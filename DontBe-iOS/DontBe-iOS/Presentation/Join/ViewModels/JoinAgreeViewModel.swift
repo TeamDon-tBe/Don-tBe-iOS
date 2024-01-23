@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 final class JoinAgreeViewModel: ViewModelType {
-   
+    
     private let cancelBag = CancelBag()
     
     private let popViewController = PassthroughSubject<Void, Never>()
@@ -17,7 +17,7 @@ final class JoinAgreeViewModel: ViewModelType {
     private let isEnabled = PassthroughSubject<Int, Never>()
     private let clickedButtonState = PassthroughSubject<(Int, Bool), Never>()
     private let pushViewController = PassthroughSubject<Void, Never>()
-
+    
     private var isAllChecked = false
     private var isFirstChecked = false
     private var isSecondChecked = false
@@ -107,7 +107,7 @@ final class JoinAgreeViewModel: ViewModelType {
                 self?.isEnabled.send(self?.isNextButtonEnabled() ?? 0)
             }
             .store(in: cancelBag)
-    
+        
         input.nextButtonTapped
             .sink { _ in
                 self.pushViewController.send()
@@ -117,7 +117,7 @@ final class JoinAgreeViewModel: ViewModelType {
         return Output(popViewController: popViewController,
                       isAllcheck: allButtonChecked,
                       isEnable: isEnabled,
-                      clickedButtonState: clickedButtonState, 
+                      clickedButtonState: clickedButtonState,
                       pushViewController: pushViewController)
     }
     
@@ -127,7 +127,7 @@ final class JoinAgreeViewModel: ViewModelType {
         
         let necessaryCheckedCount = [isFirstChecked, isSecondChecked, isThirdChecked].filter { $0 }.count
         let allCheckedCount = [isFirstChecked, isSecondChecked, isThirdChecked, isFourthChecked].filter { $0 }.count
-                
+        
         if allCheckedCount == allCheckCount {
             return 0
         } else if necessaryCheckedCount >= necessaryCheckCount {

@@ -12,7 +12,7 @@ final class OnboardingEndingViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
-
+    
     init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
     }
@@ -35,7 +35,7 @@ final class OnboardingEndingViewModel: ViewModelType {
         let publisher = PassthroughSubject<String, Never>()
         
         input.backButtonTapped
-            .sink { _ in 
+            .sink { _ in
                 // back 버튼 누르면 바로 신호보냄
                 publisher.send("back")
             }
@@ -57,12 +57,12 @@ final class OnboardingEndingViewModel: ViewModelType {
                 }
                 
                 saveUserData(UserInfo(isSocialLogined:
-                                         loadUserData()?.isSocialLogined ?? true,
-                                         isFirstUser: false,
-                                         isJoinedApp: true,
-                                         isOnboardingFinished: true,
-                                         userNickname: loadUserData()?.userNickname ?? "",
-                                         memberId: loadUserData()?.memberId ?? 0))
+                                        loadUserData()?.isSocialLogined ?? true,
+                                      isFirstUser: false,
+                                      isJoinedApp: true,
+                                      isOnboardingFinished: true,
+                                      userNickname: loadUserData()?.userNickname ?? "",
+                                      memberId: loadUserData()?.memberId ?? 0))
             }
             .store(in: self.cancelBag)
         
@@ -71,12 +71,12 @@ final class OnboardingEndingViewModel: ViewModelType {
                 // 이때는 서버통신 X
                 publisher.send("skip")
                 saveUserData(UserInfo(isSocialLogined:
-                                         loadUserData()?.isSocialLogined ?? true,
-                                         isFirstUser: false,
-                                         isJoinedApp: true,
-                                         isOnboardingFinished: true,
-                                         userNickname: loadUserData()?.userNickname ?? "",
-                                        memberId: loadUserData()?.memberId ?? 0))
+                                        loadUserData()?.isSocialLogined ?? true,
+                                      isFirstUser: false,
+                                      isJoinedApp: true,
+                                      isOnboardingFinished: true,
+                                      userNickname: loadUserData()?.userNickname ?? "",
+                                      memberId: loadUserData()?.memberId ?? 0))
             }
             .store(in: self.cancelBag)
         
@@ -94,7 +94,7 @@ extension OnboardingEndingViewModel {
                 is_alarm_allowed: true,
                 member_intro: inroduction,
                 profile_url: StringLiterals.Network.baseImageURL)
-
+            
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
                 type: .patch,
@@ -106,14 +106,14 @@ extension OnboardingEndingViewModel {
             print ("👻👻👻👻👻한 줄 소개 작성 완료👻👻👻👻👻")
             return data
         } catch {
-           return nil
-       }
+            return nil
+        }
     }
     
     private func postWriteContentAPI(inroduction: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
-
+            
             let data: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
                 type: .post,
