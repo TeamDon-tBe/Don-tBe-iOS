@@ -66,7 +66,6 @@ extension OnboardingViewController {
     
     @objc 
     private func nextButtonTapped() {
-        print(OnboardingViewController.pushCount)
         OnboardingViewController.pushCount += 1
         if OnboardingViewController.pushCount < 3 {
             let viewController = OnboardingViewController()
