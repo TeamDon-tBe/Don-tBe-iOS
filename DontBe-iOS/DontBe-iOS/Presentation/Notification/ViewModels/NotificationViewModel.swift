@@ -14,7 +14,7 @@ final class NotificationViewModel: ViewModelType {
     private let reloadTableView = PassthroughSubject<Int, Never>()
     var notificationList: [NotificationList?] = []
     private let networkProvider: NetworkServiceType
-
+    
     init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
     }
@@ -115,5 +115,4 @@ extension NotificationViewModel {
             return nil
         }
     }
-
 }
