@@ -62,7 +62,7 @@ final class JoinAgreementViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         setUI()
         setHierarchy()
         setLayout()

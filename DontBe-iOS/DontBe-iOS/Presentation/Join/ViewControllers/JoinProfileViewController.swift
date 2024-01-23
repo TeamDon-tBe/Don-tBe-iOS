@@ -107,10 +107,10 @@ extension JoinProfileViewController {
                 if value == 0 {
                     self.navigationController?.popViewController(animated: true)
                 } else {
-                        let viewContoller = OnboardingViewController()
-                        viewContoller.originView.isFirstUser = true
-                        self.navigationBackButton.removeFromSuperview()
-                        self.navigationController?.pushViewController(viewContoller, animated: true)
+                    let viewContoller = OnboardingViewController()
+                    viewContoller.originView.isFirstUser = true
+                    self.navigationBackButton.removeFromSuperview()
+                    self.navigationController?.pushViewController(viewContoller, animated: true)
                 }
             }
             .store(in: self.cancelBag)
@@ -130,7 +130,7 @@ extension JoinProfileViewController {
             }
             .store(in: self.cancelBag)
     }
-
+    
     @objc
     private func textFieldTisEmpty() {
         self.originView.finishActiveButton.isHidden = true
