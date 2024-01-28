@@ -64,8 +64,9 @@ final class LoginViewModel: ViewModelType {
             // 소셜로그인 서버통신
             Task {
                 do {
-                    let isNewUser = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.isNewUser ?? false
-                    let nickname = try await self.postSocialLoginAPI(accessToken: accessToken)?.data?.nickName ?? ""
+                    let result = try await self.postSocialLoginAPI(accessToken: accessToken)?.data
+                    let isNewUser = result?.isNewUser ?? false
+                    let nickname = result?.nickName ?? ""
                     if !isNewUser && !nickname.isEmpty {
                         self.userInfoPublisher.send(false)
                     } else {
