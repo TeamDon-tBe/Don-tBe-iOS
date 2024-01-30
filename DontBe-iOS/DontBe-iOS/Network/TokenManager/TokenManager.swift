@@ -11,7 +11,7 @@ final class TokenManager {
     
     func checkToken(accessToken: String, refreshToken: String) -> URLRequest {
         
-        let urlString = Config.baseURL + "/token"
+        let urlString = Config.baseURL + "/auth/token"
         
         // URL 생성
         guard let url = URL(string: urlString) else {
@@ -26,7 +26,7 @@ final class TokenManager {
         // 헤더 추가
         let header = ["Content-Type": "application/json",
                       "Authorization" : "Bearer \(accessToken)",
-                      "Refesh" : "Bearer \(refreshToken)"]
+                      "Refresh" : "Bearer \(refreshToken)"]
         header.forEach {
             request.addValue($0.value, forHTTPHeaderField: $0.key)
         }
