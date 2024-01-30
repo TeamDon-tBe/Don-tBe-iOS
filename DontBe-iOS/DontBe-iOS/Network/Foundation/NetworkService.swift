@@ -85,13 +85,13 @@ final class NetworkService: NetworkServiceType {
                             sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
                         }
                     }
+                    return nil
+                } else {
+                    guard let newAccessToken = result.data?.accessToken else { throw NetworkError.unknownError }
+                    KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+
+                    return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
                 }
-                
-                guard let newAccessToken = result.data?.accessToken else { throw NetworkError.unknownError }
-                KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
-                
-                print("👻👻👻👻👻 토큰 재발급 👻👻👻👻👻")
-                return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
             case 404:
                 if let sceneDelegate = await UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                     DispatchQueue.main.async {
