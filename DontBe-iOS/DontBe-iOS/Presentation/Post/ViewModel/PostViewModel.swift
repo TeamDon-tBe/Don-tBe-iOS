@@ -218,7 +218,7 @@ extension PostViewModel {
     private func postCommentLikeButtonAPI(commentId: Int, alarmText: String)  async throws -> BaseResponse<EmptyResponse>? {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
-            let requestDTO = CommentLikeRequestDTO(notificationTriggerType: "comment", notificationText: alarmText)
+            let requestDTO = CommentLikeRequestDTO(notificationTriggerType: "commentLiked", notificationText: alarmText)
             let data: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(
                 type: .post,
