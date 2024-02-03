@@ -38,10 +38,13 @@ final class WriteTextView: UIView {
         textView.tintColor = .donPrimary
         textView.backgroundColor = .clear
         textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
-        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textContainer.maximumNumberOfLines = 0
+        textView.isScrollEnabled = true
+        textView.isEditable = true
+        textView.showsVerticalScrollIndicator = false
         return textView
     }()
     
@@ -221,6 +224,7 @@ extension WriteTextView: UITextViewDelegate {
                 limitedCircleProgressBar.alpha = 1
                 circleProgressBar.alpha = 0
                 postButton.isEnabled = false
+                postButton.setTitleColor(.donGray9, for: .normal)
                 postButton.backgroundColor = .donGray3
                 impactFeedbackGenerator.impactOccurred()
             }
