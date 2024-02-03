@@ -598,11 +598,6 @@ extension PostViewController {
 
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = viewModel.postReplyData.sorted {
-            $0.time.compare($1.time, options: .numeric) == .orderedDescending
-        }
-        
-        viewModel.postReplyData = sortedData
         return viewModel.postReplyData.count
     }
     

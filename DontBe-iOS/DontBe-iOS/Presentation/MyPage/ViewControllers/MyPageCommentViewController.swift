@@ -217,9 +217,6 @@ extension MyPageCommentViewController: UICollectionViewDelegate { }
 
 extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = commentData.sorted { $0.time.compare($1.time, options: .numeric) == .orderedDescending }
-        
-        commentData = sortedData
         return commentData.count
     }
     
