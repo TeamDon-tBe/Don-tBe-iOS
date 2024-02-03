@@ -199,6 +199,8 @@ extension WriteTextView: UITextViewDelegate {
         let textLength = contentTextView.text.count
         textView.text = String(textView.text.prefix(maxLength))
         if textLength == 0 {
+            let value = Double(textLength) / 500
+            circleProgressBar.value = value
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
