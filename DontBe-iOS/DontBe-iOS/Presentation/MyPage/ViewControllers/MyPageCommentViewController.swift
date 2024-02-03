@@ -226,7 +226,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = commentData[indexPath.row].memberId
-        cell.alarmTriggerdId = commentData[indexPath.row].contentId
+        cell.alarmTriggerdId = commentData[indexPath.row].commentId
         
         if commentData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true

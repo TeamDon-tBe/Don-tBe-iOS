@@ -607,7 +607,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
 
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
-        cell.alarmTriggerdId = self.contentId
+        cell.alarmTriggerdId = viewModel.postReplyData[indexPath.row].commentId
         cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
