@@ -41,6 +41,7 @@ final class PostViewController: UIViewController {
     var contentId: Int = 0
     var commentId: Int = 0
     var memberId: Int = 0
+    var postMemberId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
@@ -277,7 +278,7 @@ extension PostViewController {
     
     @objc
     func deleteOrWarn() {
-        if self.memberId == loadUserData()?.memberId ?? 0 {
+        if self.postMemberId == loadUserData()?.memberId ?? 0 {
             self.deleteReplyBottomsheet.showSettings()
             addDeleteReplyButtonAction()
         } else {
@@ -311,7 +312,7 @@ extension PostViewController {
     
     @objc
     func headerKebabButtonAction() {
-        if self.memberId == loadUserData()?.memberId ?? 0 {
+        if self.postMemberId == loadUserData()?.memberId ?? 0 {
             self.deletePostBottomsheet.showSettings()
             addDeletePostButtonAction()
         } else {
@@ -356,6 +357,28 @@ extension PostViewController {
     
     @objc
     private func pushToMypage() {
+        if self.postMemberId == loadUserData()?.memberId ?? 0  {
+            self.tabBarController?.selectedIndex = 3
+            if let selectedViewController = self.tabBarController?.selectedViewController {
+                self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+            }
+            let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+            for (index, controller) in myViewController.enumerated() {
+                if let tabBarItem = controller.tabBarItem {
+                    if index != self.tabBarController?.selectedIndex {
+                        self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                    }
+                }
+            }
+        } else {
+            let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+            viewController.memberId = postMemberId
+            self.navigationController?.pushViewController(viewController, animated: false)
+        }
+    }
+    
+    @objc
+    private func pushToOtherUserPage() {
         if self.memberId == loadUserData()?.memberId ?? 0  {
             self.tabBarController?.selectedIndex = 3
             if let selectedViewController = self.tabBarController?.selectedViewController {
@@ -523,7 +546,7 @@ extension PostViewController {
         output.getPostData
             .receive(on: RunLoop.main)
             .sink { data in
-                self.memberId = data.memberId
+                self.postMemberId = data.memberId
                 self.bindPostData(data: data)
                 self.postReplyCollectionView.reloadData()
                 self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
@@ -555,7 +578,7 @@ extension PostViewController {
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        self.memberId = data.memberId
+        self.postMemberId = data.memberId
         self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
         self.postView.isLiked = data.isLiked
         
@@ -570,7 +593,7 @@ extension PostViewController {
             self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
-        if self.memberId == loadUserData()?.memberId {
+        if self.postMemberId == loadUserData()?.memberId {
             self.postView.ghostButton.isHidden = true
             self.postView.verticalTextBarView.isHidden = true
         } else {
@@ -598,11 +621,6 @@ extension PostViewController {
 
 extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = viewModel.postReplyData.sorted {
-            $0.time.compare($1.time, options: .numeric) == .orderedDescending
-        }
-        
-        viewModel.postReplyData = sortedData
         return viewModel.postReplyData.count
     }
     
@@ -612,7 +630,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
 
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
-        cell.alarmTriggerdId = self.contentId
+        cell.alarmTriggerdId = viewModel.postReplyData[indexPath.row].commentId
         cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         
         if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
@@ -655,7 +673,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
         }
         cell.ProfileButtonAction = {
             self.memberId = self.viewModel.postReplyData[indexPath.row].memberId
-            self.pushToMypage()
+            self.pushToOtherUserPage()
         }
         cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postReplyData[indexPath.row].memberGhost)%"
@@ -685,7 +703,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             else { return UICollectionReusableView()
             }
             
-            if self.memberId == loadUserData()?.memberId {
+            if self.postMemberId == loadUserData()?.memberId {
                 header.ghostButton.isHidden = true
                 header.verticalTextBarView.isHidden = true
             } else {

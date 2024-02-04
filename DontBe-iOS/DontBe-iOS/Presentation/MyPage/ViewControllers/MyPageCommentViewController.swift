@@ -217,9 +217,6 @@ extension MyPageCommentViewController: UICollectionViewDelegate { }
 
 extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = commentData.sorted { $0.time.compare($1.time, options: .numeric) == .orderedDescending }
-        
-        commentData = sortedData
         return commentData.count
     }
     
@@ -229,7 +226,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = commentData[indexPath.row].memberId
-        cell.alarmTriggerdId = commentData[indexPath.row].contentId
+        cell.alarmTriggerdId = commentData[indexPath.row].commentId
         
         if commentData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true

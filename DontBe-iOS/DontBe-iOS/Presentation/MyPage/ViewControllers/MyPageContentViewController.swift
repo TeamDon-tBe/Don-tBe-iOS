@@ -228,9 +228,6 @@ extension MyPageContentViewController: UICollectionViewDelegate { }
 
 extension MyPageContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = contentData.sorted { $0.time.compare($1.time, options: .numeric) == .orderedDescending }
-        
-        self.contentData = sortedData
         return self.contentData.count
     }
     

@@ -354,13 +354,6 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let sortedData = viewModel.postData.sorted {
-            $0.time.compare($1.time, options: .numeric) == .orderedDescending
-        }
-        
-        // Replace the viewModel.postData array with the sortedData
-        viewModel.postData = sortedData
-        
         return viewModel.postData.count
     }
     
