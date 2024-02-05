@@ -736,7 +736,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             return header
             
         } else {
-            guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
+            guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostDetailCollectionFooterView else { return UICollectionReusableView() }
             return footer
             
         }

@@ -1,5 +1,5 @@
 //
-//  PostReplyCollectionFooterView.swift
+//  PostDetailCollectionFooterView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/14/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class PostReplyCollectionFooterView: UICollectionReusableView {
+final class PostDetailCollectionFooterView: UICollectionReusableView {
     
     // MARK: - Properties
     
@@ -33,7 +33,7 @@ final class PostReplyCollectionFooterView: UICollectionReusableView {
 
 // MARK: - Extensions
 
-extension PostReplyCollectionFooterView {
+extension PostDetailCollectionFooterView {
     func setUI() {
         self.backgroundColor = .donGray1
     }
