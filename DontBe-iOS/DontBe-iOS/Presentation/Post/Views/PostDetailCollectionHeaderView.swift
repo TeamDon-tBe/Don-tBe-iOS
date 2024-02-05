@@ -1,5 +1,5 @@
 //
-//  PostCollectionViewHeader.swift
+//  PostDetailCollectionHeaderView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/18/24.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class PostCollectionViewHeader: UICollectionReusableView {
+final class PostDetailCollectionHeaderView: UICollectionReusableView {
 
     // MARK: - Properties
     
@@ -180,7 +180,7 @@ final class PostCollectionViewHeader: UICollectionReusableView {
 
 // MARK: - Extensions
 
-extension PostCollectionViewHeader {
+extension PostDetailCollectionHeaderView {
     private func setUI() {
         self.backgroundColor = .donGray1
     }

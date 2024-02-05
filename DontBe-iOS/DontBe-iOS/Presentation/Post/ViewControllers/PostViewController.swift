@@ -31,7 +31,7 @@ final class PostViewController: UIViewController {
     var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     var writeReplyView = WriteReplyView()
     
-    var collectionHeaderView: PostCollectionViewHeader?
+    var collectionHeaderView: PostDetailCollectionHeaderView?
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
 
@@ -699,7 +699,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader", for: indexPath) as? PostCollectionViewHeader
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader", for: indexPath) as? PostDetailCollectionHeaderView
             else { return UICollectionReusableView()
             }
             
