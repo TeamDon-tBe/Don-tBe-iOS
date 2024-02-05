@@ -92,7 +92,6 @@
 		2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */; };
 		2FB818D12B51693400B7498F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D02B51693400B7498F /* PostViewController.swift */; };
 		2FB818D32B51694F00B7498F /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D22B51694F00B7498F /* PostView.swift */; };
-		2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D42B517EE700B7498F /* PostDetailView.swift */; };
 		2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */; };
 		2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */; };
 		2FBBADF12B53AF9B002D6286 /* PostDetailCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */; };
@@ -237,7 +236,6 @@
 		2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyTextFieldView.swift; sourceTree = "<group>"; };
 		2FB818D02B51693400B7498F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = "DontBe-iOS/Presentation/Post/ViewControllers/PostViewController.swift"; sourceTree = SOURCE_ROOT; };
 		2FB818D22B51694F00B7498F /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
-		2FB818D42B517EE700B7498F /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionView.swift; sourceTree = "<group>"; };
 		2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionViewCell.swift; sourceTree = "<group>"; };
 		2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionFooterView.swift; sourceTree = "<group>"; };
@@ -687,7 +685,6 @@
 		2FB818CF2B5168E100B7498F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2FB818D42B517EE700B7498F /* PostDetailView.swift */,
 				2FB818D22B51694F00B7498F /* PostView.swift */,
 				2FBBADF72B53EF63002D6286 /* PostPopupView.swift */,
 				2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */,
@@ -1226,7 +1223,6 @@
 				2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */,
-				2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
