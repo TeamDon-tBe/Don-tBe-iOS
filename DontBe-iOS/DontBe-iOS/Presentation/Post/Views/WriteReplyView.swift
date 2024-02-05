@@ -26,7 +26,7 @@ final class WriteReplyView: UIView {
     
     private let contentView = UIView()
     
-    public lazy var writeReplyPostview = WriteReplyPostView()
+    public lazy var writeReplyPostview = WriteReplyContentView()
     public lazy var writeReplyView = WriteReplyEditorView()
     
     private let keyboardToolbarView: UIView = {

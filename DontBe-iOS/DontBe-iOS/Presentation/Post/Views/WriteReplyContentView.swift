@@ -1,5 +1,5 @@
 //
-//  WriteReplyPostView.swift
+//  WriteReplyContentView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/14/24.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class WriteReplyPostView: UIView {
+final class WriteReplyContentView: UIView {
 
     // MARK: - Properties
     var detailViewHeight: Int = 0
@@ -70,7 +70,7 @@ final class WriteReplyPostView: UIView {
 
 // MARK: - Extensions
 
-extension WriteReplyPostView {
+extension WriteReplyContentView {
     private func setUI() {
         
     }
