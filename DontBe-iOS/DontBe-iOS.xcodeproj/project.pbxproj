@@ -69,7 +69,7 @@
 		2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */; };
 		2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */; };
 		2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */; };
-		2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostViewModel.swift */; };
+		2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */; };
 		2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */; };
 		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
 		2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */; };
@@ -212,7 +212,7 @@
 		2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageIntroductionEditView.swift; sourceTree = "<group>"; };
 		2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailResponseDTO.swift; sourceTree = "<group>"; };
-		2F05B1A92B579DED00AC368D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
 		2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewModel.swift; sourceTree = "<group>"; };
@@ -640,7 +640,7 @@
 		2F05B1A82B579CEF00AC368D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2F05B1A92B579DED00AC368D /* PostViewModel.swift */,
+				2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */,
 				2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */,
 				2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */,
 				2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */,
@@ -1310,7 +1310,7 @@
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
-				2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */,
+				2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */,
 				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,
 				2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */,
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,

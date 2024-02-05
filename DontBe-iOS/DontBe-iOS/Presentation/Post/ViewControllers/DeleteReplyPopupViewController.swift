@@ -28,7 +28,7 @@ final class DeleteReplyPopupViewController: UIViewController {
     private lazy var deleteButtonTapped = deleteReplyPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in
         return self.commentId
     }.eraseToAnyPublisher()
-    private lazy var postVC = PostDetailViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+    private lazy var postVC = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
 
     // MARK: - Life Cycles
 

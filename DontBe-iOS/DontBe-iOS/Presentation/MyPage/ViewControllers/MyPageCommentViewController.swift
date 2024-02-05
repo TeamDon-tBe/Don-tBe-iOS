@@ -23,7 +23,7 @@ final class MyPageCommentViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     
-    private let postViewModel: PostViewModel
+    private let postViewModel: PostDetailViewModel
     let deleteViewModel = DeleteReplyViewModel(networkProvider: NetworkService())
     private var cancelBag = CancelBag()
     
@@ -54,7 +54,7 @@ final class MyPageCommentViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(viewModel: PostViewModel) {
+    init(viewModel: PostDetailViewModel) {
         self.postViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -198,7 +198,7 @@ extension MyPageCommentViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
         
         let output = self.postViewModel.transform(from: input, cancelBag: self.cancelBag)
         

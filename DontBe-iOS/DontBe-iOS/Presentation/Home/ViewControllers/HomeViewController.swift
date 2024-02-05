@@ -24,7 +24,7 @@ final class HomeViewController: UIViewController {
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     private var cancelBag = CancelBag()
     private let viewModel: HomeViewModel
-    let postViewModel = PostViewModel(networkProvider: NetworkService())
+    let postViewModel = PostDetailViewModel(networkProvider: NetworkService())
     
     var contentId: Int = 0
     var alarmTriggerType: String = ""
@@ -453,7 +453,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostDetailViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+        let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
         destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
