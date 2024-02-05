@@ -1,5 +1,5 @@
 //
-//  PostViewController.swift
+//  PostDetailViewController.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/12/24.
@@ -11,7 +11,7 @@ import UIKit
 
 import SnapKit
 
-final class PostViewController: UIViewController {
+final class PostDetailViewController: UIViewController {
     
     // MARK: - Properties
     private lazy var postUserNickname = postView.postNicknameLabel.text
@@ -131,7 +131,7 @@ final class PostViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension PostViewController {
+extension PostDetailViewController {
     private func setUI() {
         self.view.backgroundColor = .donWhite
         textFieldView.isUserInteractionEnabled = true
@@ -399,7 +399,7 @@ extension PostViewController {
         }
     }
     
-    @objc 
+    @objc
     func showDeleteToast(_ notification: Notification) {
             if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
                 if showToast == true {
@@ -537,7 +537,7 @@ extension PostViewController {
 
 // MARK: - Network
 
-extension PostViewController {
+extension PostDetailViewController {
     private func getAPI() {
         let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: nil, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
@@ -619,7 +619,7 @@ extension PostViewController {
     }
 }
 
-extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension PostDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.postReplyData.count
     }
@@ -743,7 +743,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-//        
+//
 //        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
 //    }
     
@@ -753,7 +753,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-extension PostViewController: DontBePopupDelegate {
+extension PostDetailViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
         self.dismiss(animated: false)
     }
