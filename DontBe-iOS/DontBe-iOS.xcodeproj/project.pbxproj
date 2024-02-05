@@ -73,7 +73,7 @@
 		2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */; };
 		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
 		2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */; };
-		2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */; };
+		2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
 		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
 		2F27A3AC2B70B7650018779F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */; };
@@ -216,7 +216,7 @@
 		2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
 		2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewModel.swift; sourceTree = "<group>"; };
-		2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewController.swift; sourceTree = "<group>"; };
+		2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyPopupViewController.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
 		2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
@@ -675,7 +675,7 @@
 				2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */,
 				2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */,
 				2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */,
-				2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */,
+				2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1304,7 +1304,7 @@
 				2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
-				2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */,
+				2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2F8FFA8D2B5942490060FB46 /* PostDetailCollectionHeaderView.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,

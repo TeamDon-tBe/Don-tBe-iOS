@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-final class DeleteReplyViewController: UIViewController {
+final class DeleteReplyPopupViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -64,7 +64,7 @@ final class DeleteReplyViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension DeleteReplyViewController {
+extension DeleteReplyPopupViewController {
     private func setUI() {
 
     }
@@ -91,7 +91,7 @@ extension DeleteReplyViewController {
 
 // MARK: - Network
 
-extension DeleteReplyViewController {
+extension DeleteReplyPopupViewController {
     private func getAPI() {
         let input = DeleteReplyViewModel.Input(deleteButtonDidTapped: deleteButtonTapped)
 
@@ -102,21 +102,21 @@ extension DeleteReplyViewController {
             .sink { _ in
                 self.dismiss(animated: true)
                 // postVC pop
-                NotificationCenter.default.post(name: DeleteReplyViewController.reloadData, object: nil)
+                NotificationCenter.default.post(name: DeleteReplyPopupViewController.reloadData, object: nil)
                 self.postVC.postReplyCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
     }
 }
 
-extension DeleteReplyViewController: DontBePopupDelegate {
+extension DeleteReplyPopupViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
         self.dismiss(animated: false)
     }
 
     func confirmButtonTapped() {
         self.postVC.postReplyCollectionView.reloadData()
-        NotificationCenter.default.post(name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil, userInfo: ["showDeleteToast": true])
+        NotificationCenter.default.post(name: DeleteReplyPopupViewController.showDeleteReplyToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 }
 
