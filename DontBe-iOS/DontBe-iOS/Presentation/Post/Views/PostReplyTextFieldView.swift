@@ -10,9 +10,6 @@ import UIKit
 import SnapKit
 
 final class PostReplyTextFieldView: UIView {
-
-    // MARK: - Properties
-    
     
     // MARK: - UI Components
     
@@ -51,7 +48,7 @@ final class PostReplyTextFieldView: UIView {
         label.textColor = .donGray8
         label.font = .font(.caption4)
         label.numberOfLines = 0
-        label.text = "하이"
+        label.text = ""
         return label
     }()
     
@@ -60,12 +57,9 @@ final class PostReplyTextFieldView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setUI()
+
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -77,13 +71,12 @@ final class PostReplyTextFieldView: UIView {
 // MARK: - Extensions
 
 extension PostReplyTextFieldView {
-    private func setUI() {
-        
-    }
     
     private func setHierarchy() {
-        addSubviews(horizontalDivierView, backgroundView)
-        backgroundView.addSubviews(profileImageView, greenTextFieldView)
+        addSubviews(horizontalDivierView, 
+                    backgroundView)
+        backgroundView.addSubviews(profileImageView, 
+                                   greenTextFieldView)
         greenTextFieldView.addSubviews(replyTextFieldLabel)
     }
     
@@ -116,18 +109,5 @@ extension PostReplyTextFieldView {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(greenTextFieldView.snp.leading).offset(16.adjusted)
         }
-        
-    }
-    
-    private func setAddTarget() {
-
-    }
-    
-    private func setRegisterCell() {
-        
-    }
-    
-    private func setDataBind() {
-        
     }
 }

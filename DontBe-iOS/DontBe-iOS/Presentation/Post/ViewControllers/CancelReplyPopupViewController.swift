@@ -24,9 +24,7 @@ final class CancelReplyPopupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getAPI()
-        setUI()
+
         setHierarchy()
         setLayout()
         setDelegate()
@@ -36,10 +34,7 @@ final class CancelReplyPopupViewController: UIViewController {
 // MARK: - Extensions
 
 extension CancelReplyPopupViewController {
-    private func setUI() {
-        
-    }
-    
+
     private func setHierarchy() {
         view.addSubviews(cancelPopupView)
     }
@@ -52,14 +47,6 @@ extension CancelReplyPopupViewController {
     
     private func setDelegate() {
         cancelPopupView.delegate = self
-    }
-}
-
-// MARK: - Network
-
-extension CancelReplyPopupViewController {
-    private func getAPI() {
-        
     }
 }
 

@@ -12,14 +12,14 @@ import SnapKit
 final class PostDetailContentView: UIView {
     
     // MARK: - Properties
-    
-    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
-    
+        
     var isLiked: Bool = false
     var isGhost: Bool = true
     var memberGhost: Int = 0
+    
+    var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
+    var warnUserBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - UI Components
     
@@ -175,7 +175,8 @@ extension PostDetailContentView {
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView)
+        addSubviews(PostbackgroundUIView, 
+                    horizontalDivierView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
                                          postNicknameLabel,

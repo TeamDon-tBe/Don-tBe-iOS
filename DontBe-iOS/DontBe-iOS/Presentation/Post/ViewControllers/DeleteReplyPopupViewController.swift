@@ -14,7 +14,9 @@ final class DeleteReplyPopupViewController: UIViewController {
     
     static let reloadData = NSNotification.Name("reloadData")
     static let showDeleteReplyToastNotification = Notification.Name("ShowDeleteReplyToastNotification")
+    
     var commentId: Int = 0
+    
     var viewModel: DeleteReplyViewModel
     private var cancelBag = CancelBag()
 
@@ -35,7 +37,6 @@ final class DeleteReplyPopupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUI()
         setHierarchy()
         setLayout()
         setDelegate()
@@ -65,10 +66,7 @@ final class DeleteReplyPopupViewController: UIViewController {
 // MARK: - Extensions
 
 extension DeleteReplyPopupViewController {
-    private func setUI() {
-
-    }
-
+    
     private func setHierarchy() {
         view.addSubviews(deleteReplyPopupView)
     }

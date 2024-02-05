@@ -11,14 +11,12 @@ import SnapKit
 
 final class WriteReplyEditorView: UIView {
 
-    // MARK: - Properties
-    
     // MARK: - UI Components
     
     private let backgroundUIView: UIView = {
         let view = UIView()
         view.backgroundColor = .donWhite
-        view.layer.cornerRadius = 8
+        view.layer.cornerRadius = 8.adjusted
         return view
     }()
     
@@ -59,8 +57,6 @@ final class WriteReplyEditorView: UIView {
         setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -86,8 +82,8 @@ extension WriteReplyEditorView {
     
     private func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16)
-            $0.top.equalTo(8)
+            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+            $0.top.equalTo(8.adjusted)
             $0.bottom.equalToSuperview()
         }
         
@@ -109,17 +105,5 @@ extension WriteReplyEditorView {
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.bottom.equalToSuperview()
         }
-    }
-    
-    private func setAddTarget() {
-
-    }
-    
-    private func setRegisterCell() {
-        
-    }
-    
-    private func setDataBind() {
-        
     }
 }

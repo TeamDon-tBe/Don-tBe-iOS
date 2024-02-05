@@ -9,8 +9,6 @@ import UIKit
 
 final class TransparentPopupViewController: UIViewController {
     
-    // MARK: - Properties
-    
     // MARK: - UI Components
     
     let transparentButtonPopupView = DontBePopupView(popupImage: ImageLiterals.Popup.transparentButtonImage,
@@ -22,22 +20,15 @@ final class TransparentPopupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        getAPI()
-        setUI()
+
         setHierarchy()
         setLayout()
-        setDelegate()
     }
 }
 
 // MARK: - Extensions
 
 extension TransparentPopupViewController {
-    private func setUI() {
-        
-    }
-    
     private func setHierarchy() {
         view.addSubviews(transparentButtonPopupView)
     }
@@ -46,17 +37,5 @@ extension TransparentPopupViewController {
         transparentButtonPopupView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
-    }
-    
-    private func setDelegate() {
-        
-    }
-}
-
-// MARK: - Network
-
-extension TransparentPopupViewController {
-    private func getAPI() {
-        
     }
 }

@@ -34,7 +34,7 @@ final class WriteReplyContentView: UIView {
     var postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "Don't be야 사랑해~"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -42,7 +42,7 @@ final class WriteReplyContentView: UIView {
     public let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다.돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -54,12 +54,8 @@ final class WriteReplyContentView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
-        saveHeight()
     }
     
     @available(*, unavailable)
@@ -71,12 +67,10 @@ final class WriteReplyContentView: UIView {
 // MARK: - Extensions
 
 extension WriteReplyContentView {
-    private func setUI() {
-        
-    }
     
     private func setHierarchy() {
         addSubviews(backgroundUIView)
+        
         backgroundUIView.addSubviews(profileImageView,
                                      postNicknameLabel,
                                      contentTextLabel)
@@ -104,14 +98,6 @@ extension WriteReplyContentView {
             $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
-    }
-    
-    private func setAddTarget() {
-
-    }
-    
-    private func setRegisterCell() {
-        
     }
     
     private func saveHeight() {

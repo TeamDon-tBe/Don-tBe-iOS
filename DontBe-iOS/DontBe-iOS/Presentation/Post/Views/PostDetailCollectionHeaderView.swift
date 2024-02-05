@@ -186,7 +186,9 @@ extension PostDetailCollectionHeaderView {
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView, grayView)
+        addSubviews(PostbackgroundUIView, 
+                    horizontalDivierView,
+                    grayView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
                                          postNicknameLabel,
@@ -200,7 +202,9 @@ extension PostDetailCollectionHeaderView {
                                          ghostButton,
                                          verticalTextBarView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
+        commentStackView.addArrangedSubviews(commentButton, 
+                                             commentNumLabel)
+        
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }

@@ -14,15 +14,12 @@ import SnapKit
 final class PostDetailViewController: UIViewController {
     
     // MARK: - Properties
+    
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
+    
     let refreshControl = UIRefreshControl()
-    
-    var deletePostBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    var deleteReplyBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
@@ -34,7 +31,7 @@ final class PostDetailViewController: UIViewController {
     var collectionHeaderView: PostDetailCollectionHeaderView?
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
-
+    
     let viewModel: PostDetailViewModel
     private var cancelBag = CancelBag()
     
@@ -51,14 +48,18 @@ final class PostDetailViewController: UIViewController {
     
     // MARK: - UI Components
     
-    lazy var postView = PostDetailContentView()
+    var deletePostBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var deleteReplyBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
+    lazy var postView = PostDetailContentView()
     private lazy var textFieldView = PostReplyTextFieldView()
     var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
     private var deleteToastView: DontBeDeletePopupView?
+    
     
     // MARK: - Life Cycles
     
@@ -71,10 +72,9 @@ final class PostDetailViewController: UIViewController {
         setDelegate()
         setTextFieldGesture()
         setRefreshControll()
-        setRegister()
         setLayout()
         refreshPostDidDrag()
-//        setNotification()
+        // setNotification()
         getAPI()
         refreshControl.beginRefreshing()
     }
@@ -82,10 +82,6 @@ final class PostDetailViewController: UIViewController {
     init(viewModel: PostDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    private func setRegister() {
-        
     }
     
     required init?(coder: NSCoder) {
@@ -165,7 +161,7 @@ extension PostDetailViewController {
         postReplyCollectionView.delegate = self
         transparentPopupVC.transparentButtonPopupView.delegate = self
     }
-        
+    
     private func setAppearNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
@@ -401,41 +397,41 @@ extension PostDetailViewController {
     
     @objc
     func showDeleteToast(_ notification: Notification) {
-            if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
-                if showToast == true {
-                    DispatchQueue.main.async {
-                        self.deleteToastView = DontBeDeletePopupView()
-                        
-                        self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
-                        
-                        self.deleteToastView?.snp.makeConstraints {
-                            $0.leading.trailing.equalToSuperview().inset(24.adjusted)
-                            $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
-                            $0.height.equalTo(75.adjusted)
-                        }
-                        
-                        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
-                            self.deleteToastView?.alpha = 0
-                        }
+        if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+            if showToast == true {
+                DispatchQueue.main.async {
+                    self.deleteToastView = DontBeDeletePopupView()
+                    
+                    self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                    
+                    self.deleteToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                        $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                        $0.height.equalTo(75.adjusted)
+                    }
+                    
+                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                        self.deleteToastView?.alpha = 0
                     }
                 }
             }
         }
+    }
     
     func popPostView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deletePostBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deletePostBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deletePostBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             deletePostBottomsheet.dimView.removeFromSuperview()
             deletePostBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.deleteBottomsheet.dimView.removeFromSuperview()
-            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deletePostBottomsheetView.dimView.removeFromSuperview()
+            postView.deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
         }
     }
     
@@ -443,16 +439,16 @@ extension PostDetailViewController {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteReplyBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             deleteReplyBottomsheet.dimView.removeFromSuperview()
             deleteReplyBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.deleteBottomsheet.dimView.removeFromSuperview()
-            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deletePostBottomsheetView.dimView.removeFromSuperview()
+            postView.deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
         }
     }
     
@@ -460,23 +456,17 @@ extension PostDetailViewController {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteReplyBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             warnBottomsheet.dimView.removeFromSuperview()
             warnBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.warnBottomsheet.dimView.removeFromSuperview()
-            postView.warnBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.warnUserBottomsheetView.dimView.removeFromSuperview()
+            postView.warnUserBottomsheetView.bottomsheetView.removeFromSuperview()
         }
-    }
-    
-    func presentView() {
-        deletePostPopupVC.contentId = self.contentId
-        
-        self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     func deletePostPopupView() {
@@ -627,7 +617,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-
+        
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
         cell.alarmTriggerdId = viewModel.postReplyData[indexPath.row].commentId
@@ -742,10 +732,10 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-//
-//        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    //
+    //        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         

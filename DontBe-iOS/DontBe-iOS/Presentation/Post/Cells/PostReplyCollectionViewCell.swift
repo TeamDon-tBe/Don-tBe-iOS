@@ -17,6 +17,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var ProfileButtonAction: (() -> Void) = {}
+    
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -52,7 +53,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     let nicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "Don't be야 사랑해~"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -60,7 +61,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     let transparentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "투명도 0%"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -68,7 +69,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     private let dotLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "·"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -76,7 +77,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     let timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "3분 전"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -90,7 +91,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다. 돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -204,7 +205,7 @@ extension PostReplyCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().inset(8.adjusted)
             $0.bottom.equalToSuperview()
             $0.leading.equalToSuperview().inset(14.adjusted)
             $0.trailing.equalToSuperview()
@@ -293,7 +294,7 @@ extension PostReplyCollectionViewCell {
         verticalBarView.snp.makeConstraints {
             $0.top.bottom.equalToSuperview()
             $0.trailing.equalTo(horizontalCellBarView.snp.leading)
-            $0.width.equalTo(1)
+            $0.width.equalTo(1.adjusted)
         }
         
         cellTopSpacingView.snp.makeConstraints {
