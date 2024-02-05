@@ -51,7 +51,7 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    lazy var postView = PostView()
+    lazy var postView = PostDetailContentView()
     
     private lazy var textFieldView = PostReplyTextFieldView()
     var postReplyCollectionView = PostReplyCollectionView().collectionView

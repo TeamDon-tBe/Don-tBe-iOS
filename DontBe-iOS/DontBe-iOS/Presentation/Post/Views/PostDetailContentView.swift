@@ -1,5 +1,5 @@
 //
-//  PostView.swift
+//  PostDetailContentView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/12/24.
@@ -9,14 +9,14 @@ import UIKit
 
 import SnapKit
 
-final class PostView: UIView {
-
+final class PostDetailContentView: UIView {
+    
     // MARK: - Properties
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
-    )
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
+    
     var isLiked: Bool = false
     var isGhost: Bool = true
     var memberGhost: Int = 0
@@ -170,28 +170,29 @@ final class PostView: UIView {
 
 // MARK: - Extensions
 
-extension PostView {
+extension PostDetailContentView {
     private func setUI() {
         self.backgroundColor = .donGray1
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView
-        )
+        addSubviews(PostbackgroundUIView, horizontalDivierView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
-                                     postNicknameLabel,
-                                     transparentLabel,
-                                     dotLabel,
-                                     timeLabel,
-                                     kebabButton,
-                                     contentTextLabel,
-                                     commentStackView,
-                                     likeStackView,
-                                     ghostButton,
-                                     verticalTextBarView)
+                                         postNicknameLabel,
+                                         transparentLabel,
+                                         dotLabel,
+                                         timeLabel,
+                                         kebabButton,
+                                         contentTextLabel,
+                                         commentStackView,
+                                         likeStackView,
+                                         ghostButton,
+                                         verticalTextBarView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
+        commentStackView.addArrangedSubviews(commentButton,
+                                             commentNumLabel)
+        
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }
@@ -282,14 +283,5 @@ extension PostView {
     func likeToggleButton() {
         isLiked.toggle()
         likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-
-    }
-    
-    private func setRegisterCell() {
-        
-    }
-    
-    private func setDataBind() {
-        
     }
 }
