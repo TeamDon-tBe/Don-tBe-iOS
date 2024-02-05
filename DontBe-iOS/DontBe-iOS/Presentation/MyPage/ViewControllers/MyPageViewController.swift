@@ -355,7 +355,7 @@ extension MyPageViewController {
     @objc
     private func pushViewController(_ notification: Notification) {
         if let contentId = notification.userInfo?["contentId"] as? Int {
-            let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+            let destinationViewController = PostDetailViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
             destinationViewController.contentId = contentId
             self.navigationController?.pushViewController(destinationViewController, animated: true)
         }

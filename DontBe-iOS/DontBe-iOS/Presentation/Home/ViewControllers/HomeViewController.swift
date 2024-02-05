@@ -453,7 +453,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+        let destinationViewController = PostDetailViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
         destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
