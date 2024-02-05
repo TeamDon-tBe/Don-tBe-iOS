@@ -159,7 +159,6 @@ final class PostDetailContentView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)

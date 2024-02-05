@@ -18,16 +18,7 @@ final class TransparentPopupViewController: UIViewController {
                                                              popupContent: StringLiterals.Home.transparentPopupContentLabel,
                                                              leftButtonTitle: StringLiterals.Home.transparentPopupLefteftButtonTitle,
                                                              rightButtonTitle: StringLiterals.Home.transparentPopupRightButtonTitle)
-    
-    private let myView = PostPopupView()
-    
     // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

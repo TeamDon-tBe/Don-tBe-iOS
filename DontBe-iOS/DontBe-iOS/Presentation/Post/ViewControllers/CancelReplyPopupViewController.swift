@@ -18,17 +18,9 @@ final class CancelReplyPopupViewController: UIViewController {
                                                   popupContent: StringLiterals.Post.popupReplyContentLabel,
                                                   leftButtonTitle: StringLiterals.Post.popupReplyCancelButtonTitle,
                                                   rightButtonTitle: StringLiterals.Post.popupReplyConfirmButtonTitle)
-    
-    private let myView = PostPopupView()
     private let writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     
     // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

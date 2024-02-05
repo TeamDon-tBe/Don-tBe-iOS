@@ -97,7 +97,6 @@
 		2FBBADF12B53AF9B002D6286 /* PostDetailCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */; };
 		2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */; };
 		2FBBADF62B53EEBD002D6286 /* CancelReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */; };
-		2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF72B53EF63002D6286 /* PostPopupView.swift */; };
 		2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */; };
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
@@ -241,7 +240,6 @@
 		2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionFooterView.swift; sourceTree = "<group>"; };
 		2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentPopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelReplyPopupViewController.swift; sourceTree = "<group>"; };
-		2FBBADF72B53EF63002D6286 /* PostPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPopupView.swift; sourceTree = "<group>"; };
 		2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataResponseDTO.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
@@ -686,7 +684,6 @@
 			isa = PBXGroup;
 			children = (
 				2FB818D22B51694F00B7498F /* PostDetailContentView.swift */,
-				2FBBADF72B53EF63002D6286 /* PostPopupView.swift */,
 				2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */,
 				2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */,
 				2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */,
@@ -1333,7 +1330,6 @@
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
 				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				3CB634CA2B59080E00DB9DA5 /* DontBeTransparencyGrayView.swift in Sources */,
-				2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */,
 				2FB64FF02B5310DD0082A414 /* WriteReplyViewController.swift in Sources */,
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,

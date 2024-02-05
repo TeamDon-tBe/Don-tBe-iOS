@@ -30,17 +30,11 @@ final class DeletePopupViewController: UIViewController {
     private lazy var deleteButtonTapped = deletePostPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in
         return self.contentId
     }.eraseToAnyPublisher()
-    private let myView = PostPopupView()
+    
     private lazy var homeVC = HomeViewController(viewModel: HomeViewModel(networkProvider: NetworkService()))
     
     // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
-        
-        view = myView
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
