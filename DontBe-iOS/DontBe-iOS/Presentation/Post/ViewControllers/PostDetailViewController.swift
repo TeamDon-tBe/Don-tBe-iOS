@@ -73,7 +73,7 @@ final class PostDetailViewController: UIViewController {
         setRefreshControll()
         setRegister()
         setLayout()
-        refreshPost()
+        refreshPostDidDrag()
 //        setNotification()
         getAPI()
         refreshControl.beginRefreshing()
@@ -185,7 +185,7 @@ extension PostDetailViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshPostDidDrag), for: .valueChanged)
         postReplyCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donWhite
     }
@@ -323,7 +323,7 @@ extension PostDetailViewController {
     
     private func addDeletePostButtonAction() {
         self.deletePostBottomsheet.warnButton.removeFromSuperview()
-        self.deletePostBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        self.deletePostBottomsheet.deleteButton.addTarget(self, action: #selector(deletePostButtonDidTapped), for: .touchUpInside)
     }
     
     private func addDeleteReplyButtonAction() {
@@ -337,7 +337,7 @@ extension PostDetailViewController {
     }
     
     @objc
-    func deletePost() {
+    func deletePostButtonDidTapped() {
         popPostView()
         deletePostPopupView()
     }
@@ -518,7 +518,7 @@ extension PostDetailViewController {
     }
     
     @objc
-    func refreshPost() {
+    func refreshPostDidDrag() {
         DispatchQueue.main.async {
             self.getAPI()
         }
@@ -767,7 +767,7 @@ extension PostDetailViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
-                    refreshPost()
+                    refreshPostDidDrag()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()

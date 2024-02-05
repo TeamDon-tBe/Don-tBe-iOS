@@ -51,7 +51,6 @@ extension HomeCollectionFooterView {
     func setLayout() {
         footerView.snp.makeConstraints {
             $0.height.equalTo(2.adjusted)
-            
         }
     }
 }

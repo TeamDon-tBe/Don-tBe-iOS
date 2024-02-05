@@ -8,8 +8,6 @@
 import UIKit
 
 final class HomeView: UIView {
-
-    // MARK: - Properties
     
     // MARK: - UI Components
     
@@ -32,11 +30,8 @@ final class HomeView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -48,8 +43,6 @@ final class HomeView: UIView {
 // MARK: - Extensions
 
 extension HomeView {
-    func setUI() {
-    }
     
     func setHierarchy() {
         addSubviews(backgroundView)
@@ -69,22 +62,5 @@ extension HomeView {
             $0.height.equalTo(24.adjusted)
             $0.centerX.equalToSuperview()
         }
-    }
-    
-    func setAddTarget() {
-
-    }
-    
-    @objc
-    func buttonTapped() {
-        
-    }
-    
-    func setRegisterCell() {
-        
-    }
-    
-    func setDataBind() {
-        
     }
 }

@@ -76,7 +76,7 @@ final class MyPageCommentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        refreshPost()
+        refreshPostDidDrag()
         setNotification()
     }
     
@@ -119,7 +119,7 @@ extension MyPageCommentViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshPostDidDrag), for: .valueChanged)
         homeCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donGray1
     }
@@ -129,7 +129,7 @@ extension MyPageCommentViewController {
     }
     
     @objc
-    func refreshPost() {
+    func refreshPostDidDrag() {
         DispatchQueue.main.async {
             self.homeCollectionView.reloadData()
         }
@@ -138,7 +138,7 @@ extension MyPageCommentViewController {
     
     @objc
     func reloadData(_ notification: Notification) {
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     @objc
@@ -169,7 +169,7 @@ extension MyPageCommentViewController {
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func popWarnView() {
@@ -183,7 +183,7 @@ extension MyPageCommentViewController {
             warnBottomsheet.dimView.removeFromSuperview()
             warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func presentView() {

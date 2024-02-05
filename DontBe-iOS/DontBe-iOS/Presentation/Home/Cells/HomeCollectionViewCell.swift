@@ -54,7 +54,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let nicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "Don't be야 사랑해~"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -62,7 +62,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let transparentLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "투명도 0%"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -70,7 +70,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let dotLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "·"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -78,7 +78,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let timeLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray9
-        label.text = "3분 전"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -92,7 +92,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -116,7 +116,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let likeNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
-        label.text = "54"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -138,7 +138,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     let commentNumLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donGray11
-        label.text = "54"
+        label.text = ""
         label.font = .font(.caption4)
         return label
     }()
@@ -202,7 +202,9 @@ extension HomeCollectionViewCell {
                                      verticalTextBarView,
                                      cellTopSpacingView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
+        commentStackView.addArrangedSubviews(commentButton, 
+                                             commentNumLabel)
+        
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
         
@@ -214,9 +216,9 @@ extension HomeCollectionViewCell {
     
     func setLayout() {
         backgroundUIView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(8)
+            $0.top.equalToSuperview().inset(8.adjusted)
             $0.bottom.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width - 32)
+            $0.width.equalTo(UIScreen.main.bounds.width - 32.adjusted)
         }
         
         grayView.snp.makeConstraints {
@@ -265,18 +267,18 @@ extension HomeCollectionViewCell {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(commentStackView)
             $0.trailing.equalTo(kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(commentStackView)
             $0.height.equalTo(42.adjusted)
             $0.trailing.equalTo(commentStackView.snp.leading).offset(-10.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
         }
         
         ghostButton.snp.makeConstraints {
-            $0.bottom.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(16.adjusted)
             $0.leading.equalTo(profileImageView)
             $0.size.equalTo(44.adjusted)
         }
