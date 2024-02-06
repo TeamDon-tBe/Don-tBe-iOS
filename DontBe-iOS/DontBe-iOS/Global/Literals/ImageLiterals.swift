@@ -99,6 +99,7 @@ enum ImageLiterals {
         static var btnAccount: UIImage { .load(name: "btn_acoount") }
         static var btnFeedback: UIImage { .load(name: "btn_feedback") }
         static var btnCustomerCenter: UIImage { .load(name: "btn_customerCenter") }
+        static var btnLogout: UIImage { .load(name: "btn_logout") }
     }
     
     enum TransparencyInfo {

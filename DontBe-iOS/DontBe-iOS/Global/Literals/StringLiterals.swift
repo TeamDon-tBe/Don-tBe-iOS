@@ -141,6 +141,7 @@ enum StringLiterals {
         static let accountInfo = "계정 정보"
         static let feedback = "피드백 남기기"
         static let customerCenter = "고객센터"
+        static let logout = "로그아웃"
     }
     
     enum Network {
