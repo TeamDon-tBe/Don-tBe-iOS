@@ -217,6 +217,7 @@ extension MyPageViewController {
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
+        rootView.myPageBottomsheet.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         rootView.warnBottomsheet.warnButton.addTarget(self, action: #selector(warnButtonTapped), for: .touchUpInside)
     }
     
@@ -412,6 +413,12 @@ extension MyPageViewController {
             customerCenterView = SFSafariViewController(url: customerCenterURL)
             self.present(customerCenterView, animated: true, completion: nil)
         }
+    }
+    
+    @objc
+    private func logoutButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
+        print("logoutButtonTapped")
     }
     
     @objc

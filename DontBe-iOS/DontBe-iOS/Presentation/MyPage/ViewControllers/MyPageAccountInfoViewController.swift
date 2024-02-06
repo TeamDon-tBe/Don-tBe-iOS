@@ -50,14 +50,14 @@ final class MyPageAccountInfoViewController: UIViewController {
     private let moreInfoTitle: UILabel = {
         let label = UILabel()
         label.font = .font(.body3)
-        label.text = "이용약관"
+        label.text = StringLiterals.MyPage.myPageMoreInfoTitle
         label.textColor = .donBlack
         return label
     }()
     
     private let moreInfoButton: UIButton = {
         let button = UIButton()
-        button.setTitle("자세히 보기", for: .normal)
+        button.setTitle(StringLiterals.MyPage.myPageMoreInfoButtonTitle, for: .normal)
         button.setTitleColor(.donGray7, for: .normal)
         button.titleLabel?.font = .font(.body4)
         return button
@@ -65,7 +65,7 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     private let signOutButton: UIButton = {
         let button = UIButton()
-        button.setTitle("회원탈퇴", for: .normal)
+        button.setTitle(StringLiterals.MyPage.myPageSignOutButtonTitle, for: .normal)
         button.setTitleColor(.donGray7, for: .normal)
         button.titleLabel?.font = .font(.body4)
         return button
@@ -170,6 +170,7 @@ extension MyPageAccountInfoViewController {
     
     private func setAddTarget() {
         moreInfoButton.addTarget(self, action: #selector(useTermButtonTapped), for: .touchUpInside)
+        signOutButton.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
     }
     
     private func setDelegate() {
@@ -222,6 +223,11 @@ extension MyPageAccountInfoViewController {
             useTermView = SFSafariViewController(url: useTermURL)
             self.present(useTermView, animated: true, completion: nil)
         }
+    }
+    
+    @objc
+    private func signOutButtonTapped() {
+        print("signOutButtonTapped")
     }
 }
 
