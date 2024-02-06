@@ -52,6 +52,8 @@ final class DontBeBottomSheetView: UIView {
     
     let customerCenterButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.customerCenter)
     
+    let logoutButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.logout)
+    
     // MARK: - Life Cycles
     
     init(singleButtonImage: UIImage) {
@@ -63,7 +65,7 @@ final class DontBeBottomSheetView: UIView {
         setAddTarget()
     }
     
-    init(profileEditImage: UIImage, accountInfoImage: UIImage, feedbackImage: UIImage, customerCenterImage: UIImage) {
+    init(profileEditImage: UIImage, accountInfoImage: UIImage, feedbackImage: UIImage, customerCenterImage: UIImage, logoutImage: UIImage) {
         super.init(frame: .zero)
         
         setMultiButtonHierarchy()
@@ -129,12 +131,13 @@ extension DontBeBottomSheetView {
                                     profileEditButton,
                                     accountInfoButton,
                                     feedbackButton,
-                                    customerCenterButton)
+                                    customerCenterButton,
+                                    logoutButton)
     }
     
     private func setMultiButtonLayout() {
         bottomsheetView.snp.makeConstraints {
-            $0.height.equalTo(365.adjusted)
+            $0.height.equalTo(434.adjusted)
         }
         
         dragIndicatorView.snp.makeConstraints {
@@ -166,6 +169,12 @@ extension DontBeBottomSheetView {
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(feedbackButton.snp.bottom).offset(10.adjusted)
+        }
+        
+        logoutButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
+            $0.top.equalTo(customerCenterButton.snp.bottom).offset(10.adjusted)
         }
     }
     
