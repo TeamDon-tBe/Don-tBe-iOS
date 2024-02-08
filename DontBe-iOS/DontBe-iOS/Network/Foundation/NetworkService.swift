@@ -88,7 +88,7 @@ final class NetworkService: NetworkServiceType {
                     return nil
                 } else {
                     guard let newAccessToken = result.data?.accessToken else { throw NetworkError.unknownError }
-                    KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+                    KeychainWrapper.saveToken(newAccessToken, forKey: "accessToken")
 
                     return try await donNetwork(type: type, baseURL: baseURL, accessToken: newAccessToken, body: body, pathVariables: pathVariables)
                 }
