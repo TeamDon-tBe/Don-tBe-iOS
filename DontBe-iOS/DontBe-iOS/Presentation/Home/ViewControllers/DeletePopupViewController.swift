@@ -10,15 +10,23 @@ import UIKit
 
 final class DeletePopupViewController: UIViewController {
     
+    // MARK: - Properties
+    
+    var contentId: Int = 0
+    
     static let popViewController = NSNotification.Name("popVC")
     static let reloadData = NSNotification.Name("reloadData")
     static let showWriteToastNotification = Notification.Name("ShowWriteToastNotification")
     static let showDeletePostToastNotification = Notification.Name("ShowDeletePostToastNotification")
     
-    // MARK: - Properties
-    var contentId: Int = 0
     var viewModel: DeletePostViewModel
     private var cancelBag = CancelBag()
+    
+    private lazy var deleteButtonTapped = deletePostPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in
+        return self.contentId
+    }.eraseToAnyPublisher()
+    
+    private lazy var homeVC = HomeViewController(viewModel: HomeViewModel(networkProvider: NetworkService()))
     
     // MARK: - UI Components
     
@@ -26,25 +34,12 @@ final class DeletePopupViewController: UIViewController {
                                                       popupContent: StringLiterals.Home.deletePopupContentLabel,
                                                       leftButtonTitle: StringLiterals.Home.deletePopupLefteftButtonTitle,
                                                       rightButtonTitle: StringLiterals.Home.deletePopupRightButtonTitle)
-    
-    private lazy var deleteButtonTapped = deletePostPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in
-        return self.contentId
-    }.eraseToAnyPublisher()
-    private let myView = PostPopupView()
-    private lazy var homeVC = HomeViewController(viewModel: HomeViewModel(networkProvider: NetworkService()))
-    
-    // MARK: - Life Cycles
-    
-    override func loadView() {
-        super.loadView()
         
-        view = myView
-    }
-    
+    // MARK: - Life Cycles
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
         setHierarchy()
         setLayout()
         setDelegate()
@@ -73,10 +68,6 @@ final class DeletePopupViewController: UIViewController {
 // MARK: - Extensions
 
 extension DeletePopupViewController {
-    private func setUI() {
-        
-    }
-    
     private func setHierarchy() {
         view.addSubviews(deletePostPopupView)
     }
@@ -124,7 +115,7 @@ extension DeletePopupViewController: DontBePopupDelegate {
     }
     
     func confirmButtonTapped() {
-        self.homeVC.refreshPost()
+        self.homeVC.refreshCollectionViewDidDrag()
         NotificationCenter.default.post(name: DeletePopupViewController.showDeletePostToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 }

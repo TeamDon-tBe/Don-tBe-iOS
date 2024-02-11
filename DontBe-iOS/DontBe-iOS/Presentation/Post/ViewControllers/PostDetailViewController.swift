@@ -1,5 +1,5 @@
 //
-//  PostViewController.swift
+//  PostDetailViewController.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/12/24.
@@ -11,31 +11,28 @@ import UIKit
 
 import SnapKit
 
-final class PostViewController: UIViewController {
+final class PostDetailViewController: UIViewController {
     
     // MARK: - Properties
+    
     private lazy var postUserNickname = postView.postNicknameLabel.text
     private lazy var postDividerView = postView.horizontalDivierView
     private lazy var ghostButton = postView.ghostButton
+    
     let refreshControl = UIRefreshControl()
-    
-    var deletePostBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    var deleteReplyBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
-    var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    var deleteReplyPopupVC = DeleteReplyPopupViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
     
     var writeReplyVC = WriteReplyViewController(viewModel: WriteReplyViewModel(networkProvider: NetworkService()))
     var writeReplyView = WriteReplyView()
     
-    var collectionHeaderView: PostCollectionViewHeader?
+    var collectionHeaderView: PostDetailCollectionHeaderView?
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
-
-    let viewModel: PostViewModel
+    
+    let viewModel: PostDetailViewModel
     private var cancelBag = CancelBag()
     
     var contentId: Int = 0
@@ -51,14 +48,18 @@ final class PostViewController: UIViewController {
     
     // MARK: - UI Components
     
-    lazy var postView = PostView()
+    var deletePostBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var deleteReplyBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
+    lazy var postView = PostDetailContentView()
     private lazy var textFieldView = PostReplyTextFieldView()
     var postReplyCollectionView = PostReplyCollectionView().collectionView
     private lazy var greenTextField = textFieldView.greenTextFieldView
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
     private var deleteToastView: DontBeDeletePopupView?
+    
     
     // MARK: - Life Cycles
     
@@ -71,21 +72,16 @@ final class PostViewController: UIViewController {
         setDelegate()
         setTextFieldGesture()
         setRefreshControll()
-        setRegister()
         setLayout()
-        refreshPost()
-//        setNotification()
+        refreshPostDidDrag()
+        // setNotification()
         getAPI()
         refreshControl.beginRefreshing()
     }
     
-    init(viewModel: PostViewModel) {
+    init(viewModel: PostDetailViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-    }
-    
-    private func setRegister() {
-        
     }
     
     required init?(coder: NSCoder) {
@@ -121,7 +117,7 @@ final class PostViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.removeObserver(self, name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: DeleteReplyPopupViewController.showDeleteReplyToastNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissReplyView"), object: nil
         )
         NotificationCenter.default.removeObserver(self, name: WriteReplyViewController.showUploadToastNotification, object: nil)
@@ -131,7 +127,7 @@ final class PostViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension PostViewController {
+extension PostDetailViewController {
     private func setUI() {
         self.view.backgroundColor = .donWhite
         textFieldView.isUserInteractionEnabled = true
@@ -165,7 +161,7 @@ extension PostViewController {
         postReplyCollectionView.delegate = self
         transparentPopupVC.transparentButtonPopupView.delegate = self
     }
-        
+    
     private func setAppearNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.didDismissDetailNotification(_:)), name: NSNotification.Name("DismissReplyView"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showToast(_:)), name: WriteReplyViewController.showUploadToastNotification, object: nil)
@@ -173,7 +169,7 @@ extension PostViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.likeButtonAction), name: NSNotification.Name("likeButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.profileButtonAction), name: NSNotification.Name("profileButtonTapped"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.headerKebabButtonAction), name: NSNotification.Name("headerKebabButtonTapped"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeleteToast(_:)), name: DeleteReplyPopupViewController.showDeleteReplyToastNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(backButtonPressed), name: DeletePopupViewController.showDeletePostToastNotification, object: nil)
     }
     
@@ -185,7 +181,7 @@ extension PostViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshPostDidDrag), for: .valueChanged)
         postReplyCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donWhite
     }
@@ -294,7 +290,7 @@ extension PostViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped, collectionViewUpdata: nil, commentLikeButtonTapped: nil)
+        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped, collectionViewUpdata: nil, commentLikeButtonTapped: nil)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -323,7 +319,7 @@ extension PostViewController {
     
     private func addDeletePostButtonAction() {
         self.deletePostBottomsheet.warnButton.removeFromSuperview()
-        self.deletePostBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        self.deletePostBottomsheet.deleteButton.addTarget(self, action: #selector(deletePostButtonDidTapped), for: .touchUpInside)
     }
     
     private func addDeleteReplyButtonAction() {
@@ -337,7 +333,7 @@ extension PostViewController {
     }
     
     @objc
-    func deletePost() {
+    func deletePostButtonDidTapped() {
         popPostView()
         deletePostPopupView()
     }
@@ -399,43 +395,43 @@ extension PostViewController {
         }
     }
     
-    @objc 
+    @objc
     func showDeleteToast(_ notification: Notification) {
-            if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
-                if showToast == true {
-                    DispatchQueue.main.async {
-                        self.deleteToastView = DontBeDeletePopupView()
-                        
-                        self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
-                        
-                        self.deleteToastView?.snp.makeConstraints {
-                            $0.leading.trailing.equalToSuperview().inset(24.adjusted)
-                            $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
-                            $0.height.equalTo(75.adjusted)
-                        }
-                        
-                        UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
-                            self.deleteToastView?.alpha = 0
-                        }
+        if let showToast = notification.userInfo?["showDeleteToast"] as? Bool {
+            if showToast == true {
+                DispatchQueue.main.async {
+                    self.deleteToastView = DontBeDeletePopupView()
+                    
+                    self.view.addSubviews(self.deleteToastView ?? DontBeDeletePopupView())
+                    
+                    self.deleteToastView?.snp.makeConstraints {
+                        $0.leading.trailing.equalToSuperview().inset(24.adjusted)
+                        $0.centerY.equalTo(self.view.safeAreaLayoutGuide)
+                        $0.height.equalTo(75.adjusted)
+                    }
+                    
+                    UIView.animate(withDuration: 2.0, delay: 0, options: .curveEaseIn) {
+                        self.deleteToastView?.alpha = 0
                     }
                 }
             }
         }
+    }
     
     func popPostView() {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deletePostBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deletePostBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deletePostBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             deletePostBottomsheet.dimView.removeFromSuperview()
             deletePostBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.deleteBottomsheet.dimView.removeFromSuperview()
-            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deletePostBottomsheetView.dimView.removeFromSuperview()
+            postView.deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
         }
     }
     
@@ -443,16 +439,16 @@ extension PostViewController {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteReplyBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             deleteReplyBottomsheet.dimView.removeFromSuperview()
             deleteReplyBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.deleteBottomsheet.dimView.removeFromSuperview()
-            postView.deleteBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.deletePostBottomsheetView.dimView.removeFromSuperview()
+            postView.deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
         }
     }
     
@@ -460,23 +456,17 @@ extension PostViewController {
         if UIApplication.shared.keyWindowInConnectedScenes != nil {
             UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
                 self.deleteReplyBottomsheet.dimView.alpha = 0
-                self.postView.deleteBottomsheet.dimView.alpha = 0
+                self.postView.deletePostBottomsheetView.dimView.alpha = 0
                 if let window = UIApplication.shared.keyWindowInConnectedScenes {
                     self.deleteReplyBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteReplyBottomsheet.frame.width, height: self.deleteReplyBottomsheet.bottomsheetView.frame.height)
-                    self.postView.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deleteBottomsheet.frame.width, height: self.postView.deleteBottomsheet.bottomsheetView.frame.height)
+                    self.postView.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.postView.deletePostBottomsheetView.frame.width, height: self.postView.deletePostBottomsheetView.bottomsheetView.frame.height)
                 }
             })
             warnBottomsheet.dimView.removeFromSuperview()
             warnBottomsheet.bottomsheetView.removeFromSuperview()
-            postView.warnBottomsheet.dimView.removeFromSuperview()
-            postView.warnBottomsheet.bottomsheetView.removeFromSuperview()
+            postView.warnUserBottomsheetView.dimView.removeFromSuperview()
+            postView.warnUserBottomsheetView.bottomsheetView.removeFromSuperview()
         }
-    }
-    
-    func presentView() {
-        deletePostPopupVC.contentId = self.contentId
-        
-        self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     func deletePostPopupView() {
@@ -518,7 +508,7 @@ extension PostViewController {
     }
     
     @objc
-    func refreshPost() {
+    func refreshPostDidDrag() {
         DispatchQueue.main.async {
             self.getAPI()
         }
@@ -537,9 +527,9 @@ extension PostViewController {
 
 // MARK: - Network
 
-extension PostViewController {
+extension PostDetailViewController {
     private func getAPI() {
-        let input = PostViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: nil, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
+        let input = PostDetailViewModel.Input(viewUpdate: Just((contentId)).eraseToAnyPublisher(), likeButtonTapped: nil, collectionViewUpdata: Just((contentId)).eraseToAnyPublisher(), commentLikeButtonTapped: nil)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -609,7 +599,7 @@ extension PostViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -619,7 +609,7 @@ extension PostViewController {
     }
 }
 
-extension PostViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension PostDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.postReplyData.count
     }
@@ -627,7 +617,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell =
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
-
+        
         cell.alarmTriggerType = "commentGhost"
         cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
         cell.alarmTriggerdId = viewModel.postReplyData[indexPath.row].commentId
@@ -699,7 +689,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionView.elementKindSectionHeader {
-            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader", for: indexPath) as? PostCollectionViewHeader
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader", for: indexPath) as? PostDetailCollectionHeaderView
             else { return UICollectionReusableView()
             }
             
@@ -736,16 +726,16 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
             return header
             
         } else {
-            guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostReplyCollectionFooterView else { return UICollectionReusableView() }
+            guard let footer = postReplyCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView", for: indexPath) as? PostDetailCollectionFooterView else { return UICollectionReusableView() }
             return footer
             
         }
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-//        
-//        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
-//    }
+    //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    //
+    //        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
+    //    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
@@ -753,7 +743,7 @@ extension PostViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
 }
 
-extension PostViewController: DontBePopupDelegate {
+extension PostDetailViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
         self.dismiss(animated: false)
     }
@@ -767,7 +757,7 @@ extension PostViewController: DontBePopupDelegate {
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
-                    refreshPost()
+                    refreshPostDidDrag()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()

@@ -1,5 +1,5 @@
 //
-//  PostReplyCollectionFooterView.swift
+//  PostDetailCollectionFooterView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/14/24.
@@ -7,22 +7,18 @@
 
 import UIKit
 
-final class PostReplyCollectionFooterView: UICollectionReusableView {
+final class PostDetailCollectionFooterView: UICollectionReusableView {
     
     // MARK: - Properties
     
     static let identifier = "PostReplyCollectionFooterView"
-    
-    // MARK: - UI Components
-    
+
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         setUI()
-        setHierarchy()
-        setLayout()
     }
     
     @available(*, unavailable)
@@ -33,15 +29,9 @@ final class PostReplyCollectionFooterView: UICollectionReusableView {
 
 // MARK: - Extensions
 
-extension PostReplyCollectionFooterView {
+extension PostDetailCollectionFooterView {
     func setUI() {
         self.backgroundColor = .donGray1
-    }
-    
-    func setHierarchy() {
-    }
-    
-    func setLayout() {
     }
 }
 

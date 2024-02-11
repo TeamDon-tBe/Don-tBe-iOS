@@ -12,10 +12,13 @@ import SnapKit
 final class WriteReplyView: UIView {
     
     // MARK: - Properties
-    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
-    let maxLength = 500 // 최대 글자 수
+    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
+    let maxLength = 500
     
     // MARK: - UI Components
+    
+    public lazy var writeReplyPostview = WriteReplyContentView()
+    public lazy var writeReplyView = WriteReplyEditorView()
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -25,9 +28,6 @@ final class WriteReplyView: UIView {
     }()
     
     private let contentView = UIView()
-    
-    public lazy var writeReplyPostview = WriteReplyPostView()
-    public lazy var writeReplyView = WriteReplyEditorView()
     
     private let keyboardToolbarView: UIView = {
         let view = UIView()
@@ -69,8 +69,7 @@ final class WriteReplyView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        setUI()
+
         setHierarchy()
         setLayout()
         setDelegate()
@@ -86,14 +85,16 @@ final class WriteReplyView: UIView {
 // MARK: - Extensions
 
 extension WriteReplyView {
-    private func setUI() {
-    }
     
     private func setHierarchy() {
-        self.addSubviews(scrollView, keyboardToolbarView)
+        self.addSubviews(scrollView, 
+                         keyboardToolbarView)
+        
         scrollView.addSubviews(contentView)
+        
         contentView.addSubviews(writeReplyPostview,
                                writeReplyView)
+        
         keyboardToolbarView.addSubviews(circleProgressBar,
                                         limitedCircleProgressBar,
                                         postButton)
@@ -158,8 +159,7 @@ extension WriteReplyView {
         limitedCircleProgressBar.alpha = 0
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        
-        // 햅틱 피드백 생성
+
         impactFeedbackGenerator.prepare()
     }
     

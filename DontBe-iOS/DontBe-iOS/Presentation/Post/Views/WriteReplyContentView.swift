@@ -1,5 +1,5 @@
 //
-//  WriteReplyPostView.swift
+//  WriteReplyContentView.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/14/24.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class WriteReplyPostView: UIView {
+final class WriteReplyContentView: UIView {
 
     // MARK: - Properties
     var detailViewHeight: Int = 0
@@ -34,7 +34,7 @@ final class WriteReplyPostView: UIView {
     var postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "Don't be야 사랑해~"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -42,7 +42,7 @@ final class WriteReplyPostView: UIView {
     public let contentTextLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다.돈비를 사용하면 진짜 돈비를 맞을 수 있나요? 저 돈비 맞고 싶어요 돈벼락이 최고입니다."
+        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -54,12 +54,8 @@ final class WriteReplyPostView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        setUI()
         setHierarchy()
         setLayout()
-        setAddTarget()
-        setRegisterCell()
-        saveHeight()
     }
     
     @available(*, unavailable)
@@ -70,13 +66,11 @@ final class WriteReplyPostView: UIView {
 
 // MARK: - Extensions
 
-extension WriteReplyPostView {
-    private func setUI() {
-        
-    }
+extension WriteReplyContentView {
     
     private func setHierarchy() {
         addSubviews(backgroundUIView)
+        
         backgroundUIView.addSubviews(profileImageView,
                                      postNicknameLabel,
                                      contentTextLabel)
@@ -104,14 +98,6 @@ extension WriteReplyPostView {
             $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
-    }
-    
-    private func setAddTarget() {
-
-    }
-    
-    private func setRegisterCell() {
-        
     }
     
     private func saveHeight() {

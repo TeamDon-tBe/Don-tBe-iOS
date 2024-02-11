@@ -17,30 +17,33 @@ final class HomeViewController: UIViewController {
     
     var tabBarHeight: CGFloat = 0
     var showUploadToastView: Bool = false
-    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
-    let refreshControl = UIRefreshControl()
-    var transparentPopupVC = TransparentPopupViewController()
-    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
-    private var cancelBag = CancelBag()
-    private let viewModel: HomeViewModel
-    let postViewModel = PostViewModel(networkProvider: NetworkService())
-    
     var contentId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
+    
+    var transparentPopupVC = TransparentPopupViewController()
+    var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+
+    let refreshControl = UIRefreshControl()
+
+    private var cancelBag = CancelBag()
+    private let homeViewModel: HomeViewModel
+    let postViewModel = PostDetailViewModel(networkProvider: NetworkService())
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     
     // MARK: - UI Components
     
     private let myView = HomeView()
+    
     lazy var homeCollectionView = HomeCollectionView().collectionView
     private var deleteToastView: DontBeDeletePopupView?
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
     
+    var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    var warnUserBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - Life Cycles
     
@@ -51,7 +54,7 @@ final class HomeViewController: UIViewController {
     }
     
     init(viewModel: HomeViewModel) {
-        self.viewModel = viewModel
+        self.homeViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -68,7 +71,25 @@ final class HomeViewController: UIViewController {
         setDelegate()
         setAddTarget()
         bindViewModel()
-        setRefreshControll()
+        setRefreshControl()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+        
+        bindViewModel()
+        setNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        refreshCollectionViewDidDrag()
+        
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .clear
+
+        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.popViewController, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissDetailView"), object: nil)
     }
     
     // MARK: - TabBar Height
@@ -81,21 +102,6 @@ final class HomeViewController: UIViewController {
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = true
-        self.tabBarController?.tabBar.isHidden = false
-        bindViewModel()
-        setNotification()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationController?.navigationBar.backgroundColor = .clear
-        refreshPost()
-        NotificationCenter.default.removeObserver(self, name: DeletePopupViewController.popViewController, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("DismissDetailView"), object: nil)
-    }
 }
 
 // MARK: - Extensions
@@ -103,6 +109,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
+        
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
@@ -120,53 +127,57 @@ extension HomeViewController {
     }
     
     private func setAddTarget() {
-        deleteBottomsheet.deleteButton.addTarget(self, action: #selector(deletePost), for: .touchUpInside)
+        deletePostBottomsheetView.deleteButton.addTarget(self, action: #selector(deletePostButtonTapped), for: .touchUpInside)
     }
     
     @objc
-    func deletePost() {
-        popDeleteView()
-        presentView()
+    func deletePostButtonTapped() {
+        popDeletePostBottomsheetView()
+        showDeletePostPopupView()
+    }
+    
+    func popDeletePostBottomsheetView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.deletePostBottomsheetView.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.deletePostBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deletePostBottomsheetView.frame.width, height: self.deletePostBottomsheetView.bottomsheetView.frame.height)
+                }
+            })
+            deletePostBottomsheetView.dimView.removeFromSuperview()
+            deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
+        }
+        refreshCollectionViewDidDrag()
+    }
+    
+    func showDeletePostPopupView() {
+        deletePostPopupVC.contentId = self.contentId
+        self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     @objc
     func warnUser() {
-        popWarnView()
+        popWarnUserBottomsheetView()
+        showWarnUserSafariView()
+    }
+    
+    func popWarnUserBottomsheetView() {
+        if UIApplication.shared.keyWindowInConnectedScenes != nil {
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.warnUserBottomsheetView.dimView.alpha = 0
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    self.warnUserBottomsheetView.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deletePostBottomsheetView.frame.width, height: self.warnUserBottomsheetView.bottomsheetView.frame.height)
+                }
+            })
+            warnUserBottomsheetView.dimView.removeFromSuperview()
+            warnUserBottomsheetView.bottomsheetView.removeFromSuperview()
+        }
+        refreshCollectionViewDidDrag()
+    }
+    
+    func showWarnUserSafariView() {
         let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
         self.present(safariView, animated: true, completion: nil)
-    }
-    
-    func popDeleteView() {
-        if UIApplication.shared.keyWindowInConnectedScenes != nil {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.deleteBottomsheet.dimView.alpha = 0
-                if let window = UIApplication.shared.keyWindowInConnectedScenes {
-                    self.deleteBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.deleteBottomsheet.bottomsheetView.frame.height)
-                }
-            })
-            deleteBottomsheet.dimView.removeFromSuperview()
-            deleteBottomsheet.bottomsheetView.removeFromSuperview()
-        }
-        refreshPost()
-    }
-    
-    func popWarnView() {
-        if UIApplication.shared.keyWindowInConnectedScenes != nil {
-            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-                self.warnBottomsheet.dimView.alpha = 0
-                if let window = UIApplication.shared.keyWindowInConnectedScenes {
-                    self.warnBottomsheet.bottomsheetView.frame = CGRect(x: 0, y: window.frame.height, width: self.deleteBottomsheet.frame.width, height: self.warnBottomsheet.bottomsheetView.frame.height)
-                }
-            })
-            warnBottomsheet.dimView.removeFromSuperview()
-            warnBottomsheet.bottomsheetView.removeFromSuperview()
-        }
-        refreshPost()
-    }
-    
-     func presentView() {
-        deletePostPopupVC.contentId = self.contentId
-        self.present(self.deletePostPopupVC, animated: false, completion: nil)
     }
     
     @objc
@@ -189,18 +200,18 @@ extension HomeViewController {
     
     @objc func didDismissPopupNotification(_ notification: Notification) {
         DispatchQueue.main.async {
-            self.refreshPost()
+            self.refreshCollectionViewDidDrag()
         }
     }
     
-    private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+    private func setRefreshControl() {
+        refreshControl.addTarget(self, action: #selector(refreshCollectionViewDidDrag), for: .valueChanged)
         homeCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donGray1
     }
     
     @objc
-    func refreshPost() {
+    func refreshCollectionViewDidDrag() {
         DispatchQueue.main.async {
             self.bindViewModel()
         }
@@ -323,7 +334,7 @@ extension HomeViewController {
     private func bindViewModel() {
         let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher(), likeButtonTapped: nil)
         
-        let output = viewModel.transform(from: input, cancelBag: cancelBag)
+        let output = homeViewModel.transform(from: input, cancelBag: cancelBag)
         
         output.getData
             .receive(on: RunLoop.main)
@@ -342,7 +353,7 @@ extension HomeViewController {
 
         let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
 
-        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        let output = self.homeViewModel.transform(from: input, cancelBag: self.cancelBag)
 
         output.toggleLikeButton
             .sink { _ in }
@@ -354,7 +365,7 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.postData.count
+        return homeViewModel.postData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -362,27 +373,28 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         cell.alarmTriggerType = "contentGhost"
-        cell.targetMemberId = viewModel.postData[indexPath.row].memberId
-        cell.alarmTriggerdId = viewModel.postData[indexPath.row].contentId
+        cell.targetMemberId = homeViewModel.postData[indexPath.row].memberId
+        cell.alarmTriggerdId = homeViewModel.postData[indexPath.row].contentId
         
-        if viewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
+        if homeViewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
-            self.deleteBottomsheet.warnButton.removeFromSuperview()
+            self.deletePostBottomsheetView.warnButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
-                self.deleteBottomsheet.showSettings()
-                self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deletePost), for: .touchUpInside)
-                self.contentId = self.viewModel.postData[indexPath.row].contentId
+                self.deletePostBottomsheetView.showSettings()
+                self.deletePostBottomsheetView.deleteButton.addTarget(self, action: #selector(self.deletePostButtonTapped), for: .touchUpInside)
+                self.contentId = self.homeViewModel.postData[indexPath.row].contentId
             }
+            
         } else {
             cell.ghostButton.isHidden = false
             cell.verticalTextBarView.isHidden = false
-            self.warnBottomsheet.deleteButton.removeFromSuperview()
+            self.warnUserBottomsheetView.deleteButton.removeFromSuperview()
             
             cell.KebabButtonAction = {
-                self.warnBottomsheet.showSettings()
-                self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
+                self.warnUserBottomsheetView.showSettings()
+                self.warnUserBottomsheetView.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
             }
         }
         
@@ -394,11 +406,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.viewModel.postData[indexPath.row].contentId)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.homeViewModel.postData[indexPath.row].contentId)
         }
         
         cell.ProfileButtonAction = {
-            let memberId = self.viewModel.postData[indexPath.row].memberId
+            let memberId = self.homeViewModel.postData[indexPath.row].memberId
 
             if memberId == loadUserData()?.memberId ?? 0  {
                 self.tabBarController?.selectedIndex = 3
@@ -413,6 +425,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                         }
                     }
                 }
+                
             } else {
                 let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
                 viewController.memberId = memberId
@@ -427,34 +440,34 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         
-        cell.profileImageView.load(url: viewModel.postData[indexPath.row].memberProfileUrl)
-        cell.nicknameLabel.text = viewModel.postData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(viewModel.postData[indexPath.row].memberGhost)%"
-        cell.contentTextLabel.text = viewModel.postData[indexPath.row].contentText
-        cell.likeNumLabel.text = "\(viewModel.postData[indexPath.row].likedNumber)"
-        cell.commentNumLabel.text = "\(viewModel.postData[indexPath.row].commentNumber)"
-        cell.timeLabel.text = "\(viewModel.postData[indexPath.row].time.formattedTime())"
-        cell.profileImageView.load(url: "\(viewModel.postData[indexPath.row].memberProfileUrl)")
-        cell.likeButton.setImage(viewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = self.viewModel.postData[indexPath.row].isLiked
+        cell.profileImageView.load(url: homeViewModel.postData[indexPath.row].memberProfileUrl)
+        cell.nicknameLabel.text = homeViewModel.postData[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(homeViewModel.postData[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = homeViewModel.postData[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(homeViewModel.postData[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(homeViewModel.postData[indexPath.row].commentNumber)"
+        cell.timeLabel.text = "\(homeViewModel.postData[indexPath.row].time.formattedTime())"
+        cell.profileImageView.load(url: "\(homeViewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(homeViewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.homeViewModel.postData[indexPath.row].isLiked
         cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
-        if self.viewModel.postData[indexPath.row].isGhost {
+        if self.homeViewModel.postData[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.viewModel.postData[indexPath.row].memberGhost
+            let alpha = self.homeViewModel.postData[indexPath.row].memberGhost
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
-        self.contentId = viewModel.postData[indexPath.row].contentId
+        self.contentId = homeViewModel.postData[indexPath.row].contentId
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let destinationViewController = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
-        destinationViewController.contentId = viewModel.postData[indexPath.row].contentId
+        let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
+        destinationViewController.contentId = homeViewModel.postData[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
@@ -479,11 +492,11 @@ extension HomeViewController: DontBePopupDelegate {
         Task {
             do {
                 if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                    let result = try await self.viewModel.postDownTransparency(accessToken: accessToken,
+                    let result = try await self.homeViewModel.postDownTransparency(accessToken: accessToken,
                                                                                alarmTriggerType: self.alarmTriggerType,
                                                                                targetMemberId: self.targetMemberId,
                                                                                alarmTriggerId: self.alarmTriggerdId)
-                    refreshPost()
+                    refreshCollectionViewDidDrag()
                     if result?.status == 400 {
                         // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
                         showAlreadyTransparencyToast()

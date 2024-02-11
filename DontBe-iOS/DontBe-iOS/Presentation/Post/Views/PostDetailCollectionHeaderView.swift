@@ -1,35 +1,46 @@
 //
-//  PostView.swift
+//  PostDetailCollectionHeaderView.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/12/24.
+//  Created by yeonsu on 1/18/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class PostView: UIView {
+final class PostDetailCollectionHeaderView: UICollectionReusableView {
 
     // MARK: - Properties
+    
+    static let identifier = "PostCollectionViewHeader"
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
     )
     var isLiked: Bool = false
-    var isGhost: Bool = true
-    var memberGhost: Int = 0
+    
+    override func prepareForReuse() {
+      super.prepareForReuse()
+    }
     
     // MARK: - UI Components
     
-    let PostbackgroundUIView: UIView = {
+    var PostbackgroundUIView: UIView = {
         let view = UIView()
         view.backgroundColor = .donWhite
         return view
     }()
     
-    let profileImageView: UIImageView = {
+    var grayView: DontBeTransparencyGrayView = {
+        let view = DontBeTransparencyGrayView()
+        view.alpha = 0
+        view.isUserInteractionEnabled = false
+        return view
+    }()
+    
+    var profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -39,10 +50,10 @@ final class PostView: UIView {
         return image
     }()
     
-    public let postNicknameLabel: UILabel = {
+    var postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = ""
+        label.text = "sdasdasdasdasdsa"
         label.font = .font(.body3)
         return label
     }()
@@ -159,7 +170,6 @@ final class PostView: UIView {
         setHierarchy()
         setLayout()
         setAddTarget()
-        setRegisterCell()
     }
     
     @available(*, unavailable)
@@ -170,28 +180,31 @@ final class PostView: UIView {
 
 // MARK: - Extensions
 
-extension PostView {
+extension PostDetailCollectionHeaderView {
     private func setUI() {
         self.backgroundColor = .donGray1
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView
-        )
+        addSubviews(PostbackgroundUIView, 
+                    horizontalDivierView,
+                    grayView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
-                                     postNicknameLabel,
-                                     transparentLabel,
-                                     dotLabel,
-                                     timeLabel,
-                                     kebabButton,
-                                     contentTextLabel,
-                                     commentStackView,
-                                     likeStackView,
-                                     ghostButton,
-                                     verticalTextBarView)
+                                         postNicknameLabel,
+                                         transparentLabel,
+                                         dotLabel,
+                                         timeLabel,
+                                         kebabButton,
+                                         contentTextLabel,
+                                         commentStackView,
+                                         likeStackView,
+                                         ghostButton,
+                                         verticalTextBarView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
+        commentStackView.addArrangedSubviews(commentButton, 
+                                             commentNumLabel)
+        
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }
@@ -200,6 +213,10 @@ extension PostView {
         PostbackgroundUIView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        grayView.snp.makeConstraints {
+            $0.edges.equalTo(PostbackgroundUIView)
         }
         
         profileImageView.snp.makeConstraints {
@@ -276,20 +293,29 @@ extension PostView {
     
     func setAddTarget() {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
+        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageCliked)))
+        kebabButton.addTarget(self, action: #selector(headerKebabButtonCliked), for: .touchUpInside)
     }
     
     @objc
     func likeToggleButton() {
+        if isLiked == true {
+            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) - 1)
+        } else {
+            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) + 1)
+        }
         isLiked.toggle()
         likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-
+        NotificationCenter.default.post(name: NSNotification.Name("likeButtonTapped"), object: nil, userInfo: nil)
     }
     
-    private func setRegisterCell() {
-        
+    @objc
+    func profileImageCliked() {
+        NotificationCenter.default.post(name: NSNotification.Name("profileButtonTapped"), object: nil, userInfo: nil)
     }
     
-    private func setDataBind() {
-        
+    @objc
+    func headerKebabButtonCliked() {
+        NotificationCenter.default.post(name: NSNotification.Name("headerKebabButtonTapped"), object: nil, userInfo: nil)
     }
 }

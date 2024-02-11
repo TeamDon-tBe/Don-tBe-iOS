@@ -1,46 +1,35 @@
 //
-//  PostCollectionViewHeader.swift
+//  PostDetailContentView.swift
 //  DontBe-iOS
 //
-//  Created by yeonsu on 1/18/24.
+//  Created by yeonsu on 1/12/24.
 //
 
 import UIKit
 
 import SnapKit
 
-final class PostCollectionViewHeader: UICollectionReusableView {
-
+final class PostDetailContentView: UIView {
+    
     // MARK: - Properties
-    
-    static let identifier = "PostCollectionViewHeader"
-    
-    var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
-    
-    var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn
-    )
+        
     var isLiked: Bool = false
+    var isGhost: Bool = true
+    var memberGhost: Int = 0
     
-    override func prepareForReuse() {
-      super.prepareForReuse()
-    }
+    var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
+    
+    var warnUserBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - UI Components
     
-    var PostbackgroundUIView: UIView = {
+    let PostbackgroundUIView: UIView = {
         let view = UIView()
         view.backgroundColor = .donWhite
         return view
     }()
     
-    var grayView: DontBeTransparencyGrayView = {
-        let view = DontBeTransparencyGrayView()
-        view.alpha = 0
-        view.isUserInteractionEnabled = false
-        return view
-    }()
-    
-    var profileImageView: UIImageView = {
+    let profileImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
@@ -50,10 +39,10 @@ final class PostCollectionViewHeader: UICollectionReusableView {
         return image
     }()
     
-    var postNicknameLabel: UILabel = {
+    public let postNicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .donBlack
-        label.text = "sdasdasdasdasdsa"
+        label.text = ""
         label.font = .font(.body3)
         return label
     }()
@@ -180,13 +169,14 @@ final class PostCollectionViewHeader: UICollectionReusableView {
 
 // MARK: - Extensions
 
-extension PostCollectionViewHeader {
+extension PostDetailContentView {
     private func setUI() {
         self.backgroundColor = .donGray1
     }
     
     private func setHierarchy() {
-        addSubviews(PostbackgroundUIView, horizontalDivierView, grayView)
+        addSubviews(PostbackgroundUIView, 
+                    horizontalDivierView)
         
         PostbackgroundUIView.addSubviews(profileImageView,
                                          postNicknameLabel,
@@ -200,7 +190,9 @@ extension PostCollectionViewHeader {
                                          ghostButton,
                                          verticalTextBarView)
         
-        commentStackView.addArrangedSubviews(commentButton, commentNumLabel)
+        commentStackView.addArrangedSubviews(commentButton,
+                                             commentNumLabel)
+        
         likeStackView.addArrangedSubviews(likeButton,
                                           likeNumLabel)
     }
@@ -209,10 +201,6 @@ extension PostCollectionViewHeader {
         PostbackgroundUIView.snp.makeConstraints {
             $0.top.equalTo(safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-        }
-        
-        grayView.snp.makeConstraints {
-            $0.edges.equalTo(PostbackgroundUIView)
         }
         
         profileImageView.snp.makeConstraints {
@@ -289,29 +277,11 @@ extension PostCollectionViewHeader {
     
     func setAddTarget() {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
-        profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageCliked)))
-        kebabButton.addTarget(self, action: #selector(headerKebabButtonCliked), for: .touchUpInside)
     }
     
     @objc
     func likeToggleButton() {
-        if isLiked == true {
-            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) - 1)
-        } else {
-            likeNumLabel.text = String((Int(likeNumLabel.text ?? "") ?? 0) + 1)
-        }
         isLiked.toggle()
         likeButton.setImage(isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        NotificationCenter.default.post(name: NSNotification.Name("likeButtonTapped"), object: nil, userInfo: nil)
-    }
-    
-    @objc
-    func profileImageCliked() {
-        NotificationCenter.default.post(name: NSNotification.Name("profileButtonTapped"), object: nil, userInfo: nil)
-    }
-    
-    @objc
-    func headerKebabButtonCliked() {
-        NotificationCenter.default.post(name: NSNotification.Name("headerKebabButtonTapped"), object: nil, userInfo: nil)
     }
 }

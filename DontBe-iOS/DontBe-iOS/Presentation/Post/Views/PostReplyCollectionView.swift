@@ -61,7 +61,9 @@ private extension PostReplyCollectionView {
     
     func setRegisterCell() {
         PostReplyCollectionViewCell.register(collectionView: collectionView)
-        collectionView.register(PostReplyCollectionFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView")
-        collectionView.register(PostCollectionViewHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader")
+        
+        collectionView.register(PostDetailCollectionFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "PostReplyCollectionFooterView")
+        
+        collectionView.register(PostDetailCollectionHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "PostCollectionViewHeader")
     }
 }

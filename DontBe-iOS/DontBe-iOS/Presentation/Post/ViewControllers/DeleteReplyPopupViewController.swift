@@ -8,13 +8,15 @@
 import Combine
 import UIKit
 
-final class DeleteReplyViewController: UIViewController {
+final class DeleteReplyPopupViewController: UIViewController {
     
     // MARK: - Properties
     
     static let reloadData = NSNotification.Name("reloadData")
     static let showDeleteReplyToastNotification = Notification.Name("ShowDeleteReplyToastNotification")
+    
     var commentId: Int = 0
+    
     var viewModel: DeleteReplyViewModel
     private var cancelBag = CancelBag()
 
@@ -28,22 +30,13 @@ final class DeleteReplyViewController: UIViewController {
     private lazy var deleteButtonTapped = deleteReplyPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in
         return self.commentId
     }.eraseToAnyPublisher()
-
-    private let myView = PostPopupView()
-    private lazy var postVC = PostViewController(viewModel: PostViewModel(networkProvider: NetworkService()))
+    private lazy var postVC = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
 
     // MARK: - Life Cycles
-
-    override func loadView() {
-        super.loadView()
-
-        view = myView
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setUI()
         setHierarchy()
         setLayout()
         setDelegate()
@@ -72,11 +65,8 @@ final class DeleteReplyViewController: UIViewController {
 
 // MARK: - Extensions
 
-extension DeleteReplyViewController {
-    private func setUI() {
-
-    }
-
+extension DeleteReplyPopupViewController {
+    
     private func setHierarchy() {
         view.addSubviews(deleteReplyPopupView)
     }
@@ -99,7 +89,7 @@ extension DeleteReplyViewController {
 
 // MARK: - Network
 
-extension DeleteReplyViewController {
+extension DeleteReplyPopupViewController {
     private func getAPI() {
         let input = DeleteReplyViewModel.Input(deleteButtonDidTapped: deleteButtonTapped)
 
@@ -110,21 +100,21 @@ extension DeleteReplyViewController {
             .sink { _ in
                 self.dismiss(animated: true)
                 // postVC pop
-                NotificationCenter.default.post(name: DeleteReplyViewController.reloadData, object: nil)
+                NotificationCenter.default.post(name: DeleteReplyPopupViewController.reloadData, object: nil)
                 self.postVC.postReplyCollectionView.reloadData()
             }
             .store(in: self.cancelBag)
     }
 }
 
-extension DeleteReplyViewController: DontBePopupDelegate {
+extension DeleteReplyPopupViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
         self.dismiss(animated: false)
     }
 
     func confirmButtonTapped() {
         self.postVC.postReplyCollectionView.reloadData()
-        NotificationCenter.default.post(name: DeleteReplyViewController.showDeleteReplyToastNotification, object: nil, userInfo: ["showDeleteToast": true])
+        NotificationCenter.default.post(name: DeleteReplyPopupViewController.showDeleteReplyToastNotification, object: nil, userInfo: ["showDeleteToast": true])
     }
 }
 

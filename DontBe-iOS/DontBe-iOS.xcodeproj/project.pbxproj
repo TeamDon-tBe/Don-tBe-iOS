@@ -69,13 +69,13 @@
 		2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */; };
 		2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */; };
 		2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */; };
-		2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostViewModel.swift */; };
+		2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */; };
 		2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */; };
 		2F05B1B72B57F1FD00AC368D /* WriteReplyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */; };
 		2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */; };
-		2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */; };
+		2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */; };
 		2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741872B500C270089FC4D /* UIApplication+.swift */; };
-		2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */; };
+		2F27A3AC2B70B7650018779F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */; };
 		2F3182E52B5A3B2400E77EFD /* DontBeDeletePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */; };
 		2F40D5822B58364500AF68BC /* DeletePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
@@ -84,21 +84,18 @@
 		2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735452B4C34A500E55552 /* HomeCollectionView.swift */; };
 		2F8735482B4C355100E55552 /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */; };
 		2F87354C2B4D28D700E55552 /* HomeCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */; };
-		2F8FFA8D2B5942490060FB46 /* PostCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */; };
+		2F8FFA8D2B5942490060FB46 /* PostDetailCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8FFA8C2B5942490060FB46 /* PostDetailCollectionHeaderView.swift */; };
 		2FB64FF02B5310DD0082A414 /* WriteReplyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */; };
-		2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */; };
+		2FB64FF22B5318C50082A414 /* WriteReplyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF12B5318C50082A414 /* WriteReplyContentView.swift */; };
 		2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */; };
 		2FB64FF62B531E4F0082A414 /* WriteReplyEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB64FF52B531E4F0082A414 /* WriteReplyEditorView.swift */; };
 		2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */; };
-		2FB818D12B51693400B7498F /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D02B51693400B7498F /* PostViewController.swift */; };
-		2FB818D32B51694F00B7498F /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D22B51694F00B7498F /* PostView.swift */; };
-		2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D42B517EE700B7498F /* PostDetailView.swift */; };
+		2FB818D32B51694F00B7498F /* PostDetailContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D22B51694F00B7498F /* PostDetailContentView.swift */; };
 		2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */; };
 		2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */; };
-		2FBBADF12B53AF9B002D6286 /* PostReplyCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF02B53AF9B002D6286 /* PostReplyCollectionFooterView.swift */; };
+		2FBBADF12B53AF9B002D6286 /* PostDetailCollectionFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */; };
 		2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */; };
 		2FBBADF62B53EEBD002D6286 /* CancelReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */; };
-		2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF72B53EF63002D6286 /* PostPopupView.swift */; };
 		2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */; };
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
@@ -214,13 +211,13 @@
 		2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageIntroductionEditView.swift; sourceTree = "<group>"; };
 		2AF069B52B51F0D400CA3E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		2F05B1A62B5799B700AC368D /* PostDetailResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailResponseDTO.swift; sourceTree = "<group>"; };
-		2F05B1A92B579DED00AC368D /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewModel.swift; sourceTree = "<group>"; };
 		2F05B1B62B57F1FD00AC368D /* WriteReplyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyRequestDTO.swift; sourceTree = "<group>"; };
 		2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewModel.swift; sourceTree = "<group>"; };
-		2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyViewController.swift; sourceTree = "<group>"; };
+		2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteReplyPopupViewController.swift; sourceTree = "<group>"; };
 		2F1741872B500C270089FC4D /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
-		2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBottomsheetView.swift; sourceTree = "<group>"; };
+		2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeDeletePopupView.swift; sourceTree = "<group>"; };
 		2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePostViewModel.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -229,21 +226,18 @@
 		2F8735452B4C34A500E55552 /* HomeCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionView.swift; sourceTree = "<group>"; };
 		2F8735472B4C355100E55552 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionFooterView.swift; sourceTree = "<group>"; };
-		2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewHeader.swift; sourceTree = "<group>"; };
+		2F8FFA8C2B5942490060FB46 /* PostDetailCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionHeaderView.swift; sourceTree = "<group>"; };
 		2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyViewController.swift; sourceTree = "<group>"; };
-		2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyPostView.swift; sourceTree = "<group>"; };
+		2FB64FF12B5318C50082A414 /* WriteReplyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyContentView.swift; sourceTree = "<group>"; };
 		2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyView.swift; sourceTree = "<group>"; };
 		2FB64FF52B531E4F0082A414 /* WriteReplyEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteReplyEditorView.swift; sourceTree = "<group>"; };
 		2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyTextFieldView.swift; sourceTree = "<group>"; };
-		2FB818D02B51693400B7498F /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PostViewController.swift; path = "DontBe-iOS/Presentation/Post/ViewControllers/PostViewController.swift"; sourceTree = SOURCE_ROOT; };
-		2FB818D22B51694F00B7498F /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
-		2FB818D42B517EE700B7498F /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		2FB818D22B51694F00B7498F /* PostDetailContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailContentView.swift; sourceTree = "<group>"; };
 		2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionView.swift; sourceTree = "<group>"; };
 		2FB818DB2B51875D00B7498F /* PostReplyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionViewCell.swift; sourceTree = "<group>"; };
-		2FBBADF02B53AF9B002D6286 /* PostReplyCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyCollectionFooterView.swift; sourceTree = "<group>"; };
+		2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailCollectionFooterView.swift; sourceTree = "<group>"; };
 		2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparentPopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelReplyPopupViewController.swift; sourceTree = "<group>"; };
-		2FBBADF72B53EF63002D6286 /* PostPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPopupView.swift; sourceTree = "<group>"; };
 		2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataResponseDTO.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
@@ -644,7 +638,7 @@
 		2F05B1A82B579CEF00AC368D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				2F05B1A92B579DED00AC368D /* PostViewModel.swift */,
+				2F05B1A92B579DED00AC368D /* PostDetailViewModel.swift */,
 				2F05B1B32B57F15B00AC368D /* WriteReplyViewModel.swift */,
 				2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */,
 				2F0A98D02B58B6DE00AAE625 /* DeleteReplyViewModel.swift */,
@@ -675,11 +669,11 @@
 		2FB818CE2B5168D400B7498F /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */,
 				2FB64FEF2B5310DD0082A414 /* WriteReplyViewController.swift */,
-				2FB818D02B51693400B7498F /* PostViewController.swift */,
 				2FBBADF32B53BEB5002D6286 /* TransparentPopupViewController.swift */,
 				2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */,
-				2F0A98D22B58B8EF00AAE625 /* DeleteReplyViewController.swift */,
+				2F0A98D22B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -687,16 +681,14 @@
 		2FB818CF2B5168E100B7498F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2FB818D42B517EE700B7498F /* PostDetailView.swift */,
-				2FB818D22B51694F00B7498F /* PostView.swift */,
-				2FBBADF72B53EF63002D6286 /* PostPopupView.swift */,
+				2FB818D22B51694F00B7498F /* PostDetailContentView.swift */,
 				2FB818D82B5186FC00B7498F /* PostReplyCollectionView.swift */,
-				2FBBADF02B53AF9B002D6286 /* PostReplyCollectionFooterView.swift */,
 				2FB769CF2B5277BD004C7752 /* PostReplyTextFieldView.swift */,
+				2F8FFA8C2B5942490060FB46 /* PostDetailCollectionHeaderView.swift */,
+				2FBBADF02B53AF9B002D6286 /* PostDetailCollectionFooterView.swift */,
 				2FB64FF32B531A5C0082A414 /* WriteReplyView.swift */,
-				2FB64FF12B5318C50082A414 /* WriteReplyPostView.swift */,
+				2FB64FF12B5318C50082A414 /* WriteReplyContentView.swift */,
 				2FB64FF52B531E4F0082A414 /* WriteReplyEditorView.swift */,
-				2F8FFA8C2B5942490060FB46 /* PostCollectionViewHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -901,7 +893,6 @@
 				2F87353F2B4BE65300E55552 /* HomeView.swift */,
 				2F8735452B4C34A500E55552 /* HomeCollectionView.swift */,
 				2F87354B2B4D28D700E55552 /* HomeCollectionFooterView.swift */,
-				2F1741892B500CC20089FC4D /* HomeBottomsheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1225,12 +1216,12 @@
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
 				2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
-				2FB64FF22B5318C50082A414 /* WriteReplyPostView.swift in Sources */,
-				2FB818D52B517EE700B7498F /* PostDetailView.swift in Sources */,
+				2FB64FF22B5318C50082A414 /* WriteReplyContentView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
 				2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */,
+				2F27A3AC2B70B7650018779F /* PostDetailViewController.swift in Sources */,
 				2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */,
 				2A8D70B42B4C999F009F4C6C /* CustomButton.swift in Sources */,
 				2A2845432B5320070023F9B5 /* SocialLoginResponseDTO.swift in Sources */,
@@ -1288,7 +1279,6 @@
 				2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */,
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */,
-				2FB818D12B51693400B7498F /* PostViewController.swift in Sources */,
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
@@ -1306,18 +1296,18 @@
 				2A51831C2B571CDA00B43BA8 /* NotificaitonType.swift in Sources */,
 				3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */,
 				3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */,
-				2FBBADF12B53AF9B002D6286 /* PostReplyCollectionFooterView.swift in Sources */,
+				2FBBADF12B53AF9B002D6286 /* PostDetailCollectionFooterView.swift in Sources */,
 				2FB64FF62B531E4F0082A414 /* WriteReplyEditorView.swift in Sources */,
 				2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
-				2F0A98D32B58B8EF00AAE625 /* DeleteReplyViewController.swift in Sources */,
+				2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
-				2F8FFA8D2B5942490060FB46 /* PostCollectionViewHeader.swift in Sources */,
+				2F8FFA8D2B5942490060FB46 /* PostDetailCollectionHeaderView.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
-				2F05B1AA2B579DED00AC368D /* PostViewModel.swift in Sources */,
+				2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */,
 				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,
 				2AF069B62B51F0D400CA3E48 /* OnboardingView.swift in Sources */,
 				2A84465A2B4EE8B400F98F2A /* JoinProfileViewController.swift in Sources */,
@@ -1326,7 +1316,7 @@
 				3C7741542B531AC80069E694 /* AccountInfoDummy.swift in Sources */,
 				3C7741522B5311750069E694 /* MyPageAccountInfoTableViewCell.swift in Sources */,
 				3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */,
-				2FB818D32B51694F00B7498F /* PostView.swift in Sources */,
+				2FB818D32B51694F00B7498F /* PostDetailContentView.swift in Sources */,
 				3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */,
 				3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */,
 				3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */,
@@ -1335,9 +1325,7 @@
 				2F0A98D12B58B6DE00AAE625 /* DeleteReplyViewModel.swift in Sources */,
 				2A5183022B569BDA00B43BA8 /* UserProfileRequestDTO.swift in Sources */,
 				2AC9FB1B2B4DE77400D31071 /* AgreementListCustomView.swift in Sources */,
-				2F17418A2B500CC20089FC4D /* HomeBottomsheetView.swift in Sources */,
 				3CB634CA2B59080E00DB9DA5 /* DontBeTransparencyGrayView.swift in Sources */,
-				2FBBADF82B53EF63002D6286 /* PostPopupView.swift in Sources */,
 				2FB64FF02B5310DD0082A414 /* WriteReplyViewController.swift in Sources */,
 				3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */,
 				2A2671FF2B4C3AF0009D214F /* Publisher+UIControl.swift in Sources */,

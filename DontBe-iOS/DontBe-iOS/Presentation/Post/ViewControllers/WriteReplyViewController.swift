@@ -50,11 +50,8 @@ final class WriteReplyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getAPI()
+        
         setUI()
-        setHierarchy()
-        setLayout()
-        setDelegate()
         setBottomSheet()
         setNavigationBarButtonItem()
         
@@ -78,7 +75,6 @@ final class WriteReplyViewController: UIViewController {
         let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
-
     }
 }
 
@@ -91,17 +87,6 @@ extension WriteReplyViewController {
         cancelReplyPopupVC.modalPresentationStyle = .overFullScreen
     }
     
-    private func setHierarchy() {
-        
-    }
-    
-    private func setLayout() {
-        
-    }
-    
-    private func setDelegate() {
-        
-    }
     private func sendData() {
         NotificationCenter.default.post(name: WriteReplyViewController.showUploadToastNotification, object: nil, userInfo: ["showToast": true])
     }
@@ -168,23 +153,3 @@ extension WriteReplyViewController {
         }
     }
 }
-
-// MARK: - Network
-
-extension WriteReplyViewController {
-    private func getAPI() {
-        
-    }
-}
-
-//extension ExampleViewController: UICollectionViewDelegate {
-//
-//}
-//
-//extension ExampleViewController: UICollectionViewDataSource {
-//
-//}
-//
-//extension ExampleViewController: UICollectionViewFlowLayout {
-//
-//}

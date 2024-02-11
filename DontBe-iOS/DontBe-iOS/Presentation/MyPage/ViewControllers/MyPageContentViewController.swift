@@ -139,18 +139,18 @@ extension MyPageContentViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshPostDidDrag), for: .valueChanged)
         homeCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donGray1
     }
     
     @objc
     func reloadData(_ notification: Notification) {
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     @objc
-    func refreshPost() {
+    func refreshPostDidDrag() {
         DispatchQueue.main.async {
             self.homeCollectionView.reloadData()
         }
@@ -185,7 +185,7 @@ extension MyPageContentViewController {
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func popWarnView() {
@@ -199,7 +199,7 @@ extension MyPageContentViewController {
             warnBottomsheet.dimView.removeFromSuperview()
             warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func presentView() {

@@ -1,5 +1,5 @@
 //
-//  PostViewModel.swift
+//  PostDetailViewModel.swift
 //  DontBe-iOS
 //
 //  Created by yeonsu on 1/17/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class PostViewModel: ViewModelType {
+final class PostDetailViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
@@ -135,7 +135,7 @@ final class PostViewModel: ViewModelType {
 
 // MARK: - Network
 
-extension PostViewModel {
+extension PostDetailViewModel {
     private func getPostDetailDataAPI(accessToken: String, contentId: Int) async throws -> BaseResponse<PostDetailResponseDTO>? {
         do {
             let result: BaseResponse<PostDetailResponseDTO>? = try

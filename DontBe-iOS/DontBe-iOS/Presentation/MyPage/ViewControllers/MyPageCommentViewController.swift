@@ -23,7 +23,7 @@ final class MyPageCommentViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     
-    private let postViewModel: PostViewModel
+    private let postViewModel: PostDetailViewModel
     let deleteViewModel = DeleteReplyViewModel(networkProvider: NetworkService())
     private var cancelBag = CancelBag()
     
@@ -49,12 +49,12 @@ final class MyPageCommentViewController: UIViewController {
         return label
     }()
     
-    var deleteReplyPopupVC = DeleteReplyViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
+    var deleteReplyPopupVC = DeleteReplyPopupViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
     // MARK: - Life Cycles
     
-    init(viewModel: PostViewModel) {
+    init(viewModel: PostDetailViewModel) {
         self.postViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -76,7 +76,7 @@ final class MyPageCommentViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        refreshPost()
+        refreshPostDidDrag()
         setNotification()
     }
     
@@ -119,7 +119,7 @@ extension MyPageCommentViewController {
     }
     
     private func setRefreshControll() {
-        refreshControl.addTarget(self, action: #selector(refreshPost), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshPostDidDrag), for: .valueChanged)
         homeCollectionView.refreshControl = refreshControl
         refreshControl.backgroundColor = .donGray1
     }
@@ -129,7 +129,7 @@ extension MyPageCommentViewController {
     }
     
     @objc
-    func refreshPost() {
+    func refreshPostDidDrag() {
         DispatchQueue.main.async {
             self.homeCollectionView.reloadData()
         }
@@ -138,7 +138,7 @@ extension MyPageCommentViewController {
     
     @objc
     func reloadData(_ notification: Notification) {
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     @objc
@@ -169,7 +169,7 @@ extension MyPageCommentViewController {
             deleteBottomsheet.dimView.removeFromSuperview()
             deleteBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func popWarnView() {
@@ -183,7 +183,7 @@ extension MyPageCommentViewController {
             warnBottomsheet.dimView.removeFromSuperview()
             warnBottomsheet.bottomsheetView.removeFromSuperview()
         }
-        refreshPost()
+        refreshPostDidDrag()
     }
     
     func presentView() {
@@ -198,7 +198,7 @@ extension MyPageCommentViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
         
         let output = self.postViewModel.transform(from: input, cancelBag: self.cancelBag)
         

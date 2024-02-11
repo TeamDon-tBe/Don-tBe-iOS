@@ -15,7 +15,7 @@ final class HomeViewModel: ViewModelType {
     private let networkProvider: NetworkServiceType
     private var getData = PassthroughSubject<Void, Never>()
     private let toggleLikeButton = PassthroughSubject<Bool, Never>()
-    var isLikeButtonClicked: Bool = false
+    var isLikeButtonTapped: Bool = false
     
     var postData: [PostDataResponseDTO] = []
     
