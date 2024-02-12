@@ -89,6 +89,7 @@ enum StringLiterals {
         static let MyPageNavigationTitle = "마이"
         static let MyPageEditNavigationTitle = "프로필 편집"
         static let MyPageAccountInfoNavigationTitle = "계정 정보"
+        static let MyPageSignOutNavigationTitle = "계정 삭제"
         static let myPageEditIntroduction = "한줄 소개"
         static let myPageEditIntroductionPlease = "한 줄로 자신을 소개해주세요."
         static let myPageNoContentLabel = "님, 아직 글을 작성하지 않았네요!\n왠지 텅 빈 게시글이 허전하게 느껴져요."
@@ -101,7 +102,15 @@ enum StringLiterals {
         static let myPageUseTermURL = "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0"
         static let myPageMoreInfoTitle = "이용약관"
         static let myPageMoreInfoButtonTitle = "자세히 보기"
-        static let myPageSignOutButtonTitle = "회원탈퇴"
+        static let myPageSignOutButtonTitle = "계정삭제"
+        static let myPageLogoutPopupTitleLabel = "로그아웃"
+        static let myPageLogoutPopupContentLabel = "계정에서 로그아웃하시겠어요?"
+        static let myPageLogoutPopupLeftButtonTitle = "취소"
+        static let myPageLogoutPopupRightButtonTitle = "확인"
+        static let myPageSignOutPopupTitleLabel = "계정삭제"
+        static let myPageSignOutPopupContentLabel = "계정을 삭제하시겠어요?"
+        static let myPageSignOutPopupLeftButtonTitle = "취소"
+        static let myPageSignOutPopupRightButtonTitle = "확인"
     }
     
     enum TransparencyInfo {
