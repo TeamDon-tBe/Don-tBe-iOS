@@ -77,7 +77,8 @@ final class MyPageView: UIView {
     var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,
                                                   accountInfoImage: ImageLiterals.MyPage.btnAccount,
                                                   feedbackImage: ImageLiterals.MyPage.btnFeedback,
-                                                  customerCenterImage: ImageLiterals.MyPage.btnCustomerCenter)
+                                                  customerCenterImage: ImageLiterals.MyPage.btnCustomerCenter,
+                                                  logoutImage: ImageLiterals.MyPage.btnLogout)
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)

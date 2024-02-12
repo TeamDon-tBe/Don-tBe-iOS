@@ -99,6 +99,9 @@ enum StringLiterals {
         static let myPageCustomerURL = "https://joyous-ghost-8c7.notion.site/Don-t-be-e949f7751de94ba682f4bd6792cbe36e"
         static let myPageFeedbackURL = "https://forms.gle/DqnypURRBDks7WqJ6"
         static let myPageUseTermURL = "https://joyous-ghost-8c7.notion.site/4ac9966cf7d944bf9595352edbc1b1b0"
+        static let myPageMoreInfoTitle = "이용약관"
+        static let myPageMoreInfoButtonTitle = "자세히 보기"
+        static let myPageSignOutButtonTitle = "회원탈퇴"
     }
     
     enum TransparencyInfo {
@@ -141,6 +144,7 @@ enum StringLiterals {
         static let accountInfo = "계정 정보"
         static let feedback = "피드백 남기기"
         static let customerCenter = "고객센터"
+        static let logout = "로그아웃"
     }
     
     enum Network {
