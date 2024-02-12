@@ -62,6 +62,7 @@ final class MyPageViewController: UIViewController {
     private var uploadToastView: DontBeToastView?
     private var deleteToastView: DontBeDeletePopupView?
     private var alreadyTransparencyToastView: DontBeToastView?
+    private var logoutPopupView: DontBePopupView? = nil
     
     let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
     private var navigationBackButton: UIButton = {
@@ -295,6 +296,25 @@ extension MyPageViewController {
         }
     }
     
+    func showLogoutPopupView() {
+        self.logoutPopupView = DontBePopupView(popupTitle: StringLiterals.MyPage.myPageLogoutPopupTitleLabel,
+                                               popupContent: StringLiterals.MyPage.myPageLogoutPopupContentLabel,
+                                               leftButtonTitle: StringLiterals.MyPage.myPageLogoutPopupLeftButtonTitle,
+                                               rightButtonTitle: StringLiterals.MyPage.myPageLogoutPopupRightButtonTitle)
+        
+        if let popupView = self.logoutPopupView {
+            if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                window.addSubviews(popupView)
+            }
+            
+            popupView.delegate = self
+            
+            popupView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
+    }
+    
     private func bindViewModel() {
         let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId)).eraseToAnyPublisher())
         
@@ -417,8 +437,7 @@ extension MyPageViewController {
     
     @objc
     private func logoutButtonTapped() {
-        rootView.myPageBottomsheet.handleDismiss()
-        print("logoutButtonTapped")
+        showLogoutPopupView()
     }
     
     @objc
@@ -570,26 +589,36 @@ extension MyPageViewController: UICollectionViewDelegate {
 
 extension MyPageViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
-        self.dismiss(animated: false)
+        if self.logoutPopupView != nil {
+            self.logoutPopupView?.removeFromSuperview()
+        } else {
+            self.dismiss(animated: false)
+        }
     }
     
     func confirmButtonTapped() {
-        self.dismiss(animated: false)
-        Task {
-            do {
-                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                    let result = try await homeViewModel.postDownTransparency(accessToken: accessToken,
-                                                                               alarmTriggerType: self.alarmTriggerType,
-                                                                               targetMemberId: self.targetMemberId,
-                                                                               alarmTriggerId: self.alarmTriggerdId)
-                    self.bindViewModel()
-                    if result?.status == 400 {
-                        // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
-                        showAlreadyTransparencyToast()
+        if self.logoutPopupView != nil {
+            self.logoutPopupView?.removeFromSuperview()
+            self.rootView.myPageBottomsheet.handleDismiss()
+            print("로그아웃 완료")
+        } else {
+            self.dismiss(animated: false)
+            Task {
+                do {
+                    if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                        let result = try await homeViewModel.postDownTransparency(accessToken: accessToken,
+                                                                                  alarmTriggerType: self.alarmTriggerType,
+                                                                                  targetMemberId: self.targetMemberId,
+                                                                                  alarmTriggerId: self.alarmTriggerdId)
+                        self.bindViewModel()
+                        if result?.status == 400 {
+                            // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
+                            showAlreadyTransparencyToast()
+                        }
                     }
+                } catch {
+                    print(error)
                 }
-            } catch {
-                print(error)
             }
         }
     }
