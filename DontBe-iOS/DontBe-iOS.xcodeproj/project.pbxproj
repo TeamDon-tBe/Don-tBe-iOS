@@ -112,6 +112,8 @@
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
 		3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */; };
+		3C4F5BB52B7A49A500B21C45 /* MyPageSignOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */; };
+		3C4F5BB72B7A4A0C00B21C45 /* MyPageSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F5BB62B7A4A0C00B21C45 /* MyPageSignOutView.swift */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -254,6 +256,8 @@
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
 		3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReplyResponseDTO.swift; sourceTree = "<group>"; };
+		3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutViewController.swift; sourceTree = "<group>"; };
+		3C4F5BB62B7A4A0C00B21C45 /* MyPageSignOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutView.swift; sourceTree = "<group>"; };
 		3C6192E92B3A719A00220CEB /* DontBe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DontBe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C6192EC2B3A719A00220CEB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -1085,6 +1089,7 @@
 				3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */,
 				2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */,
 				2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */,
+				3C4F5BB62B7A4A0C00B21C45 /* MyPageSignOutView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1097,6 +1102,7 @@
 				3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */,
 				3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */,
 				3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */,
+				3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1207,6 +1213,7 @@
 				2A8868D62B5069790017513A /* OnboardingEndingView.swift in Sources */,
 				2A8D70BD2B4D61A1009F4C6C /* OnboardingDummy.swift in Sources */,
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
+				3C4F5BB72B7A4A0C00B21C45 /* MyPageSignOutView.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
 				2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */,
 				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
@@ -1247,6 +1254,7 @@
 				3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */,
 				3C2F54502B51223200E7BF01 /* MyPageEditProfileViewController.swift in Sources */,
 				2A6D54C32B493A8400F9891E /* UIFont+.swift in Sources */,
+				3C4F5BB52B7A49A500B21C45 /* MyPageSignOutViewController.swift in Sources */,
 				2A0A73192B5497AE004478C1 /* TokenManager.swift in Sources */,
 				3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */,
 				2A2671F72B4BEA34009D214F /* LoginViewController.swift in Sources */,
