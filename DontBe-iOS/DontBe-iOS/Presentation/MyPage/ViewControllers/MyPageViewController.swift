@@ -418,7 +418,18 @@ extension MyPageViewController {
     @objc
     private func logoutButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
-        print("logoutButtonTapped")
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            DispatchQueue.main.async {
+                let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+            }
+        }
+        saveUserData(UserInfo(isSocialLogined: false,
+                              isFirstUser: false,
+                              isJoinedApp: true,
+                              isOnboardingFinished: true,
+                              userNickname: loadUserData()?.userNickname ?? "",
+                              memberId: loadUserData()?.memberId ?? 0))
     }
     
     @objc
