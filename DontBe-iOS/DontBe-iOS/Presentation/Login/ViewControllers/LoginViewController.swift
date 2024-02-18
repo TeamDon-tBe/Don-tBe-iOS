@@ -125,10 +125,10 @@ extension LoginViewController {
     }
     
     private func bindViewModel() {
-        let kakaoInput = LoginViewModel.Input(kakaoButtonTapped: kakaoButtonTapped, appleButtonTapped: nil)
-        let kakaoOutput = self.viewModel.transform(from: kakaoInput, cancelBag: self.cancelBag)
+        let input = LoginViewModel.Input(kakaoButtonTapped: kakaoButtonTapped, appleButtonTapped: appleButtonTapped)
+        let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
         
-        kakaoOutput.userInfoPublisher
+        output.userInfoPublisher
             .receive(on: RunLoop.main)
             .sink { value in
                 if value {
@@ -139,26 +139,6 @@ extension LoginViewController {
                     let viewController = OnboardingViewController()
                         viewController.originView.isFirstUser = false
                         self.navigationController?.pushViewController(viewController, animated: true)
-                }
-            }
-            .store(in: self.cancelBag)
-        
-        let appleInput = LoginViewModel.Input(kakaoButtonTapped: nil, appleButtonTapped: appleButtonTapped)
-        let appleOutput = self.viewModel.transform(from: appleInput, cancelBag: self.cancelBag)
-        
-        appleOutput.userInfoPublisher
-            .receive(on: RunLoop.main)
-            .sink { value in
-                if value {
-                    if value {
-                        // 첫 로그인 유저면 여기
-                        let viewController = JoinAgreementViewController(viewModel: JoinAgreeViewModel())
-                        self.navigationController?.pushViewController(viewController, animated: true)
-                    } else {
-                        let viewController = OnboardingViewController()
-                            viewController.originView.isFirstUser = false
-                            self.navigationController?.pushViewController(viewController, animated: true)
-                    }
                 }
             }
             .store(in: self.cancelBag)

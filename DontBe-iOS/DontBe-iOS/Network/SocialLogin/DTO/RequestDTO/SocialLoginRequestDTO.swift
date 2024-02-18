@@ -11,4 +11,5 @@ import Foundation
 
 struct SocialLoginRequestDTO: Encodable {
     let socialPlatform: String
+    let userName: String?
 }
