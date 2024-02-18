@@ -15,7 +15,7 @@ final class LoginViewController: UIViewController {
     
     private var cancelBag = CancelBag()
     private let viewModel: LoginViewModel
-    private lazy var loginButtonTapped = self.loginButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var loginButtonTapped = self.kakaoLoginButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     // MARK: - UI Components
     
@@ -35,9 +35,15 @@ final class LoginViewController: UIViewController {
         return title
     }()
     
-    private let loginButton: UIButton = {
+    private let kakaoLoginButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Login.btnKakao, for: .normal)
+        return button
+    }()
+    
+    private let appleLoginButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.loginBtnApple, for: .normal)
         return button
     }()
     
@@ -79,8 +85,8 @@ extension LoginViewController {
     private func setHierarchy() {
         self.view.addSubviews(loginLogo,
                               loginTitle,
-                              loginButton)
-        
+                              kakaoLoginButton,
+                              appleLoginButton)
     }
     
     private func setLayout() {
@@ -96,13 +102,23 @@ extension LoginViewController {
             $0.leading.equalToSuperview().inset(26.adjusted)
         }
         
-        loginButton.snp.makeConstraints {
+        kakaoLoginButton.snp.makeConstraints {
+            $0.bottom.equalTo(appleLoginButton.snp.top).offset(-10.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(18.adjusted)
+            $0.height.equalTo(50.adjusted)
+        }
+        
+        appleLoginButton.snp.makeConstraints {
             $0.bottom.equalTo(self.view.safeAreaLayoutGuide).inset(51.adjusted)
             $0.leading.trailing.equalToSuperview().inset(18.adjusted)
             $0.height.equalTo(50.adjusted)
         }
         
-        loginButton.imageView?.snp.makeConstraints {
+        kakaoLoginButton.imageView?.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        appleLoginButton.imageView?.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }
