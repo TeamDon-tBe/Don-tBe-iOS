@@ -421,7 +421,7 @@ extension MyPageViewController {
     @objc
     private func accountInfoButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
-        let vc = MyPageAccountInfoViewController(viewModel: self.viewModel)
+        let vc = MyPageAccountInfoViewController(viewModel: MyPageAccountInfoViewModel(networkProvider: NetworkService()))
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
