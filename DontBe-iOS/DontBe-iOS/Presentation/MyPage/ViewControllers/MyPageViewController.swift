@@ -430,6 +430,14 @@ extension MyPageViewController {
                               isOnboardingFinished: true,
                               userNickname: loadUserData()?.userNickname ?? "",
                               memberId: loadUserData()?.memberId ?? 0))
+        // KeychainWrapper에 Access Token 저장하고 소셜로그인 화면으로
+        let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") ?? ""
+        KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+        
+        // KeychainWrasapper에 Refresh Token 저장하고 소셜로그인 화면으로
+        let refreshToken = KeychainWrapper.loadToken(forKey: "refreshToken") ?? ""
+        KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
+
     }
     
     @objc

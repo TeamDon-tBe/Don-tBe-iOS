@@ -5,6 +5,7 @@
 //  Created by 변희주 on 1/8/24.
 //
 
+import AuthenticationServices
 import Combine
 import Foundation
 
@@ -12,7 +13,7 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 
-final class LoginViewModel: ViewModelType {
+final class LoginViewModel: NSObject, ViewModelType {
     
     private let cancelBag = CancelBag()
     
@@ -28,7 +29,8 @@ final class LoginViewModel: ViewModelType {
     }
     
     struct Input {
-        let kakaoButtonTapped: AnyPublisher<Void, Never>
+        let kakaoButtonTapped: AnyPublisher<Void, Never>?
+        let appleButtonTapped: AnyPublisher<Void, Never>?
     }
     
     struct Output {
@@ -36,9 +38,15 @@ final class LoginViewModel: ViewModelType {
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
-        input.kakaoButtonTapped
+        input.kakaoButtonTapped?
             .sink {
                 self.performKakaoLogin()
+            }
+            .store(in: cancelBag)
+        
+        input.appleButtonTapped?
+            .sink {
+                self.performAppleLogin()
             }
             .store(in: cancelBag)
         
@@ -55,6 +63,16 @@ final class LoginViewModel: ViewModelType {
                 self?.handleKakaoLoginResult(oauthToken: oauthToken, error: error)
             }
         }
+    }
+    
+    private func performAppleLogin() {
+        let appleProvider = ASAuthorizationAppleIDProvider()
+        let request = appleProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
     }
     
     private func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
@@ -123,5 +141,25 @@ extension LoginViewModel {
         catch {
            return nil
        }
+    }
+}
+
+extension LoginViewModel: ASAuthorizationControllerDelegate {
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        if let fullName = credential.fullName,
+           let identifyToken = credential.authorizationCode {
+            print((fullName.familyName ?? "") + (fullName.givenName ?? ""))
+            let token = String(data: identifyToken, encoding: .utf8)
+            print(token ?? "")
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print(error)
     }
 }
