@@ -141,7 +141,8 @@ extension LoginViewModel {
             return data
         }
         catch {
-           return nil
+            print(error)
+            return nil
        }
     }
 }
@@ -156,9 +157,7 @@ extension LoginViewModel: ASAuthorizationControllerDelegate {
         if let fullName = credential.fullName,
            let identifyToken = credential.identityToken {
             let userName = (fullName.familyName ?? "") + (fullName.givenName ?? "")
-            print(userName)
             let accessToken = String(data: identifyToken, encoding: .utf8)
-            print(accessToken ?? "")
             // 애플로그인 서버통신
             Task {
                 do {
