@@ -223,7 +223,21 @@ extension MyPageAccountInfoViewController {
         output.isSignOutResult
             .sink { result in
                 if result == 200 {
-                    print("회원 탈퇴 완료")
+                    DispatchQueue.main.async {
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                            DispatchQueue.main.async {
+                                let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                                sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                            }
+                        }
+                        
+                        saveUserData(UserInfo(isSocialLogined: false,
+                                              isFirstUser: false,
+                                              isJoinedApp: true,
+                                              isOnboardingFinished: true,
+                                              userNickname: loadUserData()?.userNickname ?? "",
+                                              memberId: loadUserData()?.memberId ?? 0))
+                    }
                 } else if result == 400 {
                     print("존재하지 않는 요청입니다.")
                 } else {
