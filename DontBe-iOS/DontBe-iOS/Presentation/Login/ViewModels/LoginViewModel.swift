@@ -5,6 +5,7 @@
 //  Created by 변희주 on 1/8/24.
 //
 
+import AuthenticationServices
 import Combine
 import Foundation
 
@@ -12,7 +13,7 @@ import KakaoSDKAuth
 import KakaoSDKCommon
 import KakaoSDKUser
 
-final class LoginViewModel: ViewModelType {
+final class LoginViewModel: NSObject, ViewModelType {
     
     private let cancelBag = CancelBag()
     
@@ -28,7 +29,8 @@ final class LoginViewModel: ViewModelType {
     }
     
     struct Input {
-        let kakaoButtonTapped: AnyPublisher<Void, Never>
+        let kakaoButtonTapped: AnyPublisher<Void, Never>?
+        let appleButtonTapped: AnyPublisher<Void, Never>?
     }
     
     struct Output {
@@ -36,9 +38,15 @@ final class LoginViewModel: ViewModelType {
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
-        input.kakaoButtonTapped
+        input.kakaoButtonTapped?
             .sink {
                 self.performKakaoLogin()
+            }
+            .store(in: cancelBag)
+        
+        input.appleButtonTapped?
+            .sink {
+                self.performAppleLogin()
             }
             .store(in: cancelBag)
         
@@ -57,14 +65,24 @@ final class LoginViewModel: ViewModelType {
         }
     }
     
+    private func performAppleLogin() {
+        let appleProvider = ASAuthorizationAppleIDProvider()
+        let request = appleProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.performRequests()
+    }
+    
     private func handleKakaoLoginResult(oauthToken: OAuthToken?, error: Error?) {
         if let error = error {
             print(error)
         } else if let accessToken = oauthToken?.accessToken {
-            // 소셜로그인 서버통신
+            // 카카오 로그인 서버통신
             Task {
                 do {
-                    let result = try await self.postSocialLoginAPI(accessToken: accessToken)?.data
+                    let result = try await self.postSocialLoginAPI(socialPlatform: "KAKAO", accessToken: accessToken, userName: nil)?.data
                     let isNewUser = result?.isNewUser ?? false
                     let nickname = result?.nickName ?? ""
                     if !isNewUser && !nickname.isEmpty {
@@ -83,8 +101,10 @@ final class LoginViewModel: ViewModelType {
 // MARK: - Network
 
 extension LoginViewModel {
-    private func postSocialLoginAPI(accessToken: String) async throws -> BaseResponse<SocialLoginResponseDTO>? {
-        let requestDTO = SocialLoginRequestDTO(socialPlatform: "KAKAO")
+    private func postSocialLoginAPI(socialPlatform: String, accessToken: String, userName: String?) async throws -> BaseResponse<SocialLoginResponseDTO>? {
+        
+        let requestDTO = SocialLoginRequestDTO(socialPlatform: socialPlatform, userName: userName)
+        
         do {
             let data: BaseResponse<SocialLoginResponseDTO>? = try await self.networkProvider.donNetwork(
                 type: .post,
@@ -96,32 +116,67 @@ extension LoginViewModel {
             
             if data?.status == 400 {
                 print(NetworkError.badRequestError)
+            } else {
+                // UserInfo 구조체에 유저 정보 저장
+                let userNickname = data?.data?.nickName ?? ""
+                let isNewUser = data?.data?.isNewUser ?? true
+                let memberId = data?.data?.memberId ?? 0
+                saveUserData(UserInfo(isSocialLogined: true,
+                                      isFirstUser: isNewUser,
+                                      isJoinedApp: false,
+                                      isOnboardingFinished: false,
+                                      userNickname: userNickname,
+                                      memberId: memberId))
+                
+                // KeychainWrapper에 Access Token 저장
+                let accessToken = data?.data?.accessToken ?? ""
+                print(accessToken)
+                KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+                
+                // KeychainWrasapper에 Refresh Token 저장
+                let refreshToken = data?.data?.refreshToken ?? ""
+                KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
             }
-            
-            // UserInfo 구조체에 유저 정보 저장
-            let userNickname = data?.data?.nickName ?? ""
-            let isNewUser = data?.data?.isNewUser ?? true
-            let memberId = data?.data?.memberId ?? 0
-            saveUserData(UserInfo(isSocialLogined: true,
-                                  isFirstUser: isNewUser,
-                                  isJoinedApp: false,
-                                  isOnboardingFinished: false,
-                                  userNickname: userNickname,
-                                  memberId: memberId))
-            
-            // KeychainWrapper에 Access Token 저장
-            let accessToken = data?.data?.accessToken ?? ""
-            print(accessToken)
-            KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
-            
-            // KeychainWrasapper에 Refresh Token 저장
-            let refreshToken = data?.data?.refreshToken ?? ""
-            KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
 
             return data
         }
         catch {
-           return nil
+            print(error)
+            return nil
        }
+    }
+}
+
+extension LoginViewModel: ASAuthorizationControllerDelegate {
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
+        
+        if let fullName = credential.fullName,
+           let identifyToken = credential.identityToken {
+            let userName = (fullName.familyName ?? "") + (fullName.givenName ?? "")
+            let accessToken = String(data: identifyToken, encoding: .utf8)
+            // 애플로그인 서버통신
+            Task {
+                do {
+                    let result = try await self.postSocialLoginAPI(socialPlatform: "APPLE", accessToken: accessToken ?? "", userName: userName)?.data
+                    guard let isNewUser = result?.isNewUser else { return }
+                    let nickname = result?.nickName ?? ""
+                    if !isNewUser && !nickname.isEmpty {
+                        self.userInfoPublisher.send(false)
+                    } else {
+                        self.userInfoPublisher.send(true)
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print(error)
     }
 }
