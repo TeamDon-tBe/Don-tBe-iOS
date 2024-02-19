@@ -5,6 +5,7 @@
 //  Created by 변상우 on 12/26/23.
 //
 
+import AuthenticationServices
 import UIKit
 
 import KakaoSDKCommon
@@ -21,6 +22,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         
         KakaoSDK.initSDK(appKey: Config.nativeAppKey)
+        
+        NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: nil) { (Notification) in
+            // 앱 실행 중 강제로 연결 취소 시 로그인 페이지로 이동
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                DispatchQueue.main.async {
+                    let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                    sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                }
+            }
+            saveUserData(UserInfo(isSocialLogined: false,
+                                  isFirstUser: false,
+                                  isJoinedApp: true,
+                                  isOnboardingFinished: true,
+                                  userNickname: loadUserData()?.userNickname ?? "",
+                                  memberId: loadUserData()?.memberId ?? 0))
+            // KeychainWrapper에 Access Token 저장하고 소셜로그인 화면으로
+            let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") ?? ""
+            KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
+            
+            // KeychainWrasapper에 Refresh Token 저장하고 소셜로그인 화면으로
+            let refreshToken = KeychainWrapper.loadToken(forKey: "refreshToken") ?? ""
+            KeychainWrapper.saveToken(refreshToken, forKey: "refreshToken")
+        }
+        
         return true
     }
 
