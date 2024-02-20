@@ -29,6 +29,8 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - UI Components
     
+    private var signOutPopupView: DontBePopupView? = nil
+    
     private let topDivisionLine = UIView().makeDivisionLine()
     
     private let accountInfoTableView: UITableView = {
@@ -85,7 +87,6 @@ final class MyPageAccountInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getAPI()
         setUI()
         setHierarchy()
         setLayout()
@@ -209,7 +210,25 @@ extension MyPageAccountInfoViewController {
         let attributedString = NSAttributedString(string: button.currentTitle ?? "", attributes: attributes)
         button.setAttributedTitle(attributedString, for: .normal)
     }
-
+    
+    func showSignOutPopupView() {
+        self.signOutPopupView = DontBePopupView(popupTitle: StringLiterals.MyPage.myPageSignOutPopupTitleLabel,
+                                                popupContent: StringLiterals.MyPage.myPageSignOutPopupContentLabel,
+                                                leftButtonTitle: StringLiterals.MyPage.myPageSignOutPopupLeftButtonTitle,
+                                                rightButtonTitle: StringLiterals.MyPage.myPageSignOutPopupRightButtonTitle)
+        
+        if let popupView = self.signOutPopupView {
+            if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                window.addSubviews(popupView)
+            }
+            
+            popupView.delegate = self
+            
+            popupView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
+    }
     
     @objc
     private func backButtonTapped() {
@@ -227,7 +246,10 @@ extension MyPageAccountInfoViewController {
     
     @objc
     private func signOutButtonTapped() {
-        print("signOutButtonTapped")
+        showSignOutPopupView()
+        // 계정 삭제 사유 뷰로 이동(1차 앱 심사에서 보류)
+//        let signOutViewController = MyPageSignOutViewController()
+//        self.navigationController?.pushViewController(signOutViewController, animated: true)
     }
 }
 
@@ -255,22 +277,13 @@ extension MyPageAccountInfoViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - Network
-
-extension MyPageAccountInfoViewController {
-    private func getAPI() {
-        
+extension MyPageAccountInfoViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        self.signOutPopupView?.removeFromSuperview()
+    }
+    
+    func confirmButtonTapped() {
+        self.signOutPopupView?.removeFromSuperview()
+        print("계정삭제 완료")
     }
 }
-
-//extension ExampleViewController: UICollectionViewDelegate {
-//
-//}
-//
-//extension ExampleViewController: UICollectionViewDataSource {
-//
-//}
-//
-//extension ExampleViewController: UICollectionViewFlowLayout {
-//
-//}

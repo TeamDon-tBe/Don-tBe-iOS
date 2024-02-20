@@ -44,7 +44,7 @@ final class DontBePopupView: UIView {
     
     private let popupContentLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .donBlack
+        label.textColor = .donGray11
         label.textAlignment = .center
         label.font = UIFont.font(.body4)
         label.numberOfLines = 0
