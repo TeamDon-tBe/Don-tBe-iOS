@@ -421,7 +421,7 @@ extension MyPageViewController {
     @objc
     private func accountInfoButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
-        let vc = MyPageAccountInfoViewController(viewModel: self.viewModel)
+        let vc = MyPageAccountInfoViewController(viewModel: MyPageAccountInfoViewModel(networkProvider: NetworkService()))
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
@@ -600,7 +600,20 @@ extension MyPageViewController: DontBePopupDelegate {
         if self.logoutPopupView != nil {
             self.logoutPopupView?.removeFromSuperview()
             self.rootView.myPageBottomsheet.handleDismiss()
-            print("로그아웃 완료")
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                DispatchQueue.main.async {
+                    let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                    sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                }
+            }
+            
+            saveUserData(UserInfo(isSocialLogined: false,
+                                  isFirstUser: false,
+                                  isJoinedApp: true,
+                                  isOnboardingFinished: true,
+                                  userNickname: loadUserData()?.userNickname ?? "",
+                                  memberId: loadUserData()?.memberId ?? 0))
         } else {
             self.dismiss(animated: false)
             Task {

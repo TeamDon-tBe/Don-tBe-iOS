@@ -18,7 +18,9 @@ final class MyPageAccountInfoViewController: UIViewController {
     let userTermURL = URL(string: StringLiterals.MyPage.myPageUseTermURL)
     
     private var cancelBag = CancelBag()
-    private let viewModel: MyPageViewModel
+    private let viewModel: MyPageAccountInfoViewModel
+    
+    private lazy var signOutButtonTapped = self.signOutPopupView.confirmButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     var titleData = [
         "소셜 로그인",
@@ -29,7 +31,12 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - UI Components
     
-    private var signOutPopupView: DontBePopupView? = nil
+    private var signOutPopupView = DontBePopupView(
+        popupTitle: StringLiterals.MyPage.myPageSignOutPopupTitleLabel,
+        popupContent: StringLiterals.MyPage.myPageSignOutPopupContentLabel,
+        leftButtonTitle: StringLiterals.MyPage.myPageSignOutPopupLeftButtonTitle,
+        rightButtonTitle: StringLiterals.MyPage.myPageSignOutPopupRightButtonTitle
+    )
     
     private let topDivisionLine = UIView().makeDivisionLine()
     
@@ -75,7 +82,7 @@ final class MyPageAccountInfoViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(viewModel: MyPageViewModel) {
+    init(viewModel: MyPageAccountInfoViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -123,6 +130,8 @@ extension MyPageAccountInfoViewController {
         
         addUnderline(to: moreInfoButton)
         addUnderline(to: signOutButton)
+        
+        self.signOutPopupView.isHidden = true
     }
     
     private func setHierarchy() {
@@ -132,6 +141,10 @@ extension MyPageAccountInfoViewController {
                               moreInfoTitle,
                               moreInfoButton,
                               signOutButton)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(self.signOutPopupView)
+        }
     }
     
     private func setLayout() {
@@ -167,16 +180,21 @@ extension MyPageAccountInfoViewController {
             $0.top.equalTo(moreInfoButton.snp.bottom).offset(27.adjusted)
             $0.trailing.equalTo(moreInfoButton.snp.trailing)
         }
+        
+        self.signOutPopupView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
     
     private func setAddTarget() {
         moreInfoButton.addTarget(self, action: #selector(useTermButtonTapped), for: .touchUpInside)
-        signOutButton.addTarget(self, action: #selector(signOutButtonTapped), for: .touchUpInside)
+        signOutButton.addTarget(self, action: #selector(showSignOutPopup), for: .touchUpInside)
     }
     
     private func setDelegate() {
         self.accountInfoTableView.dataSource = self
         self.accountInfoTableView.delegate = self
+        self.signOutPopupView.delegate = self
     }
     
     private func setRegisterCell() {
@@ -189,14 +207,42 @@ extension MyPageAccountInfoViewController {
     
     private func bindViewModel() {
         let memberId = loadUserData()?.memberId ?? 0
-        let input = MyPageViewModel.Input(viewUpdate: Just((0, memberId )).eraseToAnyPublisher())
+        let input = MyPageAccountInfoViewModel.Input(
+            viewAppear: Just(()).eraseToAnyPublisher(),
+            signOutButtonTapped: signOutButtonTapped)
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
-        output.getData
+        output.getAccountInfoData
             .receive(on: RunLoop.main)
             .sink { _ in
                 self.accountInfoTableView.reloadData()
+            }
+            .store(in: self.cancelBag)
+        
+        output.isSignOutResult
+            .sink { result in
+                if result == 200 {
+                    DispatchQueue.main.async {
+                        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                            DispatchQueue.main.async {
+                                let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                                sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                            }
+                        }
+                        
+                        saveUserData(UserInfo(isSocialLogined: false,
+                                              isFirstUser: false,
+                                              isJoinedApp: true,
+                                              isOnboardingFinished: true,
+                                              userNickname: loadUserData()?.userNickname ?? "",
+                                              memberId: loadUserData()?.memberId ?? 0))
+                    }
+                } else if result == 400 {
+                    print("존재하지 않는 요청입니다.")
+                } else {
+                    print("서버 내부에서 오류가 발생했습니다.")
+                }
             }
             .store(in: self.cancelBag)
     }
@@ -212,22 +258,7 @@ extension MyPageAccountInfoViewController {
     }
     
     func showSignOutPopupView() {
-        self.signOutPopupView = DontBePopupView(popupTitle: StringLiterals.MyPage.myPageSignOutPopupTitleLabel,
-                                                popupContent: StringLiterals.MyPage.myPageSignOutPopupContentLabel,
-                                                leftButtonTitle: StringLiterals.MyPage.myPageSignOutPopupLeftButtonTitle,
-                                                rightButtonTitle: StringLiterals.MyPage.myPageSignOutPopupRightButtonTitle)
-        
-        if let popupView = self.signOutPopupView {
-            if let window = UIApplication.shared.keyWindowInConnectedScenes {
-                window.addSubviews(popupView)
-            }
-            
-            popupView.delegate = self
-            
-            popupView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-        }
+        self.signOutPopupView.isHidden = false
     }
     
     @objc
@@ -245,7 +276,7 @@ extension MyPageAccountInfoViewController {
     }
     
     @objc
-    private func signOutButtonTapped() {
+    private func showSignOutPopup() {
         showSignOutPopupView()
         // 계정 삭제 사유 뷰로 이동(1차 앱 심사에서 보류)
 //        let signOutViewController = MyPageSignOutViewController()
@@ -279,11 +310,11 @@ extension MyPageAccountInfoViewController: UITableViewDataSource {
 
 extension MyPageAccountInfoViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
-        self.signOutPopupView?.removeFromSuperview()
+        self.signOutPopupView.isHidden = true
     }
     
     func confirmButtonTapped() {
-        self.signOutPopupView?.removeFromSuperview()
+        self.signOutPopupView.isHidden = true
         print("계정삭제 완료")
     }
 }
