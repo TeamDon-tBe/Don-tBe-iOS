@@ -89,8 +89,8 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return button
     }()
     
-    let contentTextLabel: UILabel = {
-        let label = UILabel()
+    let contentTextLabel: CopyableLabel = {
+        let label = CopyableLabel()
         label.textColor = .donBlack
         label.text = ""
         label.lineBreakMode = .byCharWrapping

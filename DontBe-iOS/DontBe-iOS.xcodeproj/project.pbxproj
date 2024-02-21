@@ -78,6 +78,7 @@
 		2F27A3AC2B70B7650018779F /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */; };
 		2F3182E52B5A3B2400E77EFD /* DontBeDeletePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */; };
 		2F40D5822B58364500AF68BC /* DeletePostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */; };
+		2F65B72F2B84D68500775853 /* CopyableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F65B72E2B84D68500775853 /* CopyableLabel.swift */; };
 		2F8735402B4BE65300E55552 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F87353F2B4BE65300E55552 /* HomeView.swift */; };
 		2F8735422B4BE66500E55552 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735412B4BE66500E55552 /* HomeViewController.swift */; };
 		2F8735442B4BE67300E55552 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8735432B4BE67300E55552 /* HomeViewModel.swift */; };
@@ -224,6 +225,7 @@
 		2F27A3AB2B70B7650018779F /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeDeletePopupView.swift; sourceTree = "<group>"; };
 		2F40D5812B58364500AF68BC /* DeletePostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePostViewModel.swift; sourceTree = "<group>"; };
+		2F65B72E2B84D68500775853 /* CopyableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyableLabel.swift; sourceTree = "<group>"; };
 		2F87353F2B4BE65300E55552 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		2F8735412B4BE66500E55552 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2F8735432B4BE67300E55552 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -1061,6 +1063,7 @@
 				2A8D70B32B4C999F009F4C6C /* CustomButton.swift */,
 				2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */,
 				2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */,
+				2F65B72E2B84D68500775853 /* CopyableLabel.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1299,6 +1302,7 @@
 				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
 				3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */,
 				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
+				2F65B72F2B84D68500775853 /* CopyableLabel.swift in Sources */,
 				3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */,
 				2A8D70BF2B4D68E3009F4C6C /* OnboardingEndingViewController.swift in Sources */,
 				2A31FF572B4F1E0400FEEED9 /* String+.swift in Sources */,
