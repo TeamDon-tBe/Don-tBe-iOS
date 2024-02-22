@@ -614,6 +614,8 @@ extension MyPageViewController: DontBePopupDelegate {
                                   isOnboardingFinished: true,
                                   userNickname: loadUserData()?.userNickname ?? "",
                                   memberId: loadUserData()?.memberId ?? 0))
+        
+            OnboardingViewController.pushCount = 0
         } else {
             self.dismiss(animated: false)
             Task {
