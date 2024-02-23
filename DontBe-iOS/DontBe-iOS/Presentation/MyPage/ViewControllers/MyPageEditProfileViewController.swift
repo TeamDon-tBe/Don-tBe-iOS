@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Photos
+import PhotosUI
 
 import SnapKit
 
@@ -51,6 +53,8 @@ final class MyPageEditProfileViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
+        setDelegate()
+        setAddTarget()
         bindViewModel()
     }
     
@@ -84,7 +88,7 @@ final class MyPageEditProfileViewController: UIViewController {
             self.introductionEditView.contentTextView.text = introText
             self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
         }
-        setDelegate()
+        setNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -125,7 +129,15 @@ extension MyPageEditProfileViewController {
     }
     
     private func setDelegate() {
+        
+    }
+    
+    private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldTisEmpty), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    private func setAddTarget() {
+        self.nicknameEditView.plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
     }
     
     private func bindViewModel() {
@@ -162,6 +174,16 @@ extension MyPageEditProfileViewController {
             .store(in: self.cancelBag)
     }
     
+    private func presentPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images // 이미지만 필터링
+        configuration.selectionLimit = 1 // 선택 제한
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
     @objc
     private func textFieldTisEmpty() {
         self.introductionEditView.postButton.isHidden = false
@@ -171,5 +193,62 @@ extension MyPageEditProfileViewController {
     @objc
     private func navBackButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func plusButtonTapped() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        
+        switch status {
+        case .authorized, .limited:
+            presentPicker()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.presentPicker()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            authSettingOpen()
+        default:
+            break
+        }
+    }
+    
+    func authSettingOpen() {
+        let message = "Don't Be 앱에 사진 권한이 없습니다.\n설정으로 이동하여 권한 설정을 해주세요."
+        
+        let alert = UIAlertController(title: "설정", message: message, preferredStyle: .alert)
+        
+        let cancle = UIAlertAction(title: "닫기", style: .default)
+        
+        let confirm = UIAlertAction(title: "권한설정하기", style: .default) { (UIAlertAction) in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
+        
+        alert.addAction(cancle)
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MyPageEditProfileViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+        
+        guard let selectedImage = results.first else { return }
+        
+        selectedImage.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+            DispatchQueue.main.async {
+                if let image = image as? UIImage {
+                    self.nicknameEditView.profileImage.image = image
+                } else if let error = error {
+                    print(error)
+                }
+            }
+        }
     }
 }
