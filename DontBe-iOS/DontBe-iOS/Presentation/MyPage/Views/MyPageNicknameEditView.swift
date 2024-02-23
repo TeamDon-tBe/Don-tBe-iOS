@@ -22,15 +22,16 @@ final class MyPageNicknameEditView: UIView {
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
         profileImage.load(url: StringLiterals.Network.baseImageURL)
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         return profileImage
     }()
     
-    // 2차 스프린트
-//    let plusButton: UIButton = {
-//        let plusButton = UIButton()
-//        plusButton.setImage(ImageLiterals.Join.btnPlus, for: .normal)
-//        return plusButton
-//    }()
+    let plusButton: UIButton = {
+        let plusButton = UIButton()
+        plusButton.setImage(ImageLiterals.Join.btnPlus, for: .normal)
+        return plusButton
+    }()
     
     private let nickNameLabel: UILabel = {
         let nickNameLabel = UILabel()
@@ -112,7 +113,7 @@ extension MyPageNicknameEditView {
     func setHierarchy() {
         self.addSubviews(topDivisionLine,
                          profileImage,
-//                         plusButton,
+                         plusButton,
                          nickNameLabel,
                          nickNameTextField,
                          duplicationCheckButton,
@@ -135,11 +136,11 @@ extension MyPageNicknameEditView {
             $0.size.equalTo(100.adjusted)
         }
         
-//        plusButton.snp.makeConstraints {
-//            $0.top.equalTo(profileImage).offset(72.adjusted)
-//            $0.leading.equalTo(profileImage).offset(78.adjusted)
-//            $0.size.equalTo(34.adjusted)
-//        }
+        plusButton.snp.makeConstraints {
+            $0.top.equalTo(profileImage).offset(71.adjusted)
+            $0.leading.equalTo(profileImage).offset(75.adjusted)
+            $0.size.equalTo(34.adjusted)
+        }
         
         nickNameLabel.snp.makeConstraints {
             $0.top.equalTo(self.safeAreaLayoutGuide).inset(171.adjustedH)
