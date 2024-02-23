@@ -75,12 +75,13 @@ final class MyPageEditProfileViewController: UIViewController {
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(navBackButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
         
+        self.nicknameEditView.nickNameTextField.text = nickname
+        self.nicknameEditView.numOfLetters.text = "(\(nickname.count)/12)"
+        
         if introText == "" {
             self.introductionEditView.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
         } else {
-            self.nicknameEditView.nickNameTextField.text = nickname
             self.introductionEditView.contentTextView.text = introText
-            self.nicknameEditView.numOfLetters.text = "(\(nickname.count)/12)"
             self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
         }
         setDelegate()
