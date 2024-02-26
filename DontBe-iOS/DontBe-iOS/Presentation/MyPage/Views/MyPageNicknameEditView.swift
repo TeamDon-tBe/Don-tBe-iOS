@@ -21,7 +21,7 @@ final class MyPageNicknameEditView: UIView {
 
     let profileImage: UIImageView = {
         let profileImage = UIImageView()
-        profileImage.load(url: StringLiterals.Network.baseImageURL)
+        profileImage.image = ImageLiterals.Common.imgProfile
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         return profileImage
