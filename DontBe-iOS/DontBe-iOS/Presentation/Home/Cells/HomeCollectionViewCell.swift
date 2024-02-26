@@ -11,6 +11,12 @@ import SnapKit
 
 final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegisterable {
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        profileImageView.image = ImageLiterals.Common.imgProfile
+    }
+    
     // MARK: - Properties
     
     var KebabButtonAction: (() -> Void) = {}
