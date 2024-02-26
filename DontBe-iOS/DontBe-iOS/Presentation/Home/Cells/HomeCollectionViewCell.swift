@@ -45,7 +45,6 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         image.clipsToBounds = true
         image.layer.borderWidth = 1.adjusted
         image.layer.borderColor = UIColor.clear.cgColor
-        image.image = ImageLiterals.Common.imgProfile
         image.layer.cornerRadius = 22.adjusted
         image.isUserInteractionEnabled = true
         return image
