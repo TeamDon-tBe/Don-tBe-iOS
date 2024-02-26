@@ -5,6 +5,7 @@
 //  Created by 변상우 on 1/12/24.
 //
 
+import Combine
 import UIKit
 import Photos
 import PhotosUI
@@ -25,12 +26,13 @@ final class MyPageEditProfileViewController: UIViewController {
         return self.nicknameEditView.nickNameTextField.text ?? ""
     }.eraseToAnyPublisher()
     private lazy var postButtonTapped = self.introductionEditView.postActiveButton.publisher(for: .touchUpInside).map { _ in
-        return UserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
-                                     is_alarm_allowed: true,
-                                     member_intro: self.introductionEditView.contentTextView.text ?? "",
-                                     profile_url: StringLiterals.Network.baseImageURL)
+        return EditUserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
+                                         is_alarm_allowed: true,
+                                         member_intro: self.introductionEditView.contentTextView.text ?? "",
+                                         profile_image: self.nicknameEditView.profileImage.image ?? ImageLiterals.Common.imgProfile)
     }.eraseToAnyPublisher()
     
+    var memberId: Int = 0
     var isTrue: Bool = true
     var nickname: String = ""
     var introText: String = ""
@@ -55,7 +57,6 @@ final class MyPageEditProfileViewController: UIViewController {
         setLayout()
         setDelegate()
         setAddTarget()
-        bindViewModel()
     }
     
     init(viewModel: MyPageProfileViewModel) {
@@ -89,6 +90,7 @@ final class MyPageEditProfileViewController: UIViewController {
             self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
         }
         setNotification()
+        bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -140,8 +142,20 @@ extension MyPageEditProfileViewController {
     }
     
     private func bindViewModel() {
-        let input = MyPageProfileViewModel.Input(backButtonTapped: backButtonTapped, duplicationCheckButtonTapped: duplicationCheckButtonTapped, finishButtonTapped: postButtonTapped)
+        let input = MyPageProfileViewModel.Input(viewWillAppear: Just((self.memberId)).eraseToAnyPublisher(),
+                                                 backButtonTapped: backButtonTapped,
+                                                 duplicationCheckButtonTapped: duplicationCheckButtonTapped,
+                                                 finishButtonTapped: postButtonTapped)
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.getProfileData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                DispatchQueue.main.async {
+                    self.nicknameEditView.profileImage.load(url: data)
+                }
+            }
+            .store(in: self.cancelBag)
         
         output.popViewController
             .receive(on: RunLoop.main)

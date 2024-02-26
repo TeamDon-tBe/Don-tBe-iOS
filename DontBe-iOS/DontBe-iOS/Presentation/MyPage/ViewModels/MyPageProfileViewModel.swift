@@ -13,6 +13,8 @@ final class MyPageProfileViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
+    
+    private var getProfileData = PassthroughSubject<String, Never>()
     private let popViewController = PassthroughSubject<Void, Never>()
     private let isNotDuplicated = PassthroughSubject<Bool, Never>()
     
@@ -25,17 +27,36 @@ final class MyPageProfileViewModel: ViewModelType {
     }
 
     struct Input {
+        let viewWillAppear: AnyPublisher<Int, Never>
         let backButtonTapped: AnyPublisher<Void, Never>
         let duplicationCheckButtonTapped: AnyPublisher<String, Never>
-        let finishButtonTapped: AnyPublisher<UserProfileRequestDTO, Never>
+        let finishButtonTapped: AnyPublisher<EditUserProfileRequestDTO, Never>
     }
     
     struct Output {
+        let getProfileData: PassthroughSubject<String, Never>
         let popViewController: PassthroughSubject<Void, Never>
         let isEnable: PassthroughSubject<Bool, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
+        input.viewWillAppear
+            .sink { memberId in
+                Task {
+                    do {
+                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                            let profileResult = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: memberId)
+                            if let data = profileResult?.data {
+                                self.getProfileData.send(data.memberProfileUrl)
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+            .store(in: self.cancelBag)
+        
         input.backButtonTapped
             .sink { _ in
                 self.popViewController.send()
@@ -63,15 +84,10 @@ final class MyPageProfileViewModel: ViewModelType {
         input.finishButtonTapped
             .sink { value in
                 Task {
-                    do {
-                        self.uploadData()
-//                        let statusCode = try await self.patchUserInfoAPI(nickname: value.nickname, member_intro: value.member_intro)?.status
-//                        if statusCode == 200 {
-//                            self.popViewController.send()
-//                        }
-                    } catch {
-                        print(error)
-                    }
+                    self.uploadData(nickname: value.nickname,
+                                    isAlarmAllowed: value.is_alarm_allowed,
+                                    memberIntro: value.member_intro,
+                                    profileImage: value.profile_image)
                 }
                 
                 saveUserData(UserInfo(isSocialLogined: true,
@@ -80,10 +96,13 @@ final class MyPageProfileViewModel: ViewModelType {
                                       isOnboardingFinished: true,
                                       userNickname: value.nickname,
                                       memberId: loadUserData()?.memberId ?? 0))
+                
+                self.popViewController.send()
             }
             .store(in: self.cancelBag)
         
-        return Output(popViewController: popViewController,
+        return Output(getProfileData: getProfileData,
+                      popViewController: popViewController,
                       isEnable: isNotDuplicated)
     }
 }
@@ -91,6 +110,21 @@ final class MyPageProfileViewModel: ViewModelType {
 // MARK: - Network
 
 extension MyPageProfileViewModel {
+    private func getProfileInfoAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<MypageProfileResponseDTO>? {
+        do {
+            let result: BaseResponse<MypageProfileResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/viewmember/\(memberId)",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["":""])
+            UserDefaults.standard.set(result?.data?.memberGhost ?? 0, forKey: "memberGhost")
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
     private func getNicknameDuplicationAPI(nickname: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
@@ -123,56 +157,37 @@ extension MyPageProfileViewModel {
        }
     }
     
-    func uploadData() {
-        // URL 설정
-        guard let url = URL(string: Config.baseURL + "/user-profile2") else {
-            print("Invalid URL")
-            return
-        }
-        
+    func uploadData(nickname: String, isAlarmAllowed: Bool, memberIntro: String, profileImage: UIImage) {
+        guard let url = URL(string: Config.baseURL + "/user-profile2") else { return }
         guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return }
         
-        // 보낼 데이터 설정
-        let nickname = "부기부기"
-        let isAlarmAllowed = true
-        let memberIntro = "부기부기 테스트 성공!"
-        let image = UIImage(named: "status=btn_ghost_default")!
-        let imageData = image.jpegData(compressionQuality: 0.5)!
+        let imageData = profileImage.jpegData(compressionQuality: 0.5)!
         
-        // 파라미터
         let parameters: [String: Any] = [
             "nickname": nickname,
             "isAlarmAllowed": isAlarmAllowed,
             "memberIntro": memberIntro
         ]
         
-        // URLRequest 설정
         var request = URLRequest(url: url)
         request.httpMethod = "PATCH"
         
         // Multipart form data 생성
         let boundary = "Boundary-\(UUID().uuidString)"
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-//        request.setValue("multipart/form-data", forHTTPHeaderField: "Content-Type") //// -> 이자식이 문제였음
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         
-//        var body = Data()
         var requestBodyData = Data()
         
         // 프로필 정보 추가
-        do {
-            requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
-            requestBodyData.append("Content-Disposition: form-data; name=\"info\"\r\n\r\n".data(using: .utf8)!)
-//            requestBodyData.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
-            requestBodyData.append(try! JSONSerialization.data(withJSONObject: parameters, options: []))
-            requestBodyData.append("\r\n".data(using: .utf8)!)
-        } catch {
-            print("Error encoding user info: \(error)")
-        }
+        requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Disposition: form-data; name=\"info\"\r\n\r\n".data(using: .utf8)!)
+        requestBodyData.append(try! JSONSerialization.data(withJSONObject: parameters, options: []))
+        requestBodyData.append("\r\n".data(using: .utf8)!)
         
         // 프로필 이미지 데이터 추가
         requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
-        requestBodyData.append("Content-Disposition: form-data; name=\"file\"; filename=\"example.jpeg\"\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Disposition: form-data; name=\"file\"; filename=\"dontbe.jpeg\"\r\n".data(using: .utf8)!)
         requestBodyData.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
         requestBodyData.append(imageData)
         requestBodyData.append("\r\n".data(using: .utf8)!)
@@ -184,8 +199,6 @@ extension MyPageProfileViewModel {
         
         // URLSession으로 요청 보내기
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-            dump(request)
-            print(response)
             if let error = error {
                 print("Error:", error)
                 return
@@ -204,11 +217,4 @@ extension MyPageProfileViewModel {
         }
         task.resume()
     }
-}
-
-
-struct ProfileUserInfo: Encodable {
-    let nickname: String
-    let isAlarmAllowed: Bool
-    let memberIntro: String
 }
