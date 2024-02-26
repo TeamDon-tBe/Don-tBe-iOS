@@ -108,6 +108,10 @@ final class MyPageViewController: UIViewController {
         bindViewModel()
         setNotification()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.refreshData()
+        }
+        
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
         
@@ -413,6 +417,7 @@ extension MyPageViewController {
     private func profileEditButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
         let vc = MyPageEditProfileViewController(viewModel: MyPageProfileViewModel(networkProvider: NetworkService()))
+        vc.memberId = self.memberId
         vc.nickname = self.rootView.myPageProfileView.userNickname.text ?? ""
         vc.introText = self.rootView.myPageProfileView.userIntroduction.text ?? ""
         self.navigationController?.pushViewController(vc, animated: false)
