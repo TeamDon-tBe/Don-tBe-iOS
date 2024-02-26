@@ -306,7 +306,6 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(cell.commentStackView)
             $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
         }
         
         cell.commentStackView.isHidden = true

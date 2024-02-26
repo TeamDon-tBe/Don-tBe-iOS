@@ -124,7 +124,6 @@ extension MyPageEditProfileViewController {
         introductionEditView.snp.makeConstraints {
             $0.top.equalTo(nicknameEditView.duplicationCheckDescription.snp.bottom).offset(16.adjustedH)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
