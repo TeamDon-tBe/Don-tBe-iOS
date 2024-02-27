@@ -13,6 +13,8 @@ final class OnboardingEndingViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
     
+    private var getProfileData = PassthroughSubject<MypageProfileResponseDTO, Never>()
+    
     init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
     }
@@ -22,17 +24,44 @@ final class OnboardingEndingViewModel: ViewModelType {
     }
     
     struct Input {
+        let viewWillAppear: AnyPublisher<Int, Never>
         let backButtonTapped: AnyPublisher<Void, Never>
         let startButtonTapped: AnyPublisher<String, Never>
         let skipButtonTapped: AnyPublisher<Void, Never>
     }
     
     struct Output {
+        let getProfileData: PassthroughSubject<MypageProfileResponseDTO, Never>
         let voidPublisher: PassthroughSubject<String, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         let publisher = PassthroughSubject<String, Never>()
+        
+        input.viewWillAppear
+            .sink { memberId in
+                Task {
+                    do {
+                        if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                            let profileResult = try await self.getProfileInfoAPI(accessToken: accessToken, memberId: memberId)
+                            if let data = profileResult?.data {
+                                self.getProfileData.send(data)
+                                
+                                saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? true,
+                                                      isFirstUser: true,
+                                                      isJoinedApp: true,
+                                                      isOnboardingFinished: false,
+                                                      userNickname: data.nickname,
+                                                      memberId: loadUserData()?.memberId ?? 0,
+                                                      userProfileImage: data.memberProfileUrl))
+                            }
+                        }
+                    } catch {
+                        print(error)
+                    }
+                }
+            }
+            .store(in: self.cancelBag)
         
         input.backButtonTapped
             .sink { _ in
@@ -82,20 +111,36 @@ final class OnboardingEndingViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(voidPublisher: publisher)
+        return Output(getProfileData: getProfileData,
+                      voidPublisher: publisher)
     }
 }
 
 // MARK: - Network
 
 extension OnboardingEndingViewModel {
+    private func getProfileInfoAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<MypageProfileResponseDTO>? {
+        do {
+            let result: BaseResponse<MypageProfileResponseDTO>? = try await self.networkProvider.donNetwork(
+                type: .get,
+                baseURL: Config.baseURL + "/viewmember/\(memberId)",
+                accessToken: accessToken,
+                body: EmptyBody(),
+                pathVariables: ["":""])
+            UserDefaults.standard.set(result?.data?.memberGhost ?? 0, forKey: "memberGhost")
+            return result
+        } catch {
+            return nil
+        }
+    }
+    
     private func patchUserInfoAPI(inroduction: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let requestDTO = UserProfileRequestDTO(
                 nickname: loadUserData()?.userNickname ?? "",
                 is_alarm_allowed: true,
                 member_intro: inroduction,
-                profile_url: StringLiterals.Network.baseImageURL)
+                profile_url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
             
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
