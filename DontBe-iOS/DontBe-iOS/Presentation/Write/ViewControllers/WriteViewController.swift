@@ -98,6 +98,7 @@ extension WriteViewController {
         navigationItem.leftBarButtonItem = backButton
         
         self.rootView.writeTextView.userNickname.text = loadUserData()?.userNickname
+        self.rootView.writeTextView.userProfileImage.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         
         if let window = UIApplication.shared.keyWindowInConnectedScenes {
             window.addSubview(banView)
