@@ -500,6 +500,7 @@ extension PostDetailViewController {
         viewController.contentId = self.contentId
         viewController.userNickname = self.userNickName
         viewController.userContent = self.contentText
+        viewController.userProfileImage = self.postView.profileImageView.image ?? ImageLiterals.Common.imgProfile
         present(navigationController, animated: true, completion: nil)
     }
     
@@ -553,8 +554,7 @@ extension PostDetailViewController {
         
         self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
         self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
-        self.postView
-            .postNicknameLabel.text = data.memberNickname
+        self.postView.postNicknameLabel.text = data.memberNickname
         self.postUserNickname = "\(data.memberNickname)"
         self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
