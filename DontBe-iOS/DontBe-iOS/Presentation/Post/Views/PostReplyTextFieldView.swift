@@ -29,8 +29,7 @@ final class PostReplyTextFieldView: UIView {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.image = ImageLiterals.Common.imgProfile
-        image.backgroundColor = .lightGray
+        image.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         image.layer.cornerRadius = 20.adjusted
         return image
     }()
