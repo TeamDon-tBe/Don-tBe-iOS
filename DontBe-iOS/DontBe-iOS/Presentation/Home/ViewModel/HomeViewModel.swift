@@ -16,6 +16,7 @@ final class HomeViewModel: ViewModelType {
     private var getData = PassthroughSubject<Void, Never>()
     private let toggleLikeButton = PassthroughSubject<Bool, Never>()
     var isLikeButtonTapped: Bool = false
+    var cursor: Int = -1
     
     var postData: [PostDataResponseDTO] = []
     
@@ -92,10 +93,10 @@ extension HomeViewModel {
         do {
             let result: BaseResponse<[PostDataResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/content/all",
+                                            baseURL: Config.baseURL + "/contents",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
-                                            pathVariables: ["":""])
+                                            pathVariables: ["cursor":"\(cursor)"])
             
             if let data = result?.data {
                 var tempArrayData: [PostDataResponseDTO] = []
