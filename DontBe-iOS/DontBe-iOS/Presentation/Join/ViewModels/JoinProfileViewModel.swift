@@ -78,7 +78,8 @@ final class JoinProfileViewModel: ViewModelType {
                                       isJoinedApp: true,
                                       isOnboardingFinished: false,
                                       userNickname: value,
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             }
             .store(in: self.cancelBag)
         

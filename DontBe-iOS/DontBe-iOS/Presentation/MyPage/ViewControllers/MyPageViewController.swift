@@ -374,6 +374,14 @@ extension MyPageViewController {
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+            
+            saveUserData(UserInfo(isSocialLogined: true,
+                                  isFirstUser: false,
+                                  isJoinedApp: true,
+                                  isOnboardingFinished: true,
+                                  userNickname: data.nickname,
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: data.memberProfileUrl))
         }
     }
     
@@ -618,7 +626,8 @@ extension MyPageViewController: DontBePopupDelegate {
                                   isJoinedApp: true,
                                   isOnboardingFinished: true,
                                   userNickname: loadUserData()?.userNickname ?? "",
-                                  memberId: loadUserData()?.memberId ?? 0))
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
         } else {
             self.dismiss(animated: false)
             Task {

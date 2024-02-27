@@ -62,7 +62,8 @@ final class OnboardingEndingViewModel: ViewModelType {
                                       isJoinedApp: true,
                                       isOnboardingFinished: true,
                                       userNickname: loadUserData()?.userNickname ?? "",
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             }
             .store(in: self.cancelBag)
         
@@ -76,7 +77,8 @@ final class OnboardingEndingViewModel: ViewModelType {
                                       isJoinedApp: true,
                                       isOnboardingFinished: true,
                                       userNickname: loadUserData()?.userNickname ?? "",
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             }
             .store(in: self.cancelBag)
         

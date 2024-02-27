@@ -95,7 +95,8 @@ final class MyPageProfileViewModel: ViewModelType {
                                       isJoinedApp: true,
                                       isOnboardingFinished: true,
                                       userNickname: value.nickname,
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
                 
                 self.popViewController.send()
             }

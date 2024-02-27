@@ -236,7 +236,8 @@ extension MyPageAccountInfoViewController {
                                               isJoinedApp: true,
                                               isOnboardingFinished: true,
                                               userNickname: loadUserData()?.userNickname ?? "",
-                                              memberId: loadUserData()?.memberId ?? 0))
+                                              memberId: loadUserData()?.memberId ?? 0,
+                                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
                     }
                 } else if result == 400 {
                     print("존재하지 않는 요청입니다.")
