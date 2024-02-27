@@ -19,6 +19,7 @@ final class HomeViewModel: ViewModelType {
     var cursor: Int = -1
     
     var postData: [PostDataResponseDTO] = []
+    var postDatas: [PostDataResponseDTO] = []
     
     struct Input {
         let viewUpdate: AnyPublisher<Void, Never>?
@@ -105,6 +106,7 @@ extension HomeViewModel {
                     tempArrayData.append(content)
                 }
                 self.postData = tempArrayData
+                postDatas.append(contentsOf: postData)
             }
             return result
         } catch {

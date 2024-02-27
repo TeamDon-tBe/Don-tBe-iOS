@@ -21,6 +21,8 @@ final class HomeViewController: UIViewController {
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
+    var startPage = 1
+    var totalCount = 0
     
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
@@ -365,7 +367,20 @@ extension HomeViewController: UICollectionViewDelegate { }
 
 extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return homeViewModel.postData.count
+        return homeViewModel.postDatas.count
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == homeCollectionView {
+            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+                let lastContentId = homeViewModel.postDatas.last?.contentId ?? -1
+                homeViewModel.cursor = lastContentId
+                bindViewModel()
+                DispatchQueue.main.async {
+                    self.homeCollectionView.reloadData()
+                }
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -373,10 +388,10 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         cell.alarmTriggerType = "contentGhost"
-        cell.targetMemberId = homeViewModel.postData[indexPath.row].memberId
-        cell.alarmTriggerdId = homeViewModel.postData[indexPath.row].contentId
+        cell.targetMemberId = homeViewModel.postDatas[indexPath.row].memberId
+        cell.alarmTriggerdId = homeViewModel.postDatas[indexPath.row].contentId
         
-        if homeViewModel.postData[indexPath.row].memberId == loadUserData()?.memberId {
+        if homeViewModel.postDatas[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             self.deletePostBottomsheetView.warnButton.removeFromSuperview()
@@ -384,7 +399,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.KebabButtonAction = {
                 self.deletePostBottomsheetView.showSettings()
                 self.deletePostBottomsheetView.deleteButton.addTarget(self, action: #selector(self.deletePostButtonTapped), for: .touchUpInside)
-                self.contentId = self.homeViewModel.postData[indexPath.row].contentId
+                self.contentId = self.homeViewModel.postDatas[indexPath.row].contentId
             }
             
         } else {
@@ -406,11 +421,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.homeViewModel.postData[indexPath.row].contentId)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.homeViewModel.postDatas[indexPath.row].contentId)
         }
         
         cell.ProfileButtonAction = {
-            let memberId = self.homeViewModel.postData[indexPath.row].memberId
+            let memberId = self.homeViewModel.postDatas[indexPath.row].memberId
 
             if memberId == loadUserData()?.memberId ?? 0  {
                 self.tabBarController?.selectedIndex = 3
@@ -440,34 +455,34 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         
-        cell.profileImageView.load(url: homeViewModel.postData[indexPath.row].memberProfileUrl)
-        cell.nicknameLabel.text = homeViewModel.postData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(homeViewModel.postData[indexPath.row].memberGhost)%"
-        cell.contentTextLabel.text = homeViewModel.postData[indexPath.row].contentText
-        cell.likeNumLabel.text = "\(homeViewModel.postData[indexPath.row].likedNumber)"
-        cell.commentNumLabel.text = "\(homeViewModel.postData[indexPath.row].commentNumber)"
-        cell.timeLabel.text = "\(homeViewModel.postData[indexPath.row].time.formattedTime())"
-        cell.profileImageView.load(url: "\(homeViewModel.postData[indexPath.row].memberProfileUrl)")
-        cell.likeButton.setImage(homeViewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = self.homeViewModel.postData[indexPath.row].isLiked
+        cell.profileImageView.load(url: homeViewModel.postDatas[indexPath.row].memberProfileUrl)
+        cell.nicknameLabel.text = homeViewModel.postDatas[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(homeViewModel.postDatas[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = homeViewModel.postDatas[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].commentNumber)"
+        cell.timeLabel.text = "\(homeViewModel.postDatas[indexPath.row].time.formattedTime())"
+        cell.profileImageView.load(url: "\(homeViewModel.postDatas[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(homeViewModel.postDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.homeViewModel.postDatas[indexPath.row].isLiked
         cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
-        if self.homeViewModel.postData[indexPath.row].isGhost {
+        if self.homeViewModel.postDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.homeViewModel.postData[indexPath.row].memberGhost
+            let alpha = self.homeViewModel.postDatas[indexPath.row].memberGhost
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
-        self.contentId = homeViewModel.postData[indexPath.row].contentId
+        self.contentId = homeViewModel.postDatas[indexPath.row].contentId
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
-        destinationViewController.contentId = homeViewModel.postData[indexPath.row].contentId
+        destinationViewController.contentId = homeViewModel.postDatas[indexPath.row].contentId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
@@ -508,3 +523,17 @@ extension HomeViewController: DontBePopupDelegate {
         }
     }
 }
+
+//extension HomeViewController: UICollectionViewDataSourcePrefetching {
+//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+//        for indexPath in indexPaths {
+//            if homeViewModel.postData.count - 1 == indexPath.item {
+//                print("==요기==")
+//                homeViewModel.cursor = homeViewModel.postData.last?.contentId ?? -1 // 마지막 아이템의 contentId를 cursor로 설정합니다.
+//                print(homeViewModel.cursor)
+//                    self.bindViewModel()
+//                self.homeCollectionView.reloadData()
+//            }
+//        }
+//    }
+//}
