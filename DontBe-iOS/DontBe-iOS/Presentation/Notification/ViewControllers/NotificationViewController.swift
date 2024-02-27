@@ -147,9 +147,9 @@ extension NotificationViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if !viewModel.notificationList.isEmpty {
+        if !viewModel.notificationLists.isEmpty {
             // 선택한 셀에 해당하는 데이터
-            let selectedNotification = viewModel.notificationList[indexPath.row]
+            let selectedNotification = viewModel.notificationLists[indexPath.row]
             if selectedNotification?.notificationType != .userBan {
                 if selectedNotification?.notificationType == .beGhost {
                     if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
@@ -177,7 +177,7 @@ extension NotificationViewController: UITableViewDelegate {
 
 extension NotificationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let count = viewModel.notificationList.count
+        let count = viewModel.notificationLists.count
         if count == 0 {
             return 1
         } else {
@@ -186,16 +186,29 @@ extension NotificationViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if viewModel.notificationList.isEmpty {
+        if viewModel.notificationLists.isEmpty {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationEmptyViewCell.reuseIdentifier, for: indexPath) as? NotificationEmptyViewCell else { return UITableViewCell() }
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(list: viewModel.notificationList[indexPath.row] ?? NotificationList.baseList)
+            cell.configureCell(list: viewModel.notificationLists[indexPath.row] ?? NotificationList.baseList)
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines
             return cell
+        }
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == notificationTableView {
+            if viewModel.notificationLists.count > 15 && (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+                let lastNotificationId = viewModel.notificationList.last??.notificationId ?? -1
+                viewModel.cursor = lastNotificationId
+                bindViewModel()
+                DispatchQueue.main.async {
+                    self.notificationTableView.reloadData()
+                }
+            }
         }
     }
 }
