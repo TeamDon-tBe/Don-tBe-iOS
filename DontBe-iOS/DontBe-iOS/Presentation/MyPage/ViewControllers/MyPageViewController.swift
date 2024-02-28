@@ -628,6 +628,8 @@ extension MyPageViewController: DontBePopupDelegate {
                                   userNickname: loadUserData()?.userNickname ?? "",
                                   memberId: loadUserData()?.memberId ?? 0,
                                   userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+        
+            OnboardingViewController.pushCount = 0
         } else {
             self.dismiss(animated: false)
             Task {
