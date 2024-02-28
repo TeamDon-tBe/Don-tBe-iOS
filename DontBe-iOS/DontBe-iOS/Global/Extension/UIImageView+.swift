@@ -16,6 +16,7 @@ extension UIImageView {
                         DispatchQueue.main.async {
                             self?.image = image
                             self?.layer.cornerRadius = (self?.frame.size.width ?? 0) / 2.adjusted
+                            self?.contentMode = .scaleAspectFill
                             self?.clipsToBounds = true
                         }
                     }

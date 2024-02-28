@@ -73,10 +73,6 @@ final class PostDetailViewController: UIViewController {
         setTextFieldGesture()
         setRefreshControll()
         setLayout()
-        refreshPostDidDrag()
-        // setNotification()
-        getAPI()
-        refreshControl.beginRefreshing()
     }
     
     init(viewModel: PostDetailViewModel) {
@@ -107,6 +103,7 @@ final class PostDetailViewController: UIViewController {
             $0.height.equalTo(56.adjusted)
         }
         
+        getAPI()
         setAppearNotification()
     }
     
@@ -176,7 +173,6 @@ extension PostDetailViewController {
     @objc func didDismissDetailNotification(_ notification: Notification) {
         DispatchQueue.main.async {
             self.getAPI()
-            self.postReplyCollectionView.reloadData()
         }
     }
     
@@ -504,6 +500,7 @@ extension PostDetailViewController {
         viewController.contentId = self.contentId
         viewController.userNickname = self.userNickName
         viewController.userContent = self.contentText
+        viewController.userProfileImage = self.postView.profileImageView.image ?? ImageLiterals.Common.imgProfile
         present(navigationController, animated: true, completion: nil)
     }
     
@@ -557,8 +554,7 @@ extension PostDetailViewController {
         
         self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
         self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
-        self.postView
-            .postNicknameLabel.text = data.memberNickname
+        self.postView.postNicknameLabel.text = data.memberNickname
         self.postUserNickname = "\(data.memberNickname)"
         self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
@@ -710,6 +706,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             header.isLiked = self.postView.isLiked
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
+            header.profileImageView.image = self.postView.profileImageView.image
             
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)

@@ -22,7 +22,7 @@ final class WriteReplyEditorView: UIView {
     
     private let userProfileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.load(url: StringLiterals.Network.baseImageURL)
+        imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()

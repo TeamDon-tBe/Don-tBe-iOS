@@ -108,6 +108,10 @@ final class MyPageViewController: UIViewController {
         bindViewModel()
         setNotification()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            self.refreshData()
+        }
+        
         let image = ImageLiterals.MyPage.icnMenu
         let renderedImage = image.withRenderingMode(.alwaysOriginal)
         
@@ -370,6 +374,14 @@ extension MyPageViewController {
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+            
+            saveUserData(UserInfo(isSocialLogined: true,
+                                  isFirstUser: false,
+                                  isJoinedApp: true,
+                                  isOnboardingFinished: true,
+                                  userNickname: data.nickname,
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: data.memberProfileUrl))
         }
     }
     
@@ -413,6 +425,7 @@ extension MyPageViewController {
     private func profileEditButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
         let vc = MyPageEditProfileViewController(viewModel: MyPageProfileViewModel(networkProvider: NetworkService()))
+        vc.memberId = self.memberId
         vc.nickname = self.rootView.myPageProfileView.userNickname.text ?? ""
         vc.introText = self.rootView.myPageProfileView.userIntroduction.text ?? ""
         self.navigationController?.pushViewController(vc, animated: false)
@@ -613,7 +626,8 @@ extension MyPageViewController: DontBePopupDelegate {
                                   isJoinedApp: true,
                                   isOnboardingFinished: true,
                                   userNickname: loadUserData()?.userNickname ?? "",
-                                  memberId: loadUserData()?.memberId ?? 0))
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
         
             OnboardingViewController.pushCount = 0
         } else {

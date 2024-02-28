@@ -163,4 +163,8 @@ enum StringLiterals {
         static let warnUserGoogleFormURL = "https://forms.gle/FTgZKkajwtzFvAk99"
         static let errorMessage = "이런!\n현재 요청하신 페이지를 찾을 수 없어요!"
     }
+    
+    enum Camera {
+        static let photoNoAuth = "Don't Be 앱에 사진 권한이 없습니다.\n설정으로 이동하여 권한 설정을 해주세요."
+    }
 }

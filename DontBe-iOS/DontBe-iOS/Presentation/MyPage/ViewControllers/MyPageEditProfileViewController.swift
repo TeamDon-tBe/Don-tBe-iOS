@@ -5,7 +5,10 @@
 //  Created by 변상우 on 1/12/24.
 //
 
+import Combine
 import UIKit
+import Photos
+import PhotosUI
 
 import SnapKit
 
@@ -23,12 +26,13 @@ final class MyPageEditProfileViewController: UIViewController {
         return self.nicknameEditView.nickNameTextField.text ?? ""
     }.eraseToAnyPublisher()
     private lazy var postButtonTapped = self.introductionEditView.postActiveButton.publisher(for: .touchUpInside).map { _ in
-        return UserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
-                                     is_alarm_allowed: true,
-                                     member_intro: self.introductionEditView.contentTextView.text ?? "",
-                                     profile_url: StringLiterals.Network.baseImageURL)
+        return EditUserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
+                                         is_alarm_allowed: true,
+                                         member_intro: self.introductionEditView.contentTextView.text ?? "",
+                                         profile_image: self.nicknameEditView.profileImage.image ?? ImageLiterals.Common.imgProfile)
     }.eraseToAnyPublisher()
     
+    var memberId: Int = 0
     var isTrue: Bool = true
     var nickname: String = ""
     var introText: String = ""
@@ -51,7 +55,8 @@ final class MyPageEditProfileViewController: UIViewController {
         setUI()
         setHierarchy()
         setLayout()
-        bindViewModel()
+        setDelegate()
+        setAddTarget()
     }
     
     init(viewModel: MyPageProfileViewModel) {
@@ -75,15 +80,17 @@ final class MyPageEditProfileViewController: UIViewController {
         let backButton = UIBarButtonItem.backButton(target: self, action: #selector(navBackButtonTapped))
         self.navigationItem.leftBarButtonItem = backButton
         
+        self.nicknameEditView.nickNameTextField.text = nickname
+        self.nicknameEditView.numOfLetters.text = "(\(nickname.count)/12)"
+        
         if introText == "" {
             self.introductionEditView.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
         } else {
-            self.nicknameEditView.nickNameTextField.text = nickname
             self.introductionEditView.contentTextView.text = introText
-            self.nicknameEditView.numOfLetters.text = "(\(nickname.count)/12)"
             self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
         }
-        setDelegate()
+        setNotification()
+        bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -119,17 +126,36 @@ extension MyPageEditProfileViewController {
         introductionEditView.snp.makeConstraints {
             $0.top.equalTo(nicknameEditView.duplicationCheckDescription.snp.bottom).offset(16.adjustedH)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
     }
     
     private func setDelegate() {
+        
+    }
+    
+    private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(textFieldTisEmpty), name: UITextField.textDidChangeNotification, object: nil)
     }
     
+    private func setAddTarget() {
+        self.nicknameEditView.plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+    }
+    
     private func bindViewModel() {
-        let input = MyPageProfileViewModel.Input(backButtonTapped: backButtonTapped, duplicationCheckButtonTapped: duplicationCheckButtonTapped, finishButtonTapped: postButtonTapped)
+        let input = MyPageProfileViewModel.Input(viewWillAppear: Just((self.memberId)).eraseToAnyPublisher(),
+                                                 backButtonTapped: backButtonTapped,
+                                                 duplicationCheckButtonTapped: duplicationCheckButtonTapped,
+                                                 finishButtonTapped: postButtonTapped)
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.getProfileData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                DispatchQueue.main.async {
+                    self.nicknameEditView.profileImage.load(url: data)
+                }
+            }
+            .store(in: self.cancelBag)
         
         output.popViewController
             .receive(on: RunLoop.main)
@@ -161,6 +187,16 @@ extension MyPageEditProfileViewController {
             .store(in: self.cancelBag)
     }
     
+    private func presentPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images // 이미지만 필터링
+        configuration.selectionLimit = 1 // 선택 제한
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
     @objc
     private func textFieldTisEmpty() {
         self.introductionEditView.postButton.isHidden = false
@@ -170,5 +206,62 @@ extension MyPageEditProfileViewController {
     @objc
     private func navBackButtonTapped() {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc
+    private func plusButtonTapped() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        
+        switch status {
+        case .authorized, .limited:
+            presentPicker()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.presentPicker()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            authSettingOpen()
+        default:
+            break
+        }
+    }
+    
+    func authSettingOpen() {
+        let message = StringLiterals.Camera.photoNoAuth
+        
+        let alert = UIAlertController(title: "설정", message: message, preferredStyle: .alert)
+        
+        let cancle = UIAlertAction(title: "닫기", style: .default)
+        
+        let confirm = UIAlertAction(title: "권한설정하기", style: .default) { (UIAlertAction) in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
+        
+        alert.addAction(cancle)
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension MyPageEditProfileViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+        
+        guard let selectedImage = results.first else { return }
+        
+        selectedImage.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+            DispatchQueue.main.async {
+                if let image = image as? UIImage {
+                    self.nicknameEditView.profileImage.image = image
+                } else if let error = error {
+                    print(error)
+                }
+            }
+        }
     }
 }
