@@ -24,6 +24,7 @@ final class WriteReplyViewController: UIViewController {
     var contentId: Int = 0
     var tabBarHeight: CGFloat = 0
     var userNickname: String = ""
+    var userProfileImage: UIImage = ImageLiterals.Common.imgProfile
     var userContent: String = ""
     
     // MARK: - UI Components
@@ -54,9 +55,6 @@ final class WriteReplyViewController: UIViewController {
         setUI()
         setBottomSheet()
         setNavigationBarButtonItem()
-        
-        writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
-        writeView.writeReplyPostview.contentTextLabel.text = self.userContent
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,6 +83,10 @@ extension WriteReplyViewController {
         writeView.backgroundColor = .donWhite
         title = "답글달기"
         cancelReplyPopupVC.modalPresentationStyle = .overFullScreen
+        
+        writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
+        writeView.writeReplyPostview.contentTextLabel.text = self.userContent
+        writeView.writeReplyPostview.profileImageView.image = self.userProfileImage
     }
     
     private func sendData() {

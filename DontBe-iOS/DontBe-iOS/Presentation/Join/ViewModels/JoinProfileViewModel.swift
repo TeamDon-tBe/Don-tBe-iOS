@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 final class JoinProfileViewModel: ViewModelType {
     
@@ -27,7 +28,7 @@ final class JoinProfileViewModel: ViewModelType {
     struct Input {
         let backButtonTapped: AnyPublisher<Void, Never>
         let duplicationCheckButtonTapped: AnyPublisher<String, Never>
-        let finishButtonTapped: AnyPublisher<String, Never>
+        let finishButtonTapped: AnyPublisher<EditUserProfileRequestDTO, Never>
     }
     
     struct Output {
@@ -64,21 +65,20 @@ final class JoinProfileViewModel: ViewModelType {
             .sink { value in
                 // 회원가입 서버통신
                 Task {
-                    do {
-                        let statusCode = try await self.patchUserInfoAPI(nickname: value)?.status
-                        if statusCode == 200 {
-                            self.pushOrPopViewController.send(1)
-                        }
-                    } catch {
-                        print(error)
-                    }
+                    self.patchUserInfoDataAPI(nickname: value.nickname,
+                                              isAlarmAllowed: value.is_alarm_allowed,
+                                              memberIntro: value.member_intro,
+                                              profileImage: value.profile_image)
+                    
+                    self.pushOrPopViewController.send(1)
                 }
                 saveUserData(UserInfo(isSocialLogined: true,
                                       isFirstUser: true,
                                       isJoinedApp: true,
                                       isOnboardingFinished: false,
-                                      userNickname: value,
-                                      memberId: loadUserData()?.memberId ?? 0))
+                                      userNickname: value.nickname,
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             }
             .store(in: self.cancelBag)
         
@@ -123,6 +123,67 @@ extension JoinProfileViewModel {
         } catch {
             return nil
         }
+    }
+    
+    func patchUserInfoDataAPI(nickname: String, isAlarmAllowed: Bool, memberIntro: String, profileImage: UIImage) {
+        guard let url = URL(string: Config.baseURL + "/user-profile2") else { return }
+        guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return }
+        
+        let imageData = profileImage.jpegData(compressionQuality: 0.5)!
+        
+        let parameters: [String: Any] = [
+            "nickname": nickname,
+            "isAlarmAllowed": isAlarmAllowed,
+            "memberIntro": memberIntro
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        
+        // Multipart form data 생성
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        var requestBodyData = Data()
+        
+        // 프로필 정보 추가
+        requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Disposition: form-data; name=\"info\"\r\n\r\n".data(using: .utf8)!)
+        requestBodyData.append(try! JSONSerialization.data(withJSONObject: parameters, options: []))
+        requestBodyData.append("\r\n".data(using: .utf8)!)
+        
+        // 프로필 이미지 데이터 추가
+        requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Disposition: form-data; name=\"file\"; filename=\"dontbe.jpeg\"\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
+        requestBodyData.append(imageData)
+        requestBodyData.append("\r\n".data(using: .utf8)!)
+        
+        requestBodyData.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        // HTTP body에 데이터 설정
+        request.httpBody = requestBodyData
+        
+        // URLSession으로 요청 보내기
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error:", error)
+                return
+            }
+            
+            // 응답 처리
+            if let response = response as? HTTPURLResponse {
+                print(response)
+                print("Response status code:", response.statusCode)
+            }
+            
+            if let data = data {
+                // 서버 응답 데이터 처리
+                print("Response data:", String(data: data, encoding: .utf8) ?? "Empty response")
+            }
+        }
+        task.resume()
     }
 }
 

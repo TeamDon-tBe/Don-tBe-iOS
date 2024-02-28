@@ -79,7 +79,6 @@ final class HomeViewController: UIViewController {
         setLayout()
         setDelegate()
         setAddTarget()
-        bindViewModel()
         setRefreshControl()
     }
     
@@ -225,7 +224,6 @@ extension HomeViewController {
         DispatchQueue.main.async {
             self.bindViewModel()
         }
-        self.homeCollectionView.reloadData()
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
     }
     
@@ -528,14 +526,13 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         
-        cell.profileImageView.load(url: homeViewModel.postData[indexPath.row].memberProfileUrl)
         cell.nicknameLabel.text = homeViewModel.postData[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(homeViewModel.postData[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = homeViewModel.postData[indexPath.row].contentText
         cell.likeNumLabel.text = "\(homeViewModel.postData[indexPath.row].likedNumber)"
         cell.commentNumLabel.text = "\(homeViewModel.postData[indexPath.row].commentNumber)"
         cell.timeLabel.text = "\(homeViewModel.postData[indexPath.row].time.formattedTime())"
-        cell.profileImageView.load(url: "\(homeViewModel.postData[indexPath.row].memberProfileUrl)")
+        cell.profileImageView.load(url: "\(self.homeViewModel.postData[indexPath.row].memberProfileUrl)")
         cell.likeButton.setImage(homeViewModel.postData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = self.homeViewModel.postData[indexPath.row].isLiked
         cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)

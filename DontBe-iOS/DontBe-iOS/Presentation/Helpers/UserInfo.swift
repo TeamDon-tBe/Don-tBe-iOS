@@ -14,6 +14,7 @@ struct UserInfo: Codable {
     let isOnboardingFinished: Bool
     let userNickname: String
     let memberId: Int
+    let userProfileImage: String
 }
 
 // 구조체를 UserDefault에 저장하는 함수

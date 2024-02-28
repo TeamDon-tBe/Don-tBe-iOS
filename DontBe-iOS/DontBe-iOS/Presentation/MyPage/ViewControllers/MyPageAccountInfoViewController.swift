@@ -236,7 +236,8 @@ extension MyPageAccountInfoViewController {
                                               isJoinedApp: true,
                                               isOnboardingFinished: true,
                                               userNickname: loadUserData()?.userNickname ?? "",
-                                              memberId: loadUserData()?.memberId ?? 0))
+                                              memberId: loadUserData()?.memberId ?? 0,
+                                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
                         
                         OnboardingViewController.pushCount = 0
                     }

@@ -25,9 +25,10 @@ final class OnboardingEndingView: UIView {
         return title
     }()
     
-    private let profileImage: UIImageView = {
+    let profileImage: UIImageView = {
         let profile = UIImageView()
-        profile.image = ImageLiterals.Common.imgProfile
+        profile.contentMode = .scaleAspectFill
+        profile.layer.cornerRadius = profile.frame.width / 2
         return profile
     }()
     
