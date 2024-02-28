@@ -20,4 +20,5 @@ struct PostReplyResponseDTO: Decodable {
     let commentLikedNumber: Int
     let commentText: String
     let time: String
+    let isDeleted: Bool
 }
