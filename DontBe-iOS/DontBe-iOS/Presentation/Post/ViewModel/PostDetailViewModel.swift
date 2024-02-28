@@ -16,6 +16,7 @@ final class PostDetailViewModel: ViewModelType {
     private let toggleLikeButton = PassthroughSubject<Bool, Never>()
     var isLikeButtonClicked: Bool = false
     private var getPostReplyData = PassthroughSubject<[PostReplyResponseDTO], Never>()
+    private let clickedRadioButtonState = PassthroughSubject<Int, Never>()
     
     private let toggleCommentLikeButton = PassthroughSubject<Bool, Never>()
     var isCommentLikeButtonClicked: Bool = false
@@ -23,11 +24,24 @@ final class PostDetailViewModel: ViewModelType {
     var postDetailData: [String] = []
     var postReplyData: [PostReplyResponseDTO] = []
     
+    private var isFirstReasonChecked = false
+    private var isSecondReasonChecked = false
+    private var isThirdReasonChecked = false
+    private var isFourthReasonChecked = false
+    private var isFifthReasonChecked = false
+    private var isSixthReasonChecked = false
+    
     struct Input {
         let viewUpdate: AnyPublisher<Int, Never>?
         let likeButtonTapped: AnyPublisher<(Bool, Int), Never>?
         let collectionViewUpdata: AnyPublisher<Int, Never>?
         let commentLikeButtonTapped: AnyPublisher<(Bool, Int, String), Never>?
+        let firstReasonButtonTapped: AnyPublisher<Void, Never>?
+        let secondReasonButtonTapped: AnyPublisher<Void, Never>?
+        let thirdReasonButtonTapped: AnyPublisher<Void, Never>?
+        let fourthReasonButtonTapped: AnyPublisher<Void, Never>?
+        let fifthReasonButtonTapped: AnyPublisher<Void, Never>?
+        let sixthReasonButtonTapped: AnyPublisher<Void, Never>?
     }
     
     struct Output {
@@ -35,7 +49,7 @@ final class PostDetailViewModel: ViewModelType {
         let toggleLikeButton: PassthroughSubject<Bool, Never>
         let getPostReplyData: PassthroughSubject<[PostReplyResponseDTO], Never>
         let toggleCommentLikeButton: PassthroughSubject<Bool, Never>
-
+        let clickedButtonState: PassthroughSubject<Int, Never>
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
@@ -120,7 +134,53 @@ final class PostDetailViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        return Output(getPostData: getPostData, toggleLikeButton: toggleLikeButton, getPostReplyData: getPostReplyData, toggleCommentLikeButton: toggleCommentLikeButton)
+        input.firstReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isFirstReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(1)
+            }
+            .store(in: cancelBag)
+        
+        input.secondReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isSecondReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(2)
+            }
+            .store(in: cancelBag)
+        
+        input.thirdReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isThirdReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(3)
+            }
+            .store(in: cancelBag)
+        
+        input.fourthReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isFourthReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(4)
+            }
+            .store(in: cancelBag)
+        
+        input.fifthReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isFifthReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(5)
+            }
+            .store(in: cancelBag)
+        
+        input.sixthReasonButtonTapped?
+            .sink { [weak self] _ in
+                self?.isSixthReasonChecked.toggle()
+                self?.clickedRadioButtonState.send(6)
+            }
+            .store(in: cancelBag)
+        
+        return Output(getPostData: getPostData,
+                      toggleLikeButton: toggleLikeButton,
+                      getPostReplyData: getPostReplyData,
+                      toggleCommentLikeButton: toggleCommentLikeButton,
+                      clickedButtonState: clickedRadioButtonState)
     }
     
     
@@ -160,16 +220,17 @@ extension PostDetailViewModel {
         }
     }
     
-    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int) async throws -> BaseResponse<EmptyResponse>? {
+    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int, ghostReason: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(type: .post,
-                                            baseURL: Config.baseURL + "/ghost",
+                                            baseURL: Config.baseURL + "/ghost2",
                                             accessToken: accessToken,
                                             body: PostTransparencyRequestDTO(
                                                 alarmTriggerType: alarmTriggerType,
                                                 targetMemberId: targetMemberId,
-                                                alarmTriggerId: alarmTriggerId
+                                                alarmTriggerId: alarmTriggerId,
+                                                ghostReason: ghostReason
                                             ),
                                             pathVariables: ["":""])
             return result

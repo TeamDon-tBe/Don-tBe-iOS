@@ -21,8 +21,10 @@ final class HomeViewController: UIViewController {
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
+    var ghostReason: String = ""
     
     var transparentPopupVC = TransparentPopupViewController()
+    var transparentReasonView = DontBePopupReasonView()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
 
     let refreshControl = UIRefreshControl()
@@ -30,6 +32,13 @@ final class HomeViewController: UIViewController {
     private var cancelBag = CancelBag()
     private let homeViewModel: HomeViewModel
     let postViewModel = PostDetailViewModel(networkProvider: NetworkService())
+    
+    private lazy var firstReason = self.transparentReasonView.firstReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var secondReason = self.transparentReasonView.secondReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var thirdReason = self.transparentReasonView.thirdReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var fourthReason = self.transparentReasonView.fourthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var fifthReason = self.transparentReasonView.fifthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
+    private lazy var sixthReason = self.transparentReasonView.sixthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     
@@ -188,6 +197,7 @@ extension HomeViewController {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
         transparentPopupVC.transparentButtonPopupView.delegate = self
+        transparentReasonView.delegate = self
     }
     
     private func setNotification() {
@@ -330,7 +340,15 @@ extension HomeViewController {
 
 extension HomeViewController {
     private func bindViewModel() {
-        let input = HomeViewModel.Input(viewUpdate: Just(()).eraseToAnyPublisher(), likeButtonTapped: nil)
+        let input = HomeViewModel.Input(
+            viewUpdate: Just(()).eraseToAnyPublisher(),
+            likeButtonTapped: nil,
+            firstReasonButtonTapped: firstReason,
+            secondReasonButtonTapped: secondReason,
+            thirdReasonButtonTapped: thirdReason,
+            fourthReasonButtonTapped: fourthReason,
+            fifthReasonButtonTapped: fifthReason,
+            sixthReasonButtonTapped: sixthReason)
         
         let output = homeViewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -338,6 +356,68 @@ extension HomeViewController {
             .receive(on: RunLoop.main)
             .sink { _ in
                 self.homeCollectionView.reloadData()
+            }
+            .store(in: self.cancelBag)
+        
+        output.clickedButtonState
+            .sink { [weak self] index in
+                guard let self = self else { return }
+                let radioSelectedButtonImage = ImageLiterals.TransparencyInfo.btnRadioSelected
+                let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+                self.transparentReasonView.warnLabel.isHidden = true
+                
+                switch index {
+                case 1:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.firstReasonView.reasonLabel.text ?? ""
+                case 2:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.secondReasonView.reasonLabel.text ?? ""
+                case 3:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.thirdReasonView.reasonLabel.text ?? ""
+                case 4:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.fourthReasonView.reasonLabel.text ?? ""
+                case 5:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.fifthReasonView.reasonLabel.text ?? ""
+                case 6:
+                    self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.transparentReasonView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    ghostReason = self.transparentReasonView.sixthReasonView.reasonLabel.text ?? ""
+                default:
+                    break
+                }
             }
             .store(in: self.cancelBag)
     }
@@ -349,7 +429,15 @@ extension HomeViewController {
                 .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
                 .eraseToAnyPublisher()
 
-        let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
+        let input = HomeViewModel.Input(
+            viewUpdate: nil,
+            likeButtonTapped: likeButtonTapped,
+            firstReasonButtonTapped: firstReason,
+            secondReasonButtonTapped: secondReason,
+            thirdReasonButtonTapped: thirdReason,
+            fourthReasonButtonTapped: fourthReason,
+            fifthReasonButtonTapped: fifthReason,
+            sixthReasonButtonTapped: sixthReason)
 
         let output = self.homeViewModel.transform(from: input, cancelBag: self.cancelBag)
 
@@ -465,6 +553,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
         destinationViewController.contentId = homeViewModel.postData[indexPath.row].contentId
+        destinationViewController.memberId = homeViewModel.postData[indexPath.row].memberId
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
@@ -486,21 +575,56 @@ extension HomeViewController: DontBePopupDelegate {
     
     func confirmButtonTapped() {
         self.dismiss(animated: false)
-        Task {
-            do {
-                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                    let result = try await self.homeViewModel.postDownTransparency(accessToken: accessToken,
-                                                                               alarmTriggerType: self.alarmTriggerType,
-                                                                               targetMemberId: self.targetMemberId,
-                                                                               alarmTriggerId: self.alarmTriggerdId)
-                    refreshCollectionViewDidDrag()
-                    if result?.status == 400 {
-                        // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
-                        showAlreadyTransparencyToast()
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(transparentReasonView)
+            
+            transparentReasonView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+            
+            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.warnLabel.isHidden = true
+            self.ghostReason = ""
+        }
+    }
+}
+
+extension HomeViewController: DontBePopupReasonDelegate {
+    func reasonCancelButtonTapped() {
+        transparentReasonView.removeFromSuperview()
+    }
+    
+    func reasonConfirmButtonTapped() {
+        if self.ghostReason == "" {
+            self.transparentReasonView.warnLabel.isHidden = false
+        } else {
+            transparentReasonView.removeFromSuperview()
+            
+            Task {
+                do {
+                    if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                        let result = try await self.homeViewModel.postDownTransparency(accessToken: accessToken,
+                                                                                       alarmTriggerType: self.alarmTriggerType,
+                                                                                       targetMemberId: self.targetMemberId,
+                                                                                       alarmTriggerId: self.alarmTriggerdId,
+                                                                                       ghostReason: self.ghostReason)
+                        refreshCollectionViewDidDrag()
+                        if result?.status == 400 {
+                            // 이미 투명도를 누른 대상인 경우, 토스트 메시지 보여주기
+                            showAlreadyTransparencyToast()
+                        }
                     }
+                } catch {
+                    print(error)
                 }
-            } catch {
-                print(error)
             }
         }
     }

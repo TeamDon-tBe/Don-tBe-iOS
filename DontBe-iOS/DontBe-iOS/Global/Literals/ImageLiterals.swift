@@ -114,6 +114,8 @@ enum ImageLiterals {
         static var imgTransparencyInfo4: UIImage { .load(name: "img_transparenc_info4") }
         static var imgTransparencyInfo5: UIImage { .load(name: "img_transparenc_info5") }
         static var btnClose: UIImage { .load(name: "btn_close") }
+        static var btnRadioSelected: UIImage { .load(name: "btn_radio_selected") }
+        static var btnRadio: UIImage { .load(name: "btn_radio") }
     }
 
     enum Popup {
