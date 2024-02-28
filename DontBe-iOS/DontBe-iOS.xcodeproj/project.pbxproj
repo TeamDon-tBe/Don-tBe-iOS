@@ -101,6 +101,8 @@
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
+		3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */; };
+		3C1ABD852B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
 		3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FE2B3AA01700369C99 /* ExampleView.swift */; };
 		3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */; };
@@ -248,6 +250,8 @@
 		2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataResponseDTO.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
+		3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupReasonView.swift; sourceTree = "<group>"; };
+		3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupReasonListCustomView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		3C2854FE2B3AA01700369C99 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1050,6 +1054,8 @@
 			children = (
 				2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */,
 				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
+				3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */,
+				3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */,
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 				2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */,
 				3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */,
@@ -1253,6 +1259,7 @@
 				2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */,
 				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
+				3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
@@ -1324,6 +1331,7 @@
 				2F8FFA8D2B5942490060FB46 /* PostDetailCollectionHeaderView.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
+				3C1ABD852B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
 				2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */,
 				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,
