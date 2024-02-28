@@ -19,7 +19,7 @@ final class MyPageAccountInfoViewModel: ViewModelType {
     
     struct Input {
         let viewAppear: AnyPublisher<Void, Never>?
-        let signOutButtonTapped: AnyPublisher<Void, Never>?
+        let signOutButtonTapped: AnyPublisher<String, Never>?
     }
     
     struct Output {
@@ -47,11 +47,11 @@ final class MyPageAccountInfoViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         input.signOutButtonTapped?
-            .sink { _ in
+            .sink { deletedReason in
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                            if let result = try await self.deleteMemberAPI(accessToken: accessToken) {
+                            if let result = try await self.deleteMemberAPI(accessToken: accessToken, deletedReason: deletedReason) {
                                 self.isSignOutResult.send(result.status)
                             }
                         }
@@ -90,13 +90,16 @@ extension MyPageAccountInfoViewModel {
         }
     }
     
-    private func deleteMemberAPI(accessToken: String) async throws -> BaseResponse<[EmptyResponse]>? {
+    private func deleteMemberAPI(accessToken: String, deletedReason: String) async throws -> BaseResponse<[EmptyResponse]>? {
+        
+        let requestDTO = MyPageMemberDeleteDTO(deleted_reason: deletedReason)
+        
         do {
             let result: BaseResponse<[EmptyResponse]>? = try await self.networkProvider.donNetwork(
-                type: .delete,
-                baseURL: Config.baseURL + "/test-withdrawal",
+                type: .patch,
+                baseURL: Config.baseURL + "/withdrawal",
                 accessToken: accessToken,
-                body: EmptyBody(),
+                body: requestDTO,
                 pathVariables:["":""])
             return result
         } catch {
