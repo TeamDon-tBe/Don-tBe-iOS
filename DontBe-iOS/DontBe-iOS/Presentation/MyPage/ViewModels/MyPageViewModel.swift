@@ -21,6 +21,8 @@ final class MyPageViewModel: ViewModelType {
     var myPageContentData: [MyPageMemberContentResponseDTO] = []
     var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
     private var memberId: Int = 0
+    var contentCursor: Int = -1
+    var commentCursor: Int = -1
     
     struct Input {
         let viewUpdate: AnyPublisher<(Int,Int), Never>
@@ -118,10 +120,10 @@ extension MyPageViewModel {
         do {
             let result: BaseResponse<[MyPageMemberContentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/member/\(memberId)/contents",
+                baseURL: Config.baseURL + "/member/\(memberId)/member-contents",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables:["":""])
+                pathVariables:["cursor":"\(contentCursor)"])
             return result
         } catch {
             return nil
@@ -132,10 +134,10 @@ extension MyPageViewModel {
         do {
             let result: BaseResponse<[MyPageMemberCommentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/member/\(memberId)/comments",
+                baseURL: Config.baseURL + "/member/\(memberId)/member-comments",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables:["":""])
+                pathVariables:["cursor":"\(commentCursor)"])
             return result
         } catch {
             return nil
