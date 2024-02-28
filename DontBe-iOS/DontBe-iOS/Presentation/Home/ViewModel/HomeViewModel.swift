@@ -146,16 +146,17 @@ extension HomeViewModel {
         }
     }
   
-    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int) async throws -> BaseResponse<EmptyResponse>? {
+    func postDownTransparency(accessToken: String, alarmTriggerType: String, targetMemberId: Int, alarmTriggerId: Int, ghostReason: String) async throws -> BaseResponse<EmptyResponse>? {
         do {
             let result: BaseResponse<EmptyResponse>? = try await
             self.networkProvider.donNetwork(type: .post,
-                                            baseURL: Config.baseURL + "/ghost",
+                                            baseURL: Config.baseURL + "/ghost2",
                                             accessToken: accessToken,
                                             body: PostTransparencyRequestDTO(
                                                 alarmTriggerType: alarmTriggerType,
                                                 targetMemberId: targetMemberId,
-                                                alarmTriggerId: alarmTriggerId
+                                                alarmTriggerId: alarmTriggerId,
+                                                ghostReason: ghostReason
                                             ),
                                             pathVariables: ["":""])
             return result
