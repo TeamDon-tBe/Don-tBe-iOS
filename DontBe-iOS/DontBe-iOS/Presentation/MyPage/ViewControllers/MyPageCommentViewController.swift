@@ -198,7 +198,16 @@ extension MyPageCommentViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+        let input = PostDetailViewModel.Input(viewUpdate: nil,
+                                              likeButtonTapped: nil,
+                                              collectionViewUpdata: nil,
+                                              commentLikeButtonTapped: commentLikedButtonTapped,
+                                              firstReasonButtonTapped: nil,
+                                              secondReasonButtonTapped: nil,
+                                              thirdReasonButtonTapped: nil,
+                                              fourthReasonButtonTapped: nil,
+                                              fifthReasonButtonTapped: nil,
+                                              sixthReasonButtonTapped: nil)
         
         let output = self.postViewModel.transform(from: input, cancelBag: self.cancelBag)
         
