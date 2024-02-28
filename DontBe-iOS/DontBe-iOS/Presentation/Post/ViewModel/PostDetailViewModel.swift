@@ -23,6 +23,7 @@ final class PostDetailViewModel: ViewModelType {
     
     var postDetailData: [String] = []
     var postReplyData: [PostReplyResponseDTO] = []
+    var postReplyDatas: [PostReplyResponseDTO] = []
     
     struct Input {
         let viewUpdate: AnyPublisher<Int, Never>?
@@ -82,7 +83,7 @@ final class PostDetailViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         input.collectionViewUpdata?
-            .sink { value in
+            .sink { [self] value in
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
@@ -92,6 +93,7 @@ final class PostDetailViewModel: ViewModelType {
                                 self.postReplyData = data
                                 self.getPostReplyData.send(data)
                             }
+                            postReplyDatas.append(contentsOf: postReplyData)
                         }
                     } catch {
                         print(error)
