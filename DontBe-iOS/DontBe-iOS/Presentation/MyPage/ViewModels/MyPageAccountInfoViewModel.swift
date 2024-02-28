@@ -18,8 +18,8 @@ final class MyPageAccountInfoViewModel: ViewModelType {
     var myPageMemberData: [String] = []
     
     struct Input {
-        let viewAppear: AnyPublisher<Void, Never>
-        let signOutButtonTapped: AnyPublisher<Void, Never>
+        let viewAppear: AnyPublisher<Void, Never>?
+        let signOutButtonTapped: AnyPublisher<Void, Never>?
     }
     
     struct Output {
@@ -28,7 +28,7 @@ final class MyPageAccountInfoViewModel: ViewModelType {
     }
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
-        input.viewAppear
+        input.viewAppear?
             .sink { _ in
                 Task {
                     do {
@@ -46,7 +46,7 @@ final class MyPageAccountInfoViewModel: ViewModelType {
             }
             .store(in: self.cancelBag)
         
-        input.signOutButtonTapped
+        input.signOutButtonTapped?
             .sink { _ in
                 Task {
                     do {
