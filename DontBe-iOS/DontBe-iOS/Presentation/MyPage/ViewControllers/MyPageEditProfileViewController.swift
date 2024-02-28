@@ -231,7 +231,7 @@ extension MyPageEditProfileViewController {
     }
     
     func authSettingOpen() {
-        let message = "Don't Be 앱에 사진 권한이 없습니다.\n설정으로 이동하여 권한 설정을 해주세요."
+        let message = StringLiterals.Camera.photoNoAuth
         
         let alert = UIAlertController(title: "설정", message: message, preferredStyle: .alert)
         
