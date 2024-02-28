@@ -184,6 +184,7 @@ extension MyPageSignOutViewController {
     @objc
     private func continueButtonTapped() {
         let vc = MyPageSignOutConfirmViewController(viewModel: MyPageAccountInfoViewModel(networkProvider: NetworkService()))
+        vc.signOutReason = self.signOutReason
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
