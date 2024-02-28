@@ -19,6 +19,7 @@ final class PostDetailViewModel: ViewModelType {
     
     private let toggleCommentLikeButton = PassthroughSubject<Bool, Never>()
     var isCommentLikeButtonClicked: Bool = false
+    var cursor: Int = -1
     
     var postDetailData: [String] = []
     var postReplyData: [PostReplyResponseDTO] = []
@@ -150,10 +151,10 @@ extension PostDetailViewModel {
         do {
             let result: BaseResponse<[PostReplyResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/content/\(contentId)/comment/all",
+                                            baseURL: Config.baseURL + "/content/\(contentId)/comments",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
-                                            pathVariables: ["":""])
+                                            pathVariables: ["cursor":"\(cursor)"])
             return result
         } catch {
             return nil
