@@ -146,10 +146,13 @@ final class MyPageViewController: UIViewController {
                                                   action: #selector(otherPageHambergerButtonTapped))
             navigationItem.rightBarButtonItem = hambergerButton
         }
+        
+        self.navigationController?.navigationBar.backgroundColor = .donBlack
+        self.navigationController?.navigationBar.barTintColor = .donBlack
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donWhite]
-        self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.barTintColor = .clear
+        self.navigationItem.hidesBackButton = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -178,8 +181,6 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
-        self.navigationController?.navigationBar.backgroundColor = .donBlack
-        self.navigationController?.navigationBar.barTintColor = .donBlack
         
         transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
@@ -353,7 +354,6 @@ extension MyPageViewController {
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
                 } else {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = false
-                    self.rootView.myPageContentViewController.firstContentButton.isHidden = false
                 }
                 self.rootView.myPageContentViewController.homeCollectionView.reloadData()
             }
@@ -458,9 +458,11 @@ extension MyPageViewController {
         if data.memberId != loadUserData()?.memberId ?? 0 {
             self.rootView.myPageContentViewController.noContentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoContentOtherLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
+            self.rootView.myPageContentViewController.firstContentButton.isHidden = true
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
+            self.rootView.myPageContentViewController.firstContentButton.isHidden = false
             
             saveUserData(UserInfo(isSocialLogined: true,
                                   isFirstUser: false,
