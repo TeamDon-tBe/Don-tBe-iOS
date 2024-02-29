@@ -27,6 +27,7 @@ final class PostReplyTextFieldView: UIView {
     
     let profileImageView: UIImageView = {
         let image = UIImageView()
+        image.image = ImageLiterals.Common.imgProfile
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
