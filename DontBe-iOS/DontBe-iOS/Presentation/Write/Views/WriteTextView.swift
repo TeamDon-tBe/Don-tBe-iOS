@@ -20,6 +20,7 @@ final class WriteTextView: UIView {
     
     let userProfileImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         return imageView
@@ -27,7 +28,8 @@ final class WriteTextView: UIView {
     
     let userNickname: UILabel = {
         let label = UILabel()
-        label.font = UIFont.font(.body1)
+        label.text = loadUserData()?.userNickname ?? ""
+        label.font = UIFont.font(.body3)
         label.textColor = .donBlack
         return label
     }()
