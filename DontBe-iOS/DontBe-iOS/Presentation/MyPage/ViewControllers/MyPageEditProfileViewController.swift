@@ -160,7 +160,7 @@ extension MyPageEditProfileViewController {
         output.popViewController
             .receive(on: RunLoop.main)
             .sink { _ in
-                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: false)
             }
             .store(in: self.cancelBag)
         
@@ -205,7 +205,7 @@ extension MyPageEditProfileViewController {
     
     @objc
     private func navBackButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
     }
     
     @objc

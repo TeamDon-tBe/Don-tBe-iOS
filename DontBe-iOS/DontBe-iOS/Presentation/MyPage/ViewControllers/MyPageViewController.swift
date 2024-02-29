@@ -505,7 +505,7 @@ extension MyPageViewController {
     @objc
     private func goToWriteViewController() {
         let viewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
-        self.navigationController?.pushViewController(viewController, animated: true)
+        self.navigationController?.pushViewController(viewController, animated: false)
     }
     
     @objc
