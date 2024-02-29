@@ -114,7 +114,6 @@ extension WriteTextView {
                 
         if UserDefaults.standard.integer(forKey: "memberGhost") > -85 {
             contentTextView.becomeFirstResponder()
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         }
         // 햅틱 피드백 생성
         impactFeedbackGenerator.prepare()
@@ -148,13 +147,13 @@ extension WriteTextView {
             $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
             $0.leading.equalTo(userNickname.snp.leading)
             $0.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
         keyboardToolbarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
-            $0.bottom.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
         circleProgressBar.snp.makeConstraints {
@@ -174,26 +173,6 @@ extension WriteTextView {
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(60.adjusted)
             $0.height.equalTo(36.adjusted)
-        }
-    }
-    
-    @objc
-    func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            
-            contentTextView.snp.remakeConstraints {
-                $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
-                $0.leading.equalTo(userNickname.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
-            
-            keyboardToolbarView.snp.remakeConstraints {
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(56.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
         }
     }
 }
