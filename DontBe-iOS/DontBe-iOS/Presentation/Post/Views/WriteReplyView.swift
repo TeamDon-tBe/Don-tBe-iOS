@@ -191,6 +191,8 @@ extension WriteReplyView: UITextViewDelegate {
         textView.text = String(textView.text.prefix(maxLength))
         
         if textLength == 0 {
+            let value = Double(textLength) / 500
+            circleProgressBar.value = value
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
@@ -206,11 +208,13 @@ extension WriteReplyView: UITextViewDelegate {
                 let value = Double(textLength) / 500
                 circleProgressBar.value = value
                 postButton.isEnabled = true
+                postButton.backgroundColor = .donPrimary
             } else {
                 limitedCircleProgressBar.alpha = 1
                 circleProgressBar.alpha = 0
                 postButton.isEnabled = false
-                
+                postButton.setTitleColor(.donGray9, for: .normal)
+                postButton.backgroundColor = .donGray3
                 impactFeedbackGenerator.impactOccurred()
             }
         }
