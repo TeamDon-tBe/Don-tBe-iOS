@@ -87,7 +87,7 @@ final class MyPageEditProfileViewController: UIViewController {
             self.introductionEditView.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
         } else {
             self.introductionEditView.contentTextView.text = introText
-            self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
+            self.introductionEditView.numOfLetters.text = "(\(introText.count)/50)"
         }
         setNotification()
         bindViewModel()
