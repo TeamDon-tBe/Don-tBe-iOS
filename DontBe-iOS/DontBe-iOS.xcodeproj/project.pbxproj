@@ -99,6 +99,7 @@
 		2FBBADF62B53EEBD002D6286 /* CancelReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */; };
 		2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */; };
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
+		2FD9276A2B92245B0046193D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD927692B92245B0046193D /* Lottie */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */; };
@@ -321,6 +322,7 @@
 			files = (
 				2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */,
 				2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */,
+				2FD9276A2B92245B0046193D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,6 +1178,7 @@
 			packageProductDependencies = (
 				2AAA845E2B494AC50098A824 /* SnapKit */,
 				2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */,
+				2FD927692B92245B0046193D /* Lottie */,
 			);
 			productName = DontBe;
 			productReference = 3C6192E92B3A719A00220CEB /* DontBe-iOS.app */;
@@ -1208,6 +1211,7 @@
 			packageReferences = (
 				2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 3C6192EA2B3A719A00220CEB /* Products */;
 			projectDirPath = "";
@@ -1624,6 +1628,14 @@
 				minimumVersion = 5.7.0;
 			};
 		};
+		2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1636,6 +1648,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		2FD927692B92245B0046193D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
