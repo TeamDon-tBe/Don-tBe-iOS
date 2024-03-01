@@ -19,16 +19,19 @@ final class MyPageContentViewController: UIViewController {
     static let reloadData = NSNotification.Name("reloadData")
     static let warnUserButtonTapped = NSNotification.Name("warnUserButtonTapped")
     static let ghostButtonTapped = NSNotification.Name("ghostButtonContentTapped")
+    static let reloadContentData = NSNotification.Name("reloadContentData")
     
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     
     private let viewModel: HomeViewModel
+    private let myPageViewModel: MyPageViewModel
     private var cancelBag = CancelBag()
     
     var profileData: [MypageProfileResponseDTO] = []
-    var contentData: [MyPageMemberContentResponseDTO] = []
+    var contentDatas: [MyPageMemberContentResponseDTO] = []
+    // var contentData = MyPageViewModel(networkProvider: NetworkService()).myPageContentDatas
     
     var contentId: Int = 0
     var alarmTriggerType: String = ""
@@ -66,8 +69,9 @@ final class MyPageContentViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(viewModel: HomeViewModel) {
+    init(viewModel: HomeViewModel, myPageViewModel: MyPageViewModel) {
         self.viewModel = viewModel
+        self.myPageViewModel = myPageViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -236,7 +240,7 @@ extension MyPageContentViewController: UICollectionViewDelegate { }
 
 extension MyPageContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.contentData.count
+        return self.contentDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -244,10 +248,10 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         cell.alarmTriggerType = "contentGhost"
-        cell.targetMemberId = contentData[indexPath.row].memberId
-        cell.alarmTriggerdId = contentData[indexPath.row].contentId
+        cell.targetMemberId = contentDatas[indexPath.row].memberId
+        cell.alarmTriggerdId = contentDatas[indexPath.row].contentId
         
-        if contentData[indexPath.row].memberId == loadUserData()?.memberId {
+        if contentDatas[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             self.deleteBottomsheet.warnButton.removeFromSuperview()
@@ -255,7 +259,7 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             cell.KebabButtonAction = {
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deleteButtonTapped), for: .touchUpInside)
-                self.contentId = self.contentData[indexPath.row].contentId
+                self.contentId = self.contentDatas[indexPath.row].contentId
             }
         } else {
             cell.ghostButton.isHidden = false
@@ -265,7 +269,7 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             cell.KebabButtonAction = {
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnButtonTapped), for: .touchUpInside)
-                self.contentId = self.contentData[indexPath.row].contentId
+                self.contentId = self.contentDatas[indexPath.row].contentId
             }
         }
         
@@ -277,11 +281,11 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.contentData[indexPath.row].contentId)
+            self.postLikeButtonAPI(isClicked: cell.isLiked, contentId: self.contentDatas[indexPath.row].contentId)
         }
         
         cell.ProfileButtonAction = {
-            let memberId = self.contentData[indexPath.row].memberId
+            let memberId = self.contentDatas[indexPath.row].memberId
 
             if memberId == loadUserData()?.memberId ?? 0  {
                 self.tabBarController?.selectedIndex = 3
@@ -310,32 +314,45 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
         }
         
-        cell.nicknameLabel.text = contentData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(contentData[indexPath.row].memberGhost)%"
-        cell.timeLabel.text = "\(contentData[indexPath.row].time.formattedTime())"
-        cell.contentTextLabel.text = contentData[indexPath.row].contentText
-        cell.likeNumLabel.text = "\(contentData[indexPath.row].likedNumber)"
-        cell.commentNumLabel.text = "\(contentData[indexPath.row].commentNumber)"
-        cell.profileImageView.load(url: "\(contentData[indexPath.row].memberProfileUrl)")
-        cell.likeButton.setImage(contentData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = contentData[indexPath.row].isLiked
+        cell.nicknameLabel.text = contentDatas[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(contentDatas[indexPath.row].memberGhost)%"
+        cell.timeLabel.text = "\(contentDatas[indexPath.row].time.formattedTime())"
+        cell.contentTextLabel.text = contentDatas[indexPath.row].contentText
+        cell.likeNumLabel.text = "\(contentDatas[indexPath.row].likedNumber)"
+        cell.commentNumLabel.text = "\(contentDatas[indexPath.row].commentNumber)"
+        cell.profileImageView.load(url: "\(contentDatas[indexPath.row].memberProfileUrl)")
+        cell.likeButton.setImage(contentDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = contentDatas[indexPath.row].isLiked
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
-        if contentData[indexPath.row].isGhost {
+        if contentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = contentData[indexPath.row].memberGhost
+            let alpha = contentDatas[indexPath.row].memberGhost
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
-        self.contentId = contentData[indexPath.row].contentId
+        self.contentId = contentDatas[indexPath.row].contentId
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let contentId = contentData[indexPath.row].contentId
+        let contentId = contentDatas[indexPath.row].contentId
         NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId])
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == homeCollectionView {
+            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+                let lastCommentId = contentDatas.last?.contentId ?? -1
+                myPageViewModel.contentCursor = lastCommentId
+                NotificationCenter.default.post(name: MyPageContentViewController.reloadContentData, object: nil, userInfo: ["contentCursor": lastCommentId])
+                DispatchQueue.main.async {
+                     self.homeCollectionView.reloadData()
+                }
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

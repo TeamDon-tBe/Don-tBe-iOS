@@ -18,18 +18,21 @@ final class MyPageCommentViewController: UIViewController {
     static let reloadData = NSNotification.Name("reloadData")
     static let warnUserButtonTapped = NSNotification.Name("warnUserButtonTapped")
     static let ghostButtonTapped = NSNotification.Name("ghostButtonCommentTapped")
+    static let reloadCommentData = NSNotification.Name("reloadCommentData")
     
     var showUploadToastView: Bool = false
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     private let refreshControl = UIRefreshControl()
     
     private let postViewModel: PostDetailViewModel
+    private let myPageViewModel: MyPageViewModel
     let deleteViewModel = DeleteReplyViewModel(networkProvider: NetworkService())
     private var cancelBag = CancelBag()
     
     var profileData: [MypageProfileResponseDTO] = []
-    var commentData: [MyPageMemberCommentResponseDTO] = []
+    var commentDatas: [MyPageMemberCommentResponseDTO] = []
     
+    // var commentData = MyPageViewModel(networkProvider: NetworkService()).myPageCommentData
     var contentId: Int = 0
     var commentId: Int = 0
     var alarmTriggerType: String = ""
@@ -54,8 +57,9 @@ final class MyPageCommentViewController: UIViewController {
     
     // MARK: - Life Cycles
     
-    init(viewModel: PostDetailViewModel) {
+    init(viewModel: PostDetailViewModel, myPageViewModel: MyPageViewModel) {
         self.postViewModel = viewModel
+        self.myPageViewModel = myPageViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -226,7 +230,7 @@ extension MyPageCommentViewController: UICollectionViewDelegate { }
 
 extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return commentData.count
+        return commentDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -234,10 +238,10 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         HomeCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         cell.alarmTriggerType = "commentGhost"
-        cell.targetMemberId = commentData[indexPath.row].memberId
-        cell.alarmTriggerdId = commentData[indexPath.row].commentId
+        cell.targetMemberId = commentDatas[indexPath.row].memberId
+        cell.alarmTriggerdId = commentDatas[indexPath.row].commentId
         
-        if commentData[indexPath.row].memberId == loadUserData()?.memberId {
+        if commentDatas[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             self.deleteBottomsheet.warnButton.removeFromSuperview()
@@ -245,7 +249,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             cell.KebabButtonAction = {
                 self.deleteBottomsheet.showSettings()
                 self.deleteBottomsheet.deleteButton.addTarget(self, action: #selector(self.deleteButtonTapped), for: .touchUpInside)
-                self.commentId = self.commentData[indexPath.row].commentId
+                self.commentId = self.commentDatas[indexPath.row].commentId
             }
         } else {
             cell.ghostButton.isHidden = false
@@ -255,7 +259,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             cell.KebabButtonAction = {
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnButtonTapped), for: .touchUpInside)
-                self.commentId = self.commentData[indexPath.row].commentId
+                self.commentId = self.commentDatas[indexPath.row].commentId
             }
         }
         
@@ -267,11 +271,11 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             }
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.commentData[indexPath.row].commentId, commentText: self.commentData[indexPath.row].commentText)
+            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.commentDatas[indexPath.row].commentId, commentText: self.commentDatas[indexPath.row].commentText)
         }
         
         cell.ProfileButtonAction = {
-            let memberId = self.commentData[indexPath.row].memberId
+            let memberId = self.commentDatas[indexPath.row].memberId
 
             if memberId == loadUserData()?.memberId ?? 0  {
                 self.tabBarController?.selectedIndex = 3
@@ -300,16 +304,16 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageCommentViewController.ghostButtonTapped, object: nil)
         }
         
-        cell.nicknameLabel.text = commentData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(commentData[indexPath.row].memberGhost)%"
-        cell.timeLabel.text = "\(commentData[indexPath.row].time.formattedTime())"
-        cell.contentTextLabel.text = commentData[indexPath.row].commentText
-        cell.likeNumLabel.text = "\(commentData[indexPath.row].commentLikedNumber)"
-        cell.commentNumLabel.text = "\(commentData[indexPath.row].commentLikedNumber)"
-        cell.profileImageView.load(url: "\(commentData[indexPath.row].memberProfileUrl)")
+        cell.nicknameLabel.text = commentDatas[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(commentDatas[indexPath.row].memberGhost)%"
+        cell.timeLabel.text = "\(commentDatas[indexPath.row].time.formattedTime())"
+        cell.contentTextLabel.text = commentDatas[indexPath.row].commentText
+        cell.likeNumLabel.text = "\(commentDatas[indexPath.row].commentLikedNumber)"
+        cell.commentNumLabel.text = "\(commentDatas[indexPath.row].commentLikedNumber)"
+        cell.profileImageView.load(url: "\(commentDatas[indexPath.row].memberProfileUrl)")
         
-        cell.likeButton.setImage(commentData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = commentData[indexPath.row].isLiked
+        cell.likeButton.setImage(commentDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = commentDatas[indexPath.row].isLiked
         
         cell.likeStackView.snp.remakeConstraints {
             $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
@@ -320,21 +324,34 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         cell.commentStackView.isHidden = true
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
-        if commentData[indexPath.row].isGhost {
+        if commentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = commentData[indexPath.row].memberGhost
+            let alpha = commentDatas[indexPath.row].memberGhost
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
-        self.commentId = commentData[indexPath.row].commentId
+        self.commentId = commentDatas[indexPath.row].commentId
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let contentId = commentData[indexPath.row].contentId
+        let contentId = commentDatas[indexPath.row].contentId
         NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId])
+    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == homeCollectionView {
+            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+                let lastCommentId = commentDatas.last?.commentId ?? -1
+                myPageViewModel.commentCursor = lastCommentId
+                NotificationCenter.default.post(name: MyPageCommentViewController.reloadCommentData, object: nil, userInfo: ["commentCursor": lastCommentId])
+                DispatchQueue.main.async {
+                     self.homeCollectionView.reloadData()
+                }
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

@@ -708,7 +708,7 @@ extension PostDetailViewController {
 
 extension PostDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.postReplyData.count
+        return viewModel.postReplyDatas.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -716,11 +716,11 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
         PostReplyCollectionViewCell.dequeueReusableCell(collectionView: collectionView, indexPath: indexPath)
         
         cell.alarmTriggerType = "commentGhost"
-        cell.targetMemberId = viewModel.postReplyData[indexPath.row].memberId
-        cell.alarmTriggerdId = viewModel.postReplyData[indexPath.row].commentId
-        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
+        cell.targetMemberId = viewModel.postReplyDatas[indexPath.row].memberId
+        cell.alarmTriggerdId = viewModel.postReplyDatas[indexPath.row].commentId
+        cell.nicknameLabel.text = viewModel.postReplyDatas[indexPath.row].memberNickname
         
-        if viewModel.postReplyData[indexPath.row].memberId == loadUserData()?.memberId {
+        if viewModel.postReplyDatas[indexPath.row].memberId == loadUserData()?.memberId {
             cell.ghostButton.isHidden = true
             cell.verticalTextBarView.isHidden = true
             self.deleteReplyBottomsheet.warnButton.removeFromSuperview()
@@ -728,7 +728,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             cell.KebabButtonAction = {
                 self.deleteReplyBottomsheet.showSettings()
                 self.deleteReplyBottomsheet.deleteButton.addTarget(self, action: #selector(self.deleteReply), for: .touchUpInside)
-                self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
+                self.commentId = self.viewModel.postReplyDatas[indexPath.row].commentId
             }
         } else {
             cell.ghostButton.isHidden = false
@@ -738,7 +738,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             cell.KebabButtonAction = {
                 self.warnBottomsheet.showSettings()
                 self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
-                self.commentId = self.viewModel.postReplyData[indexPath.row].commentId
+                self.commentId = self.viewModel.postReplyDatas[indexPath.row].commentId
             }
         }
         cell.LikeButtonAction = {
@@ -750,7 +750,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             cell.isLiked.toggle()
             cell.likeButton.setImage(cell.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             
-            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyData[indexPath.row].commentId, commentText: self.viewModel.postReplyData[indexPath.row].commentText)
+            self.postCommentLikeButtonAPI(isClicked: cell.isLiked, commentId: self.viewModel.postReplyDatas[indexPath.row].commentId, commentText: self.viewModel.postReplyDatas[indexPath.row].commentText)
         }
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -759,23 +759,23 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             self.present(self.transparentPopupVC, animated: false, completion: nil)
         }
         cell.ProfileButtonAction = {
-            self.memberId = self.viewModel.postReplyData[indexPath.row].memberId
+            self.memberId = self.viewModel.postReplyDatas[indexPath.row].memberId
             self.pushToOtherUserPage()
         }
-        cell.nicknameLabel.text = viewModel.postReplyData[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(viewModel.postReplyData[indexPath.row].memberGhost)%"
-        cell.contentTextLabel.text = viewModel.postReplyData[indexPath.row].commentText
-        cell.likeNumLabel.text = "\(viewModel.postReplyData[indexPath.row].commentLikedNumber)"
-        cell.timeLabel.text = "\(viewModel.postReplyData[indexPath.row].time.formattedTime())"
-        cell.profileImageView.load(url: "\(viewModel.postReplyData[indexPath.row].memberProfileUrl)")
-        self.commentId = viewModel.postReplyData[indexPath.row].commentId
-        cell.likeButton.setImage(viewModel.postReplyData[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
-        cell.isLiked = self.viewModel.postReplyData[indexPath.row].isLiked
+        cell.nicknameLabel.text = viewModel.postReplyDatas[indexPath.row].memberNickname
+        cell.transparentLabel.text = "투명도 \(viewModel.postReplyDatas[indexPath.row].memberGhost)%"
+        cell.contentTextLabel.text = viewModel.postReplyDatas[indexPath.row].commentText
+        cell.likeNumLabel.text = "\(viewModel.postReplyDatas[indexPath.row].commentLikedNumber)"
+        cell.timeLabel.text = "\(viewModel.postReplyDatas[indexPath.row].time.formattedTime())"
+        cell.profileImageView.load(url: "\(viewModel.postReplyDatas[indexPath.row].memberProfileUrl)")
+        self.commentId = viewModel.postReplyDatas[indexPath.row].commentId
+        cell.likeButton.setImage(viewModel.postReplyDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
+        cell.isLiked = self.viewModel.postReplyDatas[indexPath.row].isLiked
         // 내가 투명도를 누른 유저인 경우 -85% 적용
-        if self.viewModel.postReplyData[indexPath.row].isGhost {
+        if self.viewModel.postReplyDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.viewModel.postReplyData[indexPath.row].memberGhost
+            let alpha = self.viewModel.postReplyDatas[indexPath.row].memberGhost
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
@@ -834,6 +834,19 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
     //
     //        return CGSize(width: UIScreen.main.bounds.width, height: 24.adjustedH)
     //    }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView == postReplyCollectionView {
+            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+                let lastCommentId = viewModel.postReplyDatas.last?.commentId ?? -1
+                viewModel.cursor = lastCommentId
+                getAPI()
+                DispatchQueue.main.async {
+                    self.postReplyCollectionView.reloadData()
+                }
+            }
+        }
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         

@@ -26,4 +26,6 @@ struct Datum: Decodable {
     let notificationTriggerId: Int
     let notificationText: String
     let isNotificationChecked: Bool
+    let isDeleted: Bool
+    let notificationId: Int
 }

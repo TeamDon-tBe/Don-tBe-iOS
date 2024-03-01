@@ -18,12 +18,19 @@ final class MyPageViewModel: ViewModelType {
     private var getCommentData = PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>()
     
     var myPageProfileData: [MypageProfileResponseDTO] = []
+    
     var myPageContentData: [MyPageMemberContentResponseDTO] = []
+    var myPageContentDatas: [MyPageMemberContentResponseDTO] = []
+    
     var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
+    var myPageCommentDatas: [MyPageMemberCommentResponseDTO] = []
+    
     private var memberId: Int = 0
+    var contentCursor: Int = -1
+    var commentCursor: Int = -1
     
     struct Input {
-        let viewUpdate: AnyPublisher<(Int,Int), Never>
+        let viewUpdate: AnyPublisher<(Int,Int,Int,Int), Never>
     }
     
     struct Output {
@@ -34,7 +41,7 @@ final class MyPageViewModel: ViewModelType {
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewUpdate
-            .sink { value in
+            .sink { [self] value in
                 if value.0 == 1 {
                     // 유저 프로필 조회 API
                     Task {
@@ -55,10 +62,10 @@ final class MyPageViewModel: ViewModelType {
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1)
+                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.3)
+                                print("getMemberContentAPI \(self.contentCursor)")
                                 if let data = contentResult?.data {
-                                    self.myPageContentData = data
-                                    self.getContentData.send(data)
+                                    self.getContentData.send(self.myPageContentDatas)
                                 }
                             }
                         } catch {
@@ -70,11 +77,12 @@ final class MyPageViewModel: ViewModelType {
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: value.1)
+                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: value.1, commentCursor: value.2)
+                                
                                 if let data = commentResult?.data {
-                                    self.myPageCommentData = data
-                                    self.getCommentData.send(data)
+                                    self.getCommentData.send(self.myPageCommentDatas)
                                 }
+                                
                             }
                         } catch {
                             print(error)
@@ -114,28 +122,46 @@ extension MyPageViewModel {
         }
     }
     
-    private func getMemberContentAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<[MyPageMemberContentResponseDTO]>? {
+    private func getMemberContentAPI(accessToken: String, memberId: Int, contentCursor: Int) async throws -> BaseResponse<[MyPageMemberContentResponseDTO]>? {
         do {
             let result: BaseResponse<[MyPageMemberContentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/member/\(memberId)/contents",
+                baseURL: Config.baseURL + "/member/\(memberId)/member-contents",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables:["":""])
+                pathVariables:["cursor":"\(contentCursor)"])
+            if let data = result?.data {
+                var tempArrayData: [MyPageMemberContentResponseDTO] = []
+                
+                for content in data {
+                    tempArrayData.append(content)
+                }
+                self.myPageContentData = tempArrayData
+                myPageContentDatas.append(contentsOf: myPageContentData)
+            }
             return result
         } catch {
             return nil
         }
     }
     
-    private func getMemberCommentAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
+    private func getMemberCommentAPI(accessToken: String, memberId: Int, commentCursor: Int) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
         do {
             let result: BaseResponse<[MyPageMemberCommentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/member/\(memberId)/comments",
+                baseURL: Config.baseURL + "/member/\(memberId)/member-comments",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables:["":""])
+                pathVariables:["cursor":"\(commentCursor)"])
+            if let data = result?.data {
+                var tempArrayData: [MyPageMemberCommentResponseDTO] = []
+                
+                for comment in data {
+                    tempArrayData.append(comment)
+                }
+                self.myPageCommentData = tempArrayData
+                myPageCommentDatas.append(contentsOf: myPageCommentData)
+            }
             return result
         } catch {
             return nil

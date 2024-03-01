@@ -18,8 +18,10 @@ final class HomeViewModel: ViewModelType {
     private let clickedRadioButtonState = PassthroughSubject<Int, Never>()
     
     var isLikeButtonTapped: Bool = false
+    var cursor: Int = -1
     
     var postData: [PostDataResponseDTO] = []
+    var postDatas: [PostDataResponseDTO] = []
     
     private var isFirstReasonChecked = false
     private var isSecondReasonChecked = false
@@ -152,10 +154,10 @@ extension HomeViewModel {
         do {
             let result: BaseResponse<[PostDataResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/content/all",
+                                            baseURL: Config.baseURL + "/contents",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
-                                            pathVariables: ["":""])
+                                            pathVariables: ["cursor":"\(cursor)"])
             
             if let data = result?.data {
                 var tempArrayData: [PostDataResponseDTO] = []
@@ -164,6 +166,11 @@ extension HomeViewModel {
                     tempArrayData.append(content)
                 }
                 self.postData = tempArrayData
+                if cursor == -1 {
+                    postDatas = data
+                } else {
+                    postDatas.append(contentsOf: postData)
+                }
             }
             return result
         } catch {

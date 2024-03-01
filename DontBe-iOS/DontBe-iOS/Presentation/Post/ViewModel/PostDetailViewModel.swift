@@ -20,9 +20,11 @@ final class PostDetailViewModel: ViewModelType {
     
     private let toggleCommentLikeButton = PassthroughSubject<Bool, Never>()
     var isCommentLikeButtonClicked: Bool = false
+    var cursor: Int = -1
     
     var postDetailData: [String] = []
     var postReplyData: [PostReplyResponseDTO] = []
+    var postReplyDatas: [PostReplyResponseDTO] = []
     
     private var isFirstReasonChecked = false
     private var isSecondReasonChecked = false
@@ -95,7 +97,7 @@ final class PostDetailViewModel: ViewModelType {
             .store(in: self.cancelBag)
         
         input.collectionViewUpdata?
-            .sink { value in
+            .sink { [self] value in
                 Task {
                     do {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
@@ -105,6 +107,7 @@ final class PostDetailViewModel: ViewModelType {
                                 self.postReplyData = data
                                 self.getPostReplyData.send(data)
                             }
+                            postReplyDatas.append(contentsOf: postReplyData)
                         }
                     } catch {
                         print(error)
@@ -210,10 +213,10 @@ extension PostDetailViewModel {
         do {
             let result: BaseResponse<[PostReplyResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/content/\(contentId)/comment/all",
+                                            baseURL: Config.baseURL + "/content/\(contentId)/comments",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
-                                            pathVariables: ["":""])
+                                            pathVariables: ["cursor":"\(cursor)"])
             return result
         } catch {
             return nil

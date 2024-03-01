@@ -13,7 +13,9 @@ final class NotificationViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let reloadTableView = PassthroughSubject<Int, Never>()
     var notificationList: [NotificationList?] = []
+    var notificationLists: [NotificationList?] = []
     private let networkProvider: NetworkServiceType
+    var cursor: Int = -1
     
     init(networkProvider: NetworkServiceType) {
         self.networkProvider = networkProvider
@@ -34,7 +36,7 @@ final class NotificationViewModel: ViewModelType {
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewLoad
-            .sink { _ in
+            .sink { [self] _ in
                 // viewDidLoad -> 서버통신
                 Task {
                     let data = try await self.getNotificationListAPI()
@@ -47,9 +49,10 @@ final class NotificationViewModel: ViewModelType {
                             triggerMemberProfileUrl: data.triggerMemberProfileUrl,
                             notificationTriggerId: data.notificationTriggerId,
                             notificationType: notificationType,
-                            time: data.time)
+                            time: data.time, notificationId: data.notificationId)
                     }
                     self.notificationList = myNotiList ?? []
+                    notificationLists.append(contentsOf: notificationList)
                     _ = try await self.patchNotificationCheck()
                     self.reloadTableView.send(0)
                 }
@@ -70,7 +73,7 @@ final class NotificationViewModel: ViewModelType {
                             triggerMemberProfileUrl: data.triggerMemberProfileUrl,
                             notificationTriggerId: data.notificationTriggerId,
                             notificationType: notificationType,
-                            time: data.time)
+                            time: data.time, notificationId: data.notificationId)
                     }
                     self.notificationList = myNotiList ?? []
                     _ = try await self.patchNotificationCheck()
@@ -89,10 +92,10 @@ extension NotificationViewModel {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: NotificationListResponseDTO? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/notification-all",
+                baseURL: Config.baseURL + "/member-notifications",
                 accessToken: accessToken,
                 body: EmptyBody(),
-                pathVariables: ["": ""])
+                pathVariables: ["cursor": "\(cursor)"])
             print ("👻👻👻👻👻노티 리스트 조회👻👻👻👻👻")
             return data
         } catch {

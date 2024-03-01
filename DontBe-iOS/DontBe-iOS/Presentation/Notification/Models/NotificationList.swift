@@ -14,6 +14,7 @@ struct NotificationList {
     let notificationTriggerId: Int
     let notificationType: NotificaitonType
     let time: String
+    let notificationId: Int
 }
 
 extension NotificationList {
@@ -22,5 +23,6 @@ extension NotificationList {
                                            triggerMemberProfileUrl: "",
                                            notificationTriggerId: 0,
                                            notificationType: .contentLiked, 
-                                           time: "")
+                                           time: "",
+                                           notificationId: 0)
 }
