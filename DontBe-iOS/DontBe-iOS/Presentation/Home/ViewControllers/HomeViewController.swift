@@ -21,8 +21,6 @@ final class HomeViewController: UIViewController {
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
-    var startPage = 1
-    var totalCount = 0
     
     var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))

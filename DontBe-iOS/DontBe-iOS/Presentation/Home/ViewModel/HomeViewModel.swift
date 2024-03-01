@@ -106,7 +106,11 @@ extension HomeViewModel {
                     tempArrayData.append(content)
                 }
                 self.postData = tempArrayData
-                postDatas.append(contentsOf: postData)
+                if cursor == -1 {
+                    postDatas = data
+                } else {
+                    postDatas.append(contentsOf: postData)
+                }
             }
             return result
         } catch {
