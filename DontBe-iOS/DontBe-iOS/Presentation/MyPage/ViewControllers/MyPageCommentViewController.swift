@@ -221,7 +221,6 @@ extension MyPageCommentViewController: UICollectionViewDelegate { }
 
 extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("commentDatas.count \(commentDatas.count)")
         return commentDatas.count
     }
     
@@ -337,13 +336,9 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == homeCollectionView {
             if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
-                print("요기")
-                print("커서1 \(myPageViewModel.commentCursor)")
                 let lastCommentId = commentDatas.last?.commentId ?? -1
                 myPageViewModel.commentCursor = lastCommentId
-                print("커서2 \(myPageViewModel.commentCursor)")
                 NotificationCenter.default.post(name: MyPageCommentViewController.reloadCommentData, object: nil, userInfo: ["commentCursor": lastCommentId])
-                print("커서3 \(myPageViewModel.commentCursor)")
                 DispatchQueue.main.async {
                      self.homeCollectionView.reloadData()
                 }

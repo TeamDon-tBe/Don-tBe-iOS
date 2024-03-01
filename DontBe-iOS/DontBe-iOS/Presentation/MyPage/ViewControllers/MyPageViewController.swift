@@ -358,10 +358,7 @@ extension MyPageViewController {
         output.getCommentData
             .receive(on: RunLoop.main)
             .sink { data in
-                print("데이터야 누구니?? \(data)")
-                print("commentDatas.countttt \(data.count)")
                 self.rootView.myPageCommentViewController.commentDatas = data
-                print("답글 서버통신")
                 if !data.isEmpty {
                     self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
                 } else {
@@ -524,22 +521,6 @@ extension MyPageViewController {
 }
 
 extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if scrollView == rootView.myPageCommentViewController.homeCollectionView {
-//            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
-//                print("요기")
-//                print("커서1 \(viewModel.commentCursor)")
-//                let lastCommentId = commentDatas.last?.commentId ?? -1
-//                self.commentCursor = lastCommentId
-//                print("커서2 \(viewModel.commentCursor)")
-//                bindViewModel()
-//                DispatchQueue.main.async {
-//                    self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
-//                }
-//            }
-//        }
-//    }
-    
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController

@@ -65,10 +65,7 @@ final class MyPageViewModel: ViewModelType {
                                 let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.3)
                                 print("getMemberContentAPI \(self.contentCursor)")
                                 if let data = contentResult?.data {
-                                    print("contentResult 데이터 is \(data)")
-                                    
                                     self.getContentData.send(self.myPageContentDatas)
-                                    print("카운트2 \(self.myPageContentDatas.count)")
                                 }
                             }
                         } catch {
@@ -81,13 +78,9 @@ final class MyPageViewModel: ViewModelType {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                                 let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: value.1, commentCursor: value.2)
-                                print("getMemberCommentAPI \(self.commentCursor)")
                                 
                                 if let data = commentResult?.data {
-                                    print("데이터 is \(data)")
-                                    
                                     self.getCommentData.send(self.myPageCommentDatas)
-                                    print("카운트 \(self.myPageCommentDatas.count)")
                                 }
                                 
                             }
@@ -137,7 +130,6 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(contentCursor)"])
-            print("contentCursor \(contentCursor)")
             if let data = result?.data {
                 var tempArrayData: [MyPageMemberContentResponseDTO] = []
                 
@@ -145,12 +137,7 @@ extension MyPageViewModel {
                     tempArrayData.append(content)
                 }
                 self.myPageContentData = tempArrayData
-                print("self.myPageContentData \(self.myPageContentData)")
-//                for comment in self.myPageCommentData {
-//                    self.myPageCommentDatas.append(comment)
-//                }
                 myPageContentDatas.append(contentsOf: myPageContentData)
-                print("데이터집합2 \(myPageContentDatas)")
             }
             return result
         } catch {
@@ -166,7 +153,6 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(commentCursor)"])
-            print("commentCursor \(commentCursor)")
             if let data = result?.data {
                 var tempArrayData: [MyPageMemberCommentResponseDTO] = []
                 
@@ -174,12 +160,7 @@ extension MyPageViewModel {
                     tempArrayData.append(comment)
                 }
                 self.myPageCommentData = tempArrayData
-                print("self.myPageCommentData \(self.myPageCommentData)")
-//                for comment in self.myPageCommentData {
-//                    self.myPageCommentDatas.append(comment)
-//                }
                 myPageCommentDatas.append(contentsOf: myPageCommentData)
-                print("데이터집합 \(myPageCommentDatas)")
             }
             return result
         } catch {

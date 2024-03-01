@@ -521,17 +521,3 @@ extension HomeViewController: DontBePopupDelegate {
         }
     }
 }
-
-//extension HomeViewController: UICollectionViewDataSourcePrefetching {
-//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-//        for indexPath in indexPaths {
-//            if homeViewModel.postData.count - 1 == indexPath.item {
-//                print("==요기==")
-//                homeViewModel.cursor = homeViewModel.postData.last?.contentId ?? -1 // 마지막 아이템의 contentId를 cursor로 설정합니다.
-//                print(homeViewModel.cursor)
-//                    self.bindViewModel()
-//                self.homeCollectionView.reloadData()
-//            }
-//        }
-//    }
-//}
