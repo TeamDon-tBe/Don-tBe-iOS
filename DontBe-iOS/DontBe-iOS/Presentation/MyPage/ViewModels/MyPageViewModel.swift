@@ -62,7 +62,7 @@ final class MyPageViewModel: ViewModelType {
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.2)
+                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.3)
                                 print("getMemberContentAPI \(self.contentCursor)")
                                 if let data = contentResult?.data {
                                     print("contentResult 데이터 is \(data)")
