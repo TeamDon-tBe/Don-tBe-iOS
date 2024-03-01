@@ -44,7 +44,6 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
-        image.image = ImageLiterals.Common.imgProfile
         image.layer.cornerRadius = 22.adjusted
         image.isUserInteractionEnabled = true
         return image

@@ -36,7 +36,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                   isJoinedApp: true,
                                   isOnboardingFinished: true,
                                   userNickname: loadUserData()?.userNickname ?? "",
-                                  memberId: loadUserData()?.memberId ?? 0))
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             // KeychainWrapper에 Access Token 저장하고 소셜로그인 화면으로
             let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") ?? ""
             KeychainWrapper.saveToken(accessToken, forKey: "accessToken")

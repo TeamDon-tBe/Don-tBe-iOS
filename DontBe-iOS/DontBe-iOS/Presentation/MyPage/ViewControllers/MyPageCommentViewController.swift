@@ -202,7 +202,16 @@ extension MyPageCommentViewController {
             .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
             .eraseToAnyPublisher()
         
-        let input = PostDetailViewModel.Input(viewUpdate: nil, likeButtonTapped: nil, collectionViewUpdata: nil, commentLikeButtonTapped: commentLikedButtonTapped)
+        let input = PostDetailViewModel.Input(viewUpdate: nil,
+                                              likeButtonTapped: nil,
+                                              collectionViewUpdata: nil,
+                                              commentLikeButtonTapped: commentLikedButtonTapped,
+                                              firstReasonButtonTapped: nil,
+                                              secondReasonButtonTapped: nil,
+                                              thirdReasonButtonTapped: nil,
+                                              fourthReasonButtonTapped: nil,
+                                              fifthReasonButtonTapped: nil,
+                                              sixthReasonButtonTapped: nil)
         
         let output = self.postViewModel.transform(from: input, cancelBag: self.cancelBag)
         
@@ -310,7 +319,6 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(cell.commentStackView)
             $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
-            $0.bottom.equalToSuperview().inset(16)
         }
         
         cell.commentStackView.isHidden = true

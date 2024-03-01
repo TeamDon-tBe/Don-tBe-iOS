@@ -101,6 +101,11 @@
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
+		3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */; };
+		3C1ABD852B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */; };
+		3C1ABD872B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD862B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift */; };
+		3C1ABD892B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */; };
+		3C1ABD8B2B8F089100ADF97B /* MyPageSignOutConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD8A2B8F089100ADF97B /* MyPageSignOutConfirmView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
 		3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FE2B3AA01700369C99 /* ExampleView.swift */; };
 		3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */; };
@@ -150,6 +155,7 @@
 		3CF184CB2B4EEC0B00816D5F /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */; };
 		3CF184CD2B4EEC1900816D5F /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184CC2B4EEC1900816D5F /* MyPageView.swift */; };
 		3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */; };
+		3CF4293A2B8F416F00A1524B /* MyPageMemberDeleteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF429392B8F416F00A1524B /* MyPageMemberDeleteDTO.swift */; };
 		3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */; };
 /* End PBXBuildFile section */
 
@@ -248,6 +254,11 @@
 		2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataResponseDTO.swift; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
+		3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupReasonView.swift; sourceTree = "<group>"; };
+		3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupReasonListCustomView.swift; sourceTree = "<group>"; };
+		3C1ABD862B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutReasonViewModel.swift; sourceTree = "<group>"; };
+		3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutConfirmViewController.swift; sourceTree = "<group>"; };
+		3C1ABD8A2B8F089100ADF97B /* MyPageSignOutConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutConfirmView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		3C2854FE2B3AA01700369C99 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -299,6 +310,7 @@
 		3CF184CA2B4EEC0B00816D5F /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		3CF184CC2B4EEC1900816D5F /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileView.swift; sourceTree = "<group>"; };
+		3CF429392B8F416F00A1524B /* MyPageMemberDeleteDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageMemberDeleteDTO.swift; sourceTree = "<group>"; };
 		3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTransparencyRequestDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -970,6 +982,7 @@
 		3C70BE2C2B53EB92001AA5A6 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
+				3CF429382B8F414E00A1524B /* RequestDTO */,
 				3C61C9F82B56E6E3006F1D24 /* ResponseDTO */,
 			);
 			path = DTO;
@@ -981,6 +994,7 @@
 				3C70BE322B53EF92001AA5A6 /* MyPageViewModel.swift */,
 				3CBCA3CB2B573F9000D348D3 /* MyPageProfileViewModel.swift */,
 				3CA32F522B81E200003DF637 /* MyPageAccountInfoViewModel.swift */,
+				3C1ABD862B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -1050,6 +1064,8 @@
 			children = (
 				2AF069AF2B518B3F00CA3E48 /* UICollectionViewRegisterable.swift */,
 				3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */,
+				3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */,
+				3C1ABD842B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift */,
 				3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */,
 				2F3182E42B5A3B2400E77EFD /* DontBeDeletePopupView.swift */,
 				3CEE4CBC2B500A7800F506AF /* DontBeTransparencyInfoView.swift */,
@@ -1098,6 +1114,7 @@
 				2AF069B12B518F8E00CA3E48 /* MyPageNicknameEditView.swift */,
 				2AF069B32B5194F300CA3E48 /* MyPageIntroductionEditView.swift */,
 				3C4F5BB62B7A4A0C00B21C45 /* MyPageSignOutView.swift */,
+				3C1ABD8A2B8F089100ADF97B /* MyPageSignOutConfirmView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1111,8 +1128,17 @@
 				3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */,
 				3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */,
 				3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */,
+				3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3CF429382B8F414E00A1524B /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				3CF429392B8F416F00A1524B /* MyPageMemberDeleteDTO.swift */,
+			);
+			path = RequestDTO;
 			sourceTree = "<group>";
 		};
 		3CF465182B58393800997FCA /* Transparency */ = {
@@ -1224,9 +1250,11 @@
 				3C6193152B3A7A6400220CEB /* UIView+.swift in Sources */,
 				3C4F5BB72B7A4A0C00B21C45 /* MyPageSignOutView.swift in Sources */,
 				2AC9FB1F2B4E634A00D31071 /* JoinAgreeView.swift in Sources */,
+				3C1ABD8B2B8F089100ADF97B /* MyPageSignOutConfirmView.swift in Sources */,
 				2F05B1B42B57F15B00AC368D /* WriteReplyViewModel.swift in Sources */,
 				3CBCA3CA2B57212400D348D3 /* MyPageMemberCommentResponseDTO.swift in Sources */,
 				3CD25D272B5466DB0075F80F /* Empty.swift in Sources */,
+				3C1ABD872B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift in Sources */,
 				2F1741882B500C270089FC4D /* UIApplication+.swift in Sources */,
 				3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */,
 				3C2F544E2B50F65500E7BF01 /* DontBeBottomSheetView.swift in Sources */,
@@ -1253,6 +1281,7 @@
 				2FB64FF42B531A5C0082A414 /* WriteReplyView.swift in Sources */,
 				2FBBADF42B53BEB5002D6286 /* TransparentPopupViewController.swift in Sources */,
 				3C6193192B3A7AC700220CEB /* Config.swift in Sources */,
+				3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */,
 				3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */,
 				2A51831A2B571CC400B43BA8 /* NotificationList.swift in Sources */,
 				3C61931B2B3A7AD000220CEB /* NetworkError.swift in Sources */,
@@ -1298,6 +1327,7 @@
 				2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */,
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
+				3C1ABD892B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
 				3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */,
@@ -1320,10 +1350,12 @@
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
 				2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */,
+				3CF4293A2B8F416F00A1524B /* MyPageMemberDeleteDTO.swift in Sources */,
 				3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */,
 				2F8FFA8D2B5942490060FB46 /* PostDetailCollectionHeaderView.swift in Sources */,
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
+				3C1ABD852B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
 				2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */,
 				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,
@@ -1491,10 +1523,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "게시글이나 프로필을 변경할 때 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1526,10 +1560,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DontBe-iOS/Global/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Don't Be";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "게시글이나 프로필을 변경할 때 사용합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

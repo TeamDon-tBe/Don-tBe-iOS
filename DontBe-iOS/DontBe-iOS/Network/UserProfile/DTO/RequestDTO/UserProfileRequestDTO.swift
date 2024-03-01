@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - UserProfileRequestDTO
 
@@ -14,4 +15,11 @@ struct UserProfileRequestDTO: Encodable {
     let is_alarm_allowed: Bool
     let member_intro: String
     let profile_url: String
+}
+
+struct EditUserProfileRequestDTO {
+    let nickname: String
+    let is_alarm_allowed: Bool
+    let member_intro: String
+    let profile_image: UIImage
 }

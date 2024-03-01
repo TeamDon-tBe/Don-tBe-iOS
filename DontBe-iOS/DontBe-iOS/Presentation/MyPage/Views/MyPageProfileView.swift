@@ -29,7 +29,9 @@ final class MyPageProfileView: UIView {
     
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.load(url: StringLiterals.Network.baseImageURL)
+        imageView.image = ImageLiterals.Common.imgProfile
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
         return imageView
     }()
     

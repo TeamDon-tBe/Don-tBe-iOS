@@ -218,7 +218,15 @@ extension MyPageContentViewController {
                 .throttle(for: .seconds(2), scheduler: DispatchQueue.main, latest: false)
                 .eraseToAnyPublisher()
 
-        let input = HomeViewModel.Input(viewUpdate: nil, likeButtonTapped: likeButtonTapped)
+        let input = HomeViewModel.Input(
+            viewUpdate: nil,
+            likeButtonTapped: likeButtonTapped,
+            firstReasonButtonTapped: nil,
+            secondReasonButtonTapped: nil,
+            thirdReasonButtonTapped: nil,
+            fourthReasonButtonTapped: nil,
+            fifthReasonButtonTapped: nil,
+            sixthReasonButtonTapped: nil)
 
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
 

@@ -15,7 +15,8 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
     
     private let profileImage: UIImageView = {
         let profileImage = UIImageView()
-        profileImage.contentMode = .scaleAspectFit
+        profileImage.contentMode = .scaleAspectFill
+        profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
         return profileImage
     }()
     
@@ -92,7 +93,7 @@ extension NotificationTableViewCell {
         profileImage.load(url: list.triggerMemberProfileUrl)
         profileImage.snp.remakeConstraints {
             $0.centerY.equalToSuperview()
-            $0.top.leading.equalToSuperview().inset(14.adjusted)
+            $0.leading.equalToSuperview().inset(14.adjusted)
             $0.size.equalTo(42.adjusted)
         }
         

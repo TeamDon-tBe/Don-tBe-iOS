@@ -20,7 +20,8 @@ final class WriteTextView: UIView {
     
     let userProfileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.load(url: StringLiterals.Network.baseImageURL)
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = imageView.frame.size.width / 2
         return imageView
     }()
     

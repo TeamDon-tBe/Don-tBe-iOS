@@ -100,6 +100,9 @@ enum ImageLiterals {
         static var btnFeedback: UIImage { .load(name: "btn_feedback") }
         static var btnCustomerCenter: UIImage { .load(name: "btn_customerCenter") }
         static var btnLogout: UIImage { .load(name: "btn_logout") }
+        static var btnCheckboxMini: UIImage { .load(name: "btn_checkbox_mini") }
+        static var btnCheckboxSelectedMini: UIImage { .load(name: "btn_checkbox_selected_mini") }
+        static var imgSignout: UIImage { .load(name: "img_signout") }
     }
     
     enum TransparencyInfo {
@@ -114,6 +117,8 @@ enum ImageLiterals {
         static var imgTransparencyInfo4: UIImage { .load(name: "img_transparenc_info4") }
         static var imgTransparencyInfo5: UIImage { .load(name: "img_transparenc_info5") }
         static var btnClose: UIImage { .load(name: "btn_close") }
+        static var btnRadioSelected: UIImage { .load(name: "btn_radio_selected") }
+        static var btnRadio: UIImage { .load(name: "btn_radio") }
     }
 
     enum Popup {

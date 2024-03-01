@@ -126,7 +126,8 @@ extension LoginViewModel {
                                       isJoinedApp: false,
                                       isOnboardingFinished: false,
                                       userNickname: userNickname,
-                                      memberId: memberId))
+                                      memberId: memberId,
+                                      userProfileImage: StringLiterals.Network.baseImageURL))
                 
                 // KeychainWrapper에 Access Token 저장
                 let accessToken = data?.data?.accessToken ?? ""

@@ -74,11 +74,19 @@ extension OnboardingEndingViewController {
     
     private func bindViewModel() {
         let input = OnboardingEndingViewModel.Input(
+            viewWillAppear: Just((loadUserData()?.memberId ?? 0)).eraseToAnyPublisher(),
             backButtonTapped: backButtonTapped,
             startButtonTapped: startButtonTapped,
             skipButtonTapped: skipButtonTapped)
         
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
+        
+        output.getProfileData
+            .receive(on: RunLoop.main)
+            .sink { data in
+                self.originView.profileImage.load(url: data.memberProfileUrl)
+            }
+            .store(in: self.cancelBag)
         
         output.voidPublisher
             .receive(on: RunLoop.main)
