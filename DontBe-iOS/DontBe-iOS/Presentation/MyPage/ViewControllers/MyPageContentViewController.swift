@@ -29,6 +29,7 @@ final class MyPageContentViewController: UIViewController {
     
     var profileData: [MypageProfileResponseDTO] = []
     var contentData: [MyPageMemberContentResponseDTO] = []
+    // var contentData = MyPageViewModel(networkProvider: NetworkService()).myPageContentDatas
     
     var contentId: Int = 0
     var alarmTriggerType: String = ""
@@ -329,6 +330,19 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         let contentId = contentData[indexPath.row].contentId
         NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId])
     }
+    
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if scrollView == homeCollectionView {
+//            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+//                let lastContentId = MyPageViewModel(networkProvider: NetworkService()).myPageContentData.last?.contentId ?? -1
+//                MyPageViewModel(networkProvider: NetworkService()).contentCursor = lastContentId
+//                
+//                DispatchQueue.main.async {
+//                    self.homeCollectionView.reloadData()
+//                }
+//            }
+//        }
+//    }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         guard let footer = homeCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "HomeCollectionFooterView", for: indexPath) as? HomeCollectionFooterView else { return UICollectionReusableView() }

@@ -18,14 +18,18 @@ final class MyPageViewModel: ViewModelType {
     private var getCommentData = PassthroughSubject<[MyPageMemberCommentResponseDTO], Never>()
     
     var myPageProfileData: [MypageProfileResponseDTO] = []
+    
     var myPageContentData: [MyPageMemberContentResponseDTO] = []
+    
     var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
+    var myPageCommentDatas: [MyPageMemberCommentResponseDTO] = []
+    
     private var memberId: Int = 0
     var contentCursor: Int = -1
     var commentCursor: Int = -1
     
     struct Input {
-        let viewUpdate: AnyPublisher<(Int,Int), Never>
+        let viewUpdate: AnyPublisher<(Int,Int,Int), Never>
     }
     
     struct Output {
@@ -36,7 +40,7 @@ final class MyPageViewModel: ViewModelType {
     
     func transform(from input: Input, cancelBag: CancelBag) -> Output {
         input.viewUpdate
-            .sink { value in
+            .sink { [self] value in
                 if value.0 == 1 {
                     // 유저 프로필 조회 API
                     Task {
@@ -72,11 +76,18 @@ final class MyPageViewModel: ViewModelType {
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: value.1)
+                                let commentResult = try await self.getMemberCommentAPI(accessToken: accessToken, memberId: value.1, commentCursor: value.2)
+                                print("getMemberCommentAPI \(self.commentCursor)")
+                                
                                 if let data = commentResult?.data {
-                                    self.myPageCommentData = data
-                                    self.getCommentData.send(data)
+                                    print("데이터 is \(data)")
+                                    // self.myPageCommentDatas = data
+                                    
+                                    
+                                    self.getCommentData.send(self.myPageCommentDatas)
+                                    print("카운트 \(self.myPageCommentDatas.count)")
                                 }
+                                
                             }
                         } catch {
                             print(error)
@@ -130,7 +141,7 @@ extension MyPageViewModel {
         }
     }
     
-    private func getMemberCommentAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
+    private func getMemberCommentAPI(accessToken: String, memberId: Int, commentCursor: Int) async throws -> BaseResponse<[MyPageMemberCommentResponseDTO]>? {
         do {
             let result: BaseResponse<[MyPageMemberCommentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
@@ -138,6 +149,21 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(commentCursor)"])
+            print("commentCursor \(commentCursor)")
+            if let data = result?.data {
+                var tempArrayData: [MyPageMemberCommentResponseDTO] = []
+                
+                for comment in data {
+                    tempArrayData.append(comment)
+                }
+                self.myPageCommentData = tempArrayData
+                print("self.myPageCommentData \(self.myPageCommentData)")
+//                for comment in self.myPageCommentData {
+//                    self.myPageCommentDatas.append(comment)
+//                }
+                myPageCommentDatas.append(contentsOf: myPageCommentData)
+                print("데이터집합 \(myPageCommentDatas)")
+            }
             return result
         } catch {
             return nil

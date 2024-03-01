@@ -29,6 +29,10 @@ final class MyPageViewController: UIViewController {
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
     
+    var commentDatas: [MyPageMemberCommentResponseDTO] = []
+    var commentCursor: Int = -1
+    var contentCursor: Int = -1
+    
     var currentPage: Int = 0 {
         didSet {
             rootView.myPageScrollView.isScrollEnabled = true
@@ -193,6 +197,7 @@ extension MyPageViewController {
     private func setNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadCommentData(_:)), name: MyPageCommentViewController.reloadCommentData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contentGhostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(commentGhostButtonTapped), name: MyPageCommentViewController.ghostButtonTapped, object: nil)
@@ -203,6 +208,7 @@ extension MyPageViewController {
     private func removeNotification() {
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.reloadData, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.reloadCommentData, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.ghostButtonTapped, object: nil)
@@ -315,8 +321,8 @@ extension MyPageViewController {
         }
     }
     
-    private func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId)).eraseToAnyPublisher())
+    func bindViewModel() {
+        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId, self.commentCursor)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -347,13 +353,18 @@ extension MyPageViewController {
         output.getCommentData
             .receive(on: RunLoop.main)
             .sink { data in
-                self.rootView.myPageCommentViewController.commentData = data
+                print("데이터야 누구니?? \(data)")
+                print("commentDatas.countttt \(data.count)")
+                self.rootView.myPageCommentViewController.commentDatas = data
+                print("답글 서버통신")
                 if !data.isEmpty {
                     self.rootView.myPageCommentViewController.noCommentLabel.isHidden = true
                 } else {
                     self.rootView.myPageCommentViewController.noCommentLabel.isHidden = false
                 }
-                self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
+                }
             }
             .store(in: self.cancelBag)
     }
@@ -384,6 +395,12 @@ extension MyPageViewController {
     
     @objc
     func reloadData(_ notification: Notification) {
+        bindViewModel()
+    }
+    
+    @objc
+    func reloadCommentData(_ notification: Notification) {
+        self.commentCursor = notification.userInfo?["commentCursor"] as? Int ?? -1
         bindViewModel()
     }
     
@@ -496,6 +513,22 @@ extension MyPageViewController {
 }
 
 extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if scrollView == rootView.myPageCommentViewController.homeCollectionView {
+//            if (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+//                print("요기")
+//                print("커서1 \(viewModel.commentCursor)")
+//                let lastCommentId = commentDatas.last?.commentId ?? -1
+//                self.commentCursor = lastCommentId
+//                print("커서2 \(viewModel.commentCursor)")
+//                bindViewModel()
+//                DispatchQueue.main.async {
+//                    self.rootView.myPageCommentViewController.homeCollectionView.reloadData()
+//                }
+//            }
+//        }
+//    }
+    
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
@@ -534,6 +567,7 @@ extension MyPageViewController: UIPageViewControllerDataSource, UIPageViewContro
 }
 
 extension MyPageViewController: UICollectionViewDelegate {
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         var yOffset = scrollView.contentOffset.y
         let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
