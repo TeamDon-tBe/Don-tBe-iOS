@@ -71,7 +71,7 @@ final class MyPageView: UIView {
         return vc
     }()
     
-    let myPageContentViewController = MyPageContentViewController(viewModel: HomeViewModel(networkProvider: NetworkService()))
+    let myPageContentViewController = MyPageContentViewController(viewModel: HomeViewModel(networkProvider: NetworkService()), myPageViewModel: MyPageViewModel(networkProvider: NetworkService()))
     let myPageCommentViewController = MyPageCommentViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()), myPageViewModel: MyPageViewModel(networkProvider: NetworkService()))
     
     var myPageBottomsheet = DontBeBottomSheetView(profileEditImage: ImageLiterals.MyPage.btnEditProfile,

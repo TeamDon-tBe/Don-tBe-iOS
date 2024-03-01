@@ -20,6 +20,7 @@ final class MyPageViewModel: ViewModelType {
     var myPageProfileData: [MypageProfileResponseDTO] = []
     
     var myPageContentData: [MyPageMemberContentResponseDTO] = []
+    var myPageContentDatas: [MyPageMemberContentResponseDTO] = []
     
     var myPageCommentData: [MyPageMemberCommentResponseDTO] = []
     var myPageCommentDatas: [MyPageMemberCommentResponseDTO] = []
@@ -29,7 +30,7 @@ final class MyPageViewModel: ViewModelType {
     var commentCursor: Int = -1
     
     struct Input {
-        let viewUpdate: AnyPublisher<(Int,Int,Int), Never>
+        let viewUpdate: AnyPublisher<(Int,Int,Int,Int), Never>
     }
     
     struct Output {
@@ -61,10 +62,13 @@ final class MyPageViewModel: ViewModelType {
                     Task {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
-                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1)
+                                let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.2)
+                                print("getMemberContentAPI \(self.contentCursor)")
                                 if let data = contentResult?.data {
-                                    self.myPageContentData = data
-                                    self.getContentData.send(data)
+                                    print("contentResult 데이터 is \(data)")
+                                    
+                                    self.getContentData.send(self.myPageContentDatas)
+                                    print("카운트2 \(self.myPageContentDatas.count)")
                                 }
                             }
                         } catch {
@@ -81,8 +85,6 @@ final class MyPageViewModel: ViewModelType {
                                 
                                 if let data = commentResult?.data {
                                     print("데이터 is \(data)")
-                                    // self.myPageCommentDatas = data
-                                    
                                     
                                     self.getCommentData.send(self.myPageCommentDatas)
                                     print("카운트 \(self.myPageCommentDatas.count)")
@@ -127,7 +129,7 @@ extension MyPageViewModel {
         }
     }
     
-    private func getMemberContentAPI(accessToken: String, memberId: Int) async throws -> BaseResponse<[MyPageMemberContentResponseDTO]>? {
+    private func getMemberContentAPI(accessToken: String, memberId: Int, contentCursor: Int) async throws -> BaseResponse<[MyPageMemberContentResponseDTO]>? {
         do {
             let result: BaseResponse<[MyPageMemberContentResponseDTO]>? = try await self.networkProvider.donNetwork(
                 type: .get,
@@ -135,6 +137,21 @@ extension MyPageViewModel {
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(contentCursor)"])
+            print("contentCursor \(contentCursor)")
+            if let data = result?.data {
+                var tempArrayData: [MyPageMemberContentResponseDTO] = []
+                
+                for content in data {
+                    tempArrayData.append(content)
+                }
+                self.myPageContentData = tempArrayData
+                print("self.myPageContentData \(self.myPageContentData)")
+//                for comment in self.myPageCommentData {
+//                    self.myPageCommentDatas.append(comment)
+//                }
+                myPageContentDatas.append(contentsOf: myPageContentData)
+                print("데이터집합2 \(myPageContentDatas)")
+            }
             return result
         } catch {
             return nil

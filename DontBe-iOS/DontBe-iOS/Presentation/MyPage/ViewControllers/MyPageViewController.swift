@@ -30,6 +30,7 @@ final class MyPageViewController: UIViewController {
     var alarmTriggerdId: Int = 0
     
     var commentDatas: [MyPageMemberCommentResponseDTO] = []
+    var contentDatas: [MyPageMemberContentResponseDTO] = []
     var commentCursor: Int = -1
     var contentCursor: Int = -1
     
@@ -198,6 +199,7 @@ extension MyPageViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(pushViewController), name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadData), name: MyPageContentViewController.reloadData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(reloadCommentData(_:)), name: MyPageCommentViewController.reloadCommentData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadContentData(_:)), name: MyPageContentViewController.reloadContentData, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(warnButtonTapped), name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(contentGhostButtonTapped), name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(commentGhostButtonTapped), name: MyPageCommentViewController.ghostButtonTapped, object: nil)
@@ -209,6 +211,7 @@ extension MyPageViewController {
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.pushViewController, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.reloadData, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.reloadCommentData, object: nil)
+        NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.reloadContentData, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.warnUserButtonTapped, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageContentViewController.ghostButtonTapped, object: nil)
         NotificationCenter.default.removeObserver(self, name: MyPageCommentViewController.ghostButtonTapped, object: nil)
@@ -322,7 +325,7 @@ extension MyPageViewController {
     }
     
     func bindViewModel() {
-        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId, self.commentCursor)).eraseToAnyPublisher())
+        let input = MyPageViewModel.Input(viewUpdate: Just((1, self.memberId, self.commentCursor, self.contentCursor)).eraseToAnyPublisher())
         
         let output = viewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -338,7 +341,7 @@ extension MyPageViewController {
         output.getContentData
             .receive(on: RunLoop.main)
             .sink { data in
-                self.rootView.myPageContentViewController.contentData = data
+                self.rootView.myPageContentViewController.contentDatas = data
                 if !data.isEmpty {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = true
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
@@ -346,7 +349,9 @@ extension MyPageViewController {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = false
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = false
                 }
-                self.rootView.myPageContentViewController.homeCollectionView.reloadData()
+                DispatchQueue.main.async {
+                    self.rootView.myPageContentViewController.homeCollectionView.reloadData()
+                }
             }
             .store(in: self.cancelBag)
         
@@ -401,6 +406,12 @@ extension MyPageViewController {
     @objc
     func reloadCommentData(_ notification: Notification) {
         self.commentCursor = notification.userInfo?["commentCursor"] as? Int ?? -1
+        bindViewModel()
+    }
+    
+    @objc
+    func reloadContentData(_ notification: Notification) {
+        self.contentCursor = notification.userInfo?["contentCursor"] as? Int ?? -1
         bindViewModel()
     }
     
