@@ -119,6 +119,7 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.firstReasonView.reasonLabel.text ?? ""
                 case 2:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -127,6 +128,7 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.secondReasonView.reasonLabel.text ?? ""
                 case 3:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -135,6 +137,7 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.thirdReasonView.reasonLabel.text ?? ""
                 case 4:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -143,6 +146,7 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.fourthReasonView.reasonLabel.text ?? ""
                 case 5:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -151,6 +155,7 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.fifthReasonView.reasonLabel.text ?? ""
                 case 6:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -159,15 +164,16 @@ extension MyPageSignOutViewController {
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     signOutReason = self.myView.sixthReasonView.reasonLabel.text ?? ""
-                    
                 case 7:
                     self.myView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.myView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    self.myView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
+                    self.myView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                    self.myView.seventhReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     signOutReason = self.myView.seventhReasonView.reasonLabel.text ?? ""
                 default:
                     break

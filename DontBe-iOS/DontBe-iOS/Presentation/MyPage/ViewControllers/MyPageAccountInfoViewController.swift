@@ -242,7 +242,7 @@ extension MyPageAccountInfoViewController {
     
     @objc
     private func backButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
     }
     
     @objc

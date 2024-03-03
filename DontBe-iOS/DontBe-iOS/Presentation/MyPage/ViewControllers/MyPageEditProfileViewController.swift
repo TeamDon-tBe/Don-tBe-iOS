@@ -87,7 +87,7 @@ final class MyPageEditProfileViewController: UIViewController {
             self.introductionEditView.contentTextView.addPlaceholder(StringLiterals.MyPage.myPageEditIntroductionPlease, padding: UIEdgeInsets(top: 14.adjusted, left: 14.adjusted, bottom: 14.adjusted, right: 14.adjusted))
         } else {
             self.introductionEditView.contentTextView.text = introText
-            self.introductionEditView.numOfLetters.text = "(\(introText.count)/50"
+            self.introductionEditView.numOfLetters.text = "(\(introText.count)/50)"
         }
         setNotification()
         bindViewModel()
@@ -160,7 +160,7 @@ extension MyPageEditProfileViewController {
         output.popViewController
             .receive(on: RunLoop.main)
             .sink { _ in
-                self.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: false)
             }
             .store(in: self.cancelBag)
         
@@ -205,7 +205,7 @@ extension MyPageEditProfileViewController {
     
     @objc
     private func navBackButtonTapped() {
-        self.navigationController?.popViewController(animated: true)
+        self.navigationController?.popViewController(animated: false)
     }
     
     @objc

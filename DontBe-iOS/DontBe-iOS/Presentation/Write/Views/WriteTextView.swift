@@ -20,6 +20,7 @@ final class WriteTextView: UIView {
     
     let userProfileImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = imageView.frame.size.width / 2
         return imageView
@@ -27,7 +28,8 @@ final class WriteTextView: UIView {
     
     let userNickname: UILabel = {
         let label = UILabel()
-        label.font = UIFont.font(.body1)
+        label.text = loadUserData()?.userNickname ?? ""
+        label.font = UIFont.font(.body3)
         label.textColor = .donBlack
         return label
     }()
@@ -114,7 +116,6 @@ extension WriteTextView {
                 
         if UserDefaults.standard.integer(forKey: "memberGhost") > -85 {
             contentTextView.becomeFirstResponder()
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         }
         // 햅틱 피드백 생성
         impactFeedbackGenerator.prepare()
@@ -148,13 +149,13 @@ extension WriteTextView {
             $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
             $0.leading.equalTo(userNickname.snp.leading)
             $0.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
         keyboardToolbarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
-            $0.bottom.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
         circleProgressBar.snp.makeConstraints {
@@ -174,26 +175,6 @@ extension WriteTextView {
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(60.adjusted)
             $0.height.equalTo(36.adjusted)
-        }
-    }
-    
-    @objc
-    func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            
-            contentTextView.snp.remakeConstraints {
-                $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
-                $0.leading.equalTo(userNickname.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
-            
-            keyboardToolbarView.snp.remakeConstraints {
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(56.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
         }
     }
 }

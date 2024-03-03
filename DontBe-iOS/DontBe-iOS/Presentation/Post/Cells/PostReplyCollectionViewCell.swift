@@ -42,6 +42,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     
     let profileImageView: UIImageView = {
         let image = UIImageView()
+        image.image = ImageLiterals.Common.imgProfile
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted

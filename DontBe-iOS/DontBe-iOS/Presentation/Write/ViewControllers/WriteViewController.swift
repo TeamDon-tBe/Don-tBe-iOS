@@ -58,29 +58,11 @@ final class WriteViewController: UIViewController {
         getAPI()
         bindViewModel()
         
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.hidesBackButton = false
-        self.tabBarController?.tabBar.isTranslucent = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        
-        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.navigationBar.backgroundColor = .donWhite
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         self.navigationItem.hidesBackButton = true
-        self.tabBarController?.tabBar.isTranslucent = false
-        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: nil)
-
-    }
-}
-
-// MARK: - Extensions
-
-extension WriteViewController {
-    private func setUI() {
-        self.view.backgroundColor = .donWhite
-        self.title = StringLiterals.Write.writeNavigationTitle
-        self.navigationController?.navigationBar.tintColor = .donPrimary
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.barTintColor = .clear
         
         let backButton = UIBarButtonItem(
             title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
@@ -96,9 +78,22 @@ extension WriteViewController {
         ], for: .normal)
 
         navigationItem.leftBarButtonItem = backButton
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
         
-        self.rootView.writeTextView.userNickname.text = loadUserData()?.userNickname
-        self.rootView.writeTextView.userProfileImage.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
+        NotificationCenter.default.removeObserver(self, name: UITextView.textDidChangeNotification, object: nil)
+
+    }
+}
+
+// MARK: - Extensions
+
+extension WriteViewController {
+    private func setUI() {
+        self.view.backgroundColor = .donWhite
+        self.title = StringLiterals.Write.writeNavigationTitle
         
         if let window = UIApplication.shared.keyWindowInConnectedScenes {
             window.addSubview(banView)

@@ -49,7 +49,11 @@ extension WriteView {
     }
     
     func setHierarchy() {
-        self.addSubviews(writeTextView, writeCanclePopupView)
+        self.addSubviews(writeTextView)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(writeCanclePopupView)
+        }
     }
     
     func setLayout() {
