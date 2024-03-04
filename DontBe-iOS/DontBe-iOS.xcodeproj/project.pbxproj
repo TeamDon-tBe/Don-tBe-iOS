@@ -99,6 +99,9 @@
 		2FBBADF62B53EEBD002D6286 /* CancelReplyPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */; };
 		2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */; };
 		2FBBADFE2B5644B7002D6286 /* PostDataResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */; };
+		2FD9276A2B92245B0046193D /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 2FD927692B92245B0046193D /* Lottie */; };
+		2FD9276C2B9224FA0046193D /* DontBeLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD9276B2B9224FA0046193D /* DontBeLoadingView.swift */; };
+		2FD9276E2B9225EE0046193D /* loading_yesbe.json in Resources */ = {isa = PBXBuildFile; fileRef = 2FD9276D2B9225EE0046193D /* loading_yesbe.json */; };
 		3C01692A2B4DC82D0075334B /* DontBePopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */; };
 		3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */; };
 		3C1ABD832B8DB26C00ADF97B /* DontBePopupReasonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */; };
@@ -252,6 +255,8 @@
 		2FBBADF52B53EEBD002D6286 /* CancelReplyPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelReplyPopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADF92B54401A002D6286 /* DeletePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePopupViewController.swift; sourceTree = "<group>"; };
 		2FBBADFD2B5644B7002D6286 /* PostDataResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataResponseDTO.swift; sourceTree = "<group>"; };
+		2FD9276B2B9224FA0046193D /* DontBeLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeLoadingView.swift; sourceTree = "<group>"; };
+		2FD9276D2B9225EE0046193D /* loading_yesbe.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = loading_yesbe.json; sourceTree = "<group>"; };
 		3C0920DB2B4D78DA003BD080 /* DontBePopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupView.swift; sourceTree = "<group>"; };
 		3C0920DD2B4D98CD003BD080 /* DontBeToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeToastView.swift; sourceTree = "<group>"; };
 		3C1ABD822B8DB26C00ADF97B /* DontBePopupReasonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePopupReasonView.swift; sourceTree = "<group>"; };
@@ -321,6 +326,7 @@
 			files = (
 				2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */,
 				2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */,
+				2FD9276A2B92245B0046193D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -868,6 +874,7 @@
 		3C6193062B3A777B00220CEB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2FD9276D2B9225EE0046193D /* loading_yesbe.json */,
 				3C6192FA2B3A719C00220CEB /* Info.plist */,
 				3C61930D2B3A782D00220CEB /* Font */,
 				3C6192F52B3A719C00220CEB /* Assets.xcassets */,
@@ -1080,6 +1087,7 @@
 				2A31FF582B4F3A8B00FEEED9 /* UserInfo.swift */,
 				2A5220EB2B507F2A001510B7 /* UITableViewCellRegisterable.swift */,
 				2F65B72E2B84D68500775853 /* CopyableLabel.swift */,
+				2FD9276B2B9224FA0046193D /* DontBeLoadingView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1176,6 +1184,7 @@
 			packageProductDependencies = (
 				2AAA845E2B494AC50098A824 /* SnapKit */,
 				2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */,
+				2FD927692B92245B0046193D /* Lottie */,
 			);
 			productName = DontBe;
 			productReference = 3C6192E92B3A719A00220CEB /* DontBe-iOS.app */;
@@ -1208,6 +1217,7 @@
 			packageReferences = (
 				2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 			);
 			productRefGroup = 3C6192EA2B3A719A00220CEB /* Products */;
 			projectDirPath = "";
@@ -1226,6 +1236,7 @@
 				3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */,
 				2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */,
 				2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */,
+				2FD9276E2B9225EE0046193D /* loading_yesbe.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1331,6 +1342,7 @@
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
 				2A84465E2B4EF41900F98F2A /* JoinProfileView.swift in Sources */,
 				3CEE4CC02B500BE500F506AF /* TransparencyInfoDummy.swift in Sources */,
+				2FD9276C2B9224FA0046193D /* DontBeLoadingView.swift in Sources */,
 				3CE9C1322B4C3C2D0086E4A3 /* UITextView+.swift in Sources */,
 				2F65B72F2B84D68500775853 /* CopyableLabel.swift in Sources */,
 				3CBF99222B549B8C0015FE4B /* WriteContentRequestDTO.swift in Sources */,
@@ -1624,6 +1636,14 @@
 				minimumVersion = 5.7.0;
 			};
 		};
+		2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.4.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1636,6 +1656,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		2FD927692B92245B0046193D /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */;
+			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
