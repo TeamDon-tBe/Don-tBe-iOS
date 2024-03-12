@@ -21,7 +21,6 @@ final class PostDetailViewController: UIViewController {
     
     let refreshControl = UIRefreshControl()
     
-    var transparentPopupVC = TransparentPopupViewController()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     var deleteReplyPopupVC = DeleteReplyPopupViewController(viewModel: DeleteReplyViewModel(networkProvider: NetworkService()))
     
@@ -140,7 +139,6 @@ extension PostDetailViewController {
     private func setUI() {
         self.view.backgroundColor = .donWhite
         textFieldView.isUserInteractionEnabled = true
-        transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
         deleteReplyPopupVC.modalPresentationStyle = .overFullScreen
     }
@@ -168,7 +166,6 @@ extension PostDetailViewController {
     private func setDelegate() {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
-        transparentPopupVC.transparentButtonPopupView.delegate = self
         transparentReasonView.delegate = self
     }
     
@@ -502,7 +499,25 @@ extension PostDetailViewController {
         self.alarmTriggerType = "contentGhost"
         self.targetMemberId = self.memberId
         self.alarmTriggerdId = self.contentId
-        self.present(self.transparentPopupVC, animated: false, completion: nil)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(self.transparentReasonView)
+            
+            self.transparentReasonView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+            
+            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.warnLabel.isHidden = true
+            self.ghostReason = ""
+        }
     }
     
     private func setTextFieldGesture() {
@@ -758,7 +773,25 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
-            self.present(self.transparentPopupVC, animated: false, completion: nil)
+            
+            if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                window.addSubviews(self.transparentReasonView)
+                
+                self.transparentReasonView.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                }
+                
+                let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+                
+                self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.warnLabel.isHidden = true
+                self.ghostReason = ""
+            }
         }
         cell.ProfileButtonAction = {
             self.memberId = self.viewModel.postReplyDatas[indexPath.row].memberId
@@ -871,35 +904,6 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 1 + postViewHeight.adjusted)
-    }
-}
-
-extension PostDetailViewController: DontBePopupDelegate {
-    func cancleButtonTapped() {
-        self.dismiss(animated: false)
-    }
-    
-    func confirmButtonTapped() {
-        self.dismiss(animated: false)
-        
-        if let window = UIApplication.shared.keyWindowInConnectedScenes {
-            window.addSubviews(transparentReasonView)
-            
-            transparentReasonView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-            
-            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
-            
-            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.warnLabel.isHidden = true
-            self.ghostReason = ""
-        }
     }
 }
 

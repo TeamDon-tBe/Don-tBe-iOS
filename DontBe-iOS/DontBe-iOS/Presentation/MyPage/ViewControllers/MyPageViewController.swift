@@ -69,7 +69,6 @@ final class MyPageViewController: UIViewController {
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
     
-    var transparentPopupVC = TransparentPopupViewController()
     var transparentReasonView = DontBePopupReasonView()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
     
@@ -187,7 +186,6 @@ extension MyPageViewController {
     private func setUI() {
         self.view.backgroundColor = .donBlack
         
-        transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
@@ -207,7 +205,6 @@ extension MyPageViewController {
         rootView.myPageScrollView.delegate = self
         rootView.pageViewController.delegate = self
         rootView.pageViewController.dataSource = self
-        transparentPopupVC.transparentButtonPopupView.delegate = self
         transparentReasonView.delegate = self
     }
     
@@ -592,7 +589,25 @@ extension MyPageViewController {
         self.alarmTriggerType = rootView.myPageContentViewController.alarmTriggerType
         self.targetMemberId = rootView.myPageContentViewController.targetMemberId
         self.alarmTriggerdId = rootView.myPageContentViewController.alarmTriggerdId
-        self.present(self.transparentPopupVC, animated: false, completion: nil)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(transparentReasonView)
+            
+            transparentReasonView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+            
+            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.warnLabel.isHidden = true
+            self.ghostReason = ""
+        }
     }
     
     @objc
@@ -600,7 +615,25 @@ extension MyPageViewController {
         self.alarmTriggerType = rootView.myPageCommentViewController.alarmTriggerType
         self.targetMemberId = rootView.myPageCommentViewController.targetMemberId
         self.alarmTriggerdId = rootView.myPageCommentViewController.alarmTriggerdId
-        self.present(self.transparentPopupVC, animated: false, completion: nil)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(transparentReasonView)
+            
+            transparentReasonView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+            
+            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+            
+            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+            self.transparentReasonView.warnLabel.isHidden = true
+            self.ghostReason = ""
+        }
     }
     
     private func moveTop() {
@@ -717,56 +750,29 @@ extension MyPageViewController: UICollectionViewDelegate {
 
 extension MyPageViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
-        if self.logoutPopupView != nil {
-            self.logoutPopupView?.removeFromSuperview()
-        } else {
-            self.dismiss(animated: false)
-        }
+        self.logoutPopupView?.removeFromSuperview()
     }
     
     func confirmButtonTapped() {
-        if self.logoutPopupView != nil {
-            self.logoutPopupView?.removeFromSuperview()
-            self.rootView.myPageBottomsheet.handleDismiss()
-            
-            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-                DispatchQueue.main.async {
-                    let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
-                    sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
-                }
-            }
-            
-            saveUserData(UserInfo(isSocialLogined: false,
-                                  isFirstUser: false,
-                                  isJoinedApp: true,
-                                  isOnboardingFinished: true,
-                                  userNickname: loadUserData()?.userNickname ?? "",
-                                  memberId: loadUserData()?.memberId ?? 0,
-                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+        self.logoutPopupView?.removeFromSuperview()
+        self.rootView.myPageBottomsheet.handleDismiss()
         
-            OnboardingViewController.pushCount = 0
-        } else {
-            self.dismiss(animated: false)
-            
-            if let window = UIApplication.shared.keyWindowInConnectedScenes {
-                window.addSubviews(transparentReasonView)
-                
-                transparentReasonView.snp.makeConstraints {
-                    $0.edges.equalToSuperview()
-                }
-                
-                let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
-                
-                self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                self.transparentReasonView.warnLabel.isHidden = true
-                self.ghostReason = ""
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+            DispatchQueue.main.async {
+                let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
             }
         }
+        
+        saveUserData(UserInfo(isSocialLogined: false,
+                              isFirstUser: false,
+                              isJoinedApp: true,
+                              isOnboardingFinished: true,
+                              userNickname: loadUserData()?.userNickname ?? "",
+                              memberId: loadUserData()?.memberId ?? 0,
+                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+    
+        OnboardingViewController.pushCount = 0
     }
 }
 
