@@ -15,6 +15,7 @@ final class PostDetailContentView: UIView {
         
     var isLiked: Bool = false
     var isGhost: Bool = true
+    var isDeleted: Bool = false
     var memberGhost: Int = 0
     
     var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
