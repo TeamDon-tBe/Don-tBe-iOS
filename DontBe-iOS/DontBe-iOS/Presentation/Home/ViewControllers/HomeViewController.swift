@@ -577,6 +577,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
+        // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
+        if self.homeViewModel.postDatas[indexPath.row].isDeleted {
+            cell.nicknameLabel.textColor = .donGray12
+            cell.profileImageView.isUserInteractionEnabled = false
+        } else {
+            cell.nicknameLabel.textColor = .donBlack
+            cell.profileImageView.isUserInteractionEnabled = true
+        }
+        
         self.contentId = homeViewModel.postDatas[indexPath.row].contentId
         
         return cell

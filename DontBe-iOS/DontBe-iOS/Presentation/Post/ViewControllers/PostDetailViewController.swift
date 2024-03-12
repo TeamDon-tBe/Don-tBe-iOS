@@ -643,6 +643,7 @@ extension PostDetailViewController {
     private func bindPostData(data: PostDetailResponseDTO) {
         self.postView.isGhost = data.isGhost
         self.postView.memberGhost = data.memberGhost
+        self.postView.isDeleted = data.isDeleted
         
         self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
         self.textFieldView.replyTextFieldLabel.text = "\(data.memberNickname)" + StringLiterals.Post.textFieldLabel
@@ -779,6 +780,15 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
+        // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
+        if self.viewModel.postReplyDatas[indexPath.row].isDeleted {
+            cell.nicknameLabel.textColor = .donGray12
+            cell.profileImageView.isUserInteractionEnabled = false
+        } else {
+            cell.nicknameLabel.textColor = .donBlack
+            cell.profileImageView.isUserInteractionEnabled = true
+        }
+        
         return cell
         
     }
@@ -819,6 +829,15 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             } else {
                 let alpha = self.postView.memberGhost
                 header.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            }
+            
+            // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
+            if self.postView.isDeleted {
+                header.postNicknameLabel.textColor = .donGray12
+                header.profileImageView.isUserInteractionEnabled = false
+            } else {
+                header.postNicknameLabel.textColor = .donBlack
+                header.profileImageView.isUserInteractionEnabled = true
             }
             
             return header
