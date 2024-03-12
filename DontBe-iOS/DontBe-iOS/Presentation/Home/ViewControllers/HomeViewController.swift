@@ -595,6 +595,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
         destinationViewController.contentId = homeViewModel.postDatas[indexPath.row].contentId
         destinationViewController.memberId = homeViewModel.postDatas[indexPath.row].memberId
+        destinationViewController.userProfileURL = homeViewModel.postDatas[indexPath.row].memberProfileUrl
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     

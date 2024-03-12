@@ -52,6 +52,7 @@ final class PostDetailViewController: UIViewController {
     var ghostReason: String = ""
     var postViewHeight = 0
     var userNickName: String = ""
+    var userProfileURL: String = StringLiterals.Network.baseImageURL
     var contentText: String = ""
     
     // MARK: - UI Components
@@ -817,7 +818,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             header.isLiked = self.postView.isLiked
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
-            header.profileImageView.image = self.postView.profileImageView.image
+            header.profileImageView.load(url: self.userProfileURL)
             
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)

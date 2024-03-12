@@ -35,7 +35,6 @@ final class PostDetailContentView: UIView {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted
-        image.image = ImageLiterals.Common.imgProfile
         image.isUserInteractionEnabled = true
         return image
     }()
