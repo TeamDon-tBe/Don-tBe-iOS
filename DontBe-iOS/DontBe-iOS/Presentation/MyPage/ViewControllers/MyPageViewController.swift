@@ -475,7 +475,6 @@ extension MyPageViewController {
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
-            self.rootView.myPageContentViewController.firstContentButton.isHidden = false
             
             saveUserData(UserInfo(isSocialLogined: true,
                                   isFirstUser: false,
@@ -489,9 +488,10 @@ extension MyPageViewController {
     
     @objc
     private func pushViewController(_ notification: Notification) {
-        if let contentId = notification.userInfo?["contentId"] as? Int {
+        if let contentId = notification.userInfo?["contentId"] as? Int, let profileImageURL = notification.userInfo?["profileImageURL"] as? String {
             let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
             destinationViewController.contentId = contentId
+            destinationViewController.userProfileURL = profileImageURL
             self.navigationController?.pushViewController(destinationViewController, animated: true)
         }
     }

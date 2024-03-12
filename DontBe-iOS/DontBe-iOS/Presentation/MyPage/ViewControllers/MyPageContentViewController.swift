@@ -240,6 +240,11 @@ extension MyPageContentViewController: UICollectionViewDelegate { }
 
 extension MyPageContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if self.contentDatas.count == 0 {
+            firstContentButton.isHidden = false
+        } else {
+            firstContentButton.isHidden = true
+        }
         return self.contentDatas.count
     }
     
@@ -339,7 +344,8 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let contentId = contentDatas[indexPath.row].contentId
-        NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId])
+        let profileImageURL = contentDatas[indexPath.row].memberProfileUrl
+        NotificationCenter.default.post(name: MyPageContentViewController.pushViewController, object: nil, userInfo: ["contentId": contentId, "profileImageURL": profileImageURL])
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
