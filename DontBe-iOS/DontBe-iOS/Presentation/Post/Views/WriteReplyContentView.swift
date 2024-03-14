@@ -22,10 +22,10 @@ final class WriteReplyContentView: UIView {
         return view
     }()
     
-    let profileImageView: UIImageView = {
+    var profileImageView: UIImageView = {
         let image = UIImageView()
+        image.layer.cornerRadius = 22.adjusted
         image.contentMode = .scaleAspectFill
-        image.layer.cornerRadius = image.frame.size.width / 2.adjusted
         image.clipsToBounds = true
         return image
     }()

@@ -15,6 +15,7 @@ final class PostDetailContentView: UIView {
         
     var isLiked: Bool = false
     var isGhost: Bool = true
+    var isDeleted: Bool = false
     var memberGhost: Int = 0
     
     var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
@@ -34,7 +35,6 @@ final class PostDetailContentView: UIView {
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.layer.cornerRadius = 22.adjusted
-        image.image = ImageLiterals.Common.imgProfile
         image.isUserInteractionEnabled = true
         return image
     }()

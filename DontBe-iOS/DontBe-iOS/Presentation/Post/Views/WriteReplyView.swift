@@ -181,6 +181,8 @@ extension WriteReplyView {
                 $0.height.equalTo(56.adjusted)
                 $0.bottom.equalTo(-keyboardHeight)
             }
+            
+            scrollView.setContentOffset(CGPoint(x: 0, y: self.writeReplyPostview.contentTextLabel.frame.height), animated: true)
         }
     }
 }

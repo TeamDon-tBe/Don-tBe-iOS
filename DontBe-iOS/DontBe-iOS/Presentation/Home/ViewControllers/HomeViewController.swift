@@ -24,7 +24,6 @@ final class HomeViewController: UIViewController {
     var ghostReason: String = ""
     var hasAppearedBefore = false
     
-    var transparentPopupVC = TransparentPopupViewController()
     var transparentReasonView = DontBePopupReasonView()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
 
@@ -125,7 +124,6 @@ extension HomeViewController {
     private func setUI() {
         self.view.backgroundColor = UIColor.donGray1
         
-        transparentPopupVC.modalPresentationStyle = .overFullScreen
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
     }
     
@@ -215,7 +213,6 @@ extension HomeViewController {
     private func setDelegate() {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
-        transparentPopupVC.transparentButtonPopupView.delegate = self
         transparentReasonView.delegate = self
     }
     
@@ -555,7 +552,25 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             self.alarmTriggerType = cell.alarmTriggerType
             self.targetMemberId = cell.targetMemberId
             self.alarmTriggerdId = cell.alarmTriggerdId
-            self.present(self.transparentPopupVC, animated: false, completion: nil)
+            
+            if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                window.addSubviews(self.transparentReasonView)
+                
+                self.transparentReasonView.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                }
+                
+                let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
+                
+                self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
+                self.transparentReasonView.warnLabel.isHidden = true
+                self.ghostReason = ""
+            }
         }
         
         cell.nicknameLabel.text = homeViewModel.postDatas[indexPath.row].memberNickname
@@ -577,6 +592,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
         }
         
+        // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
+        if self.homeViewModel.postDatas[indexPath.row].isDeleted {
+            cell.nicknameLabel.textColor = .donGray12
+            cell.profileImageView.isUserInteractionEnabled = false
+        } else {
+            cell.nicknameLabel.textColor = .donBlack
+            cell.profileImageView.isUserInteractionEnabled = true
+        }
+        
         self.contentId = homeViewModel.postDatas[indexPath.row].contentId
         
         return cell
@@ -586,6 +610,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         let destinationViewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
         destinationViewController.contentId = homeViewModel.postDatas[indexPath.row].contentId
         destinationViewController.memberId = homeViewModel.postDatas[indexPath.row].memberId
+        destinationViewController.userProfileURL = homeViewModel.postDatas[indexPath.row].memberProfileUrl
         self.navigationController?.pushViewController(destinationViewController, animated: true)
     }
     
@@ -597,35 +622,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: UIScreen.main.bounds.width, height: 24.adjusted)
-    }
-}
-
-extension HomeViewController: DontBePopupDelegate {
-    func cancleButtonTapped() {
-        self.dismiss(animated: false)
-    }
-    
-    func confirmButtonTapped() {
-        self.dismiss(animated: false)
-        
-        if let window = UIApplication.shared.keyWindowInConnectedScenes {
-            window.addSubviews(transparentReasonView)
-            
-            transparentReasonView.snp.makeConstraints {
-                $0.edges.equalToSuperview()
-            }
-            
-            let radioButtonImage = ImageLiterals.TransparencyInfo.btnRadio
-            
-            self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.thirdReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-            self.transparentReasonView.warnLabel.isHidden = true
-            self.ghostReason = ""
-        }
     }
 }
 

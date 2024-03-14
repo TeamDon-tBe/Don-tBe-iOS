@@ -34,7 +34,7 @@ class MyPageSignOutConfirmView: UIView {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "으앗! \(loadUserData()?.userNickname ?? "돈비")님이 떠나면서\n돈비 전체가 조금 더 흐려지고 있어요!\n그럼에도 정말 떠나실 건가요?"
+        label.setTextWithLineHeight(text: "으앗! \(loadUserData()?.userNickname ?? "돈비")님이 떠나면서\n돈비 전체가 조금 더 흐려지고 있어요!\n그럼에도 정말 떠나실 건가요?", lineHeight: 22.adjusted, alignment: .center)
         label.textColor = .donGray10
         label.font = UIFont.font(.body4)
         label.textAlignment = .left
@@ -49,6 +49,11 @@ class MyPageSignOutConfirmView: UIView {
         return imageView
     }()
     
+    private let divider: UIView = {
+        let view = UIView()
+        view.backgroundColor = .donGray3
+        return view
+    }()
     
     private let infoTitleLabel: UILabel = {
         let label = UILabel()
@@ -58,9 +63,33 @@ class MyPageSignOutConfirmView: UIView {
         return label
     }()
     
+    private let infoDot1: UILabel = {
+        let label = UILabel()
+        label.text = "•"
+        label.textColor = .donGray12
+        label.font = UIFont.font(.body4)
+        return label
+    }()
+    
+    private let infoDot2: UILabel = {
+        let label = UILabel()
+        label.text = "•"
+        label.textColor = .donGray12
+        label.font = UIFont.font(.body4)
+        return label
+    }()
+    
+    private let infoDot3: UILabel = {
+        let label = UILabel()
+        label.text = "•"
+        label.textColor = .donGray12
+        label.font = UIFont.font(.body4)
+        return label
+    }()
+    
     private let info1Label: UILabel = {
         let label = UILabel()
-        label.text = "회원님의 게시글, 답글, 좋아요 등은 계정 삭제 후에도 자동으로 삭제되지 않으니 미리 확인해 주세요."
+        label.setTextWithLineHeight(text: "회원님의 게시글, 답글, 좋아요 등은 계정 삭제 후에도 자동으로 삭제되지 않으니 미리 확인해 주세요.", lineHeight: 22.adjusted, alignment: .center)
         label.textColor = .donGray12
         label.font = UIFont.font(.body4)
         label.textAlignment = .left
@@ -70,7 +99,7 @@ class MyPageSignOutConfirmView: UIView {
     
     private let info2Label: UILabel = {
         let label = UILabel()
-        label.text = "계정 삭제 처리된 이메일 아이디는 재가입 방지를 위해 30일간 보존된 후 삭제 처리됩니다."
+        label.setTextWithLineHeight(text: "계정 삭제 처리된 이메일 아이디는 재가입 방지를 위해 30일간 보존된 후 삭제 처리됩니다.", lineHeight: 22.adjusted, alignment: .center)
         label.textColor = .donGray12
         label.font = UIFont.font(.body4)
         label.textAlignment = .left
@@ -80,7 +109,7 @@ class MyPageSignOutConfirmView: UIView {
     
     private let info3Label: UILabel = {
         let label = UILabel()
-        label.text = "탈퇴와 재가입을 통해 아이디를 교체하며 선량한 이용자들께 피해를 끼치는 행위를 방지하려는 조치 오니 넓은 양해 부탁드립니다."
+        label.setTextWithLineHeight(text: "탈퇴와 재가입을 통해 아이디를 교체하며 선량한 이용자들께 피해를 끼치는 행위를 방지하려는 조치 오니 넓은 양해 부탁드립니다.", lineHeight: 22.adjusted, alignment: .center)
         label.textColor = .donGray12
         label.font = UIFont.font(.body4)
         label.textAlignment = .left
@@ -143,7 +172,11 @@ extension MyPageSignOutConfirmView {
                          descriptionBackGroundView,
                          descriptionLabel,
                          yesbeImage,
+                         divider,
                          infoTitleLabel,
+                         infoDot1,
+                         infoDot2,
+                         infoDot3,
                          info1Label,
                          info2Label,
                          info3Label,
@@ -161,7 +194,7 @@ extension MyPageSignOutConfirmView {
         descriptionBackGroundView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(23.adjusted)
             $0.leading.equalTo(titleLabel.snp.leading).offset(2)
-            $0.trailing.equalToSuperview().inset(79.adjusted)
+            $0.trailing.equalToSuperview().inset(75.adjusted)
             $0.bottom.equalTo(yesbeImage.snp.bottom).offset(-51.adjusted)
         }
         
@@ -176,26 +209,51 @@ extension MyPageSignOutConfirmView {
             $0.height.equalTo(96.adjusted)
         }
         
+        divider.snp.makeConstraints {
+            $0.top.equalTo(descriptionBackGroundView.snp.bottom).offset(49.adjusted)
+            $0.leading.equalTo(titleLabel.snp.leading)
+            $0.trailing.equalTo(yesbeImage.snp.trailing)
+            $0.height.equalTo(1.adjusted)
+        }
+        
         infoTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(yesbeImage.snp.bottom).offset(18.adjusted)
+            $0.top.equalTo(divider.snp.bottom).offset(18.adjusted)
             $0.leading.equalToSuperview().inset(22.adjusted)
         }
         
-        info1Label.snp.makeConstraints {
-            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(10.adjusted)
+        infoDot1.snp.makeConstraints {
             $0.leading.equalTo(infoTitleLabel.snp.leading)
+            $0.top.equalTo(infoTitleLabel.snp.bottom).offset(15.adjusted)
+            $0.width.equalTo(10.adjusted)
+        }
+        
+        info1Label.snp.makeConstraints {
+            $0.top.equalTo(infoDot1.snp.top).offset(-5.adjusted)
+            $0.leading.equalTo(infoDot1.snp.trailing).offset(6.adjusted)
             $0.trailing.equalToSuperview().inset(22.adjusted)
+        }
+        
+        infoDot2.snp.makeConstraints {
+            $0.leading.equalTo(infoTitleLabel.snp.leading)
+            $0.top.equalTo(info1Label.snp.bottom).offset(10.adjusted)
+            $0.width.equalTo(10.adjusted)
         }
         
         info2Label.snp.makeConstraints {
-            $0.top.equalTo(info1Label.snp.bottom).offset(10.adjusted)
-            $0.leading.equalTo(infoTitleLabel.snp.leading)
+            $0.top.equalTo(infoDot2.snp.top).offset(-5.adjusted)
+            $0.leading.equalTo(infoDot2.snp.trailing).offset(6.adjusted)
             $0.trailing.equalToSuperview().inset(22.adjusted)
         }
         
-        info3Label.snp.makeConstraints {
-            $0.top.equalTo(info2Label.snp.bottom).offset(10.adjusted)
+        infoDot3.snp.makeConstraints {
             $0.leading.equalTo(infoTitleLabel.snp.leading)
+            $0.top.equalTo(info2Label.snp.bottom).offset(10.adjusted)
+            $0.width.equalTo(10.adjusted)
+        }
+        
+        info3Label.snp.makeConstraints {
+            $0.top.equalTo(infoDot3.snp.top).offset(-5.adjusted)
+            $0.leading.equalTo(infoDot3.snp.trailing).offset(6.adjusted)
             $0.trailing.equalToSuperview().inset(22.adjusted)
         }
         

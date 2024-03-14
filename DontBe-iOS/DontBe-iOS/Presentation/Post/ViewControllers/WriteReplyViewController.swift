@@ -81,7 +81,7 @@ final class WriteReplyViewController: UIViewController {
 extension WriteReplyViewController {
     private func setUI() {
         writeView.backgroundColor = .donWhite
-        title = "답글달기"
+        title = "답글 달기"
         cancelReplyPopupVC.modalPresentationStyle = .overFullScreen
         
         writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
