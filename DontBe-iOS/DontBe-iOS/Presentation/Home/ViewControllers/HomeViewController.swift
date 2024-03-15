@@ -86,12 +86,6 @@ final class HomeViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.tabBarController?.tabBar.isHidden = false
         
-        if !hasAppearedBefore {
-            hasAppearedBefore = true
-        } else {
-            showLoadingView()
-        }
-        
         bindViewModel()
         setNotification()
     }
@@ -125,18 +119,6 @@ extension HomeViewController {
         self.view.backgroundColor = UIColor.donGray1
         
         deletePostPopupVC.modalPresentationStyle = .overFullScreen
-    }
-    
-    private func showLoadingView() {
-      let loadingView = DontBeLoadingView()
-        print("로딩 시작!")
-      loadingView.show()
-      
-      DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-        loadingView.hide {
-            print("로딩 끝!")
-        }
-      }
     }
     
     private func setHierarchy() {

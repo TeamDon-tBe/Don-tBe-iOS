@@ -156,6 +156,14 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
             self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationRead
         }
         
+        if beforeIndex == 2 && self.selectedIndex == 0 {
+            showLoadingView()
+        }
+        
+        if beforeIndex == 3 && self.selectedIndex == 0 {
+            showLoadingView()
+        }
+        
         if let selectedViewController = tabBarController.selectedViewController {
             applyFontColorAttributes(to: selectedViewController.tabBarItem, isSelected: true)
         }
@@ -198,5 +206,17 @@ extension DontBeTabBarController: UITabBarControllerDelegate {
             }
         }
         return true
+    }
+}
+
+extension DontBeTabBarController {
+    private func showLoadingView() {
+      let loadingView = DontBeLoadingView()
+      loadingView.show()
+      
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
+        loadingView.hide {
+        }
+      }
     }
 }
