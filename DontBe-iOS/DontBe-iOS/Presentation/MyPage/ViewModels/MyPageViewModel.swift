@@ -63,7 +63,7 @@ final class MyPageViewModel: ViewModelType {
                         do {
                             if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                                 let contentResult = try await self.getMemberContentAPI(accessToken: accessToken, memberId: value.1, contentCursor: value.3)
-                                print("getMemberContentAPI \(self.contentCursor)")
+                                
                                 if let data = contentResult?.data {
                                     self.getContentData.send(self.myPageContentDatas)
                                 }
@@ -131,13 +131,25 @@ extension MyPageViewModel {
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(contentCursor)"])
             if let data = result?.data {
-                var tempArrayData: [MyPageMemberContentResponseDTO] = []
-                
-                for content in data {
-                    tempArrayData.append(content)
+                if contentCursor == -1 {
+                    self.myPageContentDatas = []
+                    
+                    var tempArrayData: [MyPageMemberContentResponseDTO] = []
+                    
+                    for content in data {
+                        tempArrayData.append(content)
+                    }
+                    self.myPageContentData = tempArrayData
+                    myPageContentDatas.append(contentsOf: myPageContentData)
+                } else {
+                    var tempArrayData: [MyPageMemberContentResponseDTO] = []
+                    
+                    for content in data {
+                        tempArrayData.append(content)
+                    }
+                    self.myPageContentData = tempArrayData
+                    myPageContentDatas.append(contentsOf: myPageContentData)
                 }
-                self.myPageContentData = tempArrayData
-                myPageContentDatas.append(contentsOf: myPageContentData)
             }
             return result
         } catch {
@@ -154,13 +166,25 @@ extension MyPageViewModel {
                 body: EmptyBody(),
                 pathVariables:["cursor":"\(commentCursor)"])
             if let data = result?.data {
-                var tempArrayData: [MyPageMemberCommentResponseDTO] = []
-                
-                for comment in data {
-                    tempArrayData.append(comment)
+                if commentCursor == -1 {
+                    self.myPageCommentDatas = []
+                    
+                    var tempArrayData: [MyPageMemberCommentResponseDTO] = []
+                    
+                    for comment in data {
+                        tempArrayData.append(comment)
+                    }
+                    self.myPageCommentData = tempArrayData
+                    myPageCommentDatas.append(contentsOf: myPageCommentData)
+                } else {
+                    var tempArrayData: [MyPageMemberCommentResponseDTO] = []
+                    
+                    for comment in data {
+                        tempArrayData.append(comment)
+                    }
+                    self.myPageCommentData = tempArrayData
+                    myPageCommentDatas.append(contentsOf: myPageCommentData)
                 }
-                self.myPageCommentData = tempArrayData
-                myPageCommentDatas.append(contentsOf: myPageCommentData)
             }
             return result
         } catch {

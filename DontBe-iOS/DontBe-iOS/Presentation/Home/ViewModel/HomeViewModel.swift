@@ -160,15 +160,23 @@ extension HomeViewModel {
                                             pathVariables: ["cursor":"\(cursor)"])
             
             if let data = result?.data {
-                var tempArrayData: [PostDataResponseDTO] = []
-                
-                for content in data {
-                    tempArrayData.append(content)
-                }
-                self.postData = tempArrayData
                 if cursor == -1 {
-                    postDatas = data
+                    self.postDatas = []
+                    
+                    var tempArrayData: [PostDataResponseDTO] = []
+                    
+                    for content in data {
+                        tempArrayData.append(content)
+                    }
+                    self.postData = tempArrayData
+                    postDatas.append(contentsOf: postData)
                 } else {
+                    var tempArrayData: [PostDataResponseDTO] = []
+                    
+                    for content in data {
+                        tempArrayData.append(content)
+                    }
+                    self.postData = tempArrayData
                     postDatas.append(contentsOf: postData)
                 }
             }

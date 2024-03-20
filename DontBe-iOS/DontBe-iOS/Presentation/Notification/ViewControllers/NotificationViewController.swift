@@ -201,12 +201,14 @@ extension NotificationViewController: UITableViewDataSource {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == notificationTableView {
-            if viewModel.notificationLists.count > 15 && (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
+            if viewModel.notificationLists.count >= 15 && (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
                 let lastNotificationId = viewModel.notificationList.last??.notificationId ?? -1
-                viewModel.cursor = lastNotificationId
-                bindViewModel()
-                DispatchQueue.main.async {
-                    self.notificationTableView.reloadData()
+                if lastNotificationId != -1 {
+                    viewModel.cursor = lastNotificationId
+                    bindViewModel()
+                    DispatchQueue.main.async {
+                        self.notificationTableView.reloadData()
+                    }
                 }
             }
         }
