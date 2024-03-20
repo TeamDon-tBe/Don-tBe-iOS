@@ -170,7 +170,6 @@ enum StringLiterals {
     
     enum Loading {
         static let loadingMessageTitle = "알고 계셨나요?"
-        static let loadingMessage1 = "온라인 상에서도 비속어를\n사용하지 않은 사람들이\n실제 행복지수가 더 높다고 해요."
         static let loadingMessage2 = "Don’t be는 그저 온화한 커뮤니티가 아닌\n온화하면서도 재밌을 수 있는 커뮤니티를 지향해요."
         static let loadingMessage3 = "Don’t be의 온화함을 해치는 글이 보인다면\n직접 투명도 기능을 눌러보세요!"
         static let loadingMessage4 = "Don’t be 팀은 온화한 커뮤니티를 만들기 위해\n저희부터 온화한 팀이 되고자 노력하고 있어요."

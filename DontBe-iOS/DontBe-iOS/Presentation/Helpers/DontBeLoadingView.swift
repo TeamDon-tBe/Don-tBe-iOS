@@ -12,8 +12,7 @@ import Lottie
 final class DontBeLoadingView: UIView {
     
     private var loadingText: String = ""
-    private var loadingTexts = [StringLiterals.Loading.loadingMessage1,
-                               StringLiterals.Loading.loadingMessage2,
+    private var loadingTexts = [StringLiterals.Loading.loadingMessage2,
                                StringLiterals.Loading.loadingMessage3,
                                StringLiterals.Loading.loadingMessage4,
                                StringLiterals.Loading.loadingMessage5,
