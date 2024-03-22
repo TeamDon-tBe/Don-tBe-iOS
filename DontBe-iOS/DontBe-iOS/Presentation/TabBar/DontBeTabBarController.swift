@@ -148,20 +148,27 @@ final class DontBeTabBarController: UITabBarController {
 extension DontBeTabBarController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        if selectedIndex == 1 {
-            self.selectedIndex = 0
-        }
-        
         if selectedIndex == 2 {
             self.tabBar.items?[2].image = ImageLiterals.TabBar.icnNotificationRead
         }
         
-        if beforeIndex == 2 && self.selectedIndex == 0 {
-            showLoadingView()
+        if beforeIndex == 2 {
+            if self.selectedIndex == 0 {
+                showLoadingView()
+                print("여기는 \(self.selectedIndex)")
+            }
         }
         
-        if beforeIndex == 3 && self.selectedIndex == 0 {
-            showLoadingView()
+        if beforeIndex == 3 {
+            if self.selectedIndex == 0 {
+                showLoadingView()
+                print("여기는 \(self.selectedIndex)")
+            }
+        }
+        
+        if selectedIndex == 1 {
+            self.selectedIndex = 0
+            hideLoadingView()
         }
         
         if let selectedViewController = tabBarController.selectedViewController {
@@ -215,8 +222,14 @@ extension DontBeTabBarController {
       loadingView.show()
       
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.4) {
-        loadingView.hide {
-        }
+        loadingView.hide()
       }
+    }
+    
+    private func hideLoadingView() {
+        let loadingView = DontBeLoadingView()
+        DispatchQueue.main.async {
+            loadingView.hide()
+        }
     }
 }
