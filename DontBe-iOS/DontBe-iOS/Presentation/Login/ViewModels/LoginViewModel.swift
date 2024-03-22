@@ -83,7 +83,7 @@ final class LoginViewModel: NSObject, ViewModelType {
             Task {
                 do {
                     let result = try await self.postSocialLoginAPI(socialPlatform: "KAKAO", accessToken: accessToken, userName: nil)?.data
-                    let isNewUser = result?.isNewUser ?? false
+                    guard let isNewUser = result?.isNewUser else { return }
                     let nickname = result?.nickName ?? ""
                     if !isNewUser && !nickname.isEmpty {
                         self.userInfoPublisher.send(false)
