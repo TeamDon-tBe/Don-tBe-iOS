@@ -160,6 +160,7 @@
 		3CF184D12B4EFF9900816D5F /* MyPageProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF184D02B4EFF9900816D5F /* MyPageProfileView.swift */; };
 		3CF4293A2B8F416F00A1524B /* MyPageMemberDeleteDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF429392B8F416F00A1524B /* MyPageMemberDeleteDTO.swift */; };
 		3CF4651B2B58398900997FCA /* PostTransparencyRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF4651A2B58398900997FCA /* PostTransparencyRequestDTO.swift */; };
+		3CFB30472BB305EE00A3F70A /* Amplitude in Frameworks */ = {isa = PBXBuildFile; productRef = 3CFB30462BB305EE00A3F70A /* Amplitude */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -326,6 +327,7 @@
 			files = (
 				2AAA845F2B494AC50098A824 /* SnapKit in Frameworks */,
 				2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */,
+				3CFB30472BB305EE00A3F70A /* Amplitude in Frameworks */,
 				2FD9276A2B92245B0046193D /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1185,6 +1187,7 @@
 				2AAA845E2B494AC50098A824 /* SnapKit */,
 				2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */,
 				2FD927692B92245B0046193D /* Lottie */,
+				3CFB30462BB305EE00A3F70A /* Amplitude */,
 			);
 			productName = DontBe;
 			productReference = 3C6192E92B3A719A00220CEB /* DontBe-iOS.app */;
@@ -1218,6 +1221,7 @@
 				2AAA845D2B494AC50098A824 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				3CFB30452BB305EE00A3F70A /* XCRemoteSwiftPackageReference "Amplitude-iOS" */,
 			);
 			productRefGroup = 3C6192EA2B3A719A00220CEB /* Products */;
 			projectDirPath = "";
@@ -1644,6 +1648,14 @@
 				minimumVersion = 4.4.1;
 			};
 		};
+		3CFB30452BB305EE00A3F70A /* XCRemoteSwiftPackageReference "Amplitude-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/amplitude/Amplitude-iOS";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1661,6 +1673,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		3CFB30462BB305EE00A3F70A /* Amplitude */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3CFB30452BB305EE00A3F70A /* XCRemoteSwiftPackageReference "Amplitude-iOS" */;
+			productName = Amplitude;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
