@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 
+import Amplitude
+
 final class WriteViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
@@ -31,6 +33,8 @@ final class WriteViewModel: ViewModelType {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                             if let resultStatus = try await self.postWriteContentAPI(accessToken: "\(accessToken)", contentText: "\(value)") {
                                 self.popViewController.send(true)
+                                
+                                Amplitude.instance().logEvent("click_post_upload")
                             }
                         }
                     } catch {
