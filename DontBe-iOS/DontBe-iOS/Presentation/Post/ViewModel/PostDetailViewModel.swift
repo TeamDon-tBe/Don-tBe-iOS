@@ -91,6 +91,8 @@ final class PostDetailViewModel: ViewModelType {
                             let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
                             if statusCode == 201 {
                                 self.toggleLikeButton.send(value.0)
+                                
+                                Amplitude.instance().logEvent("click_post_like")
                             }
                         }
                     } catch {
