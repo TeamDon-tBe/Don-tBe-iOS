@@ -141,6 +141,8 @@ final class PostDetailViewModel: ViewModelType {
                             let statusCode = try await self.postCommentLikeButtonAPI(commentId: value.1, alarmText: value.2)?.status
                             if statusCode == 201 {
                                 self.toggleCommentLikeButton.send(value.0)
+                                
+                                Amplitude.instance().logEvent("click_reply_like")
                             }
                         }
                     } catch {
