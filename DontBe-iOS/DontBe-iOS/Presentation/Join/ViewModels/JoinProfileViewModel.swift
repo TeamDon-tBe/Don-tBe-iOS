@@ -9,6 +9,8 @@ import Combine
 import Foundation
 import UIKit
 
+import Amplitude
+
 final class JoinProfileViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
@@ -71,6 +73,8 @@ final class JoinProfileViewModel: ViewModelType {
                                               profileImage: value.profile_image)
                     
                     self.pushOrPopViewController.send(1)
+                    
+                    Amplitude.instance().logEvent("click_account_join_done")
                 }
                 saveUserData(UserInfo(isSocialLogined: true,
                                       isFirstUser: true,
