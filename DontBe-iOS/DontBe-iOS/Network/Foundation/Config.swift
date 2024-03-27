@@ -12,6 +12,7 @@ enum Config {
         enum Plist {
             static let nativeAppKey = "NATIVE_APP_KEY"
             static let baseURL = "BASE_URL"
+            static let amplitudeAppKey = "AMPLITUDE_APP_KEY"
         }
     }
     
@@ -34,6 +35,13 @@ extension Config {
     static let baseURL: String = {
         guard let key = Config.infoDictionary[Keys.Plist.baseURL] as? String else {
             fatalError("Base URL is not set in plist for this configuration")
+        }
+        return key
+    }()
+    
+    static let amplitudeAppKey: String = {
+        guard let key = Config.infoDictionary[Keys.Plist.amplitudeAppKey] as? String else {
+            fatalError("AMPLITUDE_APP_KEY is not set in plist for this configuration")
         }
         return key
     }()

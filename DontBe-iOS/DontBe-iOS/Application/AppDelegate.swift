@@ -8,6 +8,7 @@
 import AuthenticationServices
 import UIKit
 
+import Amplitude
 import KakaoSDKCommon
 
 @main
@@ -25,6 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
         
         KakaoSDK.initSDK(appKey: Config.nativeAppKey)
+        
+        /// Amplitude 설정
+        Amplitude.instance().initializeApiKey(Config.amplitudeAppKey)
         
         NotificationCenter.default.addObserver(forName: ASAuthorizationAppleIDProvider.credentialRevokedNotification, object: nil, queue: nil) { (Notification) in
             // 앱 실행 중 강제로 연결 취소 시 로그인 페이지로 이동

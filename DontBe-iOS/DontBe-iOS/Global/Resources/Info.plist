@@ -22,6 +22,8 @@
 	</array>
 	<key>NATIVE_APP_KEY</key>
 	<string>$(NATIVE_APP_KEY)</string>
+	<key>AMPLITUDE_APP_KEY</key>
+	<string>$(AMPLITUDE_APP_KEY)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

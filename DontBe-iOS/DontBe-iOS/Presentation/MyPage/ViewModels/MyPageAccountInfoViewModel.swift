@@ -8,6 +8,8 @@
 import Combine
 import Foundation
 
+import Amplitude
+
 final class MyPageAccountInfoViewModel: ViewModelType {
     private let cancelBag = CancelBag()
     private let networkProvider: NetworkServiceType
@@ -53,6 +55,8 @@ final class MyPageAccountInfoViewModel: ViewModelType {
                         if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
                             if let result = try await self.deleteMemberAPI(accessToken: accessToken, deletedReason: deletedReason) {
                                 self.isSignOutResult.send(result.status)
+                                
+                                Amplitude.instance().logEvent("click_account_delete_done")
                             }
                         }
                     } catch {

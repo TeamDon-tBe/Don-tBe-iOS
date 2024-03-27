@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+import Amplitude
+
 final class PostDetailViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
@@ -65,6 +67,8 @@ final class PostDetailViewModel: ViewModelType {
                             if let data = postResult?.data {
                                 self.isLikeButtonClicked = data.isLiked
                                 self.getPostData.send(data)
+                                
+                                Amplitude.instance().logEvent("click_post_view")
                             }
                         }
                     } catch {
@@ -87,6 +91,8 @@ final class PostDetailViewModel: ViewModelType {
                             let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
                             if statusCode == 201 {
                                 self.toggleLikeButton.send(value.0)
+                                
+                                Amplitude.instance().logEvent("click_post_like")
                             }
                         }
                     } catch {
@@ -135,6 +141,8 @@ final class PostDetailViewModel: ViewModelType {
                             let statusCode = try await self.postCommentLikeButtonAPI(commentId: value.1, alarmText: value.2)?.status
                             if statusCode == 201 {
                                 self.toggleCommentLikeButton.send(value.0)
+                                
+                                Amplitude.instance().logEvent("click_reply_like")
                             }
                         }
                     } catch {

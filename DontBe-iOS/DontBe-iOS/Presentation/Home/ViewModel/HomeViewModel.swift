@@ -5,9 +5,10 @@
 //  Created by yeonsu on 1/8/24.
 //
 
+import Combine
 import Foundation
 
-import Combine
+import Amplitude
 
 final class HomeViewModel: ViewModelType {
     
@@ -84,6 +85,8 @@ final class HomeViewModel: ViewModelType {
                             let statusCode = try await self.postLikeButtonAPI(contentId: value.1)?.status
                             if statusCode == 201 {
                                 self.toggleLikeButton.send(value.0)
+                                
+                                Amplitude.instance().logEvent("click_post_like")
                             }
                         }
                     } catch {

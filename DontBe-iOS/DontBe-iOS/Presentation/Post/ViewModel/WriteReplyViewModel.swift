@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 
+import Amplitude
+
 final class WriteReplyViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
@@ -33,6 +35,8 @@ final class WriteReplyViewModel: ViewModelType {
                             if let resultStatus = try await self.postWriteReplyContentAPI(accessToken: "\(accessToken)", commentText: value.0, contentId: value.1, notificationTriggerType: "comment") {
                                 print(resultStatus.status)
                                 self.popViewController.send(true)
+                                
+                                Amplitude.instance().logEvent("click_reply_upload")
                             }
                         }
                     } catch {
