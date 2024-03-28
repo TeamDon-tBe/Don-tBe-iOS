@@ -362,7 +362,13 @@ extension MyPageViewController {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = true
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
                 } else {
-                    self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                    if loadUserData()?.memberId != self.memberId {
+                        self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                        self.rootView.myPageContentViewController.firstContentButton.isHidden = true
+                    } else {
+                        self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                        self.rootView.myPageContentViewController.firstContentButton.isHidden = false
+                    }
                 }
                 DispatchQueue.main.async {
                     self.rootView.myPageContentViewController.homeCollectionView.reloadData()
@@ -471,7 +477,6 @@ extension MyPageViewController {
         if data.memberId != loadUserData()?.memberId ?? 0 {
             self.rootView.myPageContentViewController.noContentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoContentOtherLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
-            self.rootView.myPageContentViewController.firstContentButton.isHidden = true
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel
