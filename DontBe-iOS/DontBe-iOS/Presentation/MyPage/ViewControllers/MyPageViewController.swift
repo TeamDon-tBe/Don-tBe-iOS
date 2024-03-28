@@ -31,6 +31,7 @@ final class MyPageViewController: UIViewController {
     private lazy var sixthReason = self.transparentReasonView.sixthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     var memberId: Int = loadUserData()?.memberId ?? 0
+    var memberProfileImage: String = loadUserData()?.userProfileImage ?? ""
     var contentId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -122,8 +123,10 @@ final class MyPageViewController: UIViewController {
         bindHomeViewModel()
         setNotification()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.refreshData()
+        if loadUserData()?.userProfileImage != self.memberProfileImage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.refreshData()
+            }
         }
         
         let image = ImageLiterals.MyPage.icnMenu
