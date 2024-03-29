@@ -110,17 +110,23 @@ final class PostDetailViewModel: ViewModelType {
                             let postReplyResult = try await
                             self.getPostReplyDataAPI(accessToken: accessToken, contentId: value)
                             if let data = postReplyResult?.data {
+                                if let lastCommentId = data.last?.commentId {
+                                    self.cursor = lastCommentId
+                                }
                                 if self.cursor == -1 {
                                     self.postReplyDatas = []
                                     
                                     self.postReplyData = data
                                     self.getPostReplyData.send(data)
+                                    
+                                    postReplyDatas.append(contentsOf: postReplyData)
                                 } else {
                                     self.postReplyData = data
                                     self.getPostReplyData.send(data)
+                                    
+                                    postReplyDatas.append(contentsOf: postReplyData)
                                 }
                             }
-                            postReplyDatas.append(contentsOf: postReplyData)
                         }
                     } catch {
                         print(error)
