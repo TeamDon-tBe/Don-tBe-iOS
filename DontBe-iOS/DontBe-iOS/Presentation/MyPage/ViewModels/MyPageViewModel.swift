@@ -144,11 +144,15 @@ extension MyPageViewModel {
                 } else {
                     var tempArrayData: [MyPageMemberContentResponseDTO] = []
                     
-                    for content in data {
-                        tempArrayData.append(content)
+                    if data.isEmpty {
+                        self.contentCursor = -1
+                    } else {
+                        for content in data {
+                            tempArrayData.append(content)
+                        }
+                        self.myPageContentData = tempArrayData
+                        myPageContentDatas.append(contentsOf: myPageContentData)
                     }
-                    self.myPageContentData = tempArrayData
-                    myPageContentDatas.append(contentsOf: myPageContentData)
                 }
             }
             return result

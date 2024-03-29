@@ -91,8 +91,6 @@ final class HomeViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        refreshCollectionViewDidDrag()
-        
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .clear
 
@@ -154,7 +152,6 @@ extension HomeViewController {
             deletePostBottomsheetView.dimView.removeFromSuperview()
             deletePostBottomsheetView.bottomsheetView.removeFromSuperview()
         }
-        refreshCollectionViewDidDrag()
     }
     
     func showDeletePostPopupView() {
@@ -179,7 +176,6 @@ extension HomeViewController {
             warnUserBottomsheetView.dimView.removeFromSuperview()
             warnUserBottomsheetView.bottomsheetView.removeFromSuperview()
         }
-        refreshCollectionViewDidDrag()
     }
     
     func showWarnUserSafariView() {

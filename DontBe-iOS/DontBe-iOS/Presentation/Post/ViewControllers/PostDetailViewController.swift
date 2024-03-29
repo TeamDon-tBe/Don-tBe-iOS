@@ -82,8 +82,6 @@ final class PostDetailViewController: UIViewController {
         setTextFieldGesture()
         setRefreshControll()
         setLayout()
-        refreshPostDidDrag()
-        refreshControl.beginRefreshing()
     }
     
     init(viewModel: PostDetailViewModel) {

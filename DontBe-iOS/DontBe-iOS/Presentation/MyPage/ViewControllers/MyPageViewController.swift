@@ -31,6 +31,7 @@ final class MyPageViewController: UIViewController {
     private lazy var sixthReason = self.transparentReasonView.sixthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     
     var memberId: Int = loadUserData()?.memberId ?? 0
+    var memberProfileImage: String = loadUserData()?.userProfileImage ?? ""
     var contentId: Int = 0
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -122,8 +123,10 @@ final class MyPageViewController: UIViewController {
         bindHomeViewModel()
         setNotification()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            self.refreshData()
+        if loadUserData()?.userProfileImage != self.memberProfileImage {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                self.refreshData()
+            }
         }
         
         let image = ImageLiterals.MyPage.icnMenu
@@ -254,6 +257,8 @@ extension MyPageViewController {
     @objc
     func refreshData() {
         DispatchQueue.main.async {
+            self.contentCursor = -1
+            self.commentCursor = -1
             self.bindViewModel()
         }
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
@@ -355,11 +360,23 @@ extension MyPageViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.rootView.myPageContentViewController.contentDatas = data
+                self.viewModel.contentCursor = self.contentCursor
+                if data.isEmpty {
+                    self.viewModel.contentCursor = -1
+                } else {
+                    self.viewModel.contentCursor = self.contentCursor
+                }
                 if !data.isEmpty {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = true
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
                 } else {
-                    self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                    if loadUserData()?.memberId != self.memberId {
+                        self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                        self.rootView.myPageContentViewController.firstContentButton.isHidden = true
+                    } else {
+                        self.rootView.myPageContentViewController.noContentLabel.isHidden = false
+                        self.rootView.myPageContentViewController.firstContentButton.isHidden = false
+                    }
                 }
                 DispatchQueue.main.async {
                     self.rootView.myPageContentViewController.homeCollectionView.reloadData()
@@ -468,7 +485,6 @@ extension MyPageViewController {
         if data.memberId != loadUserData()?.memberId ?? 0 {
             self.rootView.myPageContentViewController.noContentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoContentOtherLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = "아직 \(data.nickname)" + StringLiterals.MyPage.myPageNoCommentOtherLabel
-            self.rootView.myPageContentViewController.firstContentButton.isHidden = true
         } else {
             self.rootView.myPageContentViewController.noContentLabel.text = "\(data.nickname)" + StringLiterals.MyPage.myPageNoContentLabel
             self.rootView.myPageCommentViewController.noCommentLabel.text = StringLiterals.MyPage.myPageNoCommentLabel

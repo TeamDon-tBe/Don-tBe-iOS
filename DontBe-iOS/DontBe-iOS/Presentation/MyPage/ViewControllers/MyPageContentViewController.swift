@@ -240,11 +240,6 @@ extension MyPageContentViewController: UICollectionViewDelegate { }
 
 extension MyPageContentViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if self.contentDatas.count == 0 {
-            firstContentButton.isHidden = false
-        } else {
-            firstContentButton.isHidden = true
-        }
         return self.contentDatas.count
     }
     

@@ -176,11 +176,15 @@ extension HomeViewModel {
                 } else {
                     var tempArrayData: [PostDataResponseDTO] = []
                     
-                    for content in data {
-                        tempArrayData.append(content)
+                    if data.isEmpty {
+                        self.cursor = -1
+                    } else {
+                        for content in data {
+                            tempArrayData.append(content)
+                        }
+                        self.postData = tempArrayData
+                        postDatas.append(contentsOf: postData)
                     }
-                    self.postData = tempArrayData
-                    postDatas.append(contentsOf: postData)
                 }
             }
             return result
