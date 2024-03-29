@@ -257,6 +257,8 @@ extension MyPageViewController {
     @objc
     func refreshData() {
         DispatchQueue.main.async {
+            self.contentCursor = -1
+            self.commentCursor = -1
             self.bindViewModel()
         }
         self.perform(#selector(self.finishedRefreshing), with: nil, afterDelay: 0.1)
@@ -358,6 +360,12 @@ extension MyPageViewController {
             .receive(on: RunLoop.main)
             .sink { data in
                 self.rootView.myPageContentViewController.contentDatas = data
+                self.viewModel.contentCursor = self.contentCursor
+                if data.isEmpty {
+                    self.viewModel.contentCursor = -1
+                } else {
+                    self.viewModel.contentCursor = self.contentCursor
+                }
                 if !data.isEmpty {
                     self.rootView.myPageContentViewController.noContentLabel.isHidden = true
                     self.rootView.myPageContentViewController.firstContentButton.isHidden = true
