@@ -312,6 +312,8 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         cell.commentNumLabel.text = "\(commentDatas[indexPath.row].commentLikedNumber)"
         cell.profileImageView.load(url: "\(commentDatas[indexPath.row].memberProfileUrl)")
         
+        cell.configure(with: cell.contentTextLabel.text ?? "")
+        
         cell.likeButton.setImage(commentDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = commentDatas[indexPath.row].isLiked
         
