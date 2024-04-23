@@ -90,7 +90,6 @@ final class PostDetailCollectionHeaderView: UICollectionReusableView {
     let contentTextLabel: CopyableLabel = {
         let label = CopyableLabel()
         label.textColor = .donBlack
-        label.text = ""
         label.lineBreakMode = .byCharWrapping
         label.font = .font(.body4)
         label.numberOfLines = 0
@@ -174,6 +173,48 @@ final class PostDetailCollectionHeaderView: UICollectionReusableView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(with postText: String) {
+        contentTextLabel.attributedText = attributedString(for: postText)
+         
+        // 탭 제스처 추가
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        contentTextLabel.isUserInteractionEnabled = true
+        contentTextLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    // URL을 하이퍼링크로 바꾸는 함수
+    private func attributedString(for text: String) -> NSAttributedString {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
+            return NSAttributedString(string: text)
+        }
+        
+        let attributedString = NSMutableAttributedString(string: text)
+        let matches = detector.matches(in: text, options: [], range: NSRange(location: 0, length: text.utf16.count))
+        
+        for match in matches {
+            guard let range = Range(match.range, in: text) else { continue }
+            let url = text[range]
+            attributedString.addAttribute(.link, value: url, range: NSRange(range, in: text))
+        }
+        
+        return attributedString
+    }
+    
+    // 탭 제스처 처리 함수
+    @objc func handleTap(_ gesture: UITapGestureRecognizer) {
+        guard let attributedText = contentTextLabel.attributedText else { return }
+        let location = gesture.location(in: contentTextLabel)
+        let index = contentTextLabel.indexOfAttributedTextCharacterAtPoint(point: location)
+        
+        attributedText.enumerateAttribute(.link, in: NSRange(location: 0, length: attributedText.length), options: []) { value, range, _ in
+            if let url = value as? String, NSLocationInRange(index, range) {
+                if let url = URL(string: url) {
+                    UIApplication.shared.open(url)
+                }
+            }
+        }
     }
 }
 
