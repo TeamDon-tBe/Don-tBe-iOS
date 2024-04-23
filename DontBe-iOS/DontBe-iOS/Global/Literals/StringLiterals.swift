@@ -23,6 +23,9 @@ enum StringLiterals {
         static let writePopupContentLabel = "작성 중인 글을 삭제하시겠어요?"
         static let writePopupCancleButtonTitle = "취소"
         static let writePopupConfirmButtonTitle = "삭제"
+        static let writeLinkPlaceholder = "URL"
+        static let writeOnlyOneLink = "링크는 한 개까지만 삽입할 수 있어요."
+        static let writeErrorLink = "아직 링크로 인식되지 않아요. 다시 확인해 주세요."
     }
 
     enum Login {
