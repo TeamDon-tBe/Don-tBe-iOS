@@ -10,6 +10,10 @@ import UIKit
 import SnapKit
 
 final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegisterable {
+    
+    // MARK: - Properties
+    
+    var profileButtonAction: (() -> Void) = {}
         
     // MARK: - UI Components
     
@@ -17,6 +21,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         let profileImage = UIImageView()
         profileImage.contentMode = .scaleAspectFill
         profileImage.layer.cornerRadius = profileImage.frame.size.width / 2
+        profileImage.isUserInteractionEnabled = true
         return profileImage
     }()
     
@@ -27,6 +32,16 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         notificationLabel.numberOfLines = 0  // 여러 줄 지원
         notificationLabel.lineBreakMode = .byCharWrapping
         return notificationLabel
+    }()
+    
+    let nicknameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .donGray12
+        label.font = .font(.body3)
+        label.numberOfLines = 0  // 여러 줄 지원
+        label.lineBreakMode = .byCharWrapping
+        label.isUserInteractionEnabled = true
+        return label
     }()
     
     private let minutes: UILabel = {
@@ -50,6 +65,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         setUI()
         setHierarchy()
         setLayout()
+        setAddTarget()
     }
     
     @available(*, unavailable)
@@ -72,7 +88,10 @@ extension NotificationTableViewCell {
     private func setHierarchy() {
         self.contentView.addSubviews(profileImage,
                                      notificationLabel,
+                                     nicknameLabel,
                                      minutes)
+        
+        self.contentView.bringSubviewToFront(nicknameLabel)
     }
     
     private func setLayout() {
@@ -82,11 +101,21 @@ extension NotificationTableViewCell {
             $0.trailing.equalToSuperview().inset(63.adjusted)
         }
         
+        nicknameLabel.snp.makeConstraints {
+            $0.top.equalTo(notificationLabel.snp.top)
+            $0.leading.equalTo(notificationLabel.snp.leading)
+        }
+        
         minutes.snp.makeConstraints {
-            $0.top.equalTo(notificationLabel).offset(2.adjustedH)
+            $0.top.equalTo(notificationLabel)
             $0.trailing.equalToSuperview().inset(14.adjusted)
             $0.height.equalTo(18.adjusted)
         }
+    }
+    
+    func setAddTarget() {
+        profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
+        nicknameLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
     }
     
     func configureCell(list: NotificationList) {
@@ -99,28 +128,33 @@ extension NotificationTableViewCell {
         
         switch list.notificationType {
         case .contentLiked, .comment, .commentLiked:
+            nicknameLabel.text = list.triggerMemberNickname
             notificationLabel.text = list.triggerMemberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
-                lineHeight: 21.adjusted,
                 targetString: list.triggerMemberNickname,
                 font: .font(.body3))
         case .actingContinue, .beGhost, .contentGhost, .commentGhost:
+            nicknameLabel.text = list.memberNickname
             notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
-                lineHeight: 21.adjusted,
                 targetString: list.memberNickname,
                 font: .font(.body3))
         case .userBan:
+            nicknameLabel.text = list.memberNickname
             notificationLabel.text = list.memberNickname + " " + list.notificationType.description
             notificationLabel.setTextWithLineHeightAndFont(
                 text: notificationLabel.text,
-                lineHeight: 21.adjusted,
-                targetString: list.memberNickname + " " + StringLiterals.Notification.emphasizeViolation,
+                targetString: list.memberNickname,
                 font: .font(.body3))
         }
         
         minutes.text = list.time.formattedTime()
+    }
+    
+    @objc
+    func profileButton() {
+        profileButtonAction()
     }
 }
