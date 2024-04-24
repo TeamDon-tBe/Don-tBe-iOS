@@ -99,7 +99,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                         self.showUpdateAlert(version: marketingVersion)
                         
                     } else {
-                        self.showUpdateAlert(version: marketingVersion)
+                        print("현재 최신버전입니다.")
                     }
                 }
             }
