@@ -12,8 +12,8 @@ final class NotificationViewModel: ViewModelType {
     
     private let cancelBag = CancelBag()
     private let reloadTableView = PassthroughSubject<Int, Never>()
-    var notificationList: [NotificationList?] = []
-    var notificationLists: [NotificationList?] = []
+    var notificationList: [NotificationList] = []
+    var notificationLists: [NotificationList] = []
     private let networkProvider: NetworkServiceType
     var cursor: Int = -1
     
@@ -49,7 +49,8 @@ final class NotificationViewModel: ViewModelType {
                             triggerMemberProfileUrl: data.triggerMemberProfileUrl,
                             notificationTriggerId: data.notificationTriggerId,
                             notificationType: notificationType,
-                            time: data.time, notificationId: data.notificationId)
+                            time: data.time, notificationId: data.notificationId,
+                            triggerMemberId: data.triggerMemberId)
                     }
                     self.notificationList = myNotiList ?? []
                     notificationLists.append(contentsOf: notificationList)
@@ -73,7 +74,9 @@ final class NotificationViewModel: ViewModelType {
                             triggerMemberProfileUrl: data.triggerMemberProfileUrl,
                             notificationTriggerId: data.notificationTriggerId,
                             notificationType: notificationType,
-                            time: data.time, notificationId: data.notificationId)
+                            time: data.time,
+                            notificationId: data.notificationId,
+                            triggerMemberId: data.triggerMemberId)
                     }
                     self.notificationList = myNotiList ?? []
                     _ = try await self.patchNotificationCheck()
@@ -92,7 +95,7 @@ extension NotificationViewModel {
             guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
             let data: NotificationListResponseDTO? = try await self.networkProvider.donNetwork(
                 type: .get,
-                baseURL: Config.baseURL + "/member-notifications",
+                baseURL: Config.baseURL + "/notifications",
                 accessToken: accessToken,
                 body: EmptyBody(),
                 pathVariables: ["cursor": "\(cursor)"])
