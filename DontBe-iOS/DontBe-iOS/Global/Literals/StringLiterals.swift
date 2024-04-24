@@ -27,7 +27,7 @@ enum StringLiterals {
         static let writeOnlyOneLink = "링크는 한 개까지만 삽입할 수 있어요."
         static let writeErrorLink = "아직 링크로 인식되지 않아요. 다시 확인해 주세요."
     }
-
+    
     enum Login {
         static let title = "온화한 커뮤니티\nDON’T BE에서 만나요."
     }
@@ -180,5 +180,10 @@ enum StringLiterals {
         static let loadingMessage6 = "낮아진 투명도는 시간이 지나면 다시 회복돼요.\n하지만 투명도가 너무 자주 낮아진다면\n그 시간이 늘어날 수 있어요!"
         static let loadingMessage7 = "Don’t be는 누구도 상처 받지 않고\n스트레스 받지 않는 커뮤니티를 만들려고 해요."
         static let loadingMessage8 = "저희는 Don’t be를 통해 온라인 환경이\n조금 더 온화해지기를 바라요."
+    }
+    
+    enum VersionUpdate {
+        static let versionTitle = "v 1.1.0 업데이트 안내\nDon't be가 업데이트 되었습니다."
+        static let versionMessage = "•눌러서 바로 이동할 수 있는 링크를 삽입할 수 있어요.\n•내 글에 답글을 달거나 좋아요를 누른 상대의 프로필로 이동할 수 있어요.\n•그 외 자잘한 오류들을 해결했어요."
     }
 }
