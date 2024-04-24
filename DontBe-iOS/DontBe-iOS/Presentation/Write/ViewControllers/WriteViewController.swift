@@ -20,7 +20,7 @@ final class WriteViewController: UIViewController {
     private var transparency: Int = 0
     
     private lazy var postButtonTapped = rootView.writeTextView.postButton.publisher(for: .touchUpInside).map { _ in
-        return self.rootView.writeTextView.contentTextView.text ?? ""
+        return self.rootView.writeTextView.contentTextView.text + "\n" + self.rootView.writeTextView.linkTextView.text ?? ""
     }.eraseToAnyPublisher()
     
     // MARK: - UI Components
@@ -143,7 +143,7 @@ extension WriteViewController {
     @objc
     private func cancleNavigationBarButtonTapped() {
         // 텍스트가 비어있는 경우 POP
-        if self.rootView.writeTextView.contentTextView.text == "" {
+        if self.rootView.writeTextView.contentTextView.text == "" && self.rootView.writeTextView.linkTextView.text == "" {
             popupNavigation()
         } else {
             self.rootView.writeCanclePopupView.alpha = 1

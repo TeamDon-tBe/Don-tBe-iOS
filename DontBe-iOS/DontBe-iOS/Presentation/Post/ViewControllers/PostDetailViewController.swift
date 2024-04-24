@@ -93,8 +93,18 @@ final class PostDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.getAPI()
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        refreshControl.beginRefreshing()
         
         self.navigationItem.hidesBackButton = true
         self.navigationItem.title = StringLiterals.Post.navigationTitleLabel
@@ -804,6 +814,9 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
         self.commentId = viewModel.postReplyDatas[indexPath.row].commentId
         cell.likeButton.setImage(viewModel.postReplyDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = self.viewModel.postReplyDatas[indexPath.row].isLiked
+        
+        cell.configure(with: cell.contentTextLabel.text ?? "")
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postReplyDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
@@ -850,6 +863,8 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
             header.profileImageView.load(url: self.userProfileURL)
+            
+            header.configure(with: header.contentTextLabel.text ?? "")
             
             DispatchQueue.main.async {
                 self.postViewHeight = Int(header.PostbackgroundUIView.frame.height)

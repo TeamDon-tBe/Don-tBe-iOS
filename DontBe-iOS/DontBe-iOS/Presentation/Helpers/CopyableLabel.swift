@@ -51,3 +51,24 @@ class CopyableLabel: UILabel {
         return (action == #selector(copy(_:)))
     }
 }
+
+extension UILabel {
+    func indexOfAttributedTextCharacterAtPoint(point: CGPoint) -> Int {
+        guard let attributedString = attributedText else { return NSNotFound }
+        guard bounds.contains(point) else { return NSNotFound }
+        
+        let textStorage = NSTextStorage(attributedString: attributedString)
+        let layoutManager = NSLayoutManager()
+        textStorage.addLayoutManager(layoutManager)
+        
+        let textContainer = NSTextContainer(size: bounds.size)
+        textContainer.lineFragmentPadding = 0
+        textContainer.maximumNumberOfLines = numberOfLines
+        textContainer.lineBreakMode = lineBreakMode
+        
+        layoutManager.addTextContainer(textContainer)
+        
+        let index = layoutManager.characterIndex(for: point, in: textContainer, fractionOfDistanceBetweenInsertionPoints: nil)
+        return index
+    }
+}

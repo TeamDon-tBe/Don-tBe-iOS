@@ -324,6 +324,8 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         cell.likeButton.setImage(contentDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = contentDatas[indexPath.row].isLiked
         
+        cell.configure(with: cell.contentTextLabel.text ?? "")
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if contentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85

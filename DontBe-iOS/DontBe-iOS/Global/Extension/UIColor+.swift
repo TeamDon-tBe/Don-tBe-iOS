@@ -28,6 +28,10 @@ extension UIColor {
         return UIColor(hex: "#0E0E0E")
     }
     
+    static var donLink: UIColor {
+        return UIColor(hex: "3479FF")
+    }
+    
     static var donGray1: UIColor {
         return UIColor(hex: "#F6F6F7")
     }
