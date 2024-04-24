@@ -79,6 +79,7 @@ final class OnboardingEndingViewModel: ViewModelType {
                         if statusCode == 200 {
                             publisher.send("start")
                         }
+                        _ = try await self.postWriteContentAPI(inroduction: value)
                     } catch {
                         print(error)
                     }
