@@ -108,8 +108,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func showUpdateAlert(version: String) {
         let alert = UIAlertController(
-            title: "v 1.1.0 업데이트 안내\nDon't be가 업데이트 되었습니다.",
-            message: "•눌러서 바로 이동할 수 있는 링크를 삽입할 수 있어요.\n•내 글에 답글을 달거나 좋아요를 누른 상대의 프로필로 이동할 수 있어요.\n•그 외 자잘한 오류들을 해결했어요.",
+            title: StringLiterals.VersionUpdate.versionTitle,
+            message: StringLiterals.VersionUpdate.versionMessage,
             preferredStyle: .alert
         )
         
