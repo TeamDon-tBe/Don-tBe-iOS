@@ -34,14 +34,9 @@ extension UILabel {
         attributedText = attributedString
     }
     
-    func setTextWithLineHeightAndFont(text: String?, lineHeight: CGFloat, targetString: String, font: UIFont) {
+    func setTextWithLineHeightAndFont(text: String?, targetString: String, font: UIFont) {
         if let text = text {
-            let style = NSMutableParagraphStyle()
-            style.maximumLineHeight = lineHeight
-            style.minimumLineHeight = lineHeight
-            
             let attributes: [NSAttributedString.Key: Any] = [
-                .paragraphStyle: style,
                 .font: UIFont.font(.body4)
             ]
             
@@ -50,6 +45,7 @@ extension UILabel {
             // 특정 문자열에 대해서만 폰트 변경
             let range = (text as NSString).range(of: targetString)
             attrString.addAttribute(.font, value: font, range: range)
+            attrString.addAttribute(.foregroundColor, value: UIColor.clear, range: range)
             
             self.attributedText = attrString
         }
