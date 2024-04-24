@@ -91,7 +91,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let splitCurrentProjectVersion = currentProjectVersion.split(separator: ".").map { $0 }
                 
                 if splitCurrentProjectVersion.count > 0 && splitMarketingVersion.count > 0 {
-                
+                    
                     if splitCurrentProjectVersion[0] < splitMarketingVersion[0] {
                         self.showUpdateAlert(version: marketingVersion)
                         
@@ -122,4 +122,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         [ cancelAction, updateAction ].forEach { alert.addAction($0) }
         window?.rootViewController?.present(alert, animated: true, completion: nil)
     }
-    }
+}
