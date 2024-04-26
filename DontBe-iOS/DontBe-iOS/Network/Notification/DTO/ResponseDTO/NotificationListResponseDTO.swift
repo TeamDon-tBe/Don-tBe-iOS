@@ -28,4 +28,5 @@ struct Datum: Decodable {
     let isNotificationChecked: Bool
     let isDeleted: Bool
     let notificationId: Int
+    let triggerMemberId: Int
 }

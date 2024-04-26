@@ -66,8 +66,15 @@ final class NotificationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.tabBarController?.tabBar.isHidden = false
         self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.navigationBar.backgroundColor = .clear
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         self.navigationItem.hidesBackButton = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.backgroundColor = .clear
     }
 }
 
@@ -150,8 +157,8 @@ extension NotificationViewController: UITableViewDelegate {
         if !viewModel.notificationLists.isEmpty {
             // 선택한 셀에 해당하는 데이터
             let selectedNotification = viewModel.notificationLists[indexPath.row]
-            if selectedNotification?.notificationType != .userBan {
-                if selectedNotification?.notificationType == .beGhost {
+            if selectedNotification.notificationType != .userBan {
+                if selectedNotification.notificationType == .beGhost {
                     if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
                         DispatchQueue.main.async {
                             let viewController = DontBeTabBarController()
@@ -162,12 +169,12 @@ extension NotificationViewController: UITableViewDelegate {
                             sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: viewController)
                         }
                     }
-                } else if selectedNotification?.notificationType == .actingContinue {
+                } else if selectedNotification.notificationType == .actingContinue {
                     let viewController = WriteViewController(viewModel: WriteViewModel(networkProvider: NetworkService()))
                     self.navigationController?.pushViewController(viewController, animated: false)
                 } else {
                     let viewController = PostDetailViewController(viewModel: PostDetailViewModel(networkProvider: NetworkService()))
-                    viewController.contentId = selectedNotification?.notificationTriggerId ?? 0
+                    viewController.contentId = selectedNotification.notificationTriggerId
                     self.navigationController?.pushViewController(viewController, animated: true)
                 }
             }
@@ -191,10 +198,36 @@ extension NotificationViewController: UITableViewDataSource {
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(list: viewModel.notificationLists[indexPath.row] ?? NotificationList.baseList)
+            cell.configureCell(list: viewModel.notificationLists[indexPath.row])
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines
+            
+            cell.profileButtonAction = {
+                if self.viewModel.notificationLists[indexPath.row].notificationType == .contentLiked || self.viewModel.notificationLists[indexPath.row].notificationType == .commentLiked || self.viewModel.notificationLists[indexPath.row].notificationType == .comment {
+                    let memberId = self.viewModel.notificationLists[indexPath.row].triggerMemberId
+                    
+                    if memberId == loadUserData()?.memberId ?? 0  {
+                        self.tabBarController?.selectedIndex = 3
+                        if let selectedViewController = self.tabBarController?.selectedViewController {
+                            self.applyTabBarAttributes(to: selectedViewController.tabBarItem, isSelected: true)
+                        }
+                        let myViewController = self.tabBarController?.viewControllers ?? [UIViewController()]
+                        for (index, controller) in myViewController.enumerated() {
+                            if let tabBarItem = controller.tabBarItem {
+                                if index != self.tabBarController?.selectedIndex {
+                                    self.applyTabBarAttributes(to: tabBarItem, isSelected: false)
+                                }
+                            }
+                        }
+                    } else {
+                        let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
+                        viewController.memberId = memberId
+                        self.navigationController?.pushViewController(viewController, animated: false)
+                    }
+                }
+            }
+            
             return cell
         }
     }
@@ -202,7 +235,7 @@ extension NotificationViewController: UITableViewDataSource {
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if scrollView == notificationTableView {
             if viewModel.notificationLists.count >= 15 && (scrollView.contentOffset.y + scrollView.frame.size.height) >= (scrollView.contentSize.height) {
-                let lastNotificationId = viewModel.notificationList.last??.notificationId ?? -1
+                let lastNotificationId = viewModel.notificationList.last?.notificationId ?? -1
                 if lastNotificationId != -1 {
                     viewModel.cursor = lastNotificationId
                     bindViewModel()
