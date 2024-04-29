@@ -20,7 +20,7 @@ final class WriteReplyEditorView: UIView {
         return view
     }()
     
-    private let userProfileImage: UIImageView = {
+    let userProfileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
@@ -48,6 +48,9 @@ final class WriteReplyEditorView: UIView {
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textContainer.maximumNumberOfLines = 0
+        textView.isScrollEnabled = true
+        textView.isEditable = true
+        textView.showsVerticalScrollIndicator = false
         return textView
     }()
     
