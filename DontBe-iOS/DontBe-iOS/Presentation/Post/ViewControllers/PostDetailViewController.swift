@@ -437,6 +437,8 @@ extension PostDetailViewController {
                         self.deleteToastView?.alpha = 0
                     }
                 }
+                self.viewModel.cursor = -1
+                self.viewModel.postReplyDatas = []
             }
         }
     }
