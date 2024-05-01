@@ -41,7 +41,7 @@ final class WriteReplyEditorView: UIView {
         let textView = UITextView()
         textView.font = UIFont.font(.body4)
         textView.textColor = .donBlack
-        textView.tintColor = .donPrimary
+        textView.tintColor = .donLink
         textView.backgroundColor = .clear
         textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
