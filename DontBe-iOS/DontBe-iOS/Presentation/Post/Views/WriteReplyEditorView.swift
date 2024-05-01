@@ -20,7 +20,7 @@ final class WriteReplyEditorView: UIView {
         return view
     }()
     
-    private let userProfileImage: UIImageView = {
+    let userProfileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
         imageView.contentMode = .scaleAspectFill
@@ -41,13 +41,16 @@ final class WriteReplyEditorView: UIView {
         let textView = UITextView()
         textView.font = UIFont.font(.body4)
         textView.textColor = .donBlack
-        textView.tintColor = .donPrimary
+        textView.tintColor = .donLink
         textView.backgroundColor = .clear
         textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainer.lineBreakMode = .byWordWrapping
         textView.textContainer.maximumNumberOfLines = 0
+        textView.isScrollEnabled = true
+        textView.isEditable = true
+        textView.showsVerticalScrollIndicator = false
         return textView
     }()
     

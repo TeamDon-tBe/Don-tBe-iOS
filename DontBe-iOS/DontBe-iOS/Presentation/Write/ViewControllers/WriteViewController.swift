@@ -20,7 +20,7 @@ final class WriteViewController: UIViewController {
     private var transparency: Int = 0
     
     private lazy var postButtonTapped = rootView.writeTextView.postButton.publisher(for: .touchUpInside).map { _ in
-        return self.rootView.writeTextView.contentTextView.text + "\n" + self.rootView.writeTextView.linkTextView.text ?? ""
+        return self.rootView.writeTextView.contentTextView.text + "\n" + self.rootView.writeTextView.linkTextView.text
     }.eraseToAnyPublisher()
     
     // MARK: - UI Components

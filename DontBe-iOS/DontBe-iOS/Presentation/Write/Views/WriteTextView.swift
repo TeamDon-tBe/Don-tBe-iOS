@@ -16,6 +16,7 @@ final class WriteTextView: UIView {
     let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
     let maxLength = 500 // 최대 글자 수
     var isHiddenLinkView = true
+    var isValidURL = false
     
     // MARK: - UI Components
     
@@ -39,7 +40,7 @@ final class WriteTextView: UIView {
         let textView = UITextView()
         textView.font = UIFont.font(.body4)
         textView.textColor = .donBlack
-        textView.tintColor = .donPrimary
+        textView.tintColor = .donLink
         textView.backgroundColor = .clear
         textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -56,7 +57,7 @@ final class WriteTextView: UIView {
         let textView = UITextView()
         textView.font = UIFont.font(.body4)
         textView.textColor = .donBlack
-        textView.tintColor = .donPrimary
+        textView.tintColor = .donLink
         textView.backgroundColor = .clear
         textView.addPlaceholder(StringLiterals.Write.writeLinkPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -366,18 +367,22 @@ extension WriteTextView: UITextViewDelegate {
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
         } else {
-            postButton.setTitleColor(.donBlack, for: .normal)
-            postButton.backgroundColor = .donPrimary
-            postButton.isEnabled = true
-            
             if totalTextLength < 500 {
                 limitedCircleProgressBar.alpha = 0
                 circleProgressBar.alpha = 1
                 
                 let value = Double(totalTextLength) / 500
                 circleProgressBar.value = value
-                postButton.isEnabled = true
-                postButton.backgroundColor = .donPrimary
+                
+                if isValidURL == true || linkTextView.text == "" {
+                    postButton.setTitleColor(.donBlack, for: .normal)
+                    postButton.backgroundColor = .donPrimary
+                    postButton.isEnabled = true
+                } else {
+                    postButton.setTitleColor(.donGray9, for: .normal)
+                    postButton.backgroundColor = .donGray3
+                    postButton.isEnabled = false
+                }
             } else {
                 limitedCircleProgressBar.alpha = 1
                 circleProgressBar.alpha = 0
@@ -421,14 +426,10 @@ extension WriteTextView: UITextViewDelegate {
             }
             
             if isValidURL(textView.text) {
-                postButton.setTitleColor(.donBlack, for: .normal)
-                postButton.backgroundColor = .donPrimary
-                postButton.isEnabled = true
+                isValidURL = true
                 errorLinkView.isHidden = true
             } else {
-                postButton.setTitleColor(.donGray9, for: .normal)
-                postButton.backgroundColor = .donGray3
-                postButton.isEnabled = false
+                isValidURL = false
                 errorLinkView.isHidden = false
             }
         }

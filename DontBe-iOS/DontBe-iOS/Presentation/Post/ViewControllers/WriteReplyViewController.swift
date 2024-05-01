@@ -18,7 +18,7 @@ final class WriteReplyViewController: UIViewController {
     
     private lazy var postButtonTapped =
     writeView.postButton.publisher(for: .touchUpInside).map { _ in
-        return (self.writeView.writeReplyView.contentTextView.text ?? "", self.contentId)
+        return (self.writeView.writeReplyView.contentTextView.text + "\n" + self.writeView.linkTextView.text, self.contentId)
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0
