@@ -254,7 +254,7 @@ extension WriteReplyView {
         }
         
         onlyOneLinkView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview().inset(16.adjusted)
+            $0.leading.trailing.equalToSuperview().inset(26.adjusted)
             $0.bottom.equalToSuperview().offset(-8.adjusted)
             $0.height.equalTo(34.adjusted)
         }
@@ -347,15 +347,22 @@ extension WriteReplyView {
     }
     
     func isValidURL(_ urlString: String) -> Bool {
-        // URL의 정규식 패턴
-        let urlPattern = #"^(http|https)://[a-zA-Z0-9\-\.]+\.(com|co|kr)"#
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         
-        // 정규식과 매칭되는지 확인
-        if let regex = try? NSRegularExpression(pattern: urlPattern, options: .caseInsensitive) {
-            let range = NSRange(location: 0, length: urlString.utf16.count)
-            return regex.firstMatch(in: urlString, options: [], range: range) != nil
+        // URL 여부 확인
+        let range = NSRange(location: 0, length: urlString.utf16.count)
+        if let match = detector.firstMatch(in: urlString, options: [], range: range) {
+            // NSTextCheckingTypeLink가 아닌 경우는 URL이 아님
+            if match.resultType != .link {
+                return false
+            }
+            // URL의 범위가 입력된 문자열의 전체를 차지하지 않는 경우도 URL이 아님
+            if match.range.location != 0 || match.range.length != urlString.utf16.count {
+                return false
+            }
+            return true
         }
-        
+        // 일치하는 것이 없는 경우도 URL이 아님
         return false
     }
 }
