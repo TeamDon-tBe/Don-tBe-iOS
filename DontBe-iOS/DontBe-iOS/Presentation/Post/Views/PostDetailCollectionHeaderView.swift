@@ -210,7 +210,11 @@ final class PostDetailCollectionHeaderView: UICollectionReusableView {
         
         attributedText.enumerateAttribute(.link, in: NSRange(location: 0, length: attributedText.length), options: []) { value, range, _ in
             if let url = value as? String, NSLocationInRange(index, range) {
-                if let url = URL(string: url) {
+                var urlString = url
+                if !urlString.hasPrefix("http://") && !urlString.hasPrefix("https://") {
+                    urlString = "https://\(urlString)"
+                }
+                if let url = URL(string: urlString) {
                     UIApplication.shared.open(url)
                 }
             }
