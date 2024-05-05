@@ -17,6 +17,7 @@ final class WriteTextView: UIView {
     let maxLength = 500 // 최대 글자 수
     var isHiddenLinkView = true
     var isValidURL = false
+    var isActivePostButton = false
     
     // MARK: - UI Components
     
@@ -235,7 +236,7 @@ extension WriteTextView {
         }
         
         linkCloseButton.snp.makeConstraints {
-            $0.top.equalTo(linkTextView.snp.top).offset(-7.adjusted)
+            $0.top.equalTo(linkTextView.snp.top).offset(-12.adjusted)
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.size.equalTo(44.adjusted)
         }
@@ -301,6 +302,10 @@ extension WriteTextView {
     
     @objc private func linkButtonTapped() {
         if isHiddenLinkView == true {
+            postButton.setTitleColor(.donGray9, for: .normal)
+            postButton.backgroundColor = .donGray3
+            postButton.isEnabled = false
+            
             isHiddenLinkView = false
             
             linkTextView.isHidden = false
@@ -319,6 +324,19 @@ extension WriteTextView {
         linkTextView.isHidden = true
         linkCloseButton.isHidden = true
         errorLinkView.isHidden = true
+        onlyOneLinkView.isHidden = true
+        
+        if let contentText = contentTextView.text {
+            if contentText == "" {
+                postButton.setTitleColor(.donGray9, for: .normal)
+                postButton.backgroundColor = .donGray3
+                postButton.isEnabled = false
+            } else {
+                postButton.setTitleColor(.donBlack, for: .normal)
+                postButton.backgroundColor = .donPrimary
+                postButton.isEnabled = true
+            }
+        }
         
         linkTextView.text = nil
         contentTextView.becomeFirstResponder()
@@ -329,9 +347,6 @@ extension WriteTextView {
         let totalTextLength = contentTextLength + linkLength
         let value = Double(totalTextLength) / 500
         circleProgressBar.value = value
-        postButton.setTitleColor(.donGray9, for: .normal)
-        postButton.backgroundColor = .donGray3
-        postButton.isEnabled = false
     }
     
     func isValidURL(_ urlString: String) -> Bool {
@@ -361,8 +376,19 @@ extension WriteTextView: UITextViewDelegate {
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
         
-        if linkLength == 0 {
-            errorLinkView.isHidden = true
+        if textView == linkTextView {
+            if isValidURL(textView.text) {
+                isValidURL = true
+                errorLinkView.isHidden = true
+            } else {
+                isValidURL = false
+
+                if linkLength == 0 {
+                    errorLinkView.isHidden = true
+                } else {
+                    errorLinkView.isHidden = false
+                }
+            }
         }
         
         let totalTextLength = contentTextLength + linkLength
@@ -430,14 +456,6 @@ extension WriteTextView: UITextViewDelegate {
 
             textView.snp.updateConstraints { make in
                 make.height.equalTo(newHeight)
-            }
-            
-            if isValidURL(textView.text) {
-                isValidURL = true
-                errorLinkView.isHidden = true
-            } else {
-                isValidURL = false
-                errorLinkView.isHidden = false
             }
         }
     }
