@@ -368,7 +368,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.firstReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.firstReasonView.radioButton.currentTitle ?? ""
                 case 2:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
@@ -376,7 +376,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.secondReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.secondReasonView.radioButton.currentTitle ?? ""
                 case 3:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -384,7 +384,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.thirdReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.thirdReasonView.radioButton.currentTitle ?? ""
                 case 4:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -392,7 +392,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fourthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fourthReasonView.radioButton.currentTitle ?? ""
                 case 5:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -400,7 +400,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fifthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fifthReasonView.radioButton.currentTitle ?? ""
                 case 6:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -408,7 +408,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.sixthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.sixthReasonView.radioButton.currentTitle ?? ""
                 default:
                     break
                 }
