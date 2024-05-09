@@ -140,7 +140,7 @@ final class PostDetailContentView: UIView {
     
     let verticalTextBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = .donPale
+        view.backgroundColor = .donGray2
         return view
     }()
     
@@ -264,7 +264,7 @@ extension PostDetailContentView {
         verticalTextBarView.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom)
             $0.bottom.equalTo(ghostButton.snp.top)
-            $0.width.equalTo(1.adjusted)
+            $0.width.equalTo(2.adjusted)
             $0.centerX.equalTo(profileImageView)
         }
         
