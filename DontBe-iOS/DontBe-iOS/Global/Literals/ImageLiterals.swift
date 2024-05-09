@@ -71,7 +71,7 @@ enum ImageLiterals {
         static var btnFavoriteActive: UIImage { .load(name: "favorite=btn_favorite_active") }
         static var btnFavoriteInActive: UIImage { .load(name: "favorite=btn_favorite_default") }
         static var icnDelete: UIImage { .load(name: "icn_delete") }
-        static var btnTransparent: UIImage { .load(name: "status=btn_ghost_default") }
+        static var btnTransparent: UIImage { .load(name: "btn_ghost_gray") }
     }
     
     enum Write {
