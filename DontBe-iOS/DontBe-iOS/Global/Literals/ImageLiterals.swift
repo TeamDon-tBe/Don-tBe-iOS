@@ -78,6 +78,7 @@ enum ImageLiterals {
         static var imgWritingRestriction: UIImage { .load(name: "img_writing_restriction") }
         static var imgBanText: UIImage { .load(name: "img_ban_text") }
         static var btnLink: UIImage { .load(name: "btn_link") }
+        static var btnPhoto: UIImage { .load(name: "btn_photo") }
         static var btnCloseLink: UIImage { .load(name: "btn_close_link") }
     }
     
