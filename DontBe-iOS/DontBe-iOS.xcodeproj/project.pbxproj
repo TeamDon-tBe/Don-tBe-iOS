@@ -147,6 +147,7 @@
 		3CBF99292B56BD210015FE4B /* MypageProfileResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */; };
 		3CD25D272B5466DB0075F80F /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D262B5466DB0075F80F /* Empty.swift */; };
 		3CD25D292B5482FE0075F80F /* DontBeBottomSheetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */; };
+		3CE6B90D2BECBCA6002E2CDC /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE6B90C2BECBCA6002E2CDC /* Functions.swift */; };
 		3CE9C12A2B4BE6780086E4A3 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */; };
 		3CE9C12C2B4BE7300086E4A3 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */; };
 		3CE9C12E2B4C08AE0086E4A3 /* WriteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */; };
@@ -306,6 +307,7 @@
 		3CBF99282B56BD210015FE4B /* MypageProfileResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MypageProfileResponseDTO.swift; sourceTree = "<group>"; };
 		3CD25D262B5466DB0075F80F /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
 		3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBeBottomSheetButton.swift; sourceTree = "<group>"; };
+		3CE6B90C2BECBCA6002E2CDC /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		3CE9C1292B4BE6780086E4A3 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		3CE9C12B2B4BE7300086E4A3 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		3CE9C12D2B4C08AE0086E4A3 /* WriteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteTextView.swift; sourceTree = "<group>"; };
@@ -690,6 +692,7 @@
 			isa = PBXGroup;
 			children = (
 				2F4BE0C52BD90EC4003147E7 /* AppStoreCheckManager.swift */,
+				3CE6B90C2BECBCA6002E2CDC /* Functions.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -1375,6 +1378,7 @@
 				2FBBADF12B53AF9B002D6286 /* PostDetailCollectionFooterView.swift in Sources */,
 				2FB64FF62B531E4F0082A414 /* WriteReplyEditorView.swift in Sources */,
 				2FB769D02B5277BD004C7752 /* PostReplyTextFieldView.swift in Sources */,
+				3CE6B90D2BECBCA6002E2CDC /* Functions.swift in Sources */,
 				2A2671FD2B4C3A9F009D214F /* LoginViewModel.swift in Sources */,
 				2FB818DC2B51875D00B7498F /* PostReplyCollectionViewCell.swift in Sources */,
 				2F0A98D32B58B8EF00AAE625 /* DeleteReplyPopupViewController.swift in Sources */,
