@@ -567,6 +567,27 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.configure(with: cell.contentTextLabel.text ?? "")
         
+        if let contentImage = homeViewModel.postDatas[indexPath.row].contentImageUrl {
+            cell.photoImageView.loadContentImage(url: "\(contentImage)")
+            cell.photoImageView.isHidden = false
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.photoImageView.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        } else {
+            cell.photoImageView.isHidden = true
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        }
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.homeViewModel.postDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85

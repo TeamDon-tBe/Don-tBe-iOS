@@ -104,6 +104,11 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return label
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
     lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
@@ -246,6 +251,7 @@ extension HomeCollectionViewCell {
                                      dotLabel,
                                      timeLabel,
                                      contentTextLabel,
+                                     photoImageView,
                                      grayView,
                                      kebabButton,
                                      commentStackView,
@@ -313,6 +319,13 @@ extension HomeCollectionViewCell {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
             $0.leading.equalTo(nicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
+        }
+        
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(8.adjusted)
+            $0.leading.equalTo(nicknameLabel)
+            $0.trailing.equalTo(kebabButton.snp.trailing)
+            $0.height.equalTo(359.adjusted)
         }
         
         commentStackView.snp.makeConstraints {
