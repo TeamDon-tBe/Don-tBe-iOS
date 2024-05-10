@@ -259,6 +259,8 @@ extension HomeViewController {
                         self.uploadToastView?.checkImageView.alpha = 1
                         self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploaded
                         self.uploadToastView?.container.backgroundColor = .donPrimary
+                        
+                        self.refreshCollectionViewDidDrag()
                     }
                     
                     UIView.animate(withDuration: 1.0, delay: 2, options: .curveEaseIn) {
