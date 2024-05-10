@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Photos
+import PhotosUI
 
 import SnapKit
 
@@ -50,6 +52,7 @@ final class WriteViewController: UIViewController {
         
         setUI()
         setDelegate()
+        setAddTarget()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +66,7 @@ final class WriteViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.barTintColor = .clear
+        self.navigationController?.navigationBar.scrollEdgeAppearance = nil
         
         let backButton = UIBarButtonItem(
             title: StringLiterals.Write.writeNavigationBarButtonItemTitle,
@@ -106,6 +110,10 @@ extension WriteViewController {
         self.rootView.writeCanclePopupView.delegate = self
     }
     
+    private func setAddTarget() {
+        self.rootView.writeTextView.photoButton.addTarget(self, action: #selector(photoButtonTapped), for: .touchUpInside)
+    }
+    
     private func bindViewModel() {
         let input = WriteViewModel.Input(postButtonTapped: postButtonTapped)
         
@@ -140,10 +148,57 @@ extension WriteViewController {
         self.navigationController?.popViewController(animated: false)
     }
     
+    @objc private func photoButtonTapped() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        
+        switch status {
+        case .authorized, .limited:
+            presentPicker()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.presentPicker()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            authSettingOpen()
+        default:
+            break
+        }
+    }
+    
+    private func presentPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images // 이미지만 필터링
+        configuration.selectionLimit = 1 // 선택 제한
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    private func authSettingOpen() {
+        let message = StringLiterals.Camera.photoNoAuth
+        
+        let alert = UIAlertController(title: "설정", message: message, preferredStyle: .alert)
+        
+        let cancle = UIAlertAction(title: "닫기", style: .default)
+        
+        let confirm = UIAlertAction(title: "권한설정하기", style: .default) { (UIAlertAction) in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
+        
+        alert.addAction(cancle)
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     @objc
     private func cancleNavigationBarButtonTapped() {
-        // 텍스트가 비어있는 경우 POP
-        if self.rootView.writeTextView.contentTextView.text == "" && self.rootView.writeTextView.linkTextView.text == "" {
+        if self.rootView.writeTextView.contentTextView.text == "" && self.rootView.writeTextView.linkTextView.text == "" && self.rootView.writeTextView.photoImageView.image == nil {
             popupNavigation()
         } else {
             self.rootView.writeCanclePopupView.alpha = 1
@@ -179,5 +234,24 @@ extension WriteViewController: DontBePopupDelegate {
     func confirmButtonTapped() {
         self.rootView.writeCanclePopupView.alpha = 0
         popupNavigation()
+    }
+}
+
+extension WriteViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+        
+        guard let selectedImage = results.first else { return }
+        
+        selectedImage.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+            DispatchQueue.main.async {
+                if let image = image as? UIImage {
+                    self.rootView.writeTextView.photoImageView.isHidden = false
+                    self.rootView.writeTextView.photoImageView.image = image
+                } else if let error = error {
+                    print(error)
+                }
+            }
+        }
     }
 }

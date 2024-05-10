@@ -21,6 +21,15 @@ final class WriteTextView: UIView {
     
     // MARK: - UI Components
     
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
+    private let contentView = UIView()
+    
     let userProfileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.load(url: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL)
@@ -77,6 +86,15 @@ final class WriteTextView: UIView {
         button.setImage(ImageLiterals.Write.btnCloseLink, for: .normal)
         button.isHidden = true
         return button
+    }()
+    
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4.adjusted
+        imageView.clipsToBounds = true
+        return imageView
     }()
     
     private let errorLinkView: UIView = {
@@ -142,6 +160,12 @@ final class WriteTextView: UIView {
         return button
     }()
     
+    public let photoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnPhoto, for: .normal)
+        return button
+    }()
+    
     public let postButton: UIButton = {
         let button = UIButton()
         button.setTitle(StringLiterals.Write.writePostButtonTitle, for: .normal)
@@ -190,14 +214,19 @@ extension WriteTextView {
     }
     
     func setHierarchy() {
-        self.addSubviews(userProfileImage, 
-                         userNickname,
-                         contentTextView,
-                         linkTextView,
-                         linkCloseButton,
-                         errorLinkView,
-                         onlyOneLinkView,
+        self.addSubviews(scrollView,
                          keyboardToolbarView)
+        
+        scrollView.addSubviews(contentView)
+        
+        contentView.addSubviews(userProfileImage,
+                                userNickname,
+                                contentTextView,
+                                linkTextView,
+                                linkCloseButton,
+                                photoImageView,
+                                errorLinkView,
+                                onlyOneLinkView)
         
         errorLinkView.addSubview(errorLinkLabel)
         onlyOneLinkView.addSubview(onlyOneLinkLabel)
@@ -205,12 +234,24 @@ extension WriteTextView {
         keyboardToolbarView.addSubviews(circleProgressBar,
                                         limitedCircleProgressBar,
                                         linkButton,
+                                        photoButton,
                                         postButton)
     }
     
     func setLayout() {
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(900.adjusted)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+        }
+        
         userProfileImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(12.adjusted)
+            $0.top.equalToSuperview().inset(12.adjusted)
             $0.leading.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(44.adjusted)
             $0.height.equalTo(44.adjusted)
@@ -239,6 +280,13 @@ extension WriteTextView {
             $0.top.equalTo(linkTextView.snp.top).offset(-12.adjusted)
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.size.equalTo(44.adjusted)
+        }
+        
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(contentTextView.snp.leading)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(386.adjusted)
         }
         
         errorLinkView.snp.makeConstraints {
@@ -287,6 +335,12 @@ extension WriteTextView {
             $0.size.equalTo(44.adjusted)
         }
         
+        photoButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(linkButton.snp.trailing)
+            $0.size.equalTo(44.adjusted)
+        }
+        
         postButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16.adjusted)
@@ -314,8 +368,22 @@ extension WriteTextView {
             linkTextView.addPlaceholder(StringLiterals.Write.writeLinkPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
             
             linkTextView.becomeFirstResponder()
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
+            }
         } else {
             onlyOneLinkView.isHidden = false
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(onlyOneLinkView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
+            }
         }
     }
     
@@ -340,6 +408,13 @@ extension WriteTextView {
         
         linkTextView.text = nil
         contentTextView.becomeFirstResponder()
+        
+        photoImageView.snp.remakeConstraints {
+            $0.top.equalTo(contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(contentTextView.snp.leading)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(386.adjusted)
+        }
         
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
@@ -372,7 +447,17 @@ extension WriteTextView {
 
 extension WriteTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        onlyOneLinkView.isHidden = true
+        if onlyOneLinkView.isHidden == false {
+            onlyOneLinkView.isHidden = true
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
+            }
+        }
+        
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
         
@@ -380,13 +465,34 @@ extension WriteTextView: UITextViewDelegate {
             if isValidURL(textView.text) {
                 isValidURL = true
                 errorLinkView.isHidden = true
+                
+                photoImageView.snp.remakeConstraints {
+                    $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                    $0.leading.equalTo(contentTextView.snp.leading)
+                    $0.trailing.equalToSuperview().inset(16.adjusted)
+                    $0.height.equalTo(386.adjusted)
+                }
             } else {
                 isValidURL = false
 
                 if linkLength == 0 {
                     errorLinkView.isHidden = true
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(contentTextView.snp.leading)
+                        $0.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.height.equalTo(386.adjusted)
+                    }
                 } else {
                     errorLinkView.isHidden = false
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(errorLinkView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(contentTextView.snp.leading)
+                        $0.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.height.equalTo(386.adjusted)
+                    }
                 }
             }
         }
@@ -442,6 +548,10 @@ extension WriteTextView: UITextViewDelegate {
 
             textView.snp.updateConstraints { make in
                 make.height.equalTo(newHeight)
+            }
+            
+            contentView.snp.updateConstraints { make in
+                make.height.equalTo(900.adjusted + newHeight)
             }
         } else if textView == linkTextView {
             let minHeight: CGFloat = 25 // 최소 높이
