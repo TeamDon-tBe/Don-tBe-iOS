@@ -24,4 +24,21 @@ extension UIImageView {
             }
         }
     }
+    
+    func loadContentImage(url: String) {
+        if let url = URL(string: url) {
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self?.image = image
+                            self?.layer.cornerRadius = 4.adjusted
+                            self?.contentMode = .scaleAspectFill
+                            self?.clipsToBounds = true
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
