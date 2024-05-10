@@ -314,8 +314,11 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
         }
         
+        var memberGhost = contentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         cell.nicknameLabel.text = contentDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(contentDatas[indexPath.row].memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(memberGhost)%"
         cell.timeLabel.text = "\(contentDatas[indexPath.row].time.formattedTime())"
         cell.contentTextLabel.text = contentDatas[indexPath.row].contentText
         cell.likeNumLabel.text = "\(contentDatas[indexPath.row].likedNumber)"
@@ -330,8 +333,7 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         if contentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = contentDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         self.contentId = contentDatas[indexPath.row].contentId

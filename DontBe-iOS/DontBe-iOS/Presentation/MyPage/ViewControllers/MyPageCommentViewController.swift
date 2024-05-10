@@ -304,8 +304,11 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageCommentViewController.ghostButtonTapped, object: nil)
         }
         
+        var memberGhost = commentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         cell.nicknameLabel.text = commentDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(commentDatas[indexPath.row].memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(memberGhost)%"
         cell.timeLabel.text = "\(commentDatas[indexPath.row].time.formattedTime())"
         cell.contentTextLabel.text = commentDatas[indexPath.row].commentText
         cell.likeNumLabel.text = "\(commentDatas[indexPath.row].commentLikedNumber)"
@@ -329,8 +332,7 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         if commentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = commentDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         self.commentId = commentDatas[indexPath.row].commentId

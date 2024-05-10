@@ -551,8 +551,11 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         }
         
+        var memberGhost = self.homeViewModel.postDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         cell.nicknameLabel.text = homeViewModel.postDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(homeViewModel.postDatas[indexPath.row].memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(memberGhost)%"
         cell.contentTextLabel.text = homeViewModel.postDatas[indexPath.row].contentText
         cell.likeNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].likedNumber)"
         cell.commentNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].commentNumber)"
@@ -568,8 +571,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         if self.homeViewModel.postDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.homeViewModel.postDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용

@@ -667,8 +667,11 @@ extension PostDetailViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
+        
+        let memberGhost = adjustGhostValue(data.memberGhost)
+        
         self.postView.isGhost = data.isGhost
-        self.postView.memberGhost = data.memberGhost
+        self.postView.memberGhost = memberGhost
         self.postView.isDeleted = data.isDeleted
         
         self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
@@ -677,7 +680,7 @@ extension PostDetailViewController {
         self.postUserNickname = "\(data.memberNickname)"
         self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
-        self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
+        self.postView.transparentLabel.text = "투명도 \(memberGhost)%"
         self.postView.timeLabel.text = data.time.formattedTime()
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
@@ -694,8 +697,7 @@ extension PostDetailViewController {
         if data.isGhost {
             self.collectionHeaderView?.grayView.alpha = 0.85
         } else {
-            let alpha = data.memberGhost
-            self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         if self.postMemberId == loadUserData()?.memberId {
@@ -807,8 +809,12 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             self.memberId = self.viewModel.postReplyDatas[indexPath.row].memberId
             self.pushToOtherUserPage()
         }
+        
+        var memberGhost = viewModel.postReplyDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         cell.nicknameLabel.text = viewModel.postReplyDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(viewModel.postReplyDatas[indexPath.row].memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(memberGhost)%"
         cell.contentTextLabel.text = viewModel.postReplyDatas[indexPath.row].commentText
         cell.likeNumLabel.text = "\(viewModel.postReplyDatas[indexPath.row].commentLikedNumber)"
         cell.timeLabel.text = "\(viewModel.postReplyDatas[indexPath.row].time.formattedTime())"
@@ -823,8 +829,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
         if self.viewModel.postReplyDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.viewModel.postReplyDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
@@ -932,6 +937,9 @@ extension PostDetailViewController: DontBePopupReasonDelegate {
             self.transparentReasonView.warnLabel.isHidden = false
         } else {
             transparentReasonView.removeFromSuperview()
+            
+            self.viewModel.cursor = -1
+            self.viewModel.postReplyDatas = []
             
             Task {
                 do {
