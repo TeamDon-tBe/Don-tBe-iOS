@@ -22,10 +22,17 @@ final class WriteViewController: UIViewController {
     private var transparency: Int = 0
     
     private lazy var postButtonTapped = rootView.writeTextView.postButton.publisher(for: .touchUpInside).map { _ in
-        return WriteContentImageRequestDTO(
-            contentText: self.rootView.writeTextView.contentTextView.text + "\n" + self.rootView.writeTextView.linkTextView.text,
-            photoImage: self.rootView.writeTextView.photoImageView.image
-        )
+        if self.rootView.writeTextView.linkTextView.text == "" {
+            return WriteContentImageRequestDTO(
+                contentText: self.rootView.writeTextView.contentTextView.text,
+                photoImage: self.rootView.writeTextView.photoImageView.image
+            )
+        } else {
+            return WriteContentImageRequestDTO(
+                contentText: self.rootView.writeTextView.contentTextView.text + "\n" + self.rootView.writeTextView.linkTextView.text,
+                photoImage: self.rootView.writeTextView.photoImageView.image
+            )
+        }
     }.eraseToAnyPublisher()
     
     // MARK: - UI Components
