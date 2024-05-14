@@ -223,7 +223,7 @@ extension PostDetailViewModel {
     private func getPostDetailDataAPI(accessToken: String, contentId: Int) async throws -> BaseResponse<PostDetailResponseDTO>? {
         do {
             let result: BaseResponse<PostDetailResponseDTO>? = try
-            await self.networkProvider.donNetwork(type: .get, baseURL: Config.baseURL.dropLast() + "2/content/\(contentId)/detail", accessToken: accessToken, body: EmptyBody(), pathVariables: ["":""])
+            await self.networkProvider.donNetwork(type: .get, baseURL: Config.baseURL.dropLast() + "2/content/\(contentId)", accessToken: accessToken, body: EmptyBody(), pathVariables: ["":""])
             return result
         } catch {
             return nil
@@ -234,7 +234,7 @@ extension PostDetailViewModel {
         do {
             let result: BaseResponse<[PostReplyResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/content/\(contentId)/comments",
+                                            baseURL: Config.baseURL.dropLast() + "2/content/\(contentId)/comments",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
                                             pathVariables: ["cursor":"\(cursor)"])
