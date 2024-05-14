@@ -110,6 +110,7 @@
 		3C1ABD872B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD862B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift */; };
 		3C1ABD892B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */; };
 		3C1ABD8B2B8F089100ADF97B /* MyPageSignOutConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1ABD8A2B8F089100ADF97B /* MyPageSignOutConfirmView.swift */; };
+		3C2245292BF34C1A0095D3FB /* DontBePhotoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2245282BF34C1A0095D3FB /* DontBePhotoDetailView.swift */; };
 		3C2854FD2B3A9FD800369C99 /* ExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */; };
 		3C2854FF2B3AA01700369C99 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2854FE2B3AA01700369C99 /* ExampleView.swift */; };
 		3C2855012B3AA0A000369C99 /* ExampleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */; };
@@ -268,6 +269,7 @@
 		3C1ABD862B8F01E700ADF97B /* MyPageSignOutReasonViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutReasonViewModel.swift; sourceTree = "<group>"; };
 		3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutConfirmViewController.swift; sourceTree = "<group>"; };
 		3C1ABD8A2B8F089100ADF97B /* MyPageSignOutConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSignOutConfirmView.swift; sourceTree = "<group>"; };
+		3C2245282BF34C1A0095D3FB /* DontBePhotoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePhotoDetailView.swift; sourceTree = "<group>"; };
 		3C2854FC2B3A9FD800369C99 /* ExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleViewController.swift; sourceTree = "<group>"; };
 		3C2854FE2B3AA01700369C99 /* ExampleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleView.swift; sourceTree = "<group>"; };
 		3C2855002B3AA0A000369C99 /* ExampleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1096,6 +1098,7 @@
 				3C2F544D2B50F65500E7BF01 /* DontBeBottomSheetView.swift */,
 				3CD25D282B5482FE0075F80F /* DontBeBottomSheetButton.swift */,
 				3CB634C92B59080E00DB9DA5 /* DontBeTransparencyGrayView.swift */,
+				3C2245282BF34C1A0095D3FB /* DontBePhotoDetailView.swift */,
 				3CE9C1342B4C4BC20086E4A3 /* CircleProgressbar.swift */,
 				2A2672042B4C3C00009D214F /* CancelBag.swift */,
 				2A8D70C22B4D7FF5009F4C6C /* BackButton.swift */,
@@ -1290,6 +1293,7 @@
 				2F05B1A72B5799B700AC368D /* PostDetailResponseDTO.swift in Sources */,
 				3C61930C2B3A782100220CEB /* StringLiterals.swift in Sources */,
 				2FB64FF22B5318C50082A414 /* WriteReplyContentView.swift in Sources */,
+				3C2245292BF34C1A0095D3FB /* DontBePhotoDetailView.swift in Sources */,
 				2F8735462B4C34A500E55552 /* HomeCollectionView.swift in Sources */,
 				2FBBADFA2B54401A002D6286 /* DeletePopupViewController.swift in Sources */,
 				3CEE4CBD2B500A7800F506AF /* DontBeTransparencyInfoView.swift in Sources */,
