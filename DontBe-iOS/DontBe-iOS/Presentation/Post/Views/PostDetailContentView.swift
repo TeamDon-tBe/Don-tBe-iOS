@@ -87,6 +87,15 @@ final class PostDetailContentView: UIView {
         return label
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4.adjusted
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
@@ -185,6 +194,7 @@ extension PostDetailContentView {
                                          timeLabel,
                                          kebabButton,
                                          contentTextLabel,
+                                         photoImageView,
                                          commentStackView,
                                          likeStackView,
                                          ghostButton,
@@ -239,6 +249,13 @@ extension PostDetailContentView {
             $0.top.equalTo(transparentLabel.snp.bottom).offset(8.adjusted)
             $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
+        }
+        
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(8.adjusted)
+            $0.leading.equalTo(postNicknameLabel)
+            $0.trailing.equalTo(kebabButton.snp.trailing)
+            $0.height.equalTo(359.adjusted)
         }
         
         commentStackView.snp.makeConstraints {

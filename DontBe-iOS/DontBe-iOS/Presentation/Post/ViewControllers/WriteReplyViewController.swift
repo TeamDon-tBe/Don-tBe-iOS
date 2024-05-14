@@ -6,6 +6,10 @@
 //
 
 import UIKit
+import Photos
+import PhotosUI
+
+import SnapKit
 
 final class WriteReplyViewController: UIViewController {
     
@@ -18,7 +22,19 @@ final class WriteReplyViewController: UIViewController {
     
     private lazy var postButtonTapped =
     writeView.postButton.publisher(for: .touchUpInside).map { _ in
-        return (self.writeView.writeReplyView.contentTextView.text + "\n" + self.writeView.linkTextView.text, self.contentId)
+        if self.writeView.linkTextView.text == "" {
+            return (WriteReplyImageRequestDTO(
+                commentText: self.writeView.writeReplyView.contentTextView.text,
+                photoImage: self.writeView.photoImageView.image
+            ), self.contentId)
+        } else {
+            return (WriteReplyImageRequestDTO(
+                commentText: self.writeView.writeReplyView.contentTextView.text + "\n" + self.writeView.linkTextView.text,
+                photoImage: self.writeView.photoImageView.image
+            ), self.contentId)
+        }
+        
+//        return (self.writeView.writeReplyView.contentTextView.text + "\n" + self.writeView.linkTextView.text, self.contentId)
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0
@@ -26,6 +42,7 @@ final class WriteReplyViewController: UIViewController {
     var userNickname: String = ""
     var userProfileImage: UIImage = ImageLiterals.Common.imgProfile
     var userContent: String = ""
+    var userContentImage: UIImage?
     
     // MARK: - UI Components
     
@@ -53,6 +70,7 @@ final class WriteReplyViewController: UIViewController {
         super.viewDidLoad()
         
         setUI()
+        setAddTarget()
         setBottomSheet()
         setNavigationBarButtonItem()
     }
@@ -87,6 +105,25 @@ extension WriteReplyViewController {
         writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
         writeView.writeReplyPostview.contentTextLabel.text = self.userContent
         writeView.writeReplyPostview.profileImageView.image = self.userProfileImage
+        if let image = self.userContentImage {
+            writeView.writeReplyPostview.photoImageView.image = image
+            
+            writeView.writeReplyView.snp.remakeConstraints {
+                $0.top.equalTo(writeView.writeReplyPostview.photoImageView.snp.bottom).offset(24.adjusted)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(800.adjusted)
+            }
+        } else {
+            writeView.writeReplyView.snp.remakeConstraints {
+                $0.top.equalTo(writeView.writeReplyPostview.contentTextLabel.snp.bottom).offset(24.adjusted)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(800.adjusted)
+            }
+        }
+    }
+    
+    private func setAddTarget() {
+        self.writeView.photoButton.addTarget(self, action: #selector(photoButtonTapped), for: .touchUpInside)
     }
     
     private func sendData() {
@@ -146,12 +183,80 @@ extension WriteReplyViewController {
     }
     
     @objc
+    private func photoButtonTapped() {
+        let status = PHPhotoLibrary.authorizationStatus(for: .addOnly)
+        
+        switch status {
+        case .authorized, .limited:
+            presentPicker()
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { [weak self] status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        self?.presentPicker()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            authSettingOpen()
+        default:
+            break
+        }
+    }
+    
+    private func presentPicker() {
+        var configuration = PHPickerConfiguration()
+        configuration.filter = .images // 이미지만 필터링
+        configuration.selectionLimit = 1 // 선택 제한
+        
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
+    }
+    
+    private func authSettingOpen() {
+        let message = StringLiterals.Camera.photoNoAuth
+        
+        let alert = UIAlertController(title: "설정", message: message, preferredStyle: .alert)
+        
+        let cancle = UIAlertAction(title: "닫기", style: .default)
+        
+        let confirm = UIAlertAction(title: "권한설정하기", style: .default) { (UIAlertAction) in
+            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+        }
+        
+        alert.addAction(cancle)
+        alert.addAction(confirm)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @objc
     private func cancleNavigationBarButtonTapped() {
         // 텍스트가 비어있는 경우 POP
         if self.writeView.writeReplyView.contentTextView.text == "" {
             popupNavigation()
         } else {
             self.present(self.cancelReplyPopupVC, animated: false, completion: nil)
+        }
+    }
+}
+
+extension WriteReplyViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+        
+        guard let selectedImage = results.first else { return }
+        
+        selectedImage.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+            DispatchQueue.main.async {
+                if let image = image as? UIImage {
+                    self.writeView.photoImageView.isHidden = false
+                    self.writeView.photoImageView.image = image
+                } else if let error = error {
+                    print(error)
+                }
+            }
         }
     }
 }

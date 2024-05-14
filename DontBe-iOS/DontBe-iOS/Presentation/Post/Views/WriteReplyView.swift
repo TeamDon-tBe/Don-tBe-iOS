@@ -57,6 +57,22 @@ final class WriteReplyView: UIView {
         return button
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4.adjusted
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    var removePhotoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnCloseLink, for: .normal)
+        return button
+    }()
+    
     let errorLinkView: UIView = {
         let view = UIView()
         view.backgroundColor = .donGray1
@@ -84,6 +100,12 @@ final class WriteReplyView: UIView {
     public let linkButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Write.btnLink, for: .normal)
+        return button
+    }()
+    
+    public let photoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnPhoto, for: .normal)
         return button
     }()
     
@@ -178,7 +200,7 @@ extension WriteReplyView {
         
         contentView.snp.makeConstraints {
             $0.edges.equalToSuperview()
-            $0.height.equalTo(900.adjusted)
+            $0.height.equalTo(1500.adjusted)
             $0.width.equalTo(UIScreen.main.bounds.width)
         }
         
@@ -191,7 +213,7 @@ extension WriteReplyView {
         writeReplyView.snp.makeConstraints {
             $0.top.equalTo(writeReplyPostview.contentTextLabel.snp.bottom).offset(24.adjusted)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(400.adjusted)
+            $0.height.equalTo(800.adjusted)
         }
         
         linkTextView.snp.makeConstraints {
@@ -205,6 +227,18 @@ extension WriteReplyView {
             $0.top.equalTo(linkTextView.snp.top).offset(-12.adjusted)
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.size.equalTo(44.adjusted)
+        }
+        
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(writeReplyView.contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+            $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
+            $0.height.equalTo(345.adjusted)
+        }
+        
+        removePhotoButton.snp.makeConstraints {
+            $0.top.trailing.equalToSuperview().inset(8.adjusted)
+            $0.size.equalTo(44)
         }
         
         errorLinkView.snp.makeConstraints {
@@ -276,6 +310,7 @@ extension WriteReplyView {
     func setAddTarget() {
         linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
         linkCloseButton.addTarget(self, action: #selector(linkCloseButtonTapped), for: .touchUpInside)
+        removePhotoButton.addTarget(self, action: #selector(removePhotoButtonTapped), for: .touchUpInside)
     }
     
     @objc private func linkButtonTapped() {
@@ -292,11 +327,25 @@ extension WriteReplyView {
             linkTextView.addPlaceholder(StringLiterals.Write.writeLinkPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
             
             linkTextView.becomeFirstResponder()
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
+            }
         } else {
             onlyOneLinkView.isHidden = false
             
             onlyOneLinkView.snp.makeConstraints {
                 $0.bottom.equalTo(keyboardToolbarView.snp.top).offset(-5.adjusted)
+            }
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(onlyOneLinkView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
             }
         }
     }
@@ -380,7 +429,17 @@ extension WriteReplyView {
 
 extension WriteReplyView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        onlyOneLinkView.isHidden = true
+        if onlyOneLinkView.isHidden == false {
+            onlyOneLinkView.isHidden = true
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
+                $0.height.equalTo(345.adjusted)
+            }
+        }
+        
         let contentTextLength = writeReplyView.contentTextView.text.count
         let linkLength = linkTextView.text.count
         
@@ -388,13 +447,34 @@ extension WriteReplyView: UITextViewDelegate {
             if isValidURL(textView.text) {
                 isValidURL = true
                 errorLinkView.isHidden = true
+                
+                photoImageView.snp.remakeConstraints {
+                    $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                    $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                    $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
+                    $0.height.equalTo(345.adjusted)
+                }
             } else {
                 isValidURL = false
 
                 if linkLength == 0 {
                     errorLinkView.isHidden = true
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                        $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
+                        $0.height.equalTo(345.adjusted)
+                    }
                 } else {
                     errorLinkView.isHidden = false
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(errorLinkView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+                        $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
+                        $0.height.equalTo(345.adjusted)
+                    }
                 }
             }
         }
@@ -413,6 +493,7 @@ extension WriteReplyView: UITextViewDelegate {
                     postButton.setTitleColor(.donBlack, for: .normal)
                     postButton.backgroundColor = .donPrimary
                     postButton.isEnabled = true
+                    textCountLabel.textColor = .donGray6
                 } else {
                     postButton.setTitleColor(.donGray9, for: .normal)
                     postButton.backgroundColor = .donGray3
@@ -451,9 +532,14 @@ extension WriteReplyView: UITextViewDelegate {
                 $0.trailing.equalToSuperview().inset(16.adjusted)
                 $0.height.equalTo(newHeight)
             }
+            
+            contentView.snp.updateConstraints { make in
+                make.height.equalTo(1500.adjusted + newHeight)
+            }
+            
         } else if textView == linkTextView {
             let minHeight: CGFloat = 25 // 최소 높이
-            let maxHeight: CGFloat = 80.adjusted // 최대 높이
+            let maxHeight: CGFloat = 100.adjusted // 최대 높이
 
             var newHeight = estimatedSize.height
             if newHeight < minHeight {

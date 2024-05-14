@@ -17,6 +17,7 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var ProfileButtonAction: (() -> Void) = {}
+    var PhotoImageTappedAction: (() -> Void) = {}
     
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
@@ -98,7 +99,13 @@ final class PostReplyCollectionViewCell: UICollectionViewCell, UICollectionViewR
         return label
     }()
     
-    private lazy var likeStackView: UIStackView = {
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
         stackView.axis = .horizontal
@@ -241,6 +248,7 @@ extension PostReplyCollectionViewCell {
                                      timeLabel,
                                      kebabButton,
                                      contentTextLabel,
+                                     photoImageView,
                                      likeStackView,
                                      ghostButton,
                                      verticalTextBarView)
@@ -317,6 +325,13 @@ extension PostReplyCollectionViewCell {
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
         
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(8.adjusted)
+            $0.leading.equalTo(nicknameLabel)
+            $0.trailing.equalToSuperview().inset(10.adjusted)
+            $0.height.equalTo(359.adjusted)
+        }
+        
         likeStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(42.adjusted)
@@ -356,6 +371,7 @@ extension PostReplyCollectionViewCell {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
+        photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoImageViewTapped)))
     }
     
     @objc
@@ -375,5 +391,10 @@ extension PostReplyCollectionViewCell {
     @objc
     func profileButton() {
         ProfileButtonAction()
+    }
+    
+    @objc
+    func photoImageViewTapped() {
+        PhotoImageTappedAction()
     }
 }
