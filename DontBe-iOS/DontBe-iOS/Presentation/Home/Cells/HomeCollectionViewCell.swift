@@ -23,6 +23,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var ProfileButtonAction: (() -> Void) = {}
+    var PhotoImageTappedAction: (() -> Void) = {}
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -106,6 +107,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     var photoImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -368,6 +370,7 @@ extension HomeCollectionViewCell {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
+        photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoImageViewTapped)))
     }
     
     @objc
@@ -387,5 +390,10 @@ extension HomeCollectionViewCell {
     @objc
     func profileButton() {
         ProfileButtonAction()
+    }
+    
+    @objc
+    func photoImageViewTapped() {
+        PhotoImageTappedAction()
     }
 }

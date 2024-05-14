@@ -50,6 +50,7 @@ final class HomeViewController: UIViewController {
     private var deleteToastView: DontBeDeletePopupView?
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
+    private var photoDetailView: DontBePhotoDetailView?
     
     var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnUserBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
@@ -139,6 +140,11 @@ extension HomeViewController {
     func deletePostButtonTapped() {
         popDeletePostBottomsheetView()
         showDeletePostPopupView()
+    }
+    
+    @objc
+    func removePhotoButtonTapped() {
+        self.photoDetailView?.removeFromSuperview()
     }
     
     func popDeletePostBottomsheetView() {
@@ -525,6 +531,26 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let viewController = MyPageViewController(viewModel: MyPageViewModel(networkProvider: NetworkService()))
                 viewController.memberId = memberId
                 self.navigationController?.pushViewController(viewController, animated: false)
+            }
+        }
+        
+        cell.PhotoImageTappedAction = {
+            DispatchQueue.main.async {
+                self.photoDetailView = DontBePhotoDetailView()
+                
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    window.addSubview(self.photoDetailView ?? DontBePhotoDetailView())
+                    
+                    self.photoDetailView?.removePhotoButton.addTarget(self, action: #selector(self.removePhotoButtonTapped), for: .touchUpInside)
+                    
+                    if let imageURL = self.homeViewModel.postDatas[indexPath.row].contentImageUrl {
+                        self.photoDetailView?.photoImageView.loadContentImage(url: imageURL)
+                    }
+                    
+                    self.photoDetailView?.snp.makeConstraints {
+                        $0.edges.equalToSuperview()
+                    }
+                }
             }
         }
 
