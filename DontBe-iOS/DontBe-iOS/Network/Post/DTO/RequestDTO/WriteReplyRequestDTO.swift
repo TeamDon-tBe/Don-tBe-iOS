@@ -6,8 +6,14 @@
 //
 
 import Foundation
+import UIKit
 
 struct WriteReplyRequestDTO: Encodable {
     let commentText: String
     let notificationTriggerType: String
+}
+
+struct WriteReplyImageRequestDTO {
+    let commentText: String
+    let photoImage: UIImage?
 }
