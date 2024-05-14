@@ -14,10 +14,10 @@ final class WriteTextView: UIView {
     // MARK: - Properties
     
     let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
+    var currentTextLength = 0 // 현재 글자 수
     let maxLength = 500 // 최대 글자 수
     var isHiddenLinkView = true
     var isValidURL = false
-    var isActivePostButton = false
     
     // MARK: - UI Components
     
@@ -144,23 +144,6 @@ final class WriteTextView: UIView {
         return view
     }()
     
-    private let circleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.circleTintColor = .donPrimary
-        circle.circleBackgroundColor = .donGray3
-        return circle
-    }()
-    
-    private let limitedCircleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.value = 1.0
-        circle.circleTintColor = .donError
-        circle.circleBackgroundColor = .donError
-        return circle
-    }()
-    
     public let linkButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Write.btnLink, for: .normal)
@@ -171,6 +154,14 @@ final class WriteTextView: UIView {
         let button = UIButton()
         button.setImage(ImageLiterals.Write.btnPhoto, for: .normal)
         return button
+    }()
+    
+    private let textCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.font(.caption3)
+        label.text = "(0/500)"
+        label.textColor = .donGray6
+        return label
     }()
     
     public let postButton: UIButton = {
@@ -211,8 +202,6 @@ extension WriteTextView {
     }
     
     func setUI() {
-        limitedCircleProgressBar.alpha = 0
-                
         if UserDefaults.standard.integer(forKey: "memberGhost") > -85 {
             contentTextView.becomeFirstResponder()
         }
@@ -241,10 +230,9 @@ extension WriteTextView {
         errorLinkView.addSubview(errorLinkLabel)
         onlyOneLinkView.addSubview(onlyOneLinkLabel)
         
-        keyboardToolbarView.addSubviews(circleProgressBar,
-                                        limitedCircleProgressBar,
-                                        linkButton,
+        keyboardToolbarView.addSubviews(linkButton,
                                         photoButton,
+                                        textCountLabel,
                                         postButton)
     }
     
@@ -332,18 +320,6 @@ extension WriteTextView {
             $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
-        circleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
-        limitedCircleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
         linkButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(11.adjusted)
@@ -354,6 +330,11 @@ extension WriteTextView {
             $0.centerY.equalToSuperview()
             $0.leading.equalTo(linkButton.snp.trailing)
             $0.size.equalTo(44.adjusted)
+        }
+        
+        textCountLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalTo(postButton.snp.leading).offset(-9.adjusted)
         }
         
         postButton.snp.makeConstraints {
@@ -435,9 +416,8 @@ extension WriteTextView {
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
         
-        let totalTextLength = contentTextLength + linkLength
-        let value = Double(totalTextLength) / 500
-        circleProgressBar.value = value
+        self.currentTextLength = contentTextLength + linkLength
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
     }
     
     @objc private func removePhotoButtonTapped() {
@@ -517,40 +497,37 @@ extension WriteTextView: UITextViewDelegate {
             }
         }
         
-        let totalTextLength = contentTextLength + linkLength
+        self.currentTextLength = contentTextLength + linkLength
         textView.text = String(textView.text.prefix(maxLength))
-        if totalTextLength == 0 {
-            let value = Double(totalTextLength) / 500
-            circleProgressBar.value = value
+        if self.currentTextLength == 0 {
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
+            textCountLabel.textColor = .donGray6
         } else {
-            if totalTextLength < 500 {
-                limitedCircleProgressBar.alpha = 0
-                circleProgressBar.alpha = 1
-                
-                let value = Double(totalTextLength) / 500
-                circleProgressBar.value = value
-                
+            if self.currentTextLength < 500 {
                 if isValidURL == true || linkTextView.text == "" {
                     postButton.setTitleColor(.donBlack, for: .normal)
                     postButton.backgroundColor = .donPrimary
                     postButton.isEnabled = true
+                    textCountLabel.textColor = .donGray6
                 } else {
                     postButton.setTitleColor(.donGray9, for: .normal)
                     postButton.backgroundColor = .donGray3
                     postButton.isEnabled = false
+                    textCountLabel.textColor = .donGray6
                 }
             } else {
-                limitedCircleProgressBar.alpha = 1
-                circleProgressBar.alpha = 0
+                self.currentTextLength = 500
                 postButton.isEnabled = false
                 postButton.setTitleColor(.donGray9, for: .normal)
                 postButton.backgroundColor = .donGray3
+                textCountLabel.textColor = .donError
                 impactFeedbackGenerator.impactOccurred()
             }
         }
+        
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
         
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)

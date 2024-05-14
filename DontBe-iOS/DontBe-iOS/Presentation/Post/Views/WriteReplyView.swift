@@ -12,8 +12,9 @@ import SnapKit
 final class WriteReplyView: UIView {
     
     // MARK: - Properties
-    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy)
-    let maxLength = 500
+    let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
+    var currentTextLength = 0 // 현재 글자 수
+    let maxLength = 500 // 최대 글자 수
     var isHiddenLinkView = true
     var isValidURL = false
     
@@ -80,27 +81,18 @@ final class WriteReplyView: UIView {
         return view
     }()
     
-    private let circleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.circleTintColor = .donPrimary
-        circle.circleBackgroundColor = .donGray3
-        return circle
-    }()
-    
-    private let limitedCircleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.value = 1.0
-        circle.circleTintColor = .donError
-        circle.circleBackgroundColor = .donError
-        return circle
-    }()
-    
     public let linkButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Write.btnLink, for: .normal)
         return button
+    }()
+    
+    private let textCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.font(.caption3)
+        label.text = "(0/500)"
+        label.textColor = .donGray6
+        return label
     }()
     
     let postButton: UIButton = {
@@ -162,15 +154,19 @@ extension WriteReplyView {
                                 writeReplyView,
                                 linkTextView,
                                 linkCloseButton,
+                                photoImageView,
                                 errorLinkView,
                                 onlyOneLinkView)
+        
+        photoImageView.addSubview(removePhotoButton)
+        removePhotoButton.bringSubviewToFront(photoImageView)
         
         errorLinkView.addSubview(errorLinkLabel)
         onlyOneLinkView.addSubview(onlyOneLinkLabel)
         
-        keyboardToolbarView.addSubviews(circleProgressBar,
-                                        limitedCircleProgressBar,
-                                        linkButton,
+        keyboardToolbarView.addSubviews(linkButton,
+                                        photoButton,
+                                        textCountLabel,
                                         postButton)
     }
     
@@ -228,22 +224,21 @@ extension WriteReplyView {
             $0.bottom.equalTo(self.safeAreaLayoutGuide)
         }
         
-        circleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
-        limitedCircleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
         linkButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(11.adjusted)
             $0.size.equalTo(44.adjusted)
+        }
+        
+        photoButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(linkButton.snp.trailing)
+            $0.size.equalTo(44.adjusted)
+        }
+        
+        textCountLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalTo(postButton.snp.leading).offset(-9.adjusted)
         }
         
         postButton.snp.makeConstraints {
@@ -272,7 +267,6 @@ extension WriteReplyView {
     
     private func setObserver() {
         writeReplyView.contentTextView.becomeFirstResponder()
-        limitedCircleProgressBar.alpha = 0
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
@@ -332,9 +326,12 @@ extension WriteReplyView {
         let contentTextLength = writeReplyView.contentTextView.text.count
         let linkLength = linkTextView.text.count
         
-        let totalTextLength = contentTextLength + linkLength
-        let value = Double(totalTextLength) / 500
-        circleProgressBar.value = value
+        self.currentTextLength = contentTextLength + linkLength
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
+    }
+    
+    @objc private func removePhotoButtonTapped() {
+        photoImageView.isHidden = true
     }
     
     @objc
@@ -402,23 +399,16 @@ extension WriteReplyView: UITextViewDelegate {
             }
         }
         
-        let totalTextLength = contentTextLength + linkLength
+        self.currentTextLength = contentTextLength + linkLength
         textView.text = String(textView.text.prefix(maxLength))
         
-        if totalTextLength == 0 {
-            let value = Double(totalTextLength) / 500
-            circleProgressBar.value = value
+        if self.currentTextLength == 0 {
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
+            textCountLabel.textColor = .donGray6
         } else {
-            if totalTextLength < 500 {
-                limitedCircleProgressBar.alpha = 0
-                circleProgressBar.alpha = 1
-                
-                let value = Double(totalTextLength) / 500
-                circleProgressBar.value = value
-                
+            if self.currentTextLength < 500 {
                 if isValidURL == true || linkTextView.text == "" {
                     postButton.setTitleColor(.donBlack, for: .normal)
                     postButton.backgroundColor = .donPrimary
@@ -427,16 +417,19 @@ extension WriteReplyView: UITextViewDelegate {
                     postButton.setTitleColor(.donGray9, for: .normal)
                     postButton.backgroundColor = .donGray3
                     postButton.isEnabled = false
+                    textCountLabel.textColor = .donGray6
                 }
             } else {
-                limitedCircleProgressBar.alpha = 1
-                circleProgressBar.alpha = 0
+                self.currentTextLength = 500
                 postButton.isEnabled = false
                 postButton.setTitleColor(.donGray9, for: .normal)
                 postButton.backgroundColor = .donGray3
+                textCountLabel.textColor = .donError
                 impactFeedbackGenerator.impactOccurred()
             }
         }
+        
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
         
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
