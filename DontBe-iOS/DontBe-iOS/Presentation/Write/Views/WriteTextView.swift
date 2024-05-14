@@ -94,7 +94,14 @@ final class WriteTextView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 4.adjusted
         imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
         return imageView
+    }()
+    
+    var removePhotoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnCloseLink, for: .normal)
+        return button
     }()
     
     private let errorLinkView: UIView = {
@@ -228,6 +235,9 @@ extension WriteTextView {
                                 errorLinkView,
                                 onlyOneLinkView)
         
+        photoImageView.addSubview(removePhotoButton)
+        removePhotoButton.bringSubviewToFront(photoImageView)
+        
         errorLinkView.addSubview(errorLinkLabel)
         onlyOneLinkView.addSubview(onlyOneLinkLabel)
         
@@ -287,6 +297,11 @@ extension WriteTextView {
             $0.leading.equalTo(contentTextView.snp.leading)
             $0.trailing.equalToSuperview().inset(16.adjusted)
             $0.height.equalTo(386.adjusted)
+        }
+        
+        removePhotoButton.snp.makeConstraints {
+            $0.top.trailing.equalToSuperview().inset(8.adjusted)
+            $0.size.equalTo(44)
         }
         
         errorLinkView.snp.makeConstraints {
@@ -352,6 +367,7 @@ extension WriteTextView {
     func setAddTarget() {
         linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
         linkCloseButton.addTarget(self, action: #selector(linkCloseButtonTapped), for: .touchUpInside)
+        removePhotoButton.addTarget(self, action: #selector(removePhotoButtonTapped), for: .touchUpInside)
     }
     
     @objc private func linkButtonTapped() {
@@ -422,6 +438,10 @@ extension WriteTextView {
         let totalTextLength = contentTextLength + linkLength
         let value = Double(totalTextLength) / 500
         circleProgressBar.value = value
+    }
+    
+    @objc private func removePhotoButtonTapped() {
+        photoImageView.isHidden = true
     }
     
     func isValidURL(_ urlString: String) -> Bool {
