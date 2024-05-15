@@ -368,6 +368,7 @@ extension WriteReplyView {
     
     @objc private func removePhotoButtonTapped() {
         photoImageView.isHidden = true
+        photoImageView.image = nil
     }
     
     func isValidURL(_ urlString: String) -> Bool {
