@@ -21,4 +21,5 @@ struct MyPageMemberContentResponseDTO: Decodable {
     let isLiked: Bool
     let likedNumber: Int
     let commentNumber: Int
+    let contentImageUrl: String?
 }

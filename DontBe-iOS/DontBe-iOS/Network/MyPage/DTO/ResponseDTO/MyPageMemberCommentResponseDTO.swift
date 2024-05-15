@@ -21,4 +21,5 @@ struct MyPageMemberCommentResponseDTO: Decodable {
     let time: String
     let commentId: Int
     let contentId: Int
+    let commentImageUrl: String?
 }
