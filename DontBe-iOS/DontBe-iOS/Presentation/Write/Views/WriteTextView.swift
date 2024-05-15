@@ -374,13 +374,6 @@ extension WriteTextView {
             }
         } else {
             onlyOneLinkView.isHidden = false
-            
-            photoImageView.snp.remakeConstraints {
-                $0.top.equalTo(onlyOneLinkView.snp.bottom).offset(11.adjusted)
-                $0.leading.equalTo(contentTextView.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.height.equalTo(386.adjusted)
-            }
         }
     }
     
@@ -449,13 +442,6 @@ extension WriteTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if onlyOneLinkView.isHidden == false {
             onlyOneLinkView.isHidden = true
-            
-            photoImageView.snp.remakeConstraints {
-                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
-                $0.leading.equalTo(contentTextView.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.height.equalTo(386.adjusted)
-            }
         }
         
         let contentTextLength = contentTextView.text.count

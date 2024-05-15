@@ -301,8 +301,6 @@ extension WriteReplyView {
     
     private func setObserver() {
         writeReplyView.contentTextView.becomeFirstResponder()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
 
         impactFeedbackGenerator.prepare()
     }
@@ -336,17 +334,6 @@ extension WriteReplyView {
             }
         } else {
             onlyOneLinkView.isHidden = false
-            
-            onlyOneLinkView.snp.makeConstraints {
-                $0.bottom.equalTo(keyboardToolbarView.snp.top).offset(-5.adjusted)
-            }
-            
-            photoImageView.snp.remakeConstraints {
-                $0.top.equalTo(onlyOneLinkView.snp.bottom).offset(11.adjusted)
-                $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.height.equalTo(386.adjusted)
-            }
         }
     }
     
@@ -383,29 +370,6 @@ extension WriteReplyView {
         photoImageView.isHidden = true
     }
     
-    @objc
-    func keyboardWillShow(_ notification: Notification) {
-        
-        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardHeight = keyboardFrame.cgRectValue.height
-            
-            writeReplyView.contentTextView.snp.remakeConstraints {
-                $0.top.equalTo(writeReplyView.userNickname.snp.bottom).offset(4.adjusted)
-                $0.leading.equalTo(writeReplyView.userNickname.snp.leading)
-                $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
-            
-            keyboardToolbarView.snp.remakeConstraints {
-                $0.leading.trailing.equalToSuperview()
-                $0.height.equalTo(56.adjusted)
-                $0.bottom.equalTo(-keyboardHeight)
-            }
-            
-            scrollView.setContentOffset(CGPoint(x: 0, y: self.writeReplyPostview.contentTextLabel.frame.height), animated: true)
-        }
-    }
-    
     func isValidURL(_ urlString: String) -> Bool {
         let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
         
@@ -431,13 +395,6 @@ extension WriteReplyView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         if onlyOneLinkView.isHidden == false {
             onlyOneLinkView.isHidden = true
-            
-            photoImageView.snp.remakeConstraints {
-                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
-                $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
-                $0.trailing.equalTo(writeReplyView.contentTextView.snp.trailing)
-                $0.height.equalTo(345.adjusted)
-            }
         }
         
         let contentTextLength = writeReplyView.contentTextView.text.count
