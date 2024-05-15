@@ -33,8 +33,6 @@ final class WriteReplyViewController: UIViewController {
                 photoImage: self.writeView.photoImageView.image
             ), self.contentId)
         }
-        
-//        return (self.writeView.writeReplyView.contentTextView.text + "\n" + self.writeView.linkTextView.text, self.contentId)
     }.eraseToAnyPublisher()
     
     var contentId: Int = 0

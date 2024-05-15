@@ -108,7 +108,7 @@ extension WriteReplyEditorView {
             $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
             $0.leading.equalTo(userNickname.snp.leading)
             $0.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(25.adjusted)
         }
     }
 }

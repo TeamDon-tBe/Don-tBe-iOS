@@ -213,7 +213,7 @@ extension WriteReplyView {
         writeReplyView.snp.makeConstraints {
             $0.top.equalTo(writeReplyPostview.contentTextLabel.snp.bottom).offset(24.adjusted)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(800.adjusted)
+            $0.height.equalTo(25.adjusted)
         }
         
         linkTextView.snp.makeConstraints {
@@ -255,7 +255,7 @@ extension WriteReplyView {
         keyboardToolbarView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(56.adjusted)
-            $0.bottom.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
         linkButton.snp.makeConstraints {
@@ -284,7 +284,7 @@ extension WriteReplyView {
         
         onlyOneLinkView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(26.adjusted)
-            $0.bottom.equalToSuperview().offset(-8.adjusted)
+            $0.bottom.equalTo(keyboardToolbarView.snp.top).offset(-8.adjusted)
             $0.height.equalTo(34.adjusted)
         }
         
@@ -330,7 +330,7 @@ extension WriteReplyView {
                 $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
                 $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
                 $0.trailing.equalToSuperview().inset(16.adjusted)
-                $0.height.equalTo(386.adjusted)
+                $0.height.equalTo(345.adjusted)
             }
         } else {
             onlyOneLinkView.isHidden = false
@@ -358,6 +358,13 @@ extension WriteReplyView {
         
         linkTextView.text = nil
         writeReplyView.contentTextView.becomeFirstResponder()
+        
+        photoImageView.snp.remakeConstraints {
+            $0.top.equalTo(writeReplyView.contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(writeReplyView.contentTextView.snp.leading)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(345.adjusted)
+        }
         
         let contentTextLength = writeReplyView.contentTextView.text.count
         let linkLength = linkTextView.text.count
