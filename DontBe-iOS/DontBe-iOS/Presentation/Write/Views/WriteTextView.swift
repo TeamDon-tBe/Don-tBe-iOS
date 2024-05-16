@@ -494,9 +494,15 @@ extension WriteTextView: UITextViewDelegate {
         } else {
             if self.currentTextLength < 500 {
                 if isValidURL == true || linkTextView.text == "" {
-                    postButton.setTitleColor(.donBlack, for: .normal)
-                    postButton.backgroundColor = .donPrimary
-                    postButton.isEnabled = true
+                    if isValidURL == false && linkTextView.isHidden == false {
+                        postButton.setTitleColor(.donGray9, for: .normal)
+                        postButton.backgroundColor = .donGray3
+                        postButton.isEnabled = false
+                    } else {
+                        postButton.setTitleColor(.donBlack, for: .normal)
+                        postButton.backgroundColor = .donPrimary
+                        postButton.isEnabled = true
+                    }
                     textCountLabel.textColor = .donGray6
                 } else {
                     postButton.setTitleColor(.donGray9, for: .normal)
