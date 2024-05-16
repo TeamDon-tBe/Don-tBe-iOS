@@ -103,6 +103,8 @@ extension WriteReplyViewController {
         writeView.writeReplyPostview.postNicknameLabel.text = self.userNickname
         writeView.writeReplyPostview.contentTextLabel.text = self.userContent
         writeView.writeReplyPostview.profileImageView.image = self.userProfileImage
+        writeView.writeReplyView.contentTextView.addPlaceholder(self.userNickname + StringLiterals.Write.writeReplyContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        
         if let image = self.userContentImage {
             writeView.writeReplyPostview.photoImageView.image = image
             
