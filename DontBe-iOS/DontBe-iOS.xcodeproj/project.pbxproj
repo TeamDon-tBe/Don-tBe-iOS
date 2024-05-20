@@ -125,6 +125,7 @@
 		3C4EDCCB2B58653800A9707C /* PostReplyResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4EDCCA2B58653800A9707C /* PostReplyResponseDTO.swift */; };
 		3C4F5BB52B7A49A500B21C45 /* MyPageSignOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */; };
 		3C4F5BB72B7A4A0C00B21C45 /* MyPageSignOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4F5BB62B7A4A0C00B21C45 /* MyPageSignOutView.swift */; };
+		3C5F82B02BFB133700D2FE3F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 3C5F82AF2BFB133700D2FE3F /* Kingfisher */; };
 		3C6192ED2B3A719A00220CEB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EC2B3A719A00220CEB /* AppDelegate.swift */; };
 		3C6192EF2B3A719A00220CEB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C6192EE2B3A719A00220CEB /* SceneDelegate.swift */; };
 		3C6192F62B3A719C00220CEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C6192F52B3A719C00220CEB /* Assets.xcassets */; };
@@ -335,6 +336,7 @@
 				2A8D70B12B4C4D8F009F4C6C /* KakaoSDK in Frameworks */,
 				3CFB30472BB305EE00A3F70A /* Amplitude in Frameworks */,
 				2FD9276A2B92245B0046193D /* Lottie in Frameworks */,
+				3C5F82B02BFB133700D2FE3F /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,6 +1207,7 @@
 				2A8D70B02B4C4D8F009F4C6C /* KakaoSDK */,
 				2FD927692B92245B0046193D /* Lottie */,
 				3CFB30462BB305EE00A3F70A /* Amplitude */,
+				3C5F82AF2BFB133700D2FE3F /* Kingfisher */,
 			);
 			productName = DontBe;
 			productReference = 3C6192E92B3A719A00220CEB /* DontBe-iOS.app */;
@@ -1239,6 +1242,7 @@
 				2A8D70AF2B4C4D8F009F4C6C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */,
 				3CFB30452BB305EE00A3F70A /* XCRemoteSwiftPackageReference "Amplitude-iOS" */,
+				3C5F82AE2BFB133700D2FE3F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 3C6192EA2B3A719A00220CEB /* Products */;
 			projectDirPath = "";
@@ -1670,6 +1674,14 @@
 				minimumVersion = 4.4.1;
 			};
 		};
+		3C5F82AE2BFB133700D2FE3F /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
 		3CFB30452BB305EE00A3F70A /* XCRemoteSwiftPackageReference "Amplitude-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/amplitude/Amplitude-iOS";
@@ -1695,6 +1707,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2FD927682B92245B0046193D /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		3C5F82AF2BFB133700D2FE3F /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3C5F82AE2BFB133700D2FE3F /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		3CFB30462BB305EE00A3F70A /* Amplitude */ = {
 			isa = XCSwiftPackageProductDependency;
