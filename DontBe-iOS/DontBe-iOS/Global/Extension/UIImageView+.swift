@@ -13,13 +13,11 @@ extension UIImageView {
     func load(url: String) {
         guard let url = URL(string: url) else { return }
         
-        let processor = DownsamplingImageProcessor(size: self.bounds.size)
         self.kf.indicatorType = .activity
         self.kf.setImage(
             with: url,
             placeholder: nil,
             options: [
-                .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
                 .cacheOriginalImage
             ]
@@ -45,33 +43,30 @@ extension UIImageView {
     }
     
     func loadContentImage(url: String) {
-        if let imageUrl = URL(string: url) {
-            let processor = DownsamplingImageProcessor(size: self.bounds.size)
-            self.kf.indicatorType = .activity
-            self.kf.setImage(
-                with: imageUrl,
-                placeholder: nil,
-                options: [
-                    .processor(processor),
-                    .scaleFactor(UIScreen.main.scale),
-                    .cacheOriginalImage
-                ]
-            ) { result in
-                switch result {
-                case .success(let value):
-                    DispatchQueue.main.async {
-                        self.image = value.image
-                        self.layer.cornerRadius = 4.adjusted
-                        self.contentMode = .scaleAspectFill
-                        self.clipsToBounds = true
-                    }
-                case .failure(let error):
-                    print("Error loading image: \(error)")
-                    
+        guard let url = URL(string: url) else { return }
+        self.kf.indicatorType = .activity
+        self.kf.setImage(
+            with: url,
+            placeholder: nil,
+            options: [
+                .scaleFactor(UIScreen.main.scale),
+                .cacheOriginalImage
+            ]
+        ) { result in
+            switch result {
+            case .success(let value):
+                DispatchQueue.main.async {
+                    self.image = value.image
                     self.layer.cornerRadius = 4.adjusted
                     self.contentMode = .scaleAspectFill
                     self.clipsToBounds = true
                 }
+            case .failure(let error):
+                print("Error loading image: \(error)")
+                
+                self.layer.cornerRadius = 4.adjusted
+                self.contentMode = .scaleAspectFill
+                self.clipsToBounds = true
             }
         }
     }
