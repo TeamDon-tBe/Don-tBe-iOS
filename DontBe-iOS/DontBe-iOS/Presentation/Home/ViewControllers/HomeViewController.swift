@@ -462,9 +462,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let lastContentId = homeViewModel.postDatas.last?.contentId ?? -1
                 homeViewModel.cursor = lastContentId
                 bindViewModel()
-                DispatchQueue.main.async {
-                    self.homeCollectionView.reloadData()
-                }
             }
         }
     }
