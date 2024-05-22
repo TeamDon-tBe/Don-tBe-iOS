@@ -89,6 +89,14 @@ final class WriteReplyViewController: UIViewController {
         let tabBarHeight: CGFloat = 70.0
         
         self.tabBarHeight = tabBarHeight + safeAreaHeight
+        
+        if writeView.writeReplyPostview.photoImageView.image != nil {
+            let centerOffset = CGPoint(x: 0, y: writeView.writeReplyPostview.frame.height.adjusted)
+            writeView.scrollView.setContentOffset(centerOffset, animated: true)
+        } else {
+            let centerOffset = CGPoint(x: 0, y: writeView.writeReplyPostview.contentTextLabel.frame.height.adjusted)
+            writeView.scrollView.setContentOffset(centerOffset, animated: true)
+        }
     }
 }
 

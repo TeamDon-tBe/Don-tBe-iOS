@@ -23,7 +23,7 @@ final class WriteReplyView: UIView {
     public lazy var writeReplyPostview = WriteReplyContentView()
     public lazy var writeReplyView = WriteReplyEditorView()
     
-    private let scrollView: UIScrollView = {
+    let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         scrollView.showsVerticalScrollIndicator = false
@@ -400,13 +400,6 @@ extension WriteReplyView {
 }
 
 extension WriteReplyView: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if self.writeReplyPostview.photoImageView.image != nil {
-            let centerOffset = CGPoint(x: 0, y: self.writeReplyPostview.frame.height + 200.adjusted)
-            scrollView.setContentOffset(centerOffset, animated: true)
-        }
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
         if onlyOneLinkView.isHidden == false {
             onlyOneLinkView.isHidden = true
