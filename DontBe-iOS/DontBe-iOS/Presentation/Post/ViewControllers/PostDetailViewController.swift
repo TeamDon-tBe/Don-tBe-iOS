@@ -692,11 +692,8 @@ extension PostDetailViewController {
     }
     
     private func bindPostData(data: PostDetailResponseDTO) {
-        
-        let memberGhost = adjustGhostValue(data.memberGhost)
-        
         self.postView.isGhost = data.isGhost
-        self.postView.memberGhost = memberGhost
+        self.postView.memberGhost = data.memberGhost
         self.postView.isDeleted = data.isDeleted
         
         self.collectionHeaderView?.profileImageView.load(url: data.memberProfileUrl)
@@ -705,7 +702,7 @@ extension PostDetailViewController {
         self.postUserNickname = "\(data.memberNickname)"
         self.userNickName = "\(data.memberNickname)"
         self.postView.contentTextLabel.text = data.contentText
-        self.postView.transparentLabel.text = "투명도 \(memberGhost)%"
+        self.postView.transparentLabel.text = "투명도 \(data.memberGhost)%"
         self.postView.timeLabel.text = data.time.formattedTime()
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
@@ -720,6 +717,8 @@ extension PostDetailViewController {
         
         self.userNickName = "\(data.memberNickname)"
         self.contentText = "\(data.contentText)"
+        
+        let memberGhost = adjustGhostValue(data.memberGhost)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
@@ -858,11 +857,8 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             }
         }
         
-        var memberGhost = viewModel.postReplyDatas[indexPath.row].memberGhost
-        memberGhost = adjustGhostValue(memberGhost)
-        
         cell.nicknameLabel.text = viewModel.postReplyDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(viewModel.postReplyDatas[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = viewModel.postReplyDatas[indexPath.row].commentText
         cell.likeNumLabel.text = "\(viewModel.postReplyDatas[indexPath.row].commentLikedNumber)"
         cell.timeLabel.text = "\(viewModel.postReplyDatas[indexPath.row].time.formattedTime())"
@@ -893,6 +889,9 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
                 $0.bottom.equalToSuperview().inset(16.adjusted)
             }
         }
+        
+        var memberGhost = viewModel.postReplyDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postReplyDatas[indexPath.row].isGhost {

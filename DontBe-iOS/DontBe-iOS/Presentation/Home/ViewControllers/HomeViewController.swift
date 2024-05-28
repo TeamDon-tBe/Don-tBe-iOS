@@ -576,11 +576,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         }
         
-        var memberGhost = self.homeViewModel.postDatas[indexPath.row].memberGhost
-        memberGhost = adjustGhostValue(memberGhost)
-        
         cell.nicknameLabel.text = homeViewModel.postDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(homeViewModel.postDatas[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = homeViewModel.postDatas[indexPath.row].contentText
         cell.likeNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].likedNumber)"
         cell.commentNumLabel.text = "\(homeViewModel.postDatas[indexPath.row].commentNumber)"
@@ -613,11 +610,15 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             }
         }
         
+        var memberGhost = self.homeViewModel.postDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.homeViewModel.postDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
             cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
+            print("cell.grayView.alpha: \(CGFloat(Double(-memberGhost) / 100))")
         }
         
         // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용

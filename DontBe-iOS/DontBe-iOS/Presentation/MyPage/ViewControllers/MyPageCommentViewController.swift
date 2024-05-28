@@ -304,11 +304,8 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageCommentViewController.ghostButtonTapped, object: nil)
         }
         
-        var memberGhost = commentDatas[indexPath.row].memberGhost
-        memberGhost = adjustGhostValue(memberGhost)
-        
         cell.nicknameLabel.text = commentDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(commentDatas[indexPath.row].memberGhost)%"
         cell.timeLabel.text = "\(commentDatas[indexPath.row].time.formattedTime())"
         cell.contentTextLabel.text = commentDatas[indexPath.row].commentText
         cell.likeNumLabel.text = "\(commentDatas[indexPath.row].commentLikedNumber)"
@@ -342,6 +339,9 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         cell.isLiked = commentDatas[indexPath.row].isLiked
         
         cell.commentStackView.isHidden = true
+        
+        var memberGhost = commentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if commentDatas[indexPath.row].isGhost {

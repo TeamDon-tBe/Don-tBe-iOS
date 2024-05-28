@@ -314,11 +314,8 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
             NotificationCenter.default.post(name: MyPageContentViewController.ghostButtonTapped, object: nil)
         }
         
-        var memberGhost = contentDatas[indexPath.row].memberGhost
-        memberGhost = adjustGhostValue(memberGhost)
-        
         cell.nicknameLabel.text = contentDatas[indexPath.row].memberNickname
-        cell.transparentLabel.text = "투명도 \(memberGhost)%"
+        cell.transparentLabel.text = "투명도 \(contentDatas[indexPath.row].memberGhost)%"
         cell.timeLabel.text = "\(contentDatas[indexPath.row].time.formattedTime())"
         cell.contentTextLabel.text = contentDatas[indexPath.row].contentText
         cell.likeNumLabel.text = "\(contentDatas[indexPath.row].likedNumber)"
@@ -349,6 +346,9 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
                 $0.bottom.equalToSuperview().inset(16.adjusted)
             }
         }
+        
+        var memberGhost = contentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if contentDatas[indexPath.row].isGhost {
