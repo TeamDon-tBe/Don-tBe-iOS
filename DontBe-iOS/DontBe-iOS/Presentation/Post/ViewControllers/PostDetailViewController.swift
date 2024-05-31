@@ -68,7 +68,7 @@ final class PostDetailViewController: UIViewController {
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
     private var deleteToastView: DontBeDeletePopupView?
-    
+    private var photoDetailView: DontBePhotoDetailView?
     
     // MARK: - Life Cycles
     
@@ -530,6 +530,30 @@ extension PostDetailViewController {
         }
     }
     
+    @objc
+    func photoImageViewTapped() {
+        DispatchQueue.main.async {
+            self.photoDetailView = DontBePhotoDetailView()
+            
+            if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                window.addSubview(self.photoDetailView ?? DontBePhotoDetailView())
+                
+                self.photoDetailView?.removePhotoButton.addTarget(self, action: #selector(self.removePhotoButtonTapped), for: .touchUpInside)
+                
+                self.photoDetailView?.photoImageView.image = self.postView.photoImageView.image
+                
+                self.photoDetailView?.snp.makeConstraints {
+                    $0.edges.equalToSuperview()
+                }
+            }
+        }
+    }
+    
+    @objc
+    func removePhotoButtonTapped() {
+        self.photoDetailView?.removeFromSuperview()
+    }
+    
     private func setTextFieldGesture() {
         greenTextField.isUserInteractionEnabled = true
         let gesture = UITapGestureRecognizer(target: self, action: #selector(textFieldDidTapped))
@@ -548,6 +572,7 @@ extension PostDetailViewController {
         viewController.userNickname = self.userNickName
         viewController.userContent = self.contentText
         viewController.userProfileImage = self.postView.profileImageView.image ?? ImageLiterals.Common.imgProfile
+        viewController.userContentImage = self.postView.photoImageView.image
         present(navigationController, animated: true, completion: nil)
     }
     
@@ -618,7 +643,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.firstReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.firstReasonView.radioButton.currentTitle ?? ""
                 case 2:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
@@ -626,7 +651,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.secondReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.secondReasonView.radioButton.currentTitle ?? ""
                 case 3:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -634,7 +659,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.thirdReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.thirdReasonView.radioButton.currentTitle ?? ""
                 case 4:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -642,7 +667,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fourthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fourthReasonView.radioButton.currentTitle ?? ""
                 case 5:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -650,7 +675,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fifthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fifthReasonView.radioButton.currentTitle ?? ""
                 case 6:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -658,7 +683,7 @@ extension PostDetailViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.sixthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.sixthReasonView.radioButton.currentTitle ?? ""
                 default:
                     break
                 }
@@ -682,6 +707,9 @@ extension PostDetailViewController {
         self.postView.likeNumLabel.text = "\(data.likedNumber)"
         self.postView.commentNumLabel.text = "\(data.commentNumber)"
         self.postView.profileImageView.load(url: "\(data.memberProfileUrl)")
+        if let imageURL = data.contentImageUrl {
+            self.postView.photoImageView.loadContentImage(url: imageURL)
+        }
         postView.likeButton.setImage(data.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         self.postMemberId = data.memberId
         self.postView.profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushToMypage)))
@@ -690,12 +718,13 @@ extension PostDetailViewController {
         self.userNickName = "\(data.memberNickname)"
         self.contentText = "\(data.contentText)"
         
+        let memberGhost = adjustGhostValue(data.memberGhost)
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if data.isGhost {
             self.collectionHeaderView?.grayView.alpha = 0.85
         } else {
-            let alpha = data.memberGhost
-            self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            self.collectionHeaderView?.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         if self.postMemberId == loadUserData()?.memberId {
@@ -807,6 +836,27 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             self.memberId = self.viewModel.postReplyDatas[indexPath.row].memberId
             self.pushToOtherUserPage()
         }
+        
+        cell.PhotoImageTappedAction = {
+            DispatchQueue.main.async {
+                self.photoDetailView = DontBePhotoDetailView()
+                
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    window.addSubview(self.photoDetailView ?? DontBePhotoDetailView())
+                    
+                    self.photoDetailView?.removePhotoButton.addTarget(self, action: #selector(self.removePhotoButtonTapped), for: .touchUpInside)
+                    
+                    if let imageURL = self.viewModel.postReplyDatas[indexPath.row].commentImageUrl {
+                        self.photoDetailView?.photoImageView.loadContentImage(url: imageURL)
+                    }
+                    
+                    self.photoDetailView?.snp.makeConstraints {
+                        $0.edges.equalToSuperview()
+                    }
+                }
+            }
+        }
+        
         cell.nicknameLabel.text = viewModel.postReplyDatas[indexPath.row].memberNickname
         cell.transparentLabel.text = "투명도 \(viewModel.postReplyDatas[indexPath.row].memberGhost)%"
         cell.contentTextLabel.text = viewModel.postReplyDatas[indexPath.row].commentText
@@ -819,12 +869,35 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
         
         cell.configure(with: cell.contentTextLabel.text ?? "")
         
+        if let commentImage = viewModel.postReplyDatas[indexPath.row].commentImageUrl {
+            cell.photoImageView.loadContentImage(url: "\(commentImage)")
+            cell.photoImageView.isHidden = false
+            
+            cell.likeStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.photoImageView.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.likeStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        } else {
+            cell.photoImageView.isHidden = true
+            
+            cell.likeStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.likeStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        }
+        
+        var memberGhost = viewModel.postReplyDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.viewModel.postReplyDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.viewModel.postReplyDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용
@@ -852,7 +925,7 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
                 header.verticalTextBarView.isHidden = true
             } else {
                 header.ghostButton.isHidden = false
-                header.verticalTextBarView.isHidden = true
+                header.verticalTextBarView.isHidden = false
             }
             
             header.transparentLabel.text = self.postView.transparentLabel.text
@@ -865,6 +938,25 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             header.likeButton.setImage(header.isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
             header.ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
             header.profileImageView.load(url: self.userProfileURL)
+            
+            if self.postView.photoImageView.image != nil {
+                header.photoImageView.image = self.postView.photoImageView.image
+                header.photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoImageViewTapped)))
+                
+                header.commentStackView.snp.remakeConstraints {
+                    $0.top.equalTo(header.photoImageView.snp.bottom).offset(4.adjusted)
+                    $0.height.equalTo(header.commentStackView)
+                    $0.trailing.equalTo(header.kebabButton).inset(8.adjusted)
+                    $0.bottom.equalToSuperview().inset(16.adjusted)
+                }
+            } else {
+                header.commentStackView.snp.remakeConstraints {
+                    $0.top.equalTo(header.contentTextLabel.snp.bottom).offset(4.adjusted)
+                    $0.height.equalTo(header.commentStackView)
+                    $0.trailing.equalTo(header.kebabButton).inset(8.adjusted)
+                    $0.bottom.equalToSuperview().inset(16.adjusted)
+                }
+            }
             
             header.configure(with: header.contentTextLabel.text ?? "")
             
@@ -932,6 +1024,9 @@ extension PostDetailViewController: DontBePopupReasonDelegate {
             self.transparentReasonView.warnLabel.isHidden = false
         } else {
             transparentReasonView.removeFromSuperview()
+            
+            self.viewModel.cursor = -1
+            self.viewModel.postReplyDatas = []
             
             Task {
                 do {

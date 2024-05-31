@@ -71,13 +71,14 @@ enum ImageLiterals {
         static var btnFavoriteActive: UIImage { .load(name: "favorite=btn_favorite_active") }
         static var btnFavoriteInActive: UIImage { .load(name: "favorite=btn_favorite_default") }
         static var icnDelete: UIImage { .load(name: "icn_delete") }
-        static var btnTransparent: UIImage { .load(name: "status=btn_ghost_default") }
+        static var btnTransparent: UIImage { .load(name: "btn_ghost_gray") }
     }
     
     enum Write {
         static var imgWritingRestriction: UIImage { .load(name: "img_writing_restriction") }
         static var imgBanText: UIImage { .load(name: "img_ban_text") }
         static var btnLink: UIImage { .load(name: "btn_link") }
+        static var btnPhoto: UIImage { .load(name: "btn_photo") }
         static var btnCloseLink: UIImage { .load(name: "btn_close_link") }
     }
     

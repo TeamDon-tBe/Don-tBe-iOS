@@ -21,4 +21,5 @@ struct PostReplyResponseDTO: Decodable {
     let commentText: String
     let time: String
     let isDeleted: Bool
+    let commentImageUrl: String?
 }

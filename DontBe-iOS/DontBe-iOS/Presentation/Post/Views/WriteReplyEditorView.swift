@@ -43,7 +43,6 @@ final class WriteReplyEditorView: UIView {
         textView.textColor = .donBlack
         textView.tintColor = .donLink
         textView.backgroundColor = .clear
-        textView.addPlaceholder(StringLiterals.Write.writeContentPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainer.lineBreakMode = .byWordWrapping
@@ -108,7 +107,7 @@ extension WriteReplyEditorView {
             $0.top.equalTo(userNickname.snp.bottom).offset(4.adjusted)
             $0.leading.equalTo(userNickname.snp.leading)
             $0.trailing.equalToSuperview().inset(16.adjusted)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(25.adjusted)
         }
     }
 }

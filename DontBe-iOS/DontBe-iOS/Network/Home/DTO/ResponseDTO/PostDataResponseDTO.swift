@@ -22,4 +22,5 @@ struct PostDataResponseDTO: Decodable {
     let likedNumber: Int
     let commentNumber: Int
     let isDeleted: Bool
+    let contentImageUrl: String?
 }

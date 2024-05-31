@@ -74,7 +74,13 @@ class MyPageSignOutView: UIView {
 
 extension MyPageSignOutView {
     private func setUI() {
-
+        firstReasonView.radioButton.titleLabel?.font = .font(.body2)
+        secondReasonView.radioButton.titleLabel?.font = .font(.body2)
+        thirdReasonView.radioButton.titleLabel?.font = .font(.body2)
+        fourthReasonView.radioButton.titleLabel?.font = .font(.body2)
+        fifthReasonView.radioButton.titleLabel?.font = .font(.body2)
+        sixthReasonView.radioButton.titleLabel?.font = .font(.body2)
+        seventhReasonView.radioButton.titleLabel?.font = .font(.body2)
     }
     
     private func setHierarchy() {

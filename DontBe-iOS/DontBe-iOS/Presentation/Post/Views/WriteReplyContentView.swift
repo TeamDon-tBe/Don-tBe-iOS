@@ -48,6 +48,15 @@ final class WriteReplyContentView: UIView {
         return label
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4.adjusted
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     // MARK: - Life Cycles
     
     override init(frame: CGRect) {
@@ -72,7 +81,8 @@ extension WriteReplyContentView {
         
         backgroundUIView.addSubviews(profileImageView,
                                      postNicknameLabel,
-                                     contentTextLabel)
+                                     contentTextLabel,
+                                     photoImageView)
     }
     
     private func setLayout() {
@@ -96,6 +106,13 @@ extension WriteReplyContentView {
             $0.top.equalTo(postNicknameLabel.snp.bottom).offset(6.adjusted)
             $0.leading.equalTo(postNicknameLabel)
             $0.trailing.equalToSuperview().inset(20.adjusted)
+        }
+        
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(8.adjusted)
+            $0.leading.equalTo(postNicknameLabel)
+            $0.trailing.equalTo(contentTextLabel.snp.trailing)
+            $0.height.equalTo(359.adjusted)
         }
     }
     

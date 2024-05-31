@@ -15,7 +15,7 @@ class AppStoreCheckManager {
     
     func latestVersion(completion: @escaping (String?) -> Void) {
         let appleID = "6475622329"
-        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(appleID)&country=kr") else {
+        guard let url = URL(string: "https://itunes.apple.com/lookup?id=\(appleID)") else {
             completion(nil)
             return
         }

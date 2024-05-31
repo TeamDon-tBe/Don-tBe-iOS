@@ -314,23 +314,40 @@ extension MyPageCommentViewController: UICollectionViewDataSource, UICollectionV
         
         cell.configure(with: cell.contentTextLabel.text ?? "")
         
+        if let commentImage = commentDatas[indexPath.row].commentImageUrl {
+            cell.photoImageView.loadContentImage(url: "\(commentImage)")
+            cell.photoImageView.isHidden = false
+            
+            cell.likeStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.photoImageView.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.likeStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        } else {
+            cell.photoImageView.isHidden = true
+            
+            cell.likeStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.likeStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        }
+        
         cell.likeButton.setImage(commentDatas[indexPath.row].isLiked ? ImageLiterals.Posting.btnFavoriteActive : ImageLiterals.Posting.btnFavoriteInActive, for: .normal)
         cell.isLiked = commentDatas[indexPath.row].isLiked
         
-        cell.likeStackView.snp.remakeConstraints {
-            $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
-            $0.height.equalTo(cell.commentStackView)
-            $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
-        }
-        
         cell.commentStackView.isHidden = true
+        
+        var memberGhost = commentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
         
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if commentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = commentDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         self.commentId = commentDatas[indexPath.row].commentId

@@ -14,12 +14,21 @@ final class WriteTextView: UIView {
     // MARK: - Properties
     
     let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .heavy) // 햅틱 기능
+    var currentTextLength = 0 // 현재 글자 수
     let maxLength = 500 // 최대 글자 수
     var isHiddenLinkView = true
     var isValidURL = false
-    var isActivePostButton = false
     
     // MARK: - UI Components
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.isScrollEnabled = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
+    private let contentView = UIView()
     
     let userProfileImage: UIImageView = {
         let imageView = UIImageView()
@@ -79,6 +88,22 @@ final class WriteTextView: UIView {
         return button
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 4.adjusted
+        imageView.clipsToBounds = true
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
+    var removePhotoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnCloseLink, for: .normal)
+        return button
+    }()
+    
     private let errorLinkView: UIView = {
         let view = UIView()
         view.backgroundColor = .donGray1
@@ -119,27 +144,24 @@ final class WriteTextView: UIView {
         return view
     }()
     
-    private let circleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.circleTintColor = .donPrimary
-        circle.circleBackgroundColor = .donGray3
-        return circle
-    }()
-    
-    private let limitedCircleProgressBar: CircleProgressbar = {
-        let circle = CircleProgressbar()
-        circle.backgroundColor = .clear
-        circle.value = 1.0
-        circle.circleTintColor = .donError
-        circle.circleBackgroundColor = .donError
-        return circle
-    }()
-    
     public let linkButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.Write.btnLink, for: .normal)
         return button
+    }()
+    
+    public let photoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(ImageLiterals.Write.btnPhoto, for: .normal)
+        return button
+    }()
+    
+    private let textCountLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.font(.caption3)
+        label.text = "(0/500)"
+        label.textColor = .donGray6
+        return label
     }()
     
     public let postButton: UIButton = {
@@ -180,8 +202,6 @@ extension WriteTextView {
     }
     
     func setUI() {
-        limitedCircleProgressBar.alpha = 0
-                
         if UserDefaults.standard.integer(forKey: "memberGhost") > -85 {
             contentTextView.becomeFirstResponder()
         }
@@ -190,27 +210,46 @@ extension WriteTextView {
     }
     
     func setHierarchy() {
-        self.addSubviews(userProfileImage, 
-                         userNickname,
-                         contentTextView,
-                         linkTextView,
-                         linkCloseButton,
-                         errorLinkView,
-                         onlyOneLinkView,
+        self.addSubviews(scrollView,
                          keyboardToolbarView)
+        
+        scrollView.addSubviews(contentView)
+        
+        contentView.addSubviews(userProfileImage,
+                                userNickname,
+                                contentTextView,
+                                linkTextView,
+                                linkCloseButton,
+                                photoImageView,
+                                errorLinkView,
+                                onlyOneLinkView)
+        
+        photoImageView.addSubview(removePhotoButton)
+        removePhotoButton.bringSubviewToFront(photoImageView)
         
         errorLinkView.addSubview(errorLinkLabel)
         onlyOneLinkView.addSubview(onlyOneLinkLabel)
         
-        keyboardToolbarView.addSubviews(circleProgressBar,
-                                        limitedCircleProgressBar,
-                                        linkButton,
+        keyboardToolbarView.addSubviews(linkButton,
+                                        photoButton,
+                                        textCountLabel,
                                         postButton)
     }
     
     func setLayout() {
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(self.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.height.equalTo(900.adjusted)
+            $0.width.equalTo(UIScreen.main.bounds.width)
+        }
+        
         userProfileImage.snp.makeConstraints {
-            $0.top.equalTo(self.safeAreaLayoutGuide).offset(12.adjusted)
+            $0.top.equalToSuperview().inset(12.adjusted)
             $0.leading.equalToSuperview().inset(16.adjusted)
             $0.width.equalTo(44.adjusted)
             $0.height.equalTo(44.adjusted)
@@ -241,6 +280,18 @@ extension WriteTextView {
             $0.size.equalTo(44.adjusted)
         }
         
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(contentTextView.snp.leading)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(386.adjusted)
+        }
+        
+        removePhotoButton.snp.makeConstraints {
+            $0.top.trailing.equalToSuperview().inset(8.adjusted)
+            $0.size.equalTo(44)
+        }
+        
         errorLinkView.snp.makeConstraints {
             $0.top.equalTo(linkTextView.snp.bottom).offset(19.adjusted)
             $0.leading.equalTo(linkTextView.snp.leading)
@@ -269,22 +320,21 @@ extension WriteTextView {
             $0.bottom.equalTo(self.keyboardLayoutGuide.snp.top)
         }
         
-        circleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
-        limitedCircleProgressBar.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().inset(84.adjusted)
-            $0.width.height.equalTo(20.adjusted)
-        }
-        
         linkButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(11.adjusted)
             $0.size.equalTo(44.adjusted)
+        }
+        
+        photoButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalTo(linkButton.snp.trailing)
+            $0.size.equalTo(44.adjusted)
+        }
+        
+        textCountLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalTo(postButton.snp.leading).offset(-9.adjusted)
         }
         
         postButton.snp.makeConstraints {
@@ -298,6 +348,7 @@ extension WriteTextView {
     func setAddTarget() {
         linkButton.addTarget(self, action: #selector(linkButtonTapped), for: .touchUpInside)
         linkCloseButton.addTarget(self, action: #selector(linkCloseButtonTapped), for: .touchUpInside)
+        removePhotoButton.addTarget(self, action: #selector(removePhotoButtonTapped), for: .touchUpInside)
     }
     
     @objc private func linkButtonTapped() {
@@ -314,6 +365,13 @@ extension WriteTextView {
             linkTextView.addPlaceholder(StringLiterals.Write.writeLinkPlaceholder, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
             
             linkTextView.becomeFirstResponder()
+            
+            photoImageView.snp.remakeConstraints {
+                $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                $0.leading.equalTo(contentTextView.snp.leading)
+                $0.trailing.equalToSuperview().inset(16.adjusted)
+                $0.height.equalTo(386.adjusted)
+            }
         } else {
             onlyOneLinkView.isHidden = false
         }
@@ -341,12 +399,23 @@ extension WriteTextView {
         linkTextView.text = nil
         contentTextView.becomeFirstResponder()
         
+        photoImageView.snp.remakeConstraints {
+            $0.top.equalTo(contentTextView.snp.bottom).offset(11.adjusted)
+            $0.leading.equalTo(contentTextView.snp.leading)
+            $0.trailing.equalToSuperview().inset(16.adjusted)
+            $0.height.equalTo(386.adjusted)
+        }
+        
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
         
-        let totalTextLength = contentTextLength + linkLength
-        let value = Double(totalTextLength) / 500
-        circleProgressBar.value = value
+        self.currentTextLength = contentTextLength + linkLength
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
+    }
+    
+    @objc private func removePhotoButtonTapped() {
+        photoImageView.isHidden = true
+        photoImageView.image = nil
     }
     
     func isValidURL(_ urlString: String) -> Bool {
@@ -372,7 +441,10 @@ extension WriteTextView {
 
 extension WriteTextView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        onlyOneLinkView.isHidden = true
+        if onlyOneLinkView.isHidden == false {
+            onlyOneLinkView.isHidden = true
+        }
+        
         let contentTextLength = contentTextView.text.count
         let linkLength = linkTextView.text.count
         
@@ -380,51 +452,75 @@ extension WriteTextView: UITextViewDelegate {
             if isValidURL(textView.text) {
                 isValidURL = true
                 errorLinkView.isHidden = true
+                
+                photoImageView.snp.remakeConstraints {
+                    $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                    $0.leading.equalTo(contentTextView.snp.leading)
+                    $0.trailing.equalToSuperview().inset(16.adjusted)
+                    $0.height.equalTo(386.adjusted)
+                }
             } else {
                 isValidURL = false
 
                 if linkLength == 0 {
                     errorLinkView.isHidden = true
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(linkTextView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(contentTextView.snp.leading)
+                        $0.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.height.equalTo(386.adjusted)
+                    }
                 } else {
                     errorLinkView.isHidden = false
+                    
+                    photoImageView.snp.remakeConstraints {
+                        $0.top.equalTo(errorLinkView.snp.bottom).offset(11.adjusted)
+                        $0.leading.equalTo(contentTextView.snp.leading)
+                        $0.trailing.equalToSuperview().inset(16.adjusted)
+                        $0.height.equalTo(386.adjusted)
+                    }
                 }
             }
         }
         
-        let totalTextLength = contentTextLength + linkLength
+        self.currentTextLength = contentTextLength + linkLength
         textView.text = String(textView.text.prefix(maxLength))
-        if totalTextLength == 0 {
-            let value = Double(totalTextLength) / 500
-            circleProgressBar.value = value
+        if self.currentTextLength == 0 {
             postButton.setTitleColor(.donGray9, for: .normal)
             postButton.backgroundColor = .donGray3
             postButton.isEnabled = false
+            textCountLabel.textColor = .donGray6
         } else {
-            if totalTextLength < 500 {
-                limitedCircleProgressBar.alpha = 0
-                circleProgressBar.alpha = 1
-                
-                let value = Double(totalTextLength) / 500
-                circleProgressBar.value = value
-                
+            if self.currentTextLength < 500 {
                 if isValidURL == true || linkTextView.text == "" {
-                    postButton.setTitleColor(.donBlack, for: .normal)
-                    postButton.backgroundColor = .donPrimary
-                    postButton.isEnabled = true
+                    if isValidURL == false && linkTextView.isHidden == false {
+                        postButton.setTitleColor(.donGray9, for: .normal)
+                        postButton.backgroundColor = .donGray3
+                        postButton.isEnabled = false
+                    } else {
+                        postButton.setTitleColor(.donBlack, for: .normal)
+                        postButton.backgroundColor = .donPrimary
+                        postButton.isEnabled = true
+                    }
+                    textCountLabel.textColor = .donGray6
                 } else {
                     postButton.setTitleColor(.donGray9, for: .normal)
                     postButton.backgroundColor = .donGray3
                     postButton.isEnabled = false
+                    textCountLabel.textColor = .donGray6
                 }
             } else {
-                limitedCircleProgressBar.alpha = 1
-                circleProgressBar.alpha = 0
+                self.currentTextLength = 500
                 postButton.isEnabled = false
                 postButton.setTitleColor(.donGray9, for: .normal)
                 postButton.backgroundColor = .donGray3
+                textCountLabel.textColor = .donError
                 impactFeedbackGenerator.impactOccurred()
             }
         }
+        
+        textCountLabel.text = "(\(self.currentTextLength)/\(self.maxLength))"
         
         let size = CGSize(width: textView.frame.width, height: .infinity)
         let estimatedSize = textView.sizeThatFits(size)
@@ -442,6 +538,10 @@ extension WriteTextView: UITextViewDelegate {
 
             textView.snp.updateConstraints { make in
                 make.height.equalTo(newHeight)
+            }
+            
+            contentView.snp.updateConstraints { make in
+                make.height.equalTo(900.adjusted + newHeight)
             }
         } else if textView == linkTextView {
             let minHeight: CGFloat = 25 // 최소 높이

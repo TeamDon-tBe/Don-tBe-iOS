@@ -50,6 +50,7 @@ final class HomeViewController: UIViewController {
     private var deleteToastView: DontBeDeletePopupView?
     private var uploadToastView: DontBeToastView?
     private var alreadyTransparencyToastView: DontBeToastView?
+    private var photoDetailView: DontBePhotoDetailView?
     
     var deletePostBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnUserBottomsheetView = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
@@ -139,6 +140,11 @@ extension HomeViewController {
     func deletePostButtonTapped() {
         popDeletePostBottomsheetView()
         showDeletePostPopupView()
+    }
+    
+    @objc
+    func removePhotoButtonTapped() {
+        self.photoDetailView?.removeFromSuperview()
     }
     
     func popDeletePostBottomsheetView() {
@@ -259,6 +265,8 @@ extension HomeViewController {
                         self.uploadToastView?.checkImageView.alpha = 1
                         self.uploadToastView?.toastLabel.text = StringLiterals.Toast.uploaded
                         self.uploadToastView?.container.backgroundColor = .donPrimary
+                        
+                        self.refreshCollectionViewDidDrag()
                     }
                     
                     UIView.animate(withDuration: 1.0, delay: 2, options: .curveEaseIn) {
@@ -368,7 +376,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.firstReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.firstReasonView.radioButton.currentTitle ?? ""
                 case 2:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
@@ -376,7 +384,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.secondReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.secondReasonView.radioButton.currentTitle ?? ""
                 case 3:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -384,7 +392,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.thirdReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.thirdReasonView.radioButton.currentTitle ?? ""
                 case 4:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -392,7 +400,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fourthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fourthReasonView.radioButton.currentTitle ?? ""
                 case 5:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -400,7 +408,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.fifthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.fifthReasonView.radioButton.currentTitle ?? ""
                 case 6:
                     self.transparentReasonView.firstReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.secondReasonView.radioButton.setImage(radioButtonImage, for: .normal)
@@ -408,7 +416,7 @@ extension HomeViewController {
                     self.transparentReasonView.fourthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.fifthReasonView.radioButton.setImage(radioButtonImage, for: .normal)
                     self.transparentReasonView.sixthReasonView.radioButton.setImage(radioSelectedButtonImage, for: .normal)
-                    ghostReason = self.transparentReasonView.sixthReasonView.reasonLabel.text ?? ""
+                    ghostReason = self.transparentReasonView.sixthReasonView.radioButton.currentTitle ?? ""
                 default:
                     break
                 }
@@ -454,9 +462,6 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 let lastContentId = homeViewModel.postDatas.last?.contentId ?? -1
                 homeViewModel.cursor = lastContentId
                 bindViewModel()
-                DispatchQueue.main.async {
-                    self.homeCollectionView.reloadData()
-                }
             }
         }
     }
@@ -525,6 +530,26 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
                 self.navigationController?.pushViewController(viewController, animated: false)
             }
         }
+        
+        cell.PhotoImageTappedAction = {
+            DispatchQueue.main.async {
+                self.photoDetailView = DontBePhotoDetailView()
+                
+                if let window = UIApplication.shared.keyWindowInConnectedScenes {
+                    window.addSubview(self.photoDetailView ?? DontBePhotoDetailView())
+                    
+                    self.photoDetailView?.removePhotoButton.addTarget(self, action: #selector(self.removePhotoButtonTapped), for: .touchUpInside)
+                    
+                    if let imageURL = self.homeViewModel.postDatas[indexPath.row].contentImageUrl {
+                        self.photoDetailView?.photoImageView.loadContentImage(url: imageURL)
+                    }
+                    
+                    self.photoDetailView?.snp.makeConstraints {
+                        $0.edges.equalToSuperview()
+                    }
+                }
+            }
+        }
 
         cell.TransparentButtonAction = {
             self.alarmTriggerType = cell.alarmTriggerType
@@ -564,12 +589,36 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
         cell.configure(with: cell.contentTextLabel.text ?? "")
         
+        if let contentImage = homeViewModel.postDatas[indexPath.row].contentImageUrl {
+            cell.photoImageView.loadContentImage(url: "\(contentImage)")
+            cell.photoImageView.isHidden = false
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.photoImageView.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        } else {
+            cell.photoImageView.isHidden = true
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        }
+        
+        var memberGhost = self.homeViewModel.postDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if self.homeViewModel.postDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = self.homeViewModel.postDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
+            print("cell.grayView.alpha: \(CGFloat(Double(-memberGhost) / 100))")
         }
         
         // 탈퇴한 회원 닉네임 텍스트 색상 변경, 프로필로 이동 못하도록 적용

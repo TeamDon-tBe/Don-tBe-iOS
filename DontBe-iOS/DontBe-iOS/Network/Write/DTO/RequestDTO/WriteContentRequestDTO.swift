@@ -6,9 +6,15 @@
 //
 
 import Foundation
+import UIKit
 
 // MARK: - WriteContentRequestDTO
 
 struct WriteContentRequestDTO: Encodable {
     let contentText: String
+}
+
+struct WriteContentImageRequestDTO {
+    let contentText: String
+    let photoImage: UIImage?
 }

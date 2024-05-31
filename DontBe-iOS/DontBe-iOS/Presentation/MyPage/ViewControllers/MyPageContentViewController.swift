@@ -326,12 +326,35 @@ extension MyPageContentViewController: UICollectionViewDataSource, UICollectionV
         
         cell.configure(with: cell.contentTextLabel.text ?? "")
         
+        if let contentImage = contentDatas[indexPath.row].contentImageUrl {
+            cell.photoImageView.loadContentImage(url: "\(contentImage)")
+            cell.photoImageView.isHidden = false
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.photoImageView.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        } else {
+            cell.photoImageView.isHidden = true
+            
+            cell.commentStackView.snp.remakeConstraints {
+                $0.top.equalTo(cell.contentTextLabel.snp.bottom).offset(4.adjusted)
+                $0.height.equalTo(cell.commentStackView)
+                $0.trailing.equalTo(cell.kebabButton).inset(8.adjusted)
+                $0.bottom.equalToSuperview().inset(16.adjusted)
+            }
+        }
+        
+        var memberGhost = contentDatas[indexPath.row].memberGhost
+        memberGhost = adjustGhostValue(memberGhost)
+        
         // 내가 투명도를 누른 유저인 경우 -85% 적용
         if contentDatas[indexPath.row].isGhost {
             cell.grayView.alpha = 0.85
         } else {
-            let alpha = contentDatas[indexPath.row].memberGhost
-            cell.grayView.alpha = CGFloat(Double(-alpha) / 100)
+            cell.grayView.alpha = CGFloat(Double(-memberGhost) / 100)
         }
         
         self.contentId = contentDatas[indexPath.row].contentId

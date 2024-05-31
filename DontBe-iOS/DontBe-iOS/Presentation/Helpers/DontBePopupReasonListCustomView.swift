@@ -14,14 +14,10 @@ final class DontBePopupReasonListCustomView: UIView {
     let radioButton: UIButton = {
         let button = UIButton()
         button.setImage(ImageLiterals.TransparencyInfo.btnRadio, for: .normal)
+        button.setTitleColor(.donBlack, for: .normal)
+        button.titleLabel?.font = .font(.body4)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4.adjusted, bottom: 2.adjusted, right: -4.adjusted)
         return button
-    }()
-    
-    let reasonLabel: UILabel = {
-        let infoLabel = UILabel()
-        infoLabel.textColor = .donBlack
-        infoLabel.font = .font(.body2)
-        return infoLabel
     }()
     
     override init(frame: CGRect) {
@@ -31,20 +27,14 @@ final class DontBePopupReasonListCustomView: UIView {
     init(reason: String) {
         super.init(frame: .zero)
         
-        reasonLabel.text = reason
+        radioButton.setTitle(reason, for: .normal)
         
-        self.addSubviews(radioButton,
-                         reasonLabel)
+        self.addSubviews(radioButton)
         
         radioButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().inset(22.adjusted)
-            $0.size.equalTo(30.adjusted)
-        }
-        
-        reasonLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalTo(radioButton.snp.trailing).offset(4.adjusted)
+            $0.height.equalTo(30.adjusted)
         }
     }
     

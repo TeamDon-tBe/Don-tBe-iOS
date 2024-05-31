@@ -23,6 +23,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     var LikeButtonAction: (() -> Void) = {}
     var TransparentButtonAction: (() -> Void) = {}
     var ProfileButtonAction: (() -> Void) = {}
+    var PhotoImageTappedAction: (() -> Void) = {}
     var isLiked: Bool = false
     var alarmTriggerType: String = ""
     var targetMemberId: Int = 0
@@ -104,6 +105,12 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
         return label
     }()
     
+    var photoImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.isUserInteractionEnabled = true
+        return imageView
+    }()
+    
     lazy var likeStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing
@@ -156,7 +163,7 @@ final class HomeCollectionViewCell: UICollectionViewCell, UICollectionViewRegist
     
     let verticalTextBarView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.donPale
+        view.backgroundColor = UIColor.donGray2
         return view
     }()
     
@@ -246,6 +253,7 @@ extension HomeCollectionViewCell {
                                      dotLabel,
                                      timeLabel,
                                      contentTextLabel,
+                                     photoImageView,
                                      grayView,
                                      kebabButton,
                                      commentStackView,
@@ -315,6 +323,13 @@ extension HomeCollectionViewCell {
             $0.trailing.equalToSuperview().inset(20.adjusted)
         }
         
+        photoImageView.snp.makeConstraints {
+            $0.top.equalTo(contentTextLabel.snp.bottom).offset(8.adjusted)
+            $0.leading.equalTo(nicknameLabel)
+            $0.trailing.equalTo(kebabButton.snp.trailing)
+            $0.height.equalTo(359.adjusted)
+        }
+        
         commentStackView.snp.makeConstraints {
             $0.top.equalTo(contentTextLabel.snp.bottom).offset(4.adjusted)
             $0.height.equalTo(commentStackView)
@@ -338,7 +353,7 @@ extension HomeCollectionViewCell {
         verticalTextBarView.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom)
             $0.bottom.equalTo(ghostButton.snp.top)
-            $0.width.equalTo(1.adjusted)
+            $0.width.equalTo(2.adjusted)
             $0.centerX.equalTo(profileImageView)
         }
         
@@ -355,6 +370,7 @@ extension HomeCollectionViewCell {
         likeButton.addTarget(self, action: #selector(likeToggleButton), for: .touchUpInside)
         ghostButton.addTarget(self, action: #selector(transparentShowPopupButton), for: .touchUpInside)
         profileImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileButton)))
+        photoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(photoImageViewTapped)))
     }
     
     @objc
@@ -374,5 +390,10 @@ extension HomeCollectionViewCell {
     @objc
     func profileButton() {
         ProfileButtonAction()
+    }
+    
+    @objc
+    func photoImageViewTapped() {
+        PhotoImageTappedAction()
     }
 }

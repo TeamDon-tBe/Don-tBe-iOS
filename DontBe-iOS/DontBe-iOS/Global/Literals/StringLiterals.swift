@@ -18,7 +18,8 @@ enum StringLiterals {
     enum Write {
         static let writeNavigationTitle = "새로운 글"
         static let writeNavigationBarButtonItemTitle = "취소"
-        static let writeContentPlaceholder = "무슨 고민이 있나요?"
+        static let writeContentPlaceholder = "어떤 생각을 하고 있나요?"
+        static let writeReplyContentPlaceholder = "님에게 답글 남기기..."
         static let writePostButtonTitle = "게시"
         static let writePopupContentLabel = "작성 중인 글을 삭제하시겠어요?"
         static let writePopupCancleButtonTitle = "취소"
@@ -183,7 +184,7 @@ enum StringLiterals {
     }
     
     enum VersionUpdate {
-        static let versionTitle = "v 1.1.0 업데이트 안내\nDon't be가 업데이트 되었습니다."
-        static let versionMessage = "•눌러서 바로 이동할 수 있는 링크를 삽입할 수 있어요.\n•내 글에 답글을 달거나 좋아요를 누른 상대의 프로필로 이동할 수 있어요.\n•그 외 자잘한 오류들을 해결했어요."
+        static let versionTitle = "v 1.2.1 업데이트 안내\nDon't be가 업데이트 되었습니다."
+        static let versionMessage = "•글을 작성할 때 사진을 첨부할 수 있어요.\n•투명도 버튼 생김새와 터치 영역을 수정했어요.\n•그 외 자잘한 오류들을 해결했어요."
     }
 }

@@ -157,7 +157,7 @@ extension HomeViewModel {
         do {
             let result: BaseResponse<[PostDataResponseDTO]>? = try await
             self.networkProvider.donNetwork(type: .get,
-                                            baseURL: Config.baseURL + "/contents",
+                                            baseURL: Config.baseURL.dropLast() + "2/contents",
                                             accessToken: accessToken,
                                             body: EmptyBody(),
                                             pathVariables: ["cursor":"\(cursor)"])
