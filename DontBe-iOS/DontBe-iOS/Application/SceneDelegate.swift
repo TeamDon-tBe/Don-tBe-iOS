@@ -66,7 +66,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        self.checkAndUpdateIfNeeded()
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -90,17 +89,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 
                 let splitCurrentProjectVersion = currentProjectVersion.split(separator: ".").map { $0 }
                 
-                if splitCurrentProjectVersion.count > 0 && splitMarketingVersion.count > 0 {
-                    
-                    if splitCurrentProjectVersion[0] < splitMarketingVersion[0] {
-                        self.showUpdateAlert(version: marketingVersion)
-                        
-                    } else if splitCurrentProjectVersion[1] < splitMarketingVersion[1] {
-                        self.showUpdateAlert(version: marketingVersion)
-                        
-                    } else {
-                        print("현재 최신버전입니다.")
-                    }
+                if currentProjectVersion < marketingVersion {
+                    self.showUpdateAlert(version: marketingVersion)
+                } else {
+                    print("현재 최신버전입니다.")
                 }
             }
         }
