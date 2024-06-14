@@ -29,6 +29,8 @@ final class MyPageEditProfileViewController: UIViewController {
         return EditUserProfileRequestDTO(nickname: self.nicknameEditView.nickNameTextField.text ?? "",
                                          is_alarm_allowed: true,
                                          member_intro: self.introductionEditView.contentTextView.text ?? "",
+                                         is_push_alarm_allowed: loadUserData()?.isPushAlarmAllowed,
+                                         fcmToken: loadUserData()?.fcmToken,
                                          profile_image: self.nicknameEditView.profileImage.image ?? ImageLiterals.Common.imgProfile)
     }.eraseToAnyPublisher()
     
