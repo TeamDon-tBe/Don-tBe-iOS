@@ -84,19 +84,21 @@ final class MyPageProfileViewModel: ViewModelType {
         input.finishButtonTapped
             .sink { value in
                 Task {
-                    self.uploadData(nickname: value.nickname,
-                                    isAlarmAllowed: value.is_alarm_allowed,
-                                    memberIntro: value.member_intro,
-                                    profileImage: value.profile_image)
+                    self.uploadData(nickname: value.nickname ?? "",
+                                    isAlarmAllowed: value.is_alarm_allowed ?? false,
+                                    memberIntro: value.member_intro ?? "",
+                                    profileImage: value.profile_image ?? UIImage())
                 }
                 
                 saveUserData(UserInfo(isSocialLogined: true,
                                       isFirstUser: false,
                                       isJoinedApp: true,
                                       isOnboardingFinished: true,
-                                      userNickname: value.nickname,
+                                      userNickname: value.nickname ?? "",
                                       memberId: loadUserData()?.memberId ?? 0,
-                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
                 
                 self.popViewController.send()
             }

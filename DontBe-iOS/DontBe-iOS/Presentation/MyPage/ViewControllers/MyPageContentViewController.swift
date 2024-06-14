@@ -226,7 +226,8 @@ extension MyPageContentViewController {
             thirdReasonButtonTapped: nil,
             fourthReasonButtonTapped: nil,
             fifthReasonButtonTapped: nil,
-            sixthReasonButtonTapped: nil)
+            sixthReasonButtonTapped: nil,
+            isPushNotiAllowed: nil)
 
         let output = self.viewModel.transform(from: input, cancelBag: self.cancelBag)
 

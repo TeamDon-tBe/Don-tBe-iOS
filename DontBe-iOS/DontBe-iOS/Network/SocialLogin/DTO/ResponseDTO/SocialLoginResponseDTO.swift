@@ -15,4 +15,5 @@ struct SocialLoginResponseDTO: Decodable {
     let accessToken, refreshToken: String
     let memberProfileUrl: String
     let isNewUser: Bool
+    let isPushAlarmAllowed: Bool?
 }

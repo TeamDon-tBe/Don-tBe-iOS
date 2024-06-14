@@ -8,6 +8,7 @@
 import Combine
 import SafariServices
 import UIKit
+import UserNotifications
 
 import SnapKit
 
@@ -39,7 +40,8 @@ final class HomeViewController: UIViewController {
     private lazy var fourthReason = self.transparentReasonView.fourthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var fifthReason = self.transparentReasonView.fifthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var sixthReason = self.transparentReasonView.sixthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
-    
+    private lazy var isPushAllowed = PassthroughSubject<Bool, Never>()
+
     let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     
     // MARK: - UI Components
@@ -81,6 +83,7 @@ final class HomeViewController: UIViewController {
         setDelegate()
         setAddTarget()
         setRefreshControl()
+        requestNotificationAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -350,7 +353,8 @@ extension HomeViewController {
             thirdReasonButtonTapped: thirdReason,
             fourthReasonButtonTapped: fourthReason,
             fifthReasonButtonTapped: fifthReason,
-            sixthReasonButtonTapped: sixthReason)
+            sixthReasonButtonTapped: sixthReason,
+            isPushNotiAllowed: isPushAllowed.eraseToAnyPublisher())
         
         let output = homeViewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -439,7 +443,8 @@ extension HomeViewController {
             thirdReasonButtonTapped: thirdReason,
             fourthReasonButtonTapped: fourthReason,
             fifthReasonButtonTapped: fifthReason,
-            sixthReasonButtonTapped: sixthReason)
+            sixthReasonButtonTapped: sixthReason,
+            isPushNotiAllowed: nil)
 
         let output = self.homeViewModel.transform(from: input, cancelBag: self.cancelBag)
 
@@ -447,6 +452,43 @@ extension HomeViewController {
             .sink { _ in }
             .store(in: self.cancelBag)
     }
+    
+    private func requestNotificationAuthorization() {
+        let center = UNUserNotificationCenter.current()
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        center.requestAuthorization(options: authOptions) { granted, _ in
+            
+            if granted {
+                print("알림 등록이 완료되었습니다.")
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
+                self.isPushAllowed.send(granted)
+                saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? false,
+                                      isFirstUser: loadUserData()?.isFirstUser ?? false,
+                                      isJoinedApp: loadUserData()?.isJoinedApp ?? false,
+                                      isOnboardingFinished: loadUserData()?.isOnboardingFinished ?? false,
+                                      userNickname: loadUserData()?.userNickname ?? "",
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                      isPushAlarmAllowed: true))
+            } else {
+                print("알림 등록이 거부되었습니다.")
+                self.isPushAllowed.send(granted)
+                saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? false,
+                                      isFirstUser: loadUserData()?.isFirstUser ?? false,
+                                      isJoinedApp: loadUserData()?.isJoinedApp ?? false,
+                                      isOnboardingFinished: loadUserData()?.isOnboardingFinished ?? false,
+                                      userNickname: loadUserData()?.userNickname ?? "",
+                                      memberId: loadUserData()?.memberId ?? 0,
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                      isPushAlarmAllowed: false))
+            }
+        }
+    }
+
 }
 
 extension HomeViewController: UICollectionViewDelegate { }
