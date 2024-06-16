@@ -49,8 +49,10 @@ final class NotificationViewModel: ViewModelType {
                             triggerMemberProfileUrl: data.triggerMemberProfileUrl,
                             notificationTriggerId: data.notificationTriggerId,
                             notificationType: notificationType,
-                            time: data.time, notificationId: data.notificationId,
-                            triggerMemberId: data.triggerMemberId)
+                            time: data.time, 
+                            notificationId: data.notificationId,
+                            triggerMemberId: data.triggerMemberId,
+                            notificationText: data.notificationText)
                     }
                     self.notificationList = myNotiList ?? []
                     notificationLists.append(contentsOf: notificationList)
@@ -76,7 +78,8 @@ final class NotificationViewModel: ViewModelType {
                             notificationType: notificationType,
                             time: data.time,
                             notificationId: data.notificationId,
-                            triggerMemberId: data.triggerMemberId)
+                            triggerMemberId: data.triggerMemberId, 
+                            notificationText: data.notificationText)
                     }
                     self.notificationList = myNotiList ?? []
                     _ = try await self.patchNotificationCheck()
