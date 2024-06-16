@@ -53,7 +53,9 @@ final class OnboardingEndingViewModel: ViewModelType {
                                                       isOnboardingFinished: false,
                                                       userNickname: data.nickname,
                                                       memberId: loadUserData()?.memberId ?? 0,
-                                                      userProfileImage: data.memberProfileUrl))
+                                                      userProfileImage: data.memberProfileUrl,
+                                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
                             }
                         }
                     } catch {
@@ -92,7 +94,9 @@ final class OnboardingEndingViewModel: ViewModelType {
                                       isOnboardingFinished: true,
                                       userNickname: loadUserData()?.userNickname ?? "",
                                       memberId: loadUserData()?.memberId ?? 0,
-                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
             }
             .store(in: self.cancelBag)
         
@@ -107,7 +111,9 @@ final class OnboardingEndingViewModel: ViewModelType {
                                       isOnboardingFinished: true,
                                       userNickname: loadUserData()?.userNickname ?? "",
                                       memberId: loadUserData()?.memberId ?? 0,
-                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: loadUserData()?.fcmToken ?? "",
+                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
             }
             .store(in: self.cancelBag)
         

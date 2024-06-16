@@ -10,6 +10,8 @@ import UIKit
 
 import Amplitude
 import KakaoSDKCommon
+import FirebaseCore
+import FirebaseMessaging
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -38,13 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
                 }
             }
-            saveUserData(UserInfo(isSocialLogined: false,
-                                  isFirstUser: false,
-                                  isJoinedApp: true,
-                                  isOnboardingFinished: true,
-                                  userNickname: loadUserData()?.userNickname ?? "",
-                                  memberId: loadUserData()?.memberId ?? 0,
-                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
             // KeychainWrapper에 Access Token 저장하고 소셜로그인 화면으로
             let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") ?? ""
             KeychainWrapper.saveToken(accessToken, forKey: "accessToken")
@@ -56,7 +51,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
-        
+        FirebaseApp.configure()
+
+        Messaging.messaging().delegate = self
+        Messaging.messaging().isAutoInitEnabled = true
+
+        UNUserNotificationCenter.current().delegate = self
+
+        application.registerForRemoteNotifications()
+    
         return true
     }
     
@@ -77,3 +80,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    /// 푸시클릭시
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        let notiInfomation = response.notification.request.content.userInfo
+        if let contentID = notiInfomation["relateContentId"] as? String {
+            let pushAlarmHelper = DontBePushAlarmHelper(contentID: Int(contentID) ?? 0)
+                pushAlarmHelper.start()
+        }
+        print("🟢", #function)
+    }
+    
+    /// 앱화면 보고있는중에 푸시올 때
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.banner, .sound, .badge])
+    }
+    
+    /// FCMToken 업데이트시
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        let dataDict: [String: String] = ["token": fcmToken ?? ""]
+        NotificationCenter.default.post(
+          name: Notification.Name("FCMToken"),
+          object: nil,
+          userInfo: dataDict
+        )
+        saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? false,
+                              isFirstUser: loadUserData()?.isFirstUser ?? false,
+                              isJoinedApp: loadUserData()?.isJoinedApp ?? false,
+                              isOnboardingFinished: loadUserData()?.isOnboardingFinished ?? false,
+                              userNickname: loadUserData()?.userNickname ?? "",
+                              memberId: loadUserData()?.memberId ?? 0,
+                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                              fcmToken: fcmToken ?? "",
+                              isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
+        print("🟢", #function, fcmToken)
+    }
+    
+    /// 스위즐링 NO시, APNs등록, APNs토큰값가져옴
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+        print("🟢", #function)
+    }
+    
+    /// error발생시
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("🟢", error)
+    }
+}
+
+extension AppDelegate: MessagingDelegate {
+    
+}

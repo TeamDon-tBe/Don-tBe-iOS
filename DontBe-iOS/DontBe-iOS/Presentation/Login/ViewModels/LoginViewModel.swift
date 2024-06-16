@@ -121,14 +121,16 @@ extension LoginViewModel {
                 let userNickname = data?.data?.nickName ?? ""
                 let isNewUser = data?.data?.isNewUser ?? true
                 let memberId = data?.data?.memberId ?? 0
+                let fcmToken = loadUserData()?.fcmToken
                 saveUserData(UserInfo(isSocialLogined: true,
                                       isFirstUser: isNewUser,
                                       isJoinedApp: false,
                                       isOnboardingFinished: false,
                                       userNickname: userNickname,
                                       memberId: memberId,
-                                      userProfileImage: StringLiterals.Network.baseImageURL))
-                
+                                      userProfileImage: StringLiterals.Network.baseImageURL,
+                                      fcmToken: fcmToken ?? "",
+                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
                 // KeychainWrapper에 Access Token 저장
                 let accessToken = data?.data?.accessToken ?? ""
                 print(accessToken)

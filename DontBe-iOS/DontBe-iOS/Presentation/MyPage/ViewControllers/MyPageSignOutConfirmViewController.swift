@@ -124,7 +124,9 @@ extension MyPageSignOutConfirmViewController {
                                               isOnboardingFinished: true,
                                               userNickname: loadUserData()?.userNickname ?? "",
                                               memberId: loadUserData()?.memberId ?? 0, 
-                                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                              fcmToken: loadUserData()?.fcmToken ?? "",
+                                              isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
                         
                         OnboardingViewController.pushCount = 0
                     }
