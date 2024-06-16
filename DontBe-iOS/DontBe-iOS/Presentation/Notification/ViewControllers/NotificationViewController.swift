@@ -198,7 +198,16 @@ extension NotificationViewController: UITableViewDataSource {
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: NotificationTableViewCell.reuseIdentifier, for: indexPath) as? NotificationTableViewCell else { return UITableViewCell() }
-            cell.configureCell(list: viewModel.notificationLists[indexPath.row])
+            if viewModel.notificationLists[indexPath.row].notificationType == .popularContent {
+                cell.nicknameLabel.text = "어제 가장 인기있었던 글이에요.\n"
+                cell.notificationLabel.text = "어제 가장 인기있었던 글이에요.\n" + viewModel.notificationLists[indexPath.row].notificationText
+                cell.notificationLabel.setTextWithLineHeightAndFont(
+                    text: cell.notificationLabel.text,
+                    targetString: "어제 가장 인기있었던 글이에요.",
+                    font: .font(.body3))
+            } else {
+                cell.configureCell(list: viewModel.notificationLists[indexPath.row])
+            }
             cell.selectionStyle = .none
             let numsOflines =  UILabel.lineNumber(label: cell.notificationLabel, labelWidth: 216.adjusted)
             numsOfLinesOfCellLabel = numsOflines

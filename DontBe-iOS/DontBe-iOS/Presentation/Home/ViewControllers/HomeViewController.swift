@@ -24,9 +24,12 @@ final class HomeViewController: UIViewController {
     var alarmTriggerdId: Int = 0
     var ghostReason: String = ""
     var hasAppearedBefore = false
+    var reportTargetNickname: String = ""
+    var relateText: String = ""
     
     var transparentReasonView = DontBePopupReasonView()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
+    var reportPopupView = DontBePopupView(popupTitle: "신고하시겠어요?", popupContent: "해당 유저 혹은 게시글을 신고하시려면\n신고하기 버튼을 눌러주세요.", leftButtonTitle: "취소", rightButtonTitle: "신고하기")
 
     let refreshControl = UIRefreshControl()
 
@@ -169,9 +172,16 @@ extension HomeViewController {
     }
     
     @objc
-    func warnUser() {
+    func reportButtonTapped() {
         popWarnUserBottomsheetView()
-        showWarnUserSafariView()
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(self.reportPopupView)
+            
+            self.reportPopupView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
     }
     
     func popWarnUserBottomsheetView() {
@@ -187,11 +197,6 @@ extension HomeViewController {
         }
     }
     
-    func showWarnUserSafariView() {
-        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
-        self.present(safariView, animated: true, completion: nil)
-    }
-    
     @objc
     private func popViewController() {
         self.navigationController?.popViewController(animated: true)
@@ -201,6 +206,7 @@ extension HomeViewController {
         homeCollectionView.dataSource = self
         homeCollectionView.delegate = self
         transparentReasonView.delegate = self
+        reportPopupView.delegate = self
     }
     
     private func setNotification() {
@@ -534,7 +540,9 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
             
             cell.KebabButtonAction = {
                 self.warnUserBottomsheetView.showSettings()
-                self.warnUserBottomsheetView.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
+                self.reportTargetNickname = cell.nicknameLabel.text ?? ""
+                self.relateText = cell.contentTextLabel.text ?? ""
+                self.warnUserBottomsheetView.warnButton.addTarget(self, action: #selector(self.reportButtonTapped), for: .touchUpInside)
             }
         }
         
@@ -724,6 +732,29 @@ extension HomeViewController: DontBePopupReasonDelegate {
                 } catch {
                     print(error)
                 }
+            }
+        }
+    }
+}
+
+extension HomeViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        reportPopupView.removeFromSuperview()
+    }
+    
+    func confirmButtonTapped() {
+        reportPopupView.removeFromSuperview()
+        
+        Task {
+            do {
+                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                    let result = try await self.homeViewModel.postReportButtonAPI(
+                        reportTargetNickname: self.reportTargetNickname,
+                        relateText: self.relateText
+                    )
+                }
+            } catch {
+                print(error)
             }
         }
     }

@@ -37,6 +37,8 @@ final class MyPageViewController: UIViewController {
     var targetMemberId: Int = 0
     var alarmTriggerdId: Int = 0
     var ghostReason: String = ""
+    var reportTargetNickname: String = ""
+    var relateText: String = "마이페이지 유저 신고"
     
     var commentDatas: [MyPageMemberCommentResponseDTO] = []
     var contentDatas: [MyPageMemberContentResponseDTO] = []
@@ -209,6 +211,7 @@ extension MyPageViewController {
         rootView.pageViewController.delegate = self
         rootView.pageViewController.dataSource = self
         transparentReasonView.delegate = self
+        rootView.reportPopupView.delegate = self
     }
     
     private func setNotification() {
@@ -596,10 +599,15 @@ extension MyPageViewController {
     @objc
     private func warnButtonTapped() {
         rootView.warnBottomsheet.handleDismiss()
-        let warnView: SFSafariViewController
-        if let warnURL = self.warnUserURL {
-            warnView = SFSafariViewController(url: warnURL)
-            self.present(warnView, animated: true, completion: nil)
+        
+        self.reportTargetNickname = self.rootView.myPageProfileView.userNickname.text ?? ""
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(rootView.reportPopupView)
+            
+            self.rootView.reportPopupView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
         }
     }
     
@@ -769,31 +777,52 @@ extension MyPageViewController: UICollectionViewDelegate {
 
 extension MyPageViewController: DontBePopupDelegate {
     func cancleButtonTapped() {
-        self.logoutPopupView?.removeFromSuperview()
+        if logoutPopupView != nil {
+            self.logoutPopupView?.removeFromSuperview()
+        } else {
+            rootView.reportPopupView.removeFromSuperview()
+        }
     }
     
     func confirmButtonTapped() {
-        self.logoutPopupView?.removeFromSuperview()
-        self.rootView.myPageBottomsheet.handleDismiss()
-        
-        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
-            DispatchQueue.main.async {
-                let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
-                sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+        if logoutPopupView != nil {
+            self.logoutPopupView?.removeFromSuperview()
+            self.rootView.myPageBottomsheet.handleDismiss()
+            
+            if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate {
+                DispatchQueue.main.async {
+                    let rootViewController = LoginViewController(viewModel: LoginViewModel(networkProvider: NetworkService()))
+                    sceneDelegate.window?.rootViewController = UINavigationController(rootViewController: rootViewController)
+                }
+            }
+            
+            saveUserData(UserInfo(isSocialLogined: false,
+                                  isFirstUser: false,
+                                  isJoinedApp: true,
+                                  isOnboardingFinished: true,
+                                  userNickname: loadUserData()?.userNickname ?? "",
+                                  memberId: loadUserData()?.memberId ?? 0,
+                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                  fcmToken: loadUserData()?.fcmToken ?? "",
+                                  isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
+            
+            OnboardingViewController.pushCount = 0
+        } else {
+            rootView.reportPopupView.removeFromSuperview()
+            
+            Task {
+                do {
+                    if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                        let result = try await self.homeViewModel.postReportButtonAPI(
+                            reportTargetNickname: self.reportTargetNickname,
+                            relateText: self.relateText
+                        )
+                    }
+                } catch {
+                    print(error)
+                }
             }
         }
-        
-        saveUserData(UserInfo(isSocialLogined: false,
-                              isFirstUser: false,
-                              isJoinedApp: true,
-                              isOnboardingFinished: true,
-                              userNickname: loadUserData()?.userNickname ?? "",
-                              memberId: loadUserData()?.memberId ?? 0,
-                              userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
-                              fcmToken: loadUserData()?.fcmToken ?? "",
-                              isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
-    
-        OnboardingViewController.pushCount = 0
     }
 }
 

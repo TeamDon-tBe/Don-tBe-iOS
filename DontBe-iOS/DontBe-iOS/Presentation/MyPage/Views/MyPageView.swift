@@ -82,6 +82,7 @@ final class MyPageView: UIView {
     
     var deleteBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnDelete)
     var warnBottomsheet = DontBeBottomSheetView(singleButtonImage: ImageLiterals.Posting.btnWarn)
+    var reportPopupView = DontBePopupView(popupTitle: "신고하시겠어요?", popupContent: "해당 유저 혹은 게시글을 신고하시려면\n신고하기 버튼을 눌러주세요.", leftButtonTitle: "취소", rightButtonTitle: "신고하기")
     
     // MARK: - Life Cycles
     

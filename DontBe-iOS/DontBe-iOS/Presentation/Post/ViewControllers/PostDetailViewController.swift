@@ -53,6 +53,8 @@ final class PostDetailViewController: UIViewController {
     var userNickName: String = ""
     var userProfileURL: String = StringLiterals.Network.baseImageURL
     var contentText: String = ""
+    var reportTargetNickname: String = ""
+    var relateText: String = ""
     
     // MARK: - UI Components
     
@@ -69,6 +71,8 @@ final class PostDetailViewController: UIViewController {
     private var alreadyTransparencyToastView: DontBeToastView?
     private var deleteToastView: DontBeDeletePopupView?
     private var photoDetailView: DontBePhotoDetailView?
+    
+    var reportPopupView = DontBePopupView(popupTitle: "신고하시겠어요?", popupContent: "해당 유저 혹은 게시글을 신고하시려면\n신고하기 버튼을 눌러주세요.", leftButtonTitle: "취소", rightButtonTitle: "신고하기")
     
     // MARK: - Life Cycles
     
@@ -175,6 +179,7 @@ extension PostDetailViewController {
         postReplyCollectionView.dataSource = self
         postReplyCollectionView.delegate = self
         transparentReasonView.delegate = self
+        reportPopupView.delegate = self
     }
     
     private func setAppearNotification() {
@@ -352,7 +357,7 @@ extension PostDetailViewController {
     
     private func addWarnUserButtonAction() {
         self.warnBottomsheet.deleteButton.removeFromSuperview()
-        self.warnBottomsheet.warnButton.addTarget(self, action: #selector(warnUser), for: .touchUpInside)
+        self.warnBottomsheet.warnButton.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
     }
     
     @objc
@@ -368,10 +373,16 @@ extension PostDetailViewController {
     }
     
     @objc
-    private func warnUser() {
+    private func reportButtonTapped() {
         popWarnView()
-        let safariView: SFSafariViewController = SFSafariViewController(url: self.warnUserURL! as URL)
-        self.present(safariView, animated: true, completion: nil)
+        
+        if let window = UIApplication.shared.keyWindowInConnectedScenes {
+            window.addSubviews(self.reportPopupView)
+            
+            self.reportPopupView.snp.makeConstraints {
+                $0.edges.equalToSuperview()
+            }
+        }
     }
     
     @objc
@@ -793,7 +804,9 @@ extension PostDetailViewController: UICollectionViewDataSource, UICollectionView
             
             cell.KebabButtonAction = {
                 self.warnBottomsheet.showSettings()
-                self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.warnUser), for: .touchUpInside)
+                self.reportTargetNickname = cell.nicknameLabel.text ?? ""
+                self.relateText = cell.contentTextLabel.text ?? ""
+                self.warnBottomsheet.warnButton.addTarget(self, action: #selector(self.reportButtonTapped), for: .touchUpInside)
                 self.commentId = self.viewModel.postReplyDatas[indexPath.row].commentId
             }
         }
@@ -1045,6 +1058,29 @@ extension PostDetailViewController: DontBePopupReasonDelegate {
                 } catch {
                     print(error)
                 }
+            }
+        }
+    }
+}
+
+extension PostDetailViewController: DontBePopupDelegate {
+    func cancleButtonTapped() {
+        reportPopupView.removeFromSuperview()
+    }
+    
+    func confirmButtonTapped() {
+        reportPopupView.removeFromSuperview()
+        
+        Task {
+            do {
+                if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
+                    let result = try await self.viewModel.postReportButtonAPI(
+                        reportTargetNickname: self.reportTargetNickname,
+                        relateText: self.relateText
+                    )
+                }
+            } catch {
+                print(error)
             }
         }
     }

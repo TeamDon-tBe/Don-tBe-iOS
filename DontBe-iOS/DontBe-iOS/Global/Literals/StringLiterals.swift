@@ -87,6 +87,7 @@ enum StringLiterals {
         static let commentTransparency = "님, 작성하신 답글로 인해 점점 투명해지고 있어요."
         static let emptyTitle = "아직 받은 알림이 없어요."
         static let emptyDescription = "새로운 소식이 도착하면 알려드릴게요."
+        static let popularWriter = "님이 작성하신 글이 인기글로 선정되었어요. 🥳🥳"
     }
     
     enum MyPage {
