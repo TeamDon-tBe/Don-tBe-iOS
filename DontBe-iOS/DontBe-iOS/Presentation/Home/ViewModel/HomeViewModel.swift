@@ -40,6 +40,7 @@ final class HomeViewModel: ViewModelType {
         let fourthReasonButtonTapped: AnyPublisher<Void, Never>?
         let fifthReasonButtonTapped: AnyPublisher<Void, Never>?
         let sixthReasonButtonTapped: AnyPublisher<Void, Never>?
+        let isPushNotiAllowed: AnyPublisher<Bool, Never>?
     }
 
     struct Output {
@@ -135,6 +136,16 @@ final class HomeViewModel: ViewModelType {
             .sink { [weak self] _ in
                 self?.isSixthReasonChecked.toggle()
                 self?.clickedRadioButtonState.send(6)
+            }
+            .store(in: cancelBag)
+        
+        input.isPushNotiAllowed?
+            .sink { value in
+                Task {
+                    do {
+                        self.patchUserInfoDataAPI(isPushAlarmAllowed: value)
+                    }
+                }
             }
             .store(in: cancelBag)
         
@@ -265,5 +276,60 @@ extension HomeViewModel {
         } catch {
             return nil
         }
+    }
+
+    func patchUserInfoDataAPI(isPushAlarmAllowed: Bool) {
+        guard let url = URL(string: Config.baseURL + "/user-profile2") else { return }
+        guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return }
+        print("👻👻 -> 엑세스토큰 \(accessToken)")
+        
+        let parameters: [String: Any] = [
+            "isPushAlarmAllowed": isPushAlarmAllowed,
+            "fcmToken": isPushAlarmAllowed ? loadUserData()?.fcmToken ?? "" : ""
+        ]
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PATCH"
+        
+        // Multipart form data 생성
+        let boundary = "Boundary-\(UUID().uuidString)"
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        
+        var requestBodyData = Data()
+        
+        // JSON 데이터를 포함한 프로필 정보 추가
+        requestBodyData.append("--\(boundary)\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Disposition: form-data; name=\"info\"\r\n".data(using: .utf8)!)
+        requestBodyData.append("Content-Type: application/json\r\n\r\n".data(using: .utf8)!)
+        let jsonData = try! JSONSerialization.data(withJSONObject: parameters, options: [])
+        requestBodyData.append(jsonData)
+        requestBodyData.append("\r\n".data(using: .utf8)!)
+        
+        requestBodyData.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        // HTTP body에 데이터 설정
+        request.httpBody = requestBodyData
+        
+        // URLSession으로 요청 보내기
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error:", error)
+                return
+            }
+            
+            // 응답 처리
+            if let response = response as? HTTPURLResponse {
+                print(response)
+                print("Response status code:", response.statusCode)
+            }
+            
+            if let data = data {
+                // 서버 응답 데이터 처리
+                print("Response data:", String(data: data, encoding: .utf8) ?? "Empty response")
+            }
+        }
+        
+        task.resume()
     }
 }

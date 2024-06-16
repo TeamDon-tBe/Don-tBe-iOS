@@ -18,8 +18,10 @@ struct UserProfileRequestDTO: Encodable {
 }
 
 struct EditUserProfileRequestDTO {
-    let nickname: String
-    let is_alarm_allowed: Bool
-    let member_intro: String
-    let profile_image: UIImage
+    let nickname: String?
+    let is_alarm_allowed: Bool?
+    let member_intro: String?
+    let is_push_alarm_allowed: Bool?
+    let fcmToken: String?
+    let profile_image: UIImage?
 }

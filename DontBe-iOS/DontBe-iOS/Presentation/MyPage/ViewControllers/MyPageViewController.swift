@@ -412,7 +412,8 @@ extension MyPageViewController {
             thirdReasonButtonTapped: thirdReason,
             fourthReasonButtonTapped: fourthReason,
             fifthReasonButtonTapped: fifthReason,
-            sixthReasonButtonTapped: sixthReason)
+            sixthReasonButtonTapped: sixthReason,
+            isPushNotiAllowed: nil)
         
         let output = homeViewModel.transform(from: input, cancelBag: cancelBag)
         
@@ -498,7 +499,9 @@ extension MyPageViewController {
                                   isOnboardingFinished: true,
                                   userNickname: data.nickname,
                                   memberId: loadUserData()?.memberId ?? 0,
-                                  userProfileImage: data.memberProfileUrl))
+                                  userProfileImage: data.memberProfileUrl,
+                                  fcmToken: loadUserData()?.fcmToken ?? "",
+                                  isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
         }
     }
     
@@ -799,7 +802,9 @@ extension MyPageViewController: DontBePopupDelegate {
                                   isOnboardingFinished: true,
                                   userNickname: loadUserData()?.userNickname ?? "",
                                   memberId: loadUserData()?.memberId ?? 0,
-                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                  userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                  fcmToken: loadUserData()?.fcmToken ?? "",
+                                  isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
             
             OnboardingViewController.pushCount = 0
         } else {

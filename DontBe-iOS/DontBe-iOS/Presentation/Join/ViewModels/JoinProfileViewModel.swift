@@ -67,22 +67,25 @@ final class JoinProfileViewModel: ViewModelType {
             .sink { value in
                 // 회원가입 서버통신
                 Task {
-                    self.patchUserInfoDataAPI(nickname: value.nickname,
-                                              isAlarmAllowed: value.is_alarm_allowed,
-                                              memberIntro: value.member_intro,
-                                              profileImage: value.profile_image)
+                    self.patchUserInfoDataAPI(nickname: value.nickname ?? "",
+                                              isAlarmAllowed: value.is_alarm_allowed ?? false,
+                                              memberIntro: value.member_intro ?? "",
+                                              profileImage: value.profile_image ?? UIImage())
                     
                     self.pushOrPopViewController.send(1)
                     
                     Amplitude.instance().logEvent("click_account_join_done")
                 }
+                let fcmToken = loadUserData()?.fcmToken
                 saveUserData(UserInfo(isSocialLogined: true,
                                       isFirstUser: true,
                                       isJoinedApp: true,
                                       isOnboardingFinished: false,
-                                      userNickname: value.nickname,
+                                      userNickname: value.nickname ?? "",
                                       memberId: loadUserData()?.memberId ?? 0,
-                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL))
+                                      userProfileImage: loadUserData()?.userProfileImage ?? StringLiterals.Network.baseImageURL,
+                                      fcmToken: fcmToken ?? "",
+                                      isPushAlarmAllowed: loadUserData()?.isPushAlarmAllowed ?? false))
             }
             .store(in: self.cancelBag)
         

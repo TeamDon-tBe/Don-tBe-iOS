@@ -26,7 +26,10 @@ final class JoinProfileViewController: UIViewController {
         return EditUserProfileRequestDTO(nickname: self.originView.nickNameTextField.text ?? "",
                                          is_alarm_allowed: true,
                                          member_intro: "",
-                                         profile_image: self.originView.profileImage.image ?? ImageLiterals.Common.imgProfile)
+                                         is_push_alarm_allowed: loadUserData()?.isPushAlarmAllowed,
+                                         fcmToken: loadUserData()?.fcmToken,
+                                         profile_image: self.originView.profileImage.image ?? ImageLiterals.Common.imgProfile
+        )
     }.eraseToAnyPublisher()
     
     
