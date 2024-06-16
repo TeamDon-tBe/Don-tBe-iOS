@@ -25,7 +25,7 @@ final class NotificationTableViewCell: UITableViewCell, UITableViewCellRegistera
         return profileImage
     }()
     
-    let notificationLabel: UILabel = {
+    var notificationLabel: UILabel = {
         let notificationLabel = UILabel()
         notificationLabel.textColor = .donGray12
         notificationLabel.font = .font(.body4)
@@ -148,6 +148,16 @@ extension NotificationTableViewCell {
                 text: notificationLabel.text,
                 targetString: list.memberNickname,
                 font: .font(.body3))
+        case .popularWriter:
+            nicknameLabel.text = list.memberNickname
+            notificationLabel.text = list.memberNickname + " " + list.notificationType.description
+            notificationLabel.setTextWithLineHeightAndFont(
+                text: notificationLabel.text,
+                targetString: list.memberNickname,
+                font: .font(.body3))
+        case .popularContent:
+            nicknameLabel.text = "어제 가장 인기있었던 글이에요.\n"
+            notificationLabel.text = ""
         }
         
         minutes.text = list.time.formattedTime()

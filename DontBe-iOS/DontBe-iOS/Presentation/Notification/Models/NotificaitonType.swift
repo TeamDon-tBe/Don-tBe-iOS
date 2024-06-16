@@ -17,6 +17,8 @@ enum NotificaitonType: String {
     case contentGhost = "contentGhost"
     case commentGhost = "commentGhost"
     case userBan = "userBan"
+    case popularWriter = "popularWriter"
+    case popularContent = "popularContent"
     
     var description: String {
         switch self {
@@ -35,6 +37,10 @@ enum NotificaitonType: String {
         case .commentGhost:
             return StringLiterals.Notification.commentTransparency
         case .userBan:
+            return StringLiterals.Notification.violation
+        case .popularWriter:
+            return StringLiterals.Notification.popularWriter
+        case .popularContent:
             return StringLiterals.Notification.violation
         }
     }
