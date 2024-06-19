@@ -244,6 +244,7 @@ extension MyPageViewController {
         rootView.myPageContentViewController.firstContentButton.addTarget(self, action: #selector(goToWriteViewController), for: .touchUpInside)
         rootView.myPageBottomsheet.profileEditButton.addTarget(self, action: #selector(profileEditButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.accountInfoButton.addTarget(self, action: #selector(accountInfoButtonTapped), for: .touchUpInside)
+        rootView.myPageBottomsheet.settingAlarmButton.addTarget(self, action: #selector(settingAlarmButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.feedbackButton.addTarget(self, action: #selector(feedbackButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.customerCenterButton.addTarget(self, action: #selector(customerCenterButtonTapped), for: .touchUpInside)
         rootView.myPageBottomsheet.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
@@ -568,6 +569,13 @@ extension MyPageViewController {
     private func accountInfoButtonTapped() {
         rootView.myPageBottomsheet.handleDismiss()
         let vc = MyPageAccountInfoViewController(viewModel: MyPageAccountInfoViewModel(networkProvider: NetworkService()))
+        self.navigationController?.pushViewController(vc, animated: false)
+    }
+    
+    @objc
+    private func settingAlarmButtonTapped() {
+        rootView.myPageBottomsheet.handleDismiss()
+        let vc = MyPageSettingAlarmViewController()
         self.navigationController?.pushViewController(vc, animated: false)
     }
     
