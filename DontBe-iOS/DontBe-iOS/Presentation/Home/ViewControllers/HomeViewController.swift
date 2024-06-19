@@ -26,6 +26,7 @@ final class HomeViewController: UIViewController {
     var hasAppearedBefore = false
     var reportTargetNickname: String = ""
     var relateText: String = ""
+    let warnUserURL = URL(string: StringLiterals.Network.warnUserGoogleFormURL)
     
     var transparentReasonView = DontBePopupReasonView()
     var deletePostPopupVC = DeletePopupViewController(viewModel: DeletePostViewModel(networkProvider: NetworkService()))
@@ -44,8 +45,6 @@ final class HomeViewController: UIViewController {
     private lazy var fifthReason = self.transparentReasonView.fifthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var sixthReason = self.transparentReasonView.sixthReasonView.radioButton.publisher(for: .touchUpInside).map { _ in }.eraseToAnyPublisher()
     private lazy var isPushAllowed = PassthroughSubject<Bool, Never>()
-
-    let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
     
     // MARK: - UI Components
     
@@ -744,6 +743,12 @@ extension HomeViewController: DontBePopupDelegate {
     
     func confirmButtonTapped() {
         reportPopupView.removeFromSuperview()
+        
+        let warnView: SFSafariViewController
+        if let warnURL = self.warnUserURL {
+            warnView = SFSafariViewController(url: warnURL)
+            self.present(warnView, animated: true, completion: nil)
+        }
         
         Task {
             do {

@@ -29,8 +29,6 @@ final class PostDetailViewController: UIViewController {
     
     var collectionHeaderView: PostDetailCollectionHeaderView?
     
-    let warnUserURL = NSURL(string: "\(StringLiterals.Network.warnUserGoogleFormURL)")
-    
     let viewModel: PostDetailViewModel
     private var cancelBag = CancelBag()
     
@@ -55,6 +53,7 @@ final class PostDetailViewController: UIViewController {
     var contentText: String = ""
     var reportTargetNickname: String = ""
     var relateText: String = ""
+    let warnUserURL = URL(string: StringLiterals.Network.warnUserGoogleFormURL)
     
     // MARK: - UI Components
     
@@ -1070,6 +1069,12 @@ extension PostDetailViewController: DontBePopupDelegate {
     
     func confirmButtonTapped() {
         reportPopupView.removeFromSuperview()
+        
+        let warnView: SFSafariViewController
+        if let warnURL = self.warnUserURL {
+            warnView = SFSafariViewController(url: warnURL)
+            self.present(warnView, animated: true, completion: nil)
+        }
         
         Task {
             do {

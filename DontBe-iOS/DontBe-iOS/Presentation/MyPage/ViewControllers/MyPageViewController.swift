@@ -818,6 +818,12 @@ extension MyPageViewController: DontBePopupDelegate {
         } else {
             rootView.reportPopupView.removeFromSuperview()
             
+            let warnView: SFSafariViewController
+            if let warnURL = self.warnUserURL {
+                warnView = SFSafariViewController(url: warnURL)
+                self.present(warnView, animated: true, completion: nil)
+            }
+            
             Task {
                 do {
                     if let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") {
