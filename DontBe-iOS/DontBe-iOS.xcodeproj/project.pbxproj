@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		052555BC2C1218A800D38E34 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052555BB2C1218A800D38E34 /* GoogleService-Info.plist */; };
 		052555BF2C121A5200D38E34 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 052555BE2C121A5200D38E34 /* FirebaseMessaging */; };
 		052555C42C187A7400D38E34 /* DontBePushAlarmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052555C32C187A7400D38E34 /* DontBePushAlarmHelper.swift */; };
 		05D2B97F2C0A3D8400453615 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 05D2B97E2C0A3D8400453615 /* Config.xcconfig */; };
@@ -123,6 +122,8 @@
 		3C2F54522B51224500E7BF01 /* MyPageAccountInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */; };
 		3C2F54542B5126C600E7BF01 /* UIBarButtonItem+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2F54532B5126C600E7BF01 /* UIBarButtonItem+.swift */; };
 		3C35565B2B494F0A0016BA49 /* UIColor+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C35565A2B494F0A0016BA49 /* UIColor+.swift */; };
+		3C44589B2C228FFD0079643E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C44589A2C228FFD0079643E /* GoogleService-Info.plist */; };
+		3C44589D2C2291F00079643E /* MyPageSettingAlarmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C44589C2C2291F00079643E /* MyPageSettingAlarmViewController.swift */; };
 		3C4993652B4F2471002A99CF /* MyPageSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */; };
 		3C4993672B4F2644002A99CF /* MyPageContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */; };
 		3C4993692B4F2653002A99CF /* MyPageCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */; };
@@ -173,7 +174,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		052555BB2C1218A800D38E34 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		052555C32C187A7400D38E34 /* DontBePushAlarmHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePushAlarmHelper.swift; sourceTree = "<group>"; };
 		05D2B97E2C0A3D8400453615 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		2A0A73092B541555004478C1 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
@@ -286,6 +286,8 @@
 		3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAccountInfoViewController.swift; sourceTree = "<group>"; };
 		3C2F54532B5126C600E7BF01 /* UIBarButtonItem+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+.swift"; sourceTree = "<group>"; };
 		3C35565A2B494F0A0016BA49 /* UIColor+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+.swift"; sourceTree = "<group>"; };
+		3C44589A2C228FFD0079643E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3C44589C2C2291F00079643E /* MyPageSettingAlarmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingAlarmViewController.swift; sourceTree = "<group>"; };
 		3C4993642B4F2471002A99CF /* MyPageSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSegmentedControl.swift; sourceTree = "<group>"; };
 		3C4993662B4F2644002A99CF /* MyPageContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageContentViewController.swift; sourceTree = "<group>"; };
 		3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageCommentViewController.swift; sourceTree = "<group>"; };
@@ -802,7 +804,7 @@
 		3C6192EB2B3A719A00220CEB /* DontBe-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				052555BB2C1218A800D38E34 /* GoogleService-Info.plist */,
+				3C44589A2C228FFD0079643E /* GoogleService-Info.plist */,
 				2AE95D702B81EC52009C6336 /* DontBe-iOS.entitlements */,
 				3C6193002B3A771E00220CEB /* Application */,
 				3C6193012B3A772B00220CEB /* Global */,
@@ -1184,6 +1186,7 @@
 				3C4993682B4F2653002A99CF /* MyPageCommentViewController.swift */,
 				3C2F544F2B51223200E7BF01 /* MyPageEditProfileViewController.swift */,
 				3C2F54512B51224500E7BF01 /* MyPageAccountInfoViewController.swift */,
+				3C44589C2C2291F00079643E /* MyPageSettingAlarmViewController.swift */,
 				3C4F5BB42B7A49A500B21C45 /* MyPageSignOutViewController.swift */,
 				3C1ABD882B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift */,
 			);
@@ -1293,7 +1296,7 @@
 				2A6D54C72B493E3F00F9891E /* Pretendard-Regular.otf in Resources */,
 				2A6D54C62B493E3F00F9891E /* Pretendard-SemiBold.otf in Resources */,
 				2FD9276E2B9225EE0046193D /* loading_yesbe.json in Resources */,
-				052555BC2C1218A800D38E34 /* GoogleService-Info.plist in Resources */,
+				3C44589B2C228FFD0079643E /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1430,6 +1433,7 @@
 				2A2845462B532BCB0023F9B5 /* SocialLoginRequestDTO.swift in Sources */,
 				2AF069B42B5194F300CA3E48 /* MyPageIntroductionEditView.swift in Sources */,
 				3C1ABD852B8DB52E00ADF97B /* DontBePopupReasonListCustomView.swift in Sources */,
+				3C44589D2C2291F00079643E /* MyPageSettingAlarmViewController.swift in Sources */,
 				2A2672052B4C3C00009D214F /* CancelBag.swift in Sources */,
 				2F05B1AA2B579DED00AC368D /* PostDetailViewModel.swift in Sources */,
 				2FB818D92B5186FC00B7498F /* PostReplyCollectionView.swift in Sources */,

@@ -48,6 +48,8 @@ final class DontBeBottomSheetView: UIView {
     
     let accountInfoButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.accountInfo)
     
+    let settingAlarmButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.settingAlarm)
+    
     let feedbackButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.feedback)
     
     let customerCenterButton = DontBeBottomSheetButton(title: StringLiterals.BottomSheet.customerCenter)
@@ -130,6 +132,7 @@ extension DontBeBottomSheetView {
         bottomsheetView.addSubviews(dragIndicatorView,
                                     profileEditButton,
                                     accountInfoButton,
+                                    settingAlarmButton,
                                     feedbackButton,
                                     customerCenterButton,
                                     logoutButton)
@@ -137,7 +140,7 @@ extension DontBeBottomSheetView {
     
     private func setMultiButtonLayout() {
         bottomsheetView.snp.makeConstraints {
-            $0.height.equalTo(434.adjusted)
+            $0.height.equalTo(506.adjusted)
         }
         
         dragIndicatorView.snp.makeConstraints {
@@ -159,10 +162,16 @@ extension DontBeBottomSheetView {
             $0.top.equalTo(profileEditButton.snp.bottom).offset(10.adjusted)
         }
         
-        feedbackButton.snp.makeConstraints {
+        settingAlarmButton.snp.makeConstraints {
             $0.centerX.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(15.adjusted)
             $0.top.equalTo(accountInfoButton.snp.bottom).offset(10.adjusted)
+        }
+        
+        feedbackButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(15.adjusted)
+            $0.top.equalTo(settingAlarmButton.snp.bottom).offset(10.adjusted)
         }
         
         customerCenterButton.snp.makeConstraints {
