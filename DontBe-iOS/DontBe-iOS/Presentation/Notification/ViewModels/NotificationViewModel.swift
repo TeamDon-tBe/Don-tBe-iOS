@@ -7,6 +7,7 @@
 
 import Combine
 import Foundation
+import UIKit
 
 final class NotificationViewModel: ViewModelType {
     
@@ -39,6 +40,9 @@ final class NotificationViewModel: ViewModelType {
             .sink { [self] _ in
                 // viewDidLoad -> 서버통신
                 Task {
+                    let cleanBadgeState = try await self.patchFCMBadgeAPI(badge: 0)
+                    print("\(cleanBadgeState?.message)")
+                    
                     let data = try await self.getNotificationListAPI()
                     let myNotiList = data?.data.map { data -> NotificationList in
                         guard let notificationType = NotificaitonType(rawValue: data.notificationTriggerType)
@@ -119,6 +123,27 @@ extension NotificationViewModel {
                 body: EmptyBody(),
                 pathVariables: ["": ""])
             print ("👻👻👻👻👻노티 체크 성공👻👻👻👻👻")
+            return data
+        } catch {
+            return nil
+        }
+    }
+    
+    func patchFCMBadgeAPI(badge: Int) async throws -> BaseResponse<EmptyResponse>? {
+        do {
+            guard let accessToken = KeychainWrapper.loadToken(forKey: "accessToken") else { return nil }
+            let resquestDTO = FCMBadgeDTO(fcmBadge: badge)
+            let data: BaseResponse<EmptyResponse>? = try await self.networkProvider.donNetwork(
+                type: .patch,
+                baseURL: Config.baseURL + "/fcmbadge",
+                accessToken: accessToken,
+                body: resquestDTO,
+                pathVariables: ["": ""])
+            print ("👻👻👻👻👻FCMBadge 개수 수정 완료👻👻👻👻👻")
+            DispatchQueue.main.async {
+                UIApplication.shared.applicationIconBadgeNumber = 0
+            }
+
             return data
         } catch {
             return nil
