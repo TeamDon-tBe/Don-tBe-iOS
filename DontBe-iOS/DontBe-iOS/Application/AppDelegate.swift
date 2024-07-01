@@ -51,15 +51,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.window?.makeKeyAndVisible()
+        
         FirebaseApp.configure()
-
         Messaging.messaging().delegate = self
         Messaging.messaging().isAutoInitEnabled = true
-
         UNUserNotificationCenter.current().delegate = self
-
         application.registerForRemoteNotifications()
-    
+        UIApplication.shared.applicationIconBadgeNumber = 0
         return true
     }
     
@@ -76,17 +74,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-    
-    
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     /// 푸시클릭시
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let notiInfomation = response.notification.request.content.userInfo
-        if let contentID = notiInfomation["relateContentId"] as? String {
-            let pushAlarmHelper = DontBePushAlarmHelper(contentID: Int(contentID) ?? 0)
-                pushAlarmHelper.start()
+        print("\(notiInfomation)")
+        if let contentID = notiInfomation["relateContentId"] as? String,
+           let aps = notiInfomation["aps"] as? [String: Any],
+           let badge = aps["badge"] as? Int {
+            let pushAlarmHelper = DontBePushAlarmHelper(contentID: Int(contentID) ?? 0,
+                                                        networkProvider: NetworkService())
+            Task {
+                do {
+                    let result = try await pushAlarmHelper.patchFCMBadgeAPI(badge: badge - 1)
+                    print("\(result) <- FCM 뱃지 API 통신 결과")
+                } catch {
+                    print("Error calling patchFCMBadgeAPI: \(error)")
+                }
+            }
+            pushAlarmHelper.start()
         }
         print("🟢", #function)
     }
@@ -100,9 +108,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(
-          name: Notification.Name("FCMToken"),
-          object: nil,
-          userInfo: dataDict
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
         )
         saveUserData(UserInfo(isSocialLogined: loadUserData()?.isSocialLogined ?? false,
                               isFirstUser: loadUserData()?.isFirstUser ?? false,
