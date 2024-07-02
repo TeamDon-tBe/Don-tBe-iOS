@@ -10,6 +10,7 @@
 		052555BF2C121A5200D38E34 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 052555BE2C121A5200D38E34 /* FirebaseMessaging */; };
 		052555C42C187A7400D38E34 /* DontBePushAlarmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052555C32C187A7400D38E34 /* DontBePushAlarmHelper.swift */; };
 		05D2B97F2C0A3D8400453615 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 05D2B97E2C0A3D8400453615 /* Config.xcconfig */; };
+		05E85A0D2C3072B4001057D2 /* FCMBadgeDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E85A0C2C3072B4001057D2 /* FCMBadgeDTO.swift */; };
 		2A0A730A2B541555004478C1 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A73092B541555004478C1 /* HttpMethod.swift */; };
 		2A0A730C2B541A43004478C1 /* NetworkServiceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */; };
 		2A0A730E2B5438B5004478C1 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */; };
@@ -176,6 +177,7 @@
 /* Begin PBXFileReference section */
 		052555C32C187A7400D38E34 /* DontBePushAlarmHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DontBePushAlarmHelper.swift; sourceTree = "<group>"; };
 		05D2B97E2C0A3D8400453615 /* Config.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		05E85A0C2C3072B4001057D2 /* FCMBadgeDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FCMBadgeDTO.swift; sourceTree = "<group>"; };
 		2A0A73092B541555004478C1 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
 		2A0A730B2B541A43004478C1 /* NetworkServiceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceType.swift; sourceTree = "<group>"; };
 		2A0A730D2B5438B5004478C1 /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
@@ -354,6 +356,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05E85A0A2C307287001057D2 /* PushAlarm */ = {
+			isa = PBXGroup;
+			children = (
+				05E85A0B2C307295001057D2 /* RequestDTO */,
+			);
+			path = PushAlarm;
+			sourceTree = "<group>";
+		};
+		05E85A0B2C307295001057D2 /* RequestDTO */ = {
+			isa = PBXGroup;
+			children = (
+				05E85A0C2C3072B4001057D2 /* FCMBadgeDTO.swift */,
+			);
+			path = RequestDTO;
+			sourceTree = "<group>";
+		};
 		2A0A73112B5483E4004478C1 /* ResponseDTO */ = {
 			isa = PBXGroup;
 			children = (
@@ -838,6 +856,7 @@
 		3C6193022B3A773100220CEB /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				05E85A0A2C307287001057D2 /* PushAlarm */,
 				2A7341592B58532A00F65FD0 /* ContentLike */,
 				2A5183132B57131F00B43BA8 /* Notification */,
 				2F05B1A32B57993200AC368D /* Post */,
@@ -1401,6 +1420,7 @@
 				2AAEFC972B4A9C3700C2D323 /* DontBeTabBarItem.swift in Sources */,
 				2A5183162B57133D00B43BA8 /* NotificationNotCheckResponseDTO.swift in Sources */,
 				3C0920DE2B4D98CD003BD080 /* DontBeToastView.swift in Sources */,
+				05E85A0D2C3072B4001057D2 /* FCMBadgeDTO.swift in Sources */,
 				3CE9C1302B4C2F740086E4A3 /* UIImageView+.swift in Sources */,
 				3C1ABD892B8F083C00ADF97B /* MyPageSignOutConfirmViewController.swift in Sources */,
 				2A51AE852B4B05AA00FF770A /* SplashViewController.swift in Sources */,
