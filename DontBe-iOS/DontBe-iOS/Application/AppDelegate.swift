@@ -57,7 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().isAutoInitEnabled = true
         UNUserNotificationCenter.current().delegate = self
         application.registerForRemoteNotifications()
-        UIApplication.shared.applicationIconBadgeNumber = 0
         return true
     }
     
