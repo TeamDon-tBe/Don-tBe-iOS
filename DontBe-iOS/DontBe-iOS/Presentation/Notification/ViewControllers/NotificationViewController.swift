@@ -60,7 +60,6 @@ final class NotificationViewController: UIViewController {
         setDelegate()
         setRegisterCell()
         setRefreshControll()
-        bindViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,6 +70,7 @@ final class NotificationViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .clear
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.donBlack]
         self.navigationItem.hidesBackButton = true
+        bindViewModel()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
